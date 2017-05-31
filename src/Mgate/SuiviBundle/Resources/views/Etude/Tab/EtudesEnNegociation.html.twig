@@ -47,6 +47,7 @@
                 <!-- {{ etude.reference }} -->
             </div>
             <div>{{ etude.confidentiel ? '<span class="label label-danger">[CONFIDENTIEL]</span> ' }}</div>
+            <div>{{ etude.numero }}</div>
         </td>
         <td>
             {% if etude.dateLancement != NULL %}<div>{{ etude.dateLancement|date("d/m/Y") }}</div>{% endif %}
