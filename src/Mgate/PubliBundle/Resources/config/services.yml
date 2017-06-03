@@ -18,11 +18,11 @@ services:
     Mgate.document_manager:
         class: "%Mgate.document_manager.class%"
         arguments:
-            em : "@doctrine.orm.entity_manager"
-            junior_id : "%junior_id%"
-            authorizedStorageSize : "%junior_authorizedStorageSize%"
-            tokenStorage : "@security.token_storage"
-            kernel: "@kernel"
+            - "@doctrine.orm.entity_manager"
+            - "%junior_id%"
+            - "%junior_authorizedStorageSize%"
+            - "@security.token_storage"
+            - "@kernel"
 
     Mgate.import.siaje_etude:
             class:  Mgate\PubliBundle\Manager\SiajeEtudeImporter
