@@ -35,8 +35,8 @@
     </h4>
     </p>
 
-    <div class="tabs-container no-margin">
-        <ul class="nav nav-tabs no-margin" style="font-weight: bold;">
+    <div class="nav-tabs-custom">
+        <ul class="nav nav-tabs">
             <li class="active"><a href="#tab1" data-toggle="tab">Employés</a></li>
             <li><a href="#tab2" data-toggle="tab">Etudes</a></li>
             <li><a href="#tab3" data-toggle="tab">Mailing</a></li>
@@ -78,6 +78,7 @@
             $('#employes').dataTable({
                 "searching": false,
                 "bPaginate": false,
+                "bAutoWidth": false,
                 "aaSorting": [[0, 'asc']]
             });
         });
@@ -86,6 +87,7 @@
                 responsive: true,
                 "searching": false,
                 "bPaginate": false,
+                "bAutoWidth": false,
                 "aaSorting": [[0, 'asc']]
             });
         });
