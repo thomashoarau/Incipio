@@ -37,7 +37,7 @@ class EtudeType extends AbstractType
              ->add('prospect', Select2EntityType::class, array(
                 'class' => 'Mgate\PersonneBundle\Entity\Prospect',
                 'choice_label' => 'nom',
-                'required' => true,
+                'required' => false,
                 'label' => 'Prospect existant',
                 ))
             ->add('newProspect', ProspectType::class, array('label' => 'Nouveau prospect:', 'required' => false))

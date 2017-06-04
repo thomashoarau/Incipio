@@ -9,8 +9,6 @@
 {% endblock %}
 
 {% block content_bundle %}
-    <a href="{{ path('MgatePersonne_prospect_ajouter', {'format':'mini'}) }}?KeepThis=true&TB_iframe=true&height=400&width=600"
-       title="Ajouter un client" class="thickbox">{{ 'suivi.prospect_ajouter'|trans({}, 'suivi') }}</a>
     {% for error in errors %}
         <div class="alert alert-warning">
             {{ error }}
