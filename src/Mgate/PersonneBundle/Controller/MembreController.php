@@ -32,8 +32,8 @@ class MembreController extends Controller
         $entities = $em->getRepository('MgatePersonneBundle:Membre')->getMembres();
 
         return $this->render('MgatePersonneBundle:Membre:index.html.twig', array(
-                    'membres' => $entities,
-                ));
+            'membres' => $entities,
+        ));
     }
 
     /**
@@ -45,8 +45,8 @@ class MembreController extends Controller
         $intervenants = $em->getRepository('MgatePersonneBundle:Membre')->getByMissionsNonNul();
 
         return $this->render('MgatePersonneBundle:Membre:indexIntervenants.html.twig', array(
-                    'intervenants' => $intervenants,
-                ));
+            'intervenants' => $intervenants,
+        ));
     }
 
     /**
@@ -68,8 +68,8 @@ class MembreController extends Controller
         }
 
         return $this->render('MgatePersonneBundle:Membre:index.html.twig', array(
-                    'membres' => $membresActifs,
-                ));
+            'membres' => $membresActifs,
+        ));
     }
 
     /**
@@ -94,8 +94,8 @@ class MembreController extends Controller
 
 
         return $this->render('MgatePersonneBundle:Membre:voir.html.twig', array(
-                    'membre' => $membre,
-                'create_user_form' => (isset($create_user_form) ? $create_user_form->createView() : null)
+            'membre' => $membre,
+            'create_user_form' => (isset($create_user_form) ? $create_user_form->createView() : null)
         ));
     }
 
@@ -124,15 +124,7 @@ class MembreController extends Controller
             $membre->setDateDeNaissance($now);
         }
 
-        // Mail étudiant
-        if (!$membre->getEmailEMSE()) {
-            $email_etu_service = $this->container->get('Mgate.email_etu');
-            $membre->setEmailEMSE($email_etu_service->getEmailEtu($membre));
-        }
-
         $deleteForm = $this->createDeleteForm($id);
-
-        $mandatsToRemove = $membre->getMandats()->toArray();
 
         $form = $this->createForm(MembreType::class, $membre);
 
@@ -142,6 +134,12 @@ class MembreController extends Controller
 
             if ($form->isValid()) {
 
+                // Mail étudiant
+                if (!$membre->getEmailEMSE()) {
+                    $email_etu_service = $this->container->get('Mgate.email_etu');
+                    $membre->setEmailEMSE($email_etu_service->getEmailEtu($membre));
+                }
+
                 /*
                  * Traitement de l'image de profil
                  */
@@ -149,7 +147,7 @@ class MembreController extends Controller
                     $authorizedMIMEType = array('image/jpeg', 'image/png', 'image/bmp');
                     $photoInformation = new RelatedDocument();
                     $photoInformation->setMembre($membre);
-                    $name = 'Photo - '.$membre->getIdentifiant().' - '.$membre->getPersonne()->getPrenomNom();
+                    $name = 'Photo - ' . $membre->getIdentifiant() . ' - ' . $membre->getPersonne()->getPrenomNom();
 
                     if ($photoUpload) {
                         $document = $documentManager->uploadDocumentFromFile($photoUpload, $authorizedMIMEType, $name, $photoInformation, true);
@@ -157,67 +155,30 @@ class MembreController extends Controller
                     }
                 }
 
-                /*
-                 * Traitement des postes
-                 */
-                if ($request->get('add')) {
-                    $mandatNew = new Mandat();
-                    $poste = $em->getRepository('Mgate\PersonneBundle\Entity\Poste')->findOneBy(array('intitule' => 'Membre'));
-                    $dt = new \DateTime('now');
-                    $dtl = clone $dt;
-                    $dtl->modify('+1 year');
-
-                    if ($poste) {
-                        $mandatNew->setPoste($poste);
-                    }
-                    $mandatNew->setMembre($membre);
-                    $mandatNew->setDebutMandat($dt);
-                    $mandatNew->setFinMandat($dtl);
-                    $membre->addMandat($mandatNew);
-                }
-
                 if (!$membre->getIdentifiant()) {
-                    $initial = substr($membre->getPersonne()->getPrenom(), 0, 1).substr($membre->getPersonne()->getNom(), 0, 1);
+                    $initial = substr($membre->getPersonne()->getPrenom(), 0, 1) . substr($membre->getPersonne()->getNom(), 0, 1);
                     $ident = count($em->getRepository('Mgate\PersonneBundle\Entity\Membre')->findBy(array('identifiant' => $initial))) + 1;
-                    while ($em->getRepository('Mgate\PersonneBundle\Entity\Membre')->findOneBy(array('identifiant' => $initial.$ident))) {
-                        ++$ident;
+                    while ($em->getRepository('Mgate\PersonneBundle\Entity\Membre')->findOneBy(array('identifiant' => $initial . $ident))) {
+                        $ident++;
                     }
-                    $membre->setIdentifiant(strtoupper($initial.$ident));
+                    $membre->setIdentifiant(strtoupper($initial . $ident));
                 }
 
-                if (isset($now)) { // Si c'est un nouveau membre et qu'on ajoute un poste
-                    $em->persist($membre);
-                    $em->flush();
-                    $this->addFlash('success','Membre enregistré');
-
-                    return $this->redirect($this->generateUrl('MgatePersonne_membre_modifier', array('id' => $membre->getId())));
-                }
-
-                // Suppression des mandat à supprimer
-                    //Recherche des mandats supprimés
-                foreach ($membre->getMandats() as $mandat) {
-                    $key = array_search($mandat, $mandatsToRemove);
-                    if ($key !== false) {
-                        array_splice($mandatsToRemove, $key, 1);
-                    }
-                }
-                    //Supression de la BDD
-                foreach ($mandatsToRemove as $mandat) {
-                    $em->remove($mandat);
-                }
-
-                $em->persist($membre); // persist $etude / $form->getData()
+                $em->persist($membre);
                 $em->flush();
-                $this->addFlash('success','Membre enregistré');
-                $form = $this->createForm(MembreType::class, $membre);
+                $this->addFlash('success', 'Membre enregistré');
+                return $this->redirectToRoute('MgatePersonne_membre_voir', array('id' => $membre->getId()));
+
+            } else {
+                $this->addFlash('danger', 'Le formulaire contient des erreurs.');
             }
         }
 
         return $this->render('MgatePersonneBundle:Membre:modifier.html.twig', array(
-                    'form' => $form->createView(),
-                    'delete_form' => $deleteForm->createView(),
-                    'photoURI' => $membre->getPhotoURI(),
-                ));
+            'form' => $form->createView(),
+            'delete_form' => $deleteForm->createView(),
+            'photoURI' => $membre->getPhotoURI(),
+        ));
     }
 
     /**
@@ -256,9 +217,8 @@ class MembreController extends Controller
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder(array('id' => $id))
-                        ->add('id', HiddenType::class)
-                        ->getForm()
-        ;
+            ->add('id', HiddenType::class)
+            ->getForm();
     }
 
     /**
