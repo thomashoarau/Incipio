@@ -15,7 +15,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
 use Mgate\CommentBundle\Entity\Thread;
 use Mgate\PersonneBundle\Entity\Personne;
 use Mgate\PersonneBundle\Entity\Prospect;
@@ -23,6 +22,8 @@ use Mgate\PubliBundle\Entity\RelatedDocument;
 use Mgate\TresoBundle\Entity\Facture;
 use N7consulting\RhBundle\Entity\Competence;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
 
 /**
  * Mgate\SuiviBundle\Entity\Etude.
@@ -30,6 +31,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Mgate\SuiviBundle\Entity\EtudeRepository")
  * @ORM\HasLifecycleCallbacks()
+ * @UniqueEntity("num")
+ * @UniqueEntity("nom")
  */
 class Etude
 {
@@ -79,7 +82,6 @@ class Etude
     /**
      * @var \DateTime
      *
-     * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="dateCreation", type="datetime")
      */
     private $dateCreation;
@@ -88,7 +90,6 @@ class Etude
      * @var \DateTime
      *
      * @ORM\Column(name="dateModification", type="datetime")
-     * @Gedmo\Timestampable(on="update")
      */
     private $dateModification;
 
@@ -145,7 +146,7 @@ class Etude
     private $relatedDocuments;
 
     /**
-     * @Assert\NotNull()
+     * @Assert\Valid()
      * @ORM\ManyToOne(targetEntity="Mgate\PersonneBundle\Entity\Prospect", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
@@ -295,6 +296,21 @@ class Etude
      * @var bool
      */
     private $newProspect;
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function prePersist(){
+        $this->dateCreation = new \DateTime('now');
+        $this->dateModification = new \DateTime('now');
+    }
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function preUpdate(){
+        $this->dateModification = new \DateTime('now');
+    }
 
     /**
      * @ORM\PostPersist
