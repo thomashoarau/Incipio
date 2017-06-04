@@ -30,6 +30,7 @@ class GanttController extends Controller
         }
 
         /** Handle naming conventions for files. (To have a single usable version for Mgate & N7 Consulting) */
+        $name = $etude->getId();
         if ($this->get('app.json_key_value_store')->exists('namingConvention')) {
             $naming_convention = $this->get('app.json_key_value_store')->get('namingConvention');
 
@@ -37,8 +38,6 @@ class GanttController extends Controller
             if (strpos($etude->getReference($naming_convention), ' ') !== false) {
                 $name = $etude->getId();
             }
-        } else {
-            $name = $etude->getId();
         }
 
         //Gantt

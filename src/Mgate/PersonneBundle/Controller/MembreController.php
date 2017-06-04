@@ -168,9 +168,9 @@ class MembreController extends Controller
                 $this->addFlash('success', 'Membre enregistré');
                 return $this->redirectToRoute('MgatePersonne_membre_voir', array('id' => $membre->getId()));
 
-            } else {
-                $this->addFlash('danger', 'Le formulaire contient des erreurs.');
             }
+            //form invalid
+            $this->addFlash('danger', 'Le formulaire contient des erreurs.');
         }
 
         return $this->render('MgatePersonneBundle:Membre:modifier.html.twig', array(
