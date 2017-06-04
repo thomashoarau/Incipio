@@ -11,7 +11,7 @@
 {% block content_bundle %}
 <nav class="navbar navbar-default" role="navigation">
     <div class="navbar-header">
-        <a class="brand" href="{{ path('MgateSuivi_etude_voir', {'nom': etude.nom}) }}"><h4>{{ etude.reference }}</h4></a>
+        <a class="brand" href="{{ path('MgateSuivi_etude_voir', {'nom': etude.nom}) }}"><h4>{{ etude.reference(param('namingConvention'))(param('namingConvention')) }}</h4></a>
     </div>
     <div class="collapse navbar-collapse navbar-ex1-collapse">
         <ul class="nav navbar-nav navbar-right">
@@ -23,12 +23,12 @@
                 <ul class="dropdown-menu">
                     <li class="nav-header"> <i class="fa fa-unchecked"></i> {{ 'suivi.en_negociation'|trans({}, 'suivi') }}</li>
                     {% for etude in etudesDisplayList if etude.stateID == STATE_ID_EN_NEGOCIATION %}
-                    <li><a href="{{ path('MgateSuivi_vu_ca', {'id': etude.id}) }}"><i class="fa fa-minus"></i> {{etude.reference}}</a></li>
+                    <li><a href="{{ path('MgateSuivi_vu_ca', {'id': etude.id}) }}"><i class="fa fa-minus"></i> {{etude.reference(param('namingConvention'))}}</a></li>
                     {% endfor %}
                     <li class="divider"></li>
                     <li class="nav-header"> <i class="fa fa-check"></i> {{ 'suivi.en_cours'|trans({}, 'suivi') }}</li>
                     {% for etude in etudesDisplayList if etude.stateID == STATE_ID_EN_COURS %}
-                    <li><a href="{{ path('MgateSuivi_vu_ca', {'id': etude.id}) }}"><i class="fa fa-minus"></i> {{etude.reference}}</a></li>
+                    <li><a href="{{ path('MgateSuivi_vu_ca', {'id': etude.id}) }}"><i class="fa fa-minus"></i> {{etude.reference(param('namingConvention'))}}</a></li>
                     {% endfor %}
                 </ul>
             </li>

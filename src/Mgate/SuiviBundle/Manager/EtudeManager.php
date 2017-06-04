@@ -21,16 +21,23 @@ class EtudeManager extends \Twig_Extension
 {
     protected $em;
     protected $tva;
+    protected $namingConvention;
 
     public function __construct(EntityManager $em, KeyValueStore $keyValueStore)
     {
         $this->em = $em;
-        if($keyValueStore->exists('tva')) {
+        if ($keyValueStore->exists('tva')) {
             $this->tva = $keyValueStore->get('tva');
-        }
-        else{
+        } else {
             throw new \LogicException('Parameter TVA is undefined.');
         }
+
+        if ($keyValueStore->exists('namingConvention')) {
+            $this->namingConvention = $keyValueStore->get('namingConvention');
+        } else {
+            $this->namingConvention = 'id';
+        }
+
     }
 
     // Pour utiliser les fonctions depuis twig
@@ -66,7 +73,7 @@ class EtudeManager extends \Twig_Extension
 
     public function toString($int)
     {
-        return (string) $int;
+        return (string)$int;
     }
 
     public function nonBreakingSpace($string)
@@ -75,8 +82,8 @@ class EtudeManager extends \Twig_Extension
     }
 
     /**
-     * @param Etude                $etude
-     * @param User                 $user
+     * @param Etude $etude
+     * @param User $user
      * @param AuthorizationChecker $userToken
      *
      * @return bool
@@ -154,62 +161,63 @@ class EtudeManager extends \Twig_Extension
     public function getRefDoc(Etude $etude, $type, $key = -1)
     {
         $type = strtoupper($type);
+        $name = $etude->getReference($this->namingConvention);
         if ($type == 'AP') {
             if ($etude->getAp()) {
-                return $etude->getReference().'-'.$type.'-'.$etude->getAp()->getVersion();
+                return $name . '-' . $type . '-' . $etude->getAp()->getVersion();
             } else {
-                return $etude->getReference().'-'.$type.'- ERROR GETTING VERSION';
+                return $name . '-' . $type . '- ERROR GETTING VERSION';
             }
         } elseif ($type == 'CC') {
             if ($etude->getCc()) {
-                return $etude->getReference().'-'.$type.'-'.$etude->getCc()->getVersion();
+                return $name . '-' . $type . '-' . $etude->getCc()->getVersion();
             } else {
-                return $etude->getReference().'-'.$type.'- ERROR GETTING VERSION';
+                return $name . '-' . $type . '- ERROR GETTING VERSION';
             }
         } elseif ($type == 'RM' || $type == 'DM') {
             if ($key < 0) {
-                return $etude->getReference().'-'.$type;
+                return $name . '-' . $type;
             }
             if (!$etude->getMissions()->get($key)
                 || !$etude->getMissions()->get($key)->getIntervenant()
             ) {
-                return $etude->getReference().'-'.$type.'- ERROR GETTING DEV ID - ERROR GETTING VERSION';
+                return $name . '-' . $type . '- ERROR GETTING DEV ID - ERROR GETTING VERSION';
             } else {
-                return $etude->getReference().'-'.$type.'-'.$etude->getMissions()->get($key)->getIntervenant()->getIdentifiant().'-'.$etude->getMissions()->get($key)->getVersion();
+                return $name . '-' . $type . '-' . $etude->getMissions()->get($key)->getIntervenant()->getIdentifiant() . '-' . $etude->getMissions()->get($key)->getVersion();
             }
         } elseif ($type == 'FA') {
-            return $etude->getReference().'-'.$type;
+            return $name . '-' . $type;
         } elseif ($type == 'FI') {
-            return $etude->getReference().'-'.$type.($key + 1);
+            return $name . '-' . $type . ($key + 1);
         } elseif ($type == 'FS') {
-            return $etude->getReference().'-'.$type;
+            return $name . '-' . $type;
         } elseif ($type == 'PVI') {
             if ($key >= 0 && $etude->getPvis($key)) {
-                return $etude->getReference().'-'.$type.($key + 1).'-'.$etude->getPvis($key)->getVersion();
+                return $name . '-' . $type . ($key + 1) . '-' . $etude->getPvis($key)->getVersion();
             } else {
-                return $etude->getReference().'-'.$type.($key + 1).'- ERROR GETTING PVI';
+                return $name . '-' . $type . ($key + 1) . '- ERROR GETTING PVI';
             }
         } elseif ($type == 'PVR') {
             if ($etude->getPvr()) {
-                return $etude->getReference().'-'.$type.'-'.$etude->getPvr()->getVersion();
+                return $name . '-' . $type . '-' . $etude->getPvr()->getVersion();
             } else {
-                return $etude->getReference().'-'.$type.'- ERROR GETTING VERSION';
+                return $name . '-' . $type . '- ERROR GETTING VERSION';
             }
         } elseif ($type == 'CE') {
             if (!$etude->getMissions()->get($key)
                 || !$etude->getMissions()->get($key)->getIntervenant()
             ) {
-                return $etude->getMandat().'-CE- ERROR GETTING DEV ID';
+                return $etude->getMandat() . '-CE- ERROR GETTING DEV ID';
             } else {
                 $identifiant = $etude->getMissions()->get($key)->getIntervenant()->getIdentifiant();
             }
 
-            return $etude->getMandat().'-CE-'.$identifiant;
+            return $etude->getMandat() . '-CE-' . $identifiant;
         } elseif ($type == 'AVCC') {
             if ($etude->getCc() && $etude->getAvs()->get($key)) {
-                return $etude->getReference().'-CC-'.$etude->getCc()->getVersion().'-AV'.($key + 1).'-'.$etude->getAvs()->get($key)->getVersion();
+                return $name . '-CC-' . $etude->getCc()->getVersion() . '-AV' . ($key + 1) . '-' . $etude->getAvs()->get($key)->getVersion();
             } else {
-                return $etude->getReference().'-'.$type.'- ERROR GETTING VERSION';
+                return $name . '-' . $type . '- ERROR GETTING VERSION';
             }
         } else {
             return 'ERROR';
@@ -247,7 +255,7 @@ class EtudeManager extends \Twig_Extension
 
         $mandat = 2007 + $this->getMaxMandat();
 
-        $mandatComptable = \DateTime::createFromFormat('d/m/Y', '31/03/'.$mandat);
+        $mandatComptable = \DateTime::createFromFormat('d/m/Y', '31/03/' . $mandat);
 
         $query = $qb->select('e.num')
             ->from('MgateSuiviBundle:FactureVente', 'e')
@@ -266,8 +274,8 @@ class EtudeManager extends \Twig_Extension
     public function getExerciceComptable($FactureVente)
     {
         if ($FactureVente) {
-            $dateAn = (int) $FactureVente->getDateSignature()->format('y');
-            $exercice = ((int) $FactureVente->getDateSignature()->format('m') < 4 ? $dateAn - 8 : $dateAn - 7);
+            $dateAn = (int)$FactureVente->getDateSignature()->format('y');
+            $exercice = ((int)$FactureVente->getDateSignature()->format('m') < 4 ? $dateAn - 8 : $dateAn - 7);
 
             return $exercice;
         } else {
@@ -381,8 +389,8 @@ class EtudeManager extends \Twig_Extension
                     continue;
                 }
 
-                $error = array('titre' => 'CE - RM : '.$intervenant->getPersonne()->getPrenomNom(), 'message' => 'La date de signature de la Convention Eleve de '.$intervenant->getPersonne()->getPrenomNom().' doit être antérieure à la date de signature du récapitulatifs de mission.');
-                $errorAbs = array('titre' => 'CE - RM : '.$intervenant->getPersonne()->getPrenomNom(), 'message' => 'La Convention Eleve de '.$intervenant->getPersonne()->getPrenomNom().' n\'est pas signée.');
+                $error = array('titre' => 'CE - RM : ' . $intervenant->getPersonne()->getPrenomNom(), 'message' => 'La date de signature de la Convention Eleve de ' . $intervenant->getPersonne()->getPrenomNom() . ' doit être antérieure à la date de signature du récapitulatifs de mission.');
+                $errorAbs = array('titre' => 'CE - RM : ' . $intervenant->getPersonne()->getPrenomNom(), 'message' => 'La Convention Eleve de ' . $intervenant->getPersonne()->getPrenomNom() . ' n\'est pas signée.');
 
                 if ($intervenant->getDateConventionEleve() === null) {
                     array_push($errors, $errorAbs);
@@ -446,7 +454,7 @@ class EtudeManager extends \Twig_Extension
             // Vérification de la présence d'intervenant algériens
             $intervenant = $mission->getIntervenant();
             if ($intervenant && $intervenant->getNationalite() == 'DZ') {
-                $error = array('titre' => 'Nationalité des Intervenants', 'message' => "L'intervenant ".$intervenant->getPersonne()->getPrenomNom()." est de nationnalité algériennne. Il ne peut intervenir sur l'étude.");
+                $error = array('titre' => 'Nationalité des Intervenants', 'message' => "L'intervenant " . $intervenant->getPersonne()->getPrenomNom() . " est de nationnalité algériennne. Il ne peut intervenir sur l'étude.");
                 array_push($errors, $error);
             }
         }
@@ -463,7 +471,7 @@ class EtudeManager extends \Twig_Extension
                 }
             }
             if ($phasesErreurDate > 0) {
-                $error = array('titre' => 'Date des phases', 'message' => 'Il y a '.$phasesErreurDate.' erreur(s) dans les dates de début de phases.');
+                $error = array('titre' => 'Date des phases', 'message' => 'Il y a ' . $phasesErreurDate . ' erreur(s) dans les dates de début de phases.');
                 array_push($errors, $error);
             }
         }
@@ -511,7 +519,7 @@ class EtudeManager extends \Twig_Extension
                     $dateDebutOm = clone $mission->getDebutOm();
                 }
                 if ($dateSignature === null || $dateDebutOm === null) {
-                    $warning = array('titre' => 'Dates sur le RM de '.$intervenant->getPersonne()->getPrenomNom(), 'message' => 'Le RM de '.$intervenant->getPersonne()->getPrenomNom().' est mal rédigé. Vérifiez les dates de signature et de début de mission.');
+                    $warning = array('titre' => 'Dates sur le RM de ' . $intervenant->getPersonne()->getPrenomNom(), 'message' => 'Le RM de ' . $intervenant->getPersonne()->getPrenomNom() . ' est mal rédigé. Vérifiez les dates de signature et de début de mission.');
                     array_push($warnings, $warning);
                 }
             }
@@ -524,7 +532,7 @@ class EtudeManager extends \Twig_Extension
             // Vérification de la présence d'intervenant étranger non algérien (relevé dans error)
             $intervenant = $mission->getIntervenant();
             if ($intervenant && $intervenant->getNationalite() != 'FR' && $intervenant->getNationalite() != 'DZ') {
-                $warning = array('titre' => 'Nationalité des Intervenants', 'message' => "L'intervenant ".$intervenant->getPersonne()->getPrenomNom()." n'est pas de nationalité Française. Pensez à faire une Déclaration d'Emploi pour un étudiant Etranger auprès de la préfecture.");
+                $warning = array('titre' => 'Nationalité des Intervenants', 'message' => "L'intervenant " . $intervenant->getPersonne()->getPrenomNom() . " n'est pas de nationalité Française. Pensez à faire une Déclaration d'Emploi pour un étudiant Etranger auprès de la préfecture.");
                 array_push($warnings, $warning);
             }
         }
@@ -653,7 +661,7 @@ class EtudeManager extends \Twig_Extension
     {
         // Mandat 0 => 2007/2008
 
-        return strval(2007 + $idMandat).'/'.strval(2008 + $idMandat);
+        return strval(2007 + $idMandat) . '/' . strval(2008 + $idMandat);
     }
 
     /**

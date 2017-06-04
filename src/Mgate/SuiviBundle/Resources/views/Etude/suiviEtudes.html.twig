@@ -30,7 +30,7 @@
                 {% set textAreaID = textAreaID + 1 %}
                 {% set signe = ( etude.cc ? etude.cc.spt1 and etude.cc.spt2 : false ) %}
                 <tr class="{{ (etude.stateID == 1 ? "info" : (etude.stateID == 2 ? "success" : (etude.stateID == 3 ? "warning" : (etude.stateID == 4 ? "" : "error")))) }}">
-                    <td><a href="{{ path('MgateSuivi_etude_voir', {'nom': etude.nom}) }}"> {{ etude.reference }}</a>
+                    <td><a href="{{ path('MgateSuivi_etude_voir', {'nom': etude.nom}) }}"> {{ etude.reference(param('namingConvention')) }}</a>
                     </td>
                     <td>{{ etude.nom }}</td>
                     <td>{% include "MgateSuiviBundle:Etude:Buttons/Prospect.html.twig" with  {'prospect':  etude.prospect} %}</td>

@@ -923,7 +923,11 @@ class IndicateursController extends Controller
     {
         $etudeManager = $this->get('Mgate.etude_manager');
         $Ccs = $this->getDoctrine()->getManager()->getRepository('MgateSuiviBundle:Cc')->findBy(array(), array('dateSignature' => 'asc'));
-
+        if ($this->get('app.json_key_value_store')->exists('namingConvention')) {
+            $namingConvention = $this->get('app.json_key_value_store')->get('namingConvention');
+        } else {
+            $namingConvention = 'id';
+        }
         $mandats = array();
         $maxMandat = $etudeManager->getMaxMandatCc();
 
@@ -949,7 +953,7 @@ class IndicateursController extends Controller
 
                 $mandats[$idMandat][]
                     = array('x' => $dateDecale->getTimestamp() * 1000,
-                    'y' => $cumuls[$idMandat], 'name' => $etude->getReference().' - '.$etude->getNom(),
+                    'y' => $cumuls[$idMandat], 'name' => $etude->getReference($namingConvention).' - '.$etude->getNom(),
                     'date' => $dateDecale->format('d/m/Y'),
                     'prix' => $etude->getMontantHT(), );
             }
@@ -1010,7 +1014,11 @@ class IndicateursController extends Controller
     {
         $etudeManager = $this->get('Mgate.etude_manager');
         $missions = $this->getDoctrine()->getManager()->getRepository('MgateSuiviBundle:Mission')->findBy(array(), array('debutOm' => 'asc'));
-
+        if ($this->get('app.json_key_value_store')->exists('namingConvention')) {
+            $namingConvention = $this->get('app.json_key_value_store')->get('namingConvention');
+        } else {
+            $namingConvention = 'id';
+        }
         $mandats = array();
         $maxMandat = $etudeManager->getMaxMandatCc();
 
@@ -1049,14 +1057,14 @@ class IndicateursController extends Controller
                 if ($addDebut) {
                     $mandats[1][]
                         = array('x' => $dateDebutDecale->getTimestamp() * 1000,
-                        'y' => 0/* $cumuls[0] */, 'name' => $etude->getReference().' + '.$etude->getNom(),
+                        'y' => 0/* $cumuls[0] */, 'name' => $etude->getReference($namingConvention).' + '.$etude->getNom(),
                         'date' => $dateDebutDecale->format('d/m/Y'),
                         'prix' => $etude->getMontantHT(), );
                 }
                 if ($addFin) {
                     $mandats[1][]
                         = array('x' => $dateFinDecale->getTimestamp() * 1000,
-                        'y' => 0/* $cumuls[0] */, 'name' => $etude->getReference().' - '.$etude->getNom(),
+                        'y' => 0/* $cumuls[0] */, 'name' => $etude->getReference($namingConvention).' - '.$etude->getNom(),
                         'date' => $dateDebutDecale->format('d/m/Y'),
                         'prix' => $etude->getMontantHT(), );
                 }

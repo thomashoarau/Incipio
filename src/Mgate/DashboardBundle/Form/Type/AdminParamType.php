@@ -10,6 +10,7 @@ namespace Mgate\DashboardBundle\Form\Type;
 
 
 use Doctrine\ORM\EntityManager;
+use Mgate\DashboardBundle\Entity\AdminParam;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -34,7 +35,12 @@ class AdminParamType extends AbstractType
         $fields = $this->em->getRepository('MgateDashboardBundle:AdminParam')->findAll(array(), array('priority'=>'desc'));
 
         foreach ($fields as $field){
-            $builder->add($field->getName(),$this->chooseType($field->getParamType()), array('required' => $field->getRequired(), 'label' => $field->getParamLabel()));
+            /** @var $field AdminParam */
+            $builder->add($field->getName(),$this->chooseType($field->getParamType()),
+                array('required' => $field->getRequired(),
+                    'label' => $field->getParamLabel(),
+                    'attr' => array('tooltip' => $field->getParamDescription())
+                ));
         }
 
     }

@@ -54,6 +54,11 @@ class FactureController extends Controller
         $compteEtude = 705000;
         $compteFrais = 708500;
         $compteAcompte = 419100;
+        if ($this->get('app.json_key_value_store')->exists('namingConvention')) {
+            $namingConvention = $this->get('app.json_key_value_store')->get('namingConvention');
+        } else {
+            $namingConvention = 'id';
+        }
 
         if (!$facture = $em->getRepository('MgateTresoBundle:Facture')->find($id)) {
             $facture = new Facture();
@@ -68,7 +73,7 @@ class FactureController extends Controller
 
                 if (!count($etude->getFactures()) && $etude->getAcompte()) {
                     $facture->setType(Facture::TYPE_VENTE_ACCOMPTE);
-                    $facture->setObjet('Facture d\'acompte sur l\'étude '.$etude->getReference().', correspondant au règlement de '.$formater->moneyFormat(($etude->getPourcentageAcompte() * 100)).' % de l’étude.');
+                    $facture->setObjet('Facture d\'acompte sur l\'étude '.$etude->getReference($namingConvention).', correspondant au règlement de '.$formater->moneyFormat(($etude->getPourcentageAcompte() * 100)).' % de l’étude.');
                     $detail = new FactureDetail();
                     $detail->setCompte($em->getRepository('MgateTresoBundle:Compte')->findOneBy(array('numero' => $compteAcompte)));
                     $detail->setFacture($facture);
@@ -80,7 +85,9 @@ class FactureController extends Controller
                     $facture->setType(Facture::TYPE_VENTE_SOLDE);
                     if ($etude->getAcompte() && $etude->getFa()) {
                         $montantADeduire = new FactureDetail();
-                        $montantADeduire->setDescription('Facture d\'acompte sur l\'étude '.$etude->getReference().', correspondant au règlement de '.$formater->moneyFormat(($etude->getPourcentageAcompte() * 100)).' % de l’étude.')->setFacture($facture);
+                        $montantADeduire->setDescription('Facture d\'acompte sur l\'étude '.$etude->getReference($namingConvention).
+                            ', correspondant au règlement de '.$formater->moneyFormat(($etude->getPourcentageAcompte() * 100)).
+                            ' % de l’étude.')->setFacture($facture);
                         $facture->setMontantADeduire($montantADeduire);
                     }
 
@@ -90,7 +97,8 @@ class FactureController extends Controller
                         $detail->setCompte($em->getRepository('MgateTresoBundle:Compte')->findOneBy(array('numero' => $compteEtude)));
                         $detail->setFacture($facture);
                         $facture->addDetail($detail);
-                        $detail->setDescription('Phase '.($phase->getPosition() + 1).' : '.$phase->getTitre().' : '.$phase->getNbrJEH().' JEH * '.$formater->moneyFormat($phase->getPrixJEH()).' €');
+                        $detail->setDescription('Phase '.($phase->getPosition() + 1).' : '.$phase->getTitre().' : '.
+                            $phase->getNbrJEH().' JEH * '.$formater->moneyFormat($phase->getPrixJEH()).' €');
                         $detail->setMontantHT($phase->getPrixJEH() * $phase->getNbrJEH());
                         $detail->setTauxTVA($tauxTVA);
 
@@ -107,7 +115,7 @@ class FactureController extends Controller
                     $totalTTC += $etude->getFraisDossier();
                     $totalTTC *= (1 + $tauxTVA / 100);
 
-                    $facture->setObjet('Facture de Solde sur l\'étude '.$etude->getReference().'.');
+                    $facture->setObjet('Facture de Solde sur l\'étude '.$etude->getReference($namingConvention).'.');
                 }
             }
         }

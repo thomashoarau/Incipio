@@ -38,7 +38,7 @@
             <td><i id="commentaire" class="fa fa-search" data-title="{{ etude.id }}" data-content="0"></i></td>
             <td>
                 <div>{{ etude.confidentiel ? '<span class="label label-danger">[CONFIDENTIEL]</span> ' }}<a
-                            href="{{ path('MgateSuivi_etude_voir', {'nom': etude.nom}) }}">{{ etude.reference }}</a>
+                            href="{{ path('MgateSuivi_etude_voir', {'nom': etude.nom}) }}">{{ etude.reference(param('namingConvention')) }}</a>
                 </div>
                 <div>{{ etude.numero }}</div>
             </td>

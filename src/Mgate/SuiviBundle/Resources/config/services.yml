@@ -21,6 +21,7 @@ services:
           - "@doctrine.orm.entity_manager"
           - "@Mgate.etude_manager"
           - "@logger"
+          - "@app.json_key_value_store"
 
     form.type_extension.help_message:
         class: Mgate\SuiviBundle\Form\Extension\HelpMessageTypeExtension

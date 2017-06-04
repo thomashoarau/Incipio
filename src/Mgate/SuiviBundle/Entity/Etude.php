@@ -315,9 +315,17 @@ class Etude
     /**
      * ADDITIONAL GETTERS/SETTERS.
      */
-    public function getReference()
+
+    /**
+     * @return string
+     * @internal Should not be used in controllers, hardly in doctypes
+     * Because of different naming conventions between, reference should not be used anymore. References should be
+     * manually handed in your doctypes.
+     */
+    public function getReference($namingConvention = 'id')
     {
-        return $this->getNom();
+        return $namingConvention == 'nom' ? $this->getNom():
+            ($namingConvention === 'numero' ? $this->getNumero(): $this->getId());
     }
 
     public function getFa()

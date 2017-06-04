@@ -63,7 +63,11 @@
                 <td>{{ form_widget(form.mandat) }}</td>
             </tr>
             <tr>
-                <th>{{ form_label(form.num) }}</th>
+                <th>
+                    {{ form_label(form.num) }}
+                    <span class="badge badge-default" data-toggle="tooltip"
+                          title="Videz ce champ si vous n'utilisez pas les numéros comme référence principale">?</span>
+                </th>
                 <td>{{ form_widget(form.num) }}</td>
             </tr>
             <tr>

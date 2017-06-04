@@ -31,7 +31,7 @@ class EtudeController extends Controller
     const STATE_ID_EN_PAUSE = 3;
     const STATE_ID_TERMINEE = 4;
     const STATE_ID_AVORTEE = 5;
-    
+
     /**
      * @Security("has_role('ROLE_SUIVEUR')")
      */
@@ -173,7 +173,7 @@ class EtudeController extends Controller
                 //constitution du tableau d'erreurs
                 $errors = $this->get('validator')->validate($etude);
                 foreach ($errors as $error) {
-                    array_push($error_messages, $error->getPropertyPath().' : '.$error->getMessage());
+                    array_push($error_messages, $error->getPropertyPath() . ' : ' . $error->getMessage());
                 }
             }
         }
@@ -246,7 +246,7 @@ class EtudeController extends Controller
     /**
      * @Security("has_role('ROLE_ADMIN')")
      *
-     * @param Etude   $etude
+     * @param Etude $etude
      * @param Request $request
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
@@ -304,7 +304,6 @@ class EtudeController extends Controller
          * Mais cette page doit être rechargée et elle l'est automatiquement. (Si js est activé !)
          * bref rien de bien fracassant. Solution qui se doit d'être temporaire bien que fonctionnelle !
          * Cependant en cas de suppression d'une étude, chose qui n'arrive pas tous les jours, les données seront perdues !!
-         * Perdues Perdues !!!
          */
         $etudesEnCours = array();
 
@@ -315,11 +314,20 @@ class EtudeController extends Controller
 
         $form = $this->createFormBuilder();
 
+        if ($this->get('app.json_key_value_store')->exists('namingConvention')) {
+            $namingConvention = $this->get('app.json_key_value_store')->get('namingConvention');
+        } else {
+            $namingConvention = 'id';
+        }
         $id = 0;
         foreach (array_reverse($etudesParMandat) as $etudesInMandat) {
             foreach ($etudesInMandat as $etude) {
-                $form = $form->add((string) (2 * $id), HiddenType::class, array('label' => 'refEtude', 'data' => $etude->getReference()))
-                    ->add((string) (2 * $id + 1), 'textarea', array('label' => $etude->getReference(), 'required' => false, 'data' => $etude->getStateDescription()));
+                $form = $form->add((string)(2 * $id), HiddenType::class,
+                    array('label' => 'refEtude',
+                        'data' => $etude->getReference($namingConvention))
+                )
+                    ->add((string)(2 * $id + 1), 'textarea', array('label' => $etude->getReference($namingConvention),
+                        'required' => false, 'data' => $etude->getStateDescription()));
                 ++$id;
                 if ($etude->getStateID() == self::STATE_ID_EN_COURS) {
                     array_push($etudesEnCours, $etude);
@@ -336,7 +344,7 @@ class EtudeController extends Controller
             $id = 0;
             foreach (array_reverse($etudesParMandat) as $etudesInMandat) {
                 foreach ($etudesInMandat as $etude) {
-                    if ($data[2 * $id] == $etude->getReference()) {
+                    if ($data[2 * $id] == $etude->getReference($namingConvention)) {
                         if ($data[2 * $id] != $etude->getStateDescription()) {
                             $etude->setStateDescription($data[2 * $id + 1]);
                             $em->persist($etude);
@@ -407,7 +415,7 @@ class EtudeController extends Controller
 
                 $return = array('responseCode' => 200, 'msg' => 'ok');
             } else {
-                $return = array('responseCode' => 412, 'msg' => 'Erreur:'.$formSuivi->getErrors(true, false));
+                $return = array('responseCode' => 412, 'msg' => 'Erreur:' . $formSuivi->getErrors(true, false));
             }
         }
 

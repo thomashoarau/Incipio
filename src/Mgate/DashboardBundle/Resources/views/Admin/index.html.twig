@@ -1,12 +1,28 @@
-{# layout d'accueil pour les études  #}
-
+{# Affichage des options de Jeyser  #}
 {% extends "MgateDashboardBundle::layout.html.twig" %}
-{% block content_bundle %}
-   Admin
 
-    {{  form_start(form) }}
-    {{ form_widget(form) }}
-    <button type="submit">Valider</button>
+{% block content_title %}
+    Paramètres
+{% endblock %}
+
+{% block content_bundle %}
+
+    {{  form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+        {% for field in form.children if field.vars.name != "_token"%}
+            <div class="form-group">
+                <div class="col-lg-3 col-xs-4">
+                    {{ form_label(field) }}
+                    {% if field.vars.attr is not none and field.vars.attr.tooltip != "" %}
+                    <span class="badge badge-default" data-toggle="tooltip" title="{{ field.vars.attr.tooltip }}">?</span>
+                    {% endif %}
+                </div>
+                <div class="col-lg-8">
+                    {{ form_widget(field, {'attr': {'class': 'form-control'}}) }}
+                </div>
+            </div>
+        {% endfor %}
+
+    <button type="submit" class="btn btn-success">Enregistrer</button>
     {{ form_end(form) }}
 
 {% endblock %}
