@@ -116,7 +116,8 @@ class Mission extends DocType
 //Ajout fonction rapide
     public function getReference()
     {
-        return $this->etude->getReference().'/'.(!empty($this->getDebutOm()) ? $this->getDebutOm()->format('Y') : 'XX').'/RM/'.$this->getVersion();
+        return $this->etude->getReference() . '/' . (!empty($this->getDebutOm()) ? $this->getDebutOm()->format('Y') : 'XX') .
+            '/RM/' . $this->getVersion();
     }
 
     public function __construct()
@@ -128,7 +129,7 @@ class Mission extends DocType
 
     public function __toString()
     {
-        return 'RM - '.$this->getIntervenant();
+        return 'RM - ' . $this->getIntervenant();
     }
 
     /**
@@ -138,8 +139,8 @@ class Mission extends DocType
      */
     public function getRemuneration()
     {
-        $nbrJEHRemuneration = (int) 0;
-        $prixRemuneration = (float) 0;
+        $nbrJEHRemuneration = (int)0;
+        $prixRemuneration = (float)0;
         foreach ($this->getRepartitionsJEH() as $repartitionJEH) {
             $nbrJEHRemuneration += $repartitionJEH->getNbrJEH();
             $prixRemuneration += $repartitionJEH->getNbrJEH() * $repartitionJEH->getPrixJEH();
@@ -151,7 +152,7 @@ class Mission extends DocType
 
     public function getRemunerationBrute()
     {
-        $prixRemuneration = (float) 0;
+        $prixRemuneration = (float)0;
         foreach ($this->getRepartitionsJEH() as $repartitionJEH) {
             $prixRemuneration += $repartitionJEH->getNbrJEH() * $repartitionJEH->getPrixJEH();
         }

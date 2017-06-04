@@ -15,7 +15,7 @@ RUN echo "postfix postfix/mailname string mail.example.com" >> preseed.txt
 
 # Use Mailbox format.
 RUN debconf-set-selections preseed.txt
-RUN apt-get install -y postfix
+RUN apt-get install -y postfix --no-install-recommends
 RUN postconf -e myhostname=mail.example.com
 RUN postconf -e mydestination="mail.example.com, example.com, localhost.localdomain, localhost"
 RUN postconf -e mail_spool_directory="/var/spool/mail/"

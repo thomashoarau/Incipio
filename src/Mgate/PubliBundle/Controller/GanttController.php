@@ -18,8 +18,8 @@ class GanttController extends Controller
      * Génère le Gantt Chart de l'étude passée en paramètre.
      *
      * @param Etude $etude project whom gantt chart should be exported
-     * @param int   $width width of exported gantt
-     * @param bool  $debug
+     * @param int $width width of exported gantt
+     * @param bool $debug
      *
      * @return Response a png of project gantt chart
      */
@@ -29,19 +29,30 @@ class GanttController extends Controller
             throw new AccessDeniedException('Cette étude est confidentielle');
         }
 
+        /** Handle naming conventions for files. (To have a single usable version for Mgate & N7 Consulting) */
+        $name = $etude->getId();
+        if ($this->get('app.json_key_value_store')->exists('namingConvention')) {
+            $naming_convention = $this->get('app.json_key_value_store')->get('namingConvention');
+
+            /** Ensure $name should not contains any space character, otherwise gantt export error.*/
+            if (strpos($etude->getReference($naming_convention), ' ') !== false) {
+                $name = $etude->getId();
+            }
+        }
+
         //Gantt
         $chartManager = $this->get('Mgate.chart_manager');
         $ob = $chartManager->getGantt($etude, 'gantt');
-        $chartManager->exportGantt($ob, 'gantt'.$etude->getReference(), $width);
+        $chartManager->exportGantt($ob, 'gantt' . $name, $width);
 
         $response = new Response();
         $response->headers->set('Content-Type', 'image/png');
-        $response->headers->set('Content-disposition', 'attachment; filename="gantt'.$etude->getReference().'.png"');
+        $response->headers->set('Content-disposition', 'attachment; filename="gantt' . $name . '.png"');
         $response->headers->set('Pragma', 'no-cache');
         $response->headers->set('Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0');
         $response->headers->set('Expires', 0);
 
-        $response->setContent(file_get_contents('tmp/gantt'.$etude->getReference().'.png'));
+        $response->setContent(file_get_contents('tmp/gantt' . $name . '.png'));
 
         return $response;
     }

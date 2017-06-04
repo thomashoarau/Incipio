@@ -8,7 +8,7 @@
 <ul class="breadcrumb">
     <li><a href="{{ path('MgateSuivi_etude_homepage') }}">{{ 'suivi.suivi_etude'|trans({}, 'suivi') }}</a></li>
     {% if etude is defined %}
-    <li><a href="{{ path('MgateSuivi_etude_voir', {'nom': etude.nom}) }}">{{ etude.reference }}</a></li>
+    <li><a href="{{ path('MgateSuivi_etude_voir', {'nom': etude.nom}) }}">{{ etude.reference(param('namingConvention')) }}</a></li>
     <li class="active">-</li>
     {% endif %}
 </ul>

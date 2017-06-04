@@ -120,7 +120,7 @@
                         {% for mission in membre.missions %}
                             <tr class="mandats">
                                 <td><a href="{{ path("MgateSuivi_etude_voir", {'nom' : mission.etude.nom}) }}"
-                                       title="{{ mission.etude.nom }}">{{ mission.etude.reference }}</a></td>
+                                       title="{{ mission.etude.nom }}">{{ mission.etude.reference(param('namingConvention')) }}</a></td>
                                 <td>Du :</td>
                                 <td>{{ mission.nbrJEH }} JEH - {{ mission.remunerationBrute }} &euro;</td>
                                 <td>

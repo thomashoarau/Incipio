@@ -44,6 +44,8 @@ class LoadAdminParamData implements FixtureInterface
         array('name' => 'anneCreation', 'paramType' => 'string', 'defaultValue'=> 'alumni.enseeiht.fr', 'required' => true, 'paramLabel' => 'Année de création de la junior'),
         array('name' => 'annee1Jeyser', 'paramType' => 'string', 'defaultValue'=> 'alumni.enseeiht.fr', 'required' => true, 'paramLabel' => 'Année de début d\'utilisation de Jeyser'),
         array('name' => 'gaTracking', 'paramType' => 'string', 'defaultValue'=> '', 'required' => false, 'paramLabel' => 'Code de suivi Google Analytics'),
+        array('name' => 'namingConvention', 'paramType' => 'string', 'defaultValue'=> 'nom', 'required' => true, 'paramLabel' => 'Convention de nommage',
+            'paramDescription' => 'Quel champ d\'une étude doit être utilisé dans les reférences à un document ? Accepte les valeurs numero ou nom'),
         );
 
         $i =0;
@@ -54,6 +56,7 @@ class LoadAdminParamData implements FixtureInterface
             $p->setDefaultValue($param['defaultValue']);
             $p->setRequired($param['required']);
             $p->setParamLabel($param['paramLabel']);
+            $p->setParamDescription($param['paramDescription']);
             $p->setPriority(1000-$i*10);
             $manager->persist($p);
             $i++;

@@ -69,19 +69,19 @@
         {% endfor %}
         <tr class="active money">
             <th style="text-align: left;">{{ 'treso.total_cotisations_dues'|trans({}, 'treso') }}<br>(indexées sur l'assiette de cotisation)</th>
-            <th>{{ bv.assietteDesCotisations | money }}&nbsp;€</th>
-            <th>{{ (bv.tauxPartJunior['baseURSSAF'] * 100) | money }}&nbsp;%</th>
-            <th>{{ bv.partJunior(true)['baseURSSAF'] | money }}&nbsp;€</th>
-            <th>{{ (bv.tauxPartEtu['baseURSSAF'] * 100) | money }}&nbsp;%</th>
-            <th>{{ bv.partEtudiant(true)['baseURSSAF'] | money }}&nbsp;€</th>
+            <th class="money">{{ bv.assietteDesCotisations | money }}&nbsp;€</th>
+            <th class="money">{{ (bv.tauxPartJunior['baseURSSAF'] * 100) | money }}&nbsp;%</th>
+            <th class="money">{{ bv.partJunior(true)['baseURSSAF'] | money }}&nbsp;€</th>
+            <th class="money">{{ (bv.tauxPartEtu['baseURSSAF'] * 100) | money }}&nbsp;%</th>
+            <th class="money">{{ bv.partEtudiant(true)['baseURSSAF'] | money }}&nbsp;€</th>
         </tr>
         <tr class="active money">
             <th style="text-align: left;">{{ 'treso.total_cotisations_dues'|trans({}, 'treso') }}<br>({{ 'treso.indexes_remunerations_brutes'|trans({}, 'treso') }})</th>
-            <th>{{ bv.remunerationBrute  | money }}&nbsp;€</th>
-            <th>{{ (bv.tauxPartJunior['baseBrute']*100) }}&nbsp;%</th>
-            <th>{{ bv.partJunior(true)['baseBrute'] | money }}&nbsp;€</th>
-            <th>{{ (bv.tauxPartEtu['baseBrute']*100) }}&nbsp;%</th>
-            <th>{{ bv.partEtudiant(true)['baseBrute'] | money }}&nbsp;€</th>
+            <th class="money">{{ bv.remunerationBrute  | money }}&nbsp;€</th>
+            <th class="money">{{ (bv.tauxPartJunior['baseBrute']*100) }}&nbsp;%</th>
+            <th class="money">{{ bv.partJunior(true)['baseBrute'] | money }}&nbsp;€</th>
+            <th class="money">{{ (bv.tauxPartEtu['baseBrute']*100) }}&nbsp;%</th>
+            <th class="money">{{ bv.partEtudiant(true)['baseBrute'] | money }}&nbsp;€</th>
         </tr>
 
         <tr>
@@ -138,7 +138,7 @@
     <div class="row hidden-print">
         <div class="col-md-3 col-xs-6">
             <a type="button" class="btn btn-success"
-               href="{{ path('Mgate_publi_publiposter', { 'templateName' : constant('\\Mgate\\PubliBundle\\Controller\\TraitementController::ROOTNAME_BULLETIN_DE_VERSEMENT') , 'rootName' : constant('\\Mgate\\PubliBundle\\Controller\\TraitementController::ROOTNAME_BULLETIN_DE_VERSEMENT'), 'rootObject_id' : bv.id}) }}">
+               href="{{ path('Mgate_publi_publiposter', { 'templateName' : constant('\\Mgate\\PubliBundle\\Controller\\TraitementController::DOCTYPE_BULLETIN_DE_VERSEMENT') , 'rootName' : constant('\\Mgate\\PubliBundle\\Controller\\TraitementController::ROOTNAME_BULLETIN_DE_VERSEMENT'), 'rootObject_id' : bv.id}) }}">
                 Générer le BV
             </a>
         </div>

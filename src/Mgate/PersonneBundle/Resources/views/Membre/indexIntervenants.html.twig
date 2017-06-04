@@ -56,7 +56,7 @@
                         <span class="label label-{{ membre.dateConventionEleve ? ( membre.dateConventionEleve <= mission.debutOm |date_modify("-7 day") ? "success" : "warning" ) : "danger" }}">{{ mission.debutOm ? mission.debutOm  | date("d/m/Y") : "?" }}
                             -> {{ mission.finOm ? mission.finOm | date("d/m/Y") : "?" }}</span>
                         | <a
-                            href="{{ path("MgateSuivi_etude_voir", {'nom' : mission.etude.nom}) }}">{{ mission.etude.reference }}</a>
+                            href="{{ path("MgateSuivi_etude_voir", {'nom' : mission.etude.nom}) }}">{{ mission.etude.reference(param('namingConvention')) }}</a>
                         <br/>
                     {% endfor %}
                 </td>

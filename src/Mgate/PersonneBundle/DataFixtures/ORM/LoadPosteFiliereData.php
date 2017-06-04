@@ -9,9 +9,10 @@ namespace Mgate\PersonneBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
+use Mgate\PersonneBundle\Entity\Filiere;
 use Mgate\PersonneBundle\Entity\Poste;
 
-class LoadPosteData implements FixtureInterface
+class LoadPosteFiliereData implements FixtureInterface
 {
     /**
      * {@inheritdoc}
@@ -46,6 +47,11 @@ class LoadPosteData implements FixtureInterface
 
             $manager->persist($p);
         }
+
+        $filiere = new Filiere();
+        $filiere->setNom('Filière d\'exemple');
+        $filiere->setDescription('Filière par défault, à éditer après l\'installation');
+
         $manager->flush();
     }
 }

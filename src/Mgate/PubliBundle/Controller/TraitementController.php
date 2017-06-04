@@ -38,6 +38,7 @@ class TraitementController extends Controller
     const DOCTYPE_ACCORD_CONFIDENTIALITE = 'AC';
     const DOCTYPE_DECLARATION_ETUDIANT_ETR = 'DEE';
     const DOCTYPE_NOTE_DE_FRAIS = 'NF';
+    const DOCTYPE_BULLETIN_DE_VERSEMENT = 'BV'; 
 
     const ROOTNAME_ETUDE = 'etude';
     const ROOTNAME_PROCES_VERBAL = 'pvr';
@@ -148,9 +149,14 @@ class TraitementController extends Controller
         }
 
         if ($rootName == 'etude' && $rootObject->getReference()) {
+            if ($this->get('app.json_key_value_store')->exists('namingConvention')) {
+                $namingConvention = $this->get('app.json_key_value_store')->get('namingConvention');
+            } else {
+                $namingConvention = 'id';
+            }
             if (!$debug) {
                 //avoid collision with references using / or other characters.
-                $refDocx = $rootObject->getReference().'-'.$templateName.'-';
+                $refDocx = $rootObject->getReference($namingConvention).'-'.$templateName.'-';
             } else {
                 $refDocx = '';
             }

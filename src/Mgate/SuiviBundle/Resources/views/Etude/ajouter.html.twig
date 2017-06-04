@@ -9,8 +9,6 @@
 {% endblock %}
 
 {% block content_bundle %}
-    <a href="{{ path('MgatePersonne_prospect_ajouter', {'format':'mini'}) }}?KeepThis=true&TB_iframe=true&height=400&width=600"
-       title="Ajouter un client" class="thickbox">{{ 'suivi.prospect_ajouter'|trans({}, 'suivi') }}</a>
     {% for error in errors %}
         <div class="alert alert-warning">
             {{ error }}
@@ -63,7 +61,11 @@
                 <td>{{ form_widget(form.mandat) }}</td>
             </tr>
             <tr>
-                <th>{{ form_label(form.num) }}</th>
+                <th>
+                    {{ form_label(form.num) }}
+                    <span class="badge badge-default" data-toggle="tooltip"
+                          title="Videz ce champ si vous n'utilisez pas les numéros comme référence principale">?</span>
+                </th>
                 <td>{{ form_widget(form.num) }}</td>
             </tr>
             <tr>

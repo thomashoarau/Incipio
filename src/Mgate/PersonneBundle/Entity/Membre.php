@@ -16,6 +16,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Mgate\PubliBundle\Entity\RelatedDocument;
 use Mgate\SuiviBundle\Entity\Mission;
 use N7consulting\RhBundle\Entity\Competence;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -23,6 +24,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Mgate\PersonneBundle\Entity\MembreRepository")
+ * @UniqueEntity("identifiant")
  */
 class Membre
 {
@@ -48,7 +50,7 @@ class Membre
     private $personne;
 
     /**
-     * @var \Date
+     * @var \DateTime
      *
      * @ORM\Column(name="dateCE", type="date",nullable=true)
      */
@@ -75,7 +77,7 @@ class Membre
     private $promotion;
 
     /**
-     * @var date
+     * @var \DateTime
      * @ORM\Column(name="birthdate", type="date", nullable=true)
      */
     private $dateDeNaissance;
@@ -87,7 +89,8 @@ class Membre
     private $lieuDeNaissance;
 
     /**
-     * @ORM\OneToMany(targetEntity="Mgate\PersonneBundle\Entity\Mandat", mappedBy="membre", cascade={"persist","remove"})
+     * @Assert\Valid()
+     * @ORM\OneToMany(targetEntity="Mgate\PersonneBundle\Entity\Mandat", mappedBy="membre", cascade={"persist","remove"}, orphanRemoval=true)
      */
     private $mandats;
 
@@ -223,6 +226,7 @@ class Membre
     public function addMandat(Mandat $mandats)
     {
         $this->mandats[] = $mandats;
+        $mandats->setMembre($this);
 
         return $this;
     }

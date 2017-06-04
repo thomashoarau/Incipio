@@ -56,7 +56,7 @@
             <tr>
                 <td>
                     <div>
-                        <a href="{{ path('MgateSuivi_etude_voir', {'nom': rm.etude.nom}) }}"> {{ rm.etude.reference }}</a>
+                        <a href="{{ path('MgateSuivi_etude_voir', {'nom': rm.etude.nom}) }}"> {{ rm.etude.reference(param('namingConvention')) }}</a>
                     </div>
                 </td>
                 <td>{{ rm.etude.prospect.nom }}

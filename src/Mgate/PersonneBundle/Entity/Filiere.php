@@ -13,6 +13,7 @@ namespace Mgate\PersonneBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Mgate\PersonneBundle\Entity\Filiere.
@@ -35,7 +36,7 @@ class Filiere
 
     /**
      * @var string
-     *
+     * @Assert\NotBlank()
      * @ORM\Column(type="string", length=63)
      */
     private $nom;
@@ -43,7 +44,7 @@ class Filiere
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=127)
+     * @ORM\Column(type="string", length=127, nullable=true)
      */
     private $description;
 
