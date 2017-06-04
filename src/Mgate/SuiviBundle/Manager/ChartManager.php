@@ -32,7 +32,7 @@ class ChartManager /*extends \Twig_Extension*/
         $this->etudeManager = $etudeManager;
         $this->logger = $logger;
         if ($keyValueStore->exists('namingConvention')) {
-            $namingConvention = $keyValueStore->get('namingConvention');
+            $this->namingConvention = $keyValueStore->get('namingConvention');
         } else {
             $this->namingConvention = 'id';
         }

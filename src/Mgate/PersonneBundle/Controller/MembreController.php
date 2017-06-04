@@ -11,7 +11,6 @@
 
 namespace Mgate\PersonneBundle\Controller;
 
-use Mgate\PersonneBundle\Entity\Mandat;
 use Mgate\PersonneBundle\Entity\Membre;
 use Mgate\PersonneBundle\Form\Type\MembreType;
 use Mgate\PubliBundle\Entity\RelatedDocument;

@@ -11,7 +11,9 @@
 {% block content_bundle %}
 <nav class="navbar navbar-default" role="navigation">
     <div class="navbar-header">
-        <a class="brand" href="{{ path('MgateSuivi_etude_voir', {'nom': etude.nom}) }}"><h4>{{ etude.reference(param('namingConvention'))(param('namingConvention')) }}</h4></a>
+        <a class="brand" href="{{ path('MgateSuivi_etude_voir', {'nom': etude.nom}) }}">
+            <h4>{{ etude.reference(param('namingConvention')) }}</h4>
+        </a>
     </div>
     <div class="collapse navbar-collapse navbar-ex1-collapse">
         <ul class="nav navbar-nav navbar-right">
