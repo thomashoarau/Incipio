@@ -435,12 +435,17 @@ class EtudeController extends Controller
             $etude = $em->getRepository('MgateSuiviBundle:Etude')->findOneBy(array('stateID' => self::STATE_ID_EN_COURS));
         }
 
-        if (!$etude) {
-            throw $this->createNotFoundException('Unable to find Etude entity.');
+        if ($etude === null) {
+            $etude = $em->getRepository('MgateSuiviBundle:Etude')->findOneBy(array('stateID' => self::STATE_ID_EN_NEGOCIATION));
+        }
+
+        if ($etude === null) {
+            throw $this->createNotFoundException('Vous devez avoir au moins une étude de créée pour accéder à cette page.');
         }
 
         //Etudes En Négociation : stateID = 1
-        $etudesDisplayList = $em->getRepository('MgateSuiviBundle:Etude')->getTwoStates([self::STATE_ID_EN_NEGOCIATION, self::STATE_ID_EN_COURS], array('mandat' => 'ASC', 'num' => 'ASC'));
+        $etudesDisplayList = $em->getRepository('MgateSuiviBundle:Etude')->getTwoStates([self::STATE_ID_EN_NEGOCIATION,
+            self::STATE_ID_EN_COURS], array('mandat' => 'ASC', 'num' => 'ASC'));
 
         if (!in_array($etude, $etudesDisplayList)) {
             throw $this->createNotFoundException('Etude incorrecte');
@@ -457,8 +462,8 @@ class EtudeController extends Controller
         return $this->render('MgateSuiviBundle:Etude:vuCA.html.twig', array(
             'etude' => $etude,
             'chart' => $ob,
-            'nextID' => $etudesDisplayList[$nextId]->getId(),
-            'prevID' => $etudesDisplayList[$previousId]->getId(),
+            'nextID' => ($etudesDisplayList[$nextId] !== null ? $etudesDisplayList[$nextId]->getId():0),
+            'prevID' => ($etudesDisplayList[$previousId] !== null ?$etudesDisplayList[$previousId]->getId():0),
             'etudesDisplayList' => $etudesDisplayList,
         ));
     }

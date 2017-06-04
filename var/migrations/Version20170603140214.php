@@ -21,7 +21,7 @@ class Version20170603140214 extends AbstractMigration
         $query = 'INSERT INTO `AdminParam` (`id`, `name`, `paramType`, `defaultValue`, `required`, `paramLabel`, 
 `paramDescription`, `priority`) VALUES (NULL, \'namingConvention\', \'string\', \'nom\', \'1\',
  \'Convention de nommage des documents\', \'Quel champ d\une étude doit être utilisé dans les références à un document ?
-Accepte les valeur numero ou nom\', \'820\')';
+Accepte les valeurs numero ou nom\', \'820\')';
         $this->addSql($query);
 
     }

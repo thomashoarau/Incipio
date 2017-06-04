@@ -45,7 +45,7 @@ class LoadAdminParamData implements FixtureInterface
         array('name' => 'annee1Jeyser', 'paramType' => 'string', 'defaultValue'=> 'alumni.enseeiht.fr', 'required' => true, 'paramLabel' => 'Année de début d\'utilisation de Jeyser'),
         array('name' => 'gaTracking', 'paramType' => 'string', 'defaultValue'=> '', 'required' => false, 'paramLabel' => 'Code de suivi Google Analytics'),
         array('name' => 'namingConvention', 'paramType' => 'string', 'defaultValue'=> 'nom', 'required' => true, 'paramLabel' => 'Convention de nommage',
-            'paramDescription' => 'Quel champ d\'une étude doit être utilisé dans les reférences à un document ? Accepte les valeur numero ou nom'),
+            'paramDescription' => 'Quel champ d\'une étude doit être utilisé dans les reférences à un document ? Accepte les valeurs numero ou nom'),
         );
 
         $i =0;
