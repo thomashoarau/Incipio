@@ -15,6 +15,10 @@
     </ul>
 {% endblock %}
 
+{% block content_title %}
+    Affichage d'un Membre
+{% endblock %}
+
 
 {% block content_bundle %}
 
@@ -35,10 +39,6 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-sm-3 col-xs-6">
-            <a class="btn btn-default" href="{{ path('MgatePersonne_membre_homepage') }}">Retour à la liste des
-                membres</a>
-        </div>
         {% if is_granted('ROLE_ADMIN') and membre.personne and membre.personne.user is null %}
             <div class="col-sm-3 col-xs-6">
 
