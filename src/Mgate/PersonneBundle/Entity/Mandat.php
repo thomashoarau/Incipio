@@ -1,5 +1,4 @@
 <?php
-
 /*
  * This file is part of the Incipio package.
  *
@@ -9,34 +8,21 @@
  * file that was distributed with this source code.
  */
 
-/* Table intermédiaire ManyToMany avec attribut : Mandat = MembrePoste
- */
 
 namespace Mgate\PersonneBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * Mandat.
- *
+ * Table intermédiaire ManyToMany avec attribut : Mandat = MembrePoste
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Mgate\PersonneBundle\Entity\MandatRepository")
  */
 class Mandat
 {
-    /**
-     * @var \Date
-     *
-     * @ORM\Column(name="debutMandat", type="date",nullable=false)
-     */
-    private $debutMandat;
-
-    /**
-     * @var \Date
-     *
-     * @ORM\Column(name="finMandat", type="date",nullable=false)
-     */
-    private $finMandat;
 
     /**
      * @var int
@@ -48,14 +34,38 @@ class Mandat
     protected $id;
 
     /**
+     * @var \DateTime
+     * @Assert\NotBlank()
+     * @ORM\Column(name="debutMandat", type="date",nullable=false)
+     */
+    private $debutMandat;
+
+    /**
+     * @var \DateTime
+     * @Assert\NotBlank()
+     * @ORM\Column(name="finMandat", type="date",nullable=false)
+     */
+    private $finMandat;
+
+    /**
+     * @Assert\NotNull()
      * @ORM\ManyToOne(targetEntity="Mgate\PersonneBundle\Entity\Membre", inversedBy="mandats")
      */
     private $membre;
 
     /**
+     * @Assert\NotNull()
      * @ORM\ManyToOne(targetEntity="Mgate\PersonneBundle\Entity\Poste", inversedBy="mandats")
      */
     private $poste;
+
+    public function __toString()
+    {
+        return 'Mandat ' . $this->getDebutMandat()->format('d/m/Y') . ' - ' . $this->getFinMandat()->format('d/m/Y');
+    }
+
+
+    /** auto-generated methods */
 
     /**
      * Get id.
@@ -161,10 +171,5 @@ class Mandat
     public function getPoste()
     {
         return $this->poste;
-    }
-
-    public function __toString()
-    {
-        return 'Mandat '.$this->getDebutMandat()->format('d/m/Y').' - '.$this->getFinMandat()->format('d/m/Y');
     }
 }
