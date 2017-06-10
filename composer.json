@@ -16,6 +16,7 @@
   },
   "require": {
     "php": ">=5.6",
+    "ext-apcu": "*",
     "doctrine/doctrine-bundle": "~1.4",
     "doctrine/doctrine-fixtures-bundle": "~2.3",
     "doctrine/doctrine-migrations-bundle": "^1.0",
@@ -61,6 +62,12 @@
     "install:first": [
       "php bin/console doctrine:schema:create -n --env=prod --ansi",
       "php bin/console doctrine:fixtures:load -n --env=prod --ansi"
+    ],
+    "clear-cache-prod": [
+      "php bin/console cache:clear -e=prod --no-warmup",
+      "php bin/console cache:warmup --env=prod",
+      "php bin/console doctrine:cache:clear-query",
+      "php bin/console doctrine:cache:clear-metadata"
     ],
     "symfony-scripts": [
       "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
