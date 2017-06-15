@@ -41,7 +41,7 @@ class LoadAdminParamData implements FixtureInterface
         array('name' => 'tresorierNom', 'paramType' => 'string', 'defaultValue'=> 'Dupont', 'required' => true, 'paramLabel' => 'Nom du trésorier'),
         array('name' => 'tresorierTexte', 'paramType' => 'string', 'defaultValue'=> 'Son trésorier,', 'required' => true, 'paramLabel' => 'Texte d\'annonce pour la signature trésorier'),
         array('name' => 'tva', 'paramType' => 'number', 'defaultValue'=> 0.2, 'required' => true, 'paramLabel' => 'Taux de TVA (20% -> 0.2)'),
-        array('name' => 'anneCreation', 'paramType' => 'string', 'defaultValue'=> 'alumni.enseeiht.fr', 'required' => true, 'paramLabel' => 'Année de création de la junior'),
+        array('name' => 'anneeCreation', 'paramType' => 'string', 'defaultValue'=> 'alumni.enseeiht.fr', 'required' => true, 'paramLabel' => 'Année de création de la junior'),
         array('name' => 'annee1Jeyser', 'paramType' => 'string', 'defaultValue'=> 'alumni.enseeiht.fr', 'required' => true, 'paramLabel' => 'Année de début d\'utilisation de Jeyser'),
         array('name' => 'gaTracking', 'paramType' => 'string', 'defaultValue'=> '', 'required' => false, 'paramLabel' => 'Code de suivi Google Analytics'),
         array('name' => 'namingConvention', 'paramType' => 'string', 'defaultValue'=> 'nom', 'required' => true, 'paramLabel' => 'Convention de nommage',

@@ -12,7 +12,9 @@
 namespace Mgate\SuiviBundle\Manager;
 
 use Doctrine\ORM\EntityManager;
+use Mgate\PersonneBundle\Entity\Membre;
 use Mgate\SuiviBundle\Entity\Etude as Etude;
+use Mgate\SuiviBundle\Entity\Mission;
 use Mgate\UserBundle\Entity\User;
 use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 use Webmozart\KeyValueStore\Api\KeyValueStore;
@@ -22,6 +24,7 @@ class EtudeManager extends \Twig_Extension
     protected $em;
     protected $tva;
     protected $namingConvention;
+    protected $anneeCreation;
 
     public function __construct(EntityManager $em, KeyValueStore $keyValueStore)
     {
@@ -36,6 +39,12 @@ class EtudeManager extends \Twig_Extension
             $this->namingConvention = $keyValueStore->get('namingConvention');
         } else {
             $this->namingConvention = 'id';
+        }
+
+        if ($keyValueStore->exists('anneeCreation')) {
+            $this->anneeCreation = intval($keyValueStore->get('anneeCreation'));
+        } else {
+            throw new \LogicException('Parameter Année Creation is undefined.');
         }
 
     }
@@ -121,42 +130,12 @@ class EtudeManager extends \Twig_Extension
     }
 
     /**
-     * Get montant total TTC.
-     *
-     * @param Etude $etude
-     *
-     * @return float
-     */
-    public function getTotalTTC(Etude $etude)
-    {
-        return round($etude->getMontantHT() * (1 + $this->tva), 2);
-    }
-
-    /**
-     * Get nombre de JEH.
-     *
-     * @param Etude $etude
-     *
-     * @return float
-     */
-    public function getMontantVerse(Etude $etude)
-    {
-        $total = 0;
-
-        foreach ($etude->getMissions() as $mission) {
-            foreach ($etude->getPhases() as $phase) {
-                $prix = $phase->getPrixJEH();
-                //TO DO faire le cas des prix de jeh différent
-            }
-            $total = 0.6 * $mission->getNbjeh() * $prix;
-        }
-
-        return round($total);
-    }
-
-    /*
      * Get référence du document
      * Params : Etude $etude, mixed $doc, string $type (the type of doc)
+     * @param Etude $etude
+     * @param $type
+     * @param int $key
+     * @return string
      */
     public function getRefDoc(Etude $etude, $type, $key = -1)
     {
@@ -246,43 +225,6 @@ class EtudeManager extends \Twig_Extension
         }
     }
 
-    /**
-     * Get nouveau numéro pour FactureVente (auto incrémentation).
-     */
-    public function getNouveauNumeroFactureVente()
-    {
-        $qb = $this->em->createQueryBuilder();
-
-        $mandat = 2007 + $this->getMaxMandat();
-
-        $mandatComptable = \DateTime::createFromFormat('d/m/Y', '31/03/' . $mandat);
-
-        $query = $qb->select('e.num')
-            ->from('MgateSuiviBundle:FactureVente', 'e')
-            ->andWhere('e.dateSignature > :mandatComptable')
-            ->setParameter('mandatComptable', $mandatComptable)
-            ->orderBy('e.num', 'DESC');
-
-        $value = $query->getQuery()->setMaxResults(1)->getOneOrNullResult();
-        if ($value) {
-            return $value['num'] + 1;
-        } else {
-            return 1;
-        }
-    }
-
-    public function getExerciceComptable($FactureVente)
-    {
-        if ($FactureVente) {
-            $dateAn = (int)$FactureVente->getDateSignature()->format('y');
-            $exercice = ((int)$FactureVente->getDateSignature()->format('m') < 4 ? $dateAn - 8 : $dateAn - 7);
-
-            return $exercice;
-        } else {
-            return 0;
-        }
-    }
-
     public function getDernierContact(Etude $etude)
     {
         $dernierContact = array();
@@ -295,14 +237,8 @@ class EtudeManager extends \Twig_Extension
         }
         if (count($dernierContact) > 0) {
             return max($dernierContact);
-        } else {
-            return;
         }
-    }
-
-    public function getRepository()
-    {
-        return $this->em->getRepository('MgateSuiviBundle:Etude');
+        return null;
     }
 
     public function getErrors(Etude $etude)
@@ -377,7 +313,9 @@ class EtudeManager extends \Twig_Extension
 
         // CE <= RM
         foreach ($etude->getMissions() as $mission) {
+            /** @var Mission $mission */
             if ($intervenant = $mission->getIntervenant()) {
+                /** @var Membre $intervenant */
                 $dateSignature = $dateDebutOm = null;
                 if ($mission->getDateSignature() !== null) {
                     $dateSignature = clone $mission->getDateSignature();
@@ -545,6 +483,7 @@ class EtudeManager extends \Twig_Extension
         $infos = array();
         // Recontacter client
         $DateAvertContactClient = new \DateInterval('P15D');
+        $now = new \DateTime('now');
         if ($this->getDernierContact($etude) !== null && $now->sub($DateAvertContactClient) > $this->getDernierContact($etude)) {
             $warning = array('titre' => 'Contact client :', 'message' => 'Recontacter le client');
             array_push($warnings, $warning);
@@ -634,7 +573,8 @@ class EtudeManager extends \Twig_Extension
         return $ok;
     }
 
-    //Copie de getEtatDoc pour les factures. Les factures n'étendant pas Doctype, le relu, rédigé ... n'est pas pertinent. On ne teste donc que l'existence et loe versement.
+    //Copie de getEtatDoc pour les factures. Les factures n'étendant pas Doctype, le relu, rédigé ...
+    // n'est pas pertinent. On ne teste donc que l'existence et loe versement.
 
     /**
      * @param $doc
@@ -659,9 +599,7 @@ class EtudeManager extends \Twig_Extension
      */
     public function mandatToString($idMandat)
     {
-        // Mandat 0 => 2007/2008
-
-        return strval(2007 + $idMandat) . '/' . strval(2008 + $idMandat);
+        return strval($this->anneeCreation + $idMandat) . '/' . strval($this->anneeCreation + 1 + $idMandat);
     }
 
     /**
@@ -724,15 +662,16 @@ class EtudeManager extends \Twig_Extension
 
     /**
      * Converti le numero de mandat en année.
+     * @param \DateTime $date
+     * @return int
      */
     public function dateToMandat(\DateTime $date)
     {
-        // Mandat 0 => 2007/2008
         $interval = new \DateInterval('P2M20D');
         $date2 = clone $date;
         $date2->sub($interval);
 
-        return intval($date2->format('Y')) - 2007;
+        return intval($date2->format('Y')) - $this->anneeCreation;
     }
 
     /**
@@ -741,11 +680,10 @@ class EtudeManager extends \Twig_Extension
     public function getTauxConversion()
     {
         $tauxConversion = array();
-        $tauxConversionCalc = array();
 
         //recup toute les etudes
-
-        foreach ($this->getRepository()->findAll() as $etude) {
+        $etudes = $this->em->getRepository('MgateSuiviBundle:Etude')->findAll();
+        foreach ($etudes as $etude) {
             $mandat = $etude->getMandat();
             if ($etude->getAp() !== null) {
                 if ($etude->getAp()->getSpt2()) {
