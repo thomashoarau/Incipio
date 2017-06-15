@@ -6,12 +6,14 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ path('Mgate_publi_publiposter', { 'templateName' : 'FM', 'rootName' : 'etudiant', 'rootObject_id' : membre.id}) }}">
-                        <span class="fa fa-user"></span> Générer la Fiche Membre
+                    <a href="{{ path('Mgate_publi_publiposter', { 'templateName' : 'BA', 'rootName' : 'etudiant', 'rootObject_id' : membre.id}) }}">
+                        <span class="fa fa-user"></span> Générer le Bulletin d'Adhésion
                     </a>
                 </li>
                 <li><a href="{{ path('Mgate_publi_publiposter', { 'templateName' : 'CE', 'rootName' : 'etudiant', 'rootObject_id' : membre.id}) }}">
                         <span class="fa fa-paperclip"></span> Générer une Convention Etudiante
+                        <span class="badge badge-default" data-toggle="tooltip"
+                        title="Depuis la réforme du cadre légal (AGP CNE 2016) il est recommandé de remplacer la CE par un BA comme fourni.">!</span>
                 </a></li>
                 <li><a href="{{ path('Mgate_publi_publiposter', { 'templateName' : 'AC', 'rootName' : 'etudiant', 'rootObject_id' : membre.id}) }}">
                         <span class="fa fa-lock"></span> Générer un Accord de Confidentialité

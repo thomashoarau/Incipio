@@ -29,7 +29,7 @@ class DocTypeType extends AbstractType
             'label' => 'Document Type',
             'choices' => array(
                 'Gestion associative' => array(
-                    'Bulletin d\'adhésion' => TraitementController::DOCTYPE_FICHE_ADHESION,
+                    'Bulletin d\'adhésion' => TraitementController::DOCTYPE_BULLETIN_ADHESION,
                     'Convention Etudiant' => TraitementController::DOCTYPE_CONVENTION_ETUDIANT,
                     'Accord de confidentialité' => TraitementController::DOCTYPE_ACCORD_CONFIDENTIALITE,
                     'Déclaration étudiant étranger' => TraitementController::DOCTYPE_DECLARATION_ETUDIANT_ETR,
