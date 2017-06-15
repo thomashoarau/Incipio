@@ -1,37 +1,42 @@
 {% extends "MgateSuiviBundle::layout.html.twig" %}
 
+{% block title %}
+    Modifier les missions
+{% endblock %}
+
+{% block content_title %}
+    Modifier l{{ form.missions | length |pluriel('es '~(form.missions | length)  ,'a') }}
+    mission{{ form.missions | length | pluriel }}
+{% endblock %}
+
 {% block content_bundle %}
 
-    <h2>Modifier l{{ form.missions | length |pluriel('es '~(form.missions | length)  ,'a') }} mission{{ form.missions | length | pluriel  }}</h2>
+
     {{ form_start(form, {'attr': {'name': 'missionsForm'}}) }}
 
-    <p><br/><input type="submit" value="{{ 'suivi.mission_ajouter'|trans({}, 'suivi') }}" name="add" class="btn"/> -
-        <input type="submit" value="{{ 'suivi.missions_enregistrer'|trans({}, 'suivi') }}" class="btn"/></p>
-    <input type="hidden" value="" name="idMission" id="idMission"/>
+    <p>
+        <button type="button" class="btn btn-primary"
+                id="add-another-mission">{{ 'suivi.mission_ajouter'|trans({}, 'suivi') }}</button>
 
+        <button type="submit" class="btn btn-success">{{ 'suivi.missions_enregistrer'|trans({}, 'suivi') }}</button>
+    </p>
 
-    {% for mission in form.missions %}
-        <div class="panel panel-primary" data-role="mission">
-            <div class="panel-heading">
-                <div class="row">
-                    <div class="col-xs-12 col-sm-4 worker">
-                        {{ form_label(mission.intervenant) }}
-                        {{ form_widget(mission.intervenant) }}
-                    </div>
-                </div>
-            </div>
-            <div class="panel-body">
-                {% include 'MgateSuiviBundle:Mission:formulaire.html.twig' %}
-            </div><!-- end panel body -->
-        </div>
-    {% endfor %}
+    <div id="missions-fields-list" data-prototype="
+            {% include 'MgateSuiviBundle:Mission:formulaire.prototype.html.twig'
+    with {'form': form.missions.vars.prototype} |e %}">
+        {% for mission in form.missions %}
+            {% include 'MgateSuiviBundle:Mission:formulaire.html.twig' with {'form': mission} %}
+        {% endfor %}
+    </div>
 
-
-    {{ form_rest(form) }}
-
+    <p>
+        <button type="submit" class="btn btn-success">{{ 'suivi.missions_enregistrer'|trans({}, 'suivi') }}</button>
+    </p>
+    {{ form_widget(form._token) }}
+    <div class="hidden">
+        {{ form_rest(form) }}
+    </div>
     {{ form_end(form) }}
-
-    <a href="{{ path('MgateSuivi_etude_voir', {'nom': etude.nom}) }}">{{ 'suivi.etude_retour'|trans({}, 'suivi') }}</a>
 
 {% endblock %}
 
@@ -40,6 +45,8 @@
         {{ form_javascript(form) }}
 
         <script type="text/javascript">
+            var missionsCount = {{ form.missions |length }};
+
             var isDirty = false;
             //Verification avant de quitter
             $(':input').change(function () {
@@ -56,20 +63,7 @@
                 return true;
             });
 
-            //add button delete on repartition
-            $('.repartitions').each(function () {
-                addPhaseButton($(this));
-            });
-
-            //add button delete on missions
-            var missions = $('[data-role=mission]');
-
-            missions.find('.worker').each(function () {
-                addMissionButton($(this));
-            });
-
-
-            function addPhaseButton(tag) {
+            var addPhaseButton = function (tag) {
                 var removePhase = $('<button class="btn btn-xs"><i class="fa fa-times"></i></button>');
                 tag.children().first().append(removePhase);
                 removePhase.on('click', function (e) {
@@ -81,9 +75,9 @@
                         }
                     });
                 });
-            }
+            };
 
-            function addMissionButton(tag) {
+            var addMissionButton = function (tag) {
                 var removeMission = $('<button class="btn btn-danger btn-xs"><i class="fa fa-times"></i></button>');
                 tag.append(removeMission);
                 removeMission.on('click', function (e) {
@@ -95,8 +89,63 @@
                         }
                     });
                 });
-            }
+            };
 
+            //add button delete on repartition
+            $('.repartitions').each(function () {
+                addPhaseButton($(this));
+            });
+
+            //add button delete on missions
+            var missions = $('[data-role=mission]');
+            missions.find('.worker').each(function () {
+                addMissionButton($(this));
+            });
             $('.select2-multiple').select2();
+
+            jQuery(document).ready(function () {
+                jQuery('#add-another-mission').click(function (e) {
+                    e.preventDefault();
+                    var missionList = jQuery('#missions-fields-list');
+                    var newWidget = missionList.attr('data-prototype');
+
+                    // replace the "__name__" used in the id and name of the prototype
+                    newWidget = newWidget.replace(/__name__/g, missionsCount);
+                    missionsCount++;
+
+                    // create a new list element and add it to the list
+                    var newItem = jQuery('<div></div>').html(newWidget);
+                    newItem.appendTo(missionList);
+
+                    //apply functions to make the new one similar to the other
+                    $('.select2-multiple').select2();
+                    $('.js-datepicker').datepicker({format: 'dd/mm/yyyy', language: 'fr'});
+                    addMissionButton(newItem.find('.worker'));
+                });
+            });
+
+            jQuery(document).ready(function () {
+                jQuery('.add-another-repartition').click(function (e) {
+                    e.preventDefault();
+
+                    var repartitionTable = $(this).parent().parent().parent().parent();
+                    var repartitionList = repartitionTable.find('.repartition-list');
+                    var newWidget = repartitionList.attr('data-prototype');
+                    var repartitionCount = repartitionList.attr('data-count');
+
+                    // replace the "__name__" used in the id and name of the prototype
+                    newWidget = newWidget.replace(/__name__/g, repartitionCount);
+
+                    repartitionCount++;
+                    repartitionList.attr('data-count', repartitionCount);
+
+                    // create a new list element and add it to the list
+                    var newItem = jQuery('<tr></tr>').html(newWidget);
+                    newItem.appendTo(repartitionList);
+
+                    addPhaseButton(newItem.find('.repartitions'));
+
+                });
+            });
         </script>
     {% endblock %}

@@ -40,8 +40,10 @@ class MissionType extends DocTypeType
                 //'query_builder' => function(PersonneRepository $pr) { return $pr->getMembreOnly(); },
                 'required' => true,
             ))
-            ->add('debutOm', Datetype::class, array('label' => 'Début du Récapitulatif de Mission', 'required' => true, 'widget' => 'single_text'))
-            ->add('finOm', DateType::class, array('label' => 'Fin du Récapitulatif de Mission', 'required' => true, 'widget' => 'single_text'))
+            ->add('debutOm', Datetype::class, array('label' => 'Début du Récapitulatif de Mission',
+                'required' => true, 'widget' => 'single_text', 'format' => 'dd/mm/yyyy'))
+            ->add('finOm', DateType::class, array('label' => 'Fin du Récapitulatif de Mission',
+                'required' => true, 'widget' => 'single_text', 'format' => 'dd/mm/yyyy'))
             ->add('pourcentageJunior', PercentType::class, array('label' => 'Pourcentage junior', 'required' => true, 'scale' => 2))
             ->add('referentTechnique', Select2EntityType::class, array(
                 'class' => 'Mgate\\PersonneBundle\\Entity\\Membre',

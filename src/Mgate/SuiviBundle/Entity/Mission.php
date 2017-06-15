@@ -14,6 +14,7 @@ namespace Mgate\SuiviBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Mgate\PersonneBundle\Entity\Membre;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Mgate\SuiviBundle\Entity\Mission.
@@ -45,6 +46,7 @@ class Mission extends DocType
     private $referentTechnique;
 
     /**
+     * @Assert\NotNull()
      * @ORM\ManyToOne(targetEntity="\Mgate\PersonneBundle\Entity\Membre", inversedBy="missions", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      */
@@ -52,21 +54,21 @@ class Mission extends DocType
 
     /**
      * @var \DateTime
-     *
+     * @Assert\NotNull()
      * @ORM\Column(name="debutOm", type="datetime", nullable=true)
      */
     private $debutOm;
 
     /**
      * @var \DateTime
-     *
+     * @Assert\NotNull()
      * @ORM\Column(name="finOm", type="datetime", nullable=true)
      */
     private $finOm;
 
     /**
      * @var float
-     *
+     * @Assert\NotNull()
      * @ORM\Column(name="pourcentageJunior", type="float", nullable=false)
      * Réel compris entre 0 et 1 représentant le pourcentage de la junior sur cette mission.
      */
