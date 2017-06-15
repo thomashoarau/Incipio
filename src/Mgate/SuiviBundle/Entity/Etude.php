@@ -147,6 +147,7 @@ class Etude
 
     /**
      * @Assert\Valid()
+     * @Assert\NotNull()
      * @ORM\ManyToOne(targetEntity="Mgate\PersonneBundle\Entity\Prospect", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */

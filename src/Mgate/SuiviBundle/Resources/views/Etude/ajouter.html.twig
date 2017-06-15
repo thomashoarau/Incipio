@@ -8,6 +8,13 @@
     {{ 'suivi.etude_ajouter'|trans({}, 'suivi') }}
 {% endblock %}
 
+{% block breadcrumb %}
+    <ul class="breadcrumb no-margin pull-right">
+        <li><a href="{{ path('MgateSuivi_etude_homepage') }}">{{ 'suivi.suivi_etude'|trans({}, 'suivi') }}</a></li>
+        <li class="active">{{ 'suivi.etude_ajouter'|trans({}, 'suivi') }}</li>
+    </ul>
+{% endblock %}
+
 {% block content_bundle %}
     {% for error in errors %}
         <div class="alert alert-warning">
