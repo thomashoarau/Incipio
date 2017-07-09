@@ -40,10 +40,8 @@ Mgate_publi_document_voir:
     methods:  [GET, HEAD]
 
 Mgate_publi_document_uploadEtude:
-    path: /Documents/Upload/Etude/{etude_id}
+    path: /Documents/Upload/Etude/{nom}
     defaults: {_controller: MgatePubliBundle:Document:uploadEtude}
-    requirements:
-        etude_id:  \d+
     methods:  [GET, HEAD, POST]
 
 Mgate_publi_document_uploadEtudiant:

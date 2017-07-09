@@ -35,7 +35,7 @@ class BVType extends AbstractType
             ->add('mission', Select2EntityType::class, array(
                       'label' => 'Mission',
                        'class' => 'Mgate\\SuiviBundle\\Entity\\Mission',
-                       'choice_label' => 'reference',
+                       'choice_label' => 'nom',
                        'required' => true, ))
             ->add('numeroVirement', TextType::class, array('label' => 'Numéro de Virement', 'required' => true));
     }

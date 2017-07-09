@@ -63,7 +63,7 @@ class DocTypeType extends AbstractType
             ->add('etude', Select2EntityType::class, array(
                 'label' => 'Etude pour vérifier le template',
                 'class' => 'Mgate\\SuiviBundle\\Entity\\Etude',
-                'choice_label' => 'reference',
+                'choice_label' => 'nom',
                 'required' => false, ))
             ->add('verification', CheckboxType::class, array('label' => 'Activer la vérification', 'required' => false));
     }
