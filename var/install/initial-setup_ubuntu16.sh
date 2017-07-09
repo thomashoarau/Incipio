@@ -9,7 +9,7 @@ sudo apt-get update
 sudo apt-get -y install docker-engine
 docker --version
 
-#install docker-compose
+# Install docker-compose
 curl -L "https://github.com/docker/compose/releases/download/1.10.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 chmod +x /usr/local/bin/docker-compose
 docker-compose --version
@@ -26,10 +26,14 @@ sed -i "s/REPLACE_WITH_YOUR_EMAIL/$email/g" docker-compose.yml
 sed -i "s/SYMFONY_ENV: dev/SYMFONY_ENV: prod/g" docker-compose.yml
 sed -i "s/restart: \"no\"/restart: always/g" docker-compose.yml
 
+# Set config.json
+cp var/key_value_store/config.json.dist var/key_value_store/config.json
+
+# Build images and launch them
 docker-compose build
 docker-compose up -d
 
-#give time to boot DB container then load database schema & fixtures
+# Give time to boot DB container then load database schema & fixtures
 echo "Waiting some seconds before setting up the database"
 sleep 60
 docker-compose exec web composer install:first
