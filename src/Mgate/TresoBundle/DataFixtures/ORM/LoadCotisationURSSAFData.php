@@ -261,6 +261,15 @@ class LoadCotisationURSSAFData implements FixtureInterface
             'tauxJE' => 0.002,
             'tauxEtu' => 0,
             'dateDebut' => new \DateTime('2017-01-01'),
+            'dateFin' => new \DateTime('2017-06-30'),
+            );
+
+        $cotisations[] = array(
+            'libelle' => 'AGS',
+            'isBaseUrssaf' => false,
+            'tauxJE' => 0.0015,
+            'tauxEtu' => 0,
+            'dateDebut' => new \DateTime('2017-07-01'),
             'dateFin' => new \DateTime('2017-12-31'),
             );
 
