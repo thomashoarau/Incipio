@@ -68,6 +68,7 @@ class Etude
     /**
      * @var string
      * @Assert\NotBlank()
+     * @Assert\Regex(pattern="/\//", match=false)
      * @ORM\Column(name="nom", type="string", length=50, nullable=false,  unique=true)
      */
     private $nom;
