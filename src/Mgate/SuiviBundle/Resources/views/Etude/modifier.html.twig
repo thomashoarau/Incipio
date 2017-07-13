@@ -10,7 +10,11 @@
 
 
 {% block content_bundle %}
-
+    {% for error in errors %}
+        <div class="alert alert-warning">
+            {{ error }}
+        </div>
+    {% endfor %}
     {{ form_start(form) }}
 
         {% form_theme form 'MgateSuiviBundle:Form:fields.html.twig' %}

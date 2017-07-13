@@ -164,11 +164,7 @@ class EtudeController extends Controller
                 $em->persist($etude);
                 $em->flush();
 
-                if ($request->get('ap')) {
-                    return $this->redirect($this->generateUrl('MgateSuivi_ap_rediger', array('id' => $etude->getId())));
-                } else {
-                    return $this->redirect($this->generateUrl('MgateSuivi_etude_voir', array('nom' => $etude->getNom())));
-                }
+                return $this->redirect($this->generateUrl('MgateSuivi_etude_voir', array('nom' => $etude->getNom())));
             } else {
                 //constitution du tableau d'erreurs
                 $errors = $this->get('validator')->validate($etude);
@@ -224,6 +220,7 @@ class EtudeController extends Controller
 
         $form = $this->createForm(EtudeType::class, $etude);
 
+        $error_messages = array();
         $deleteForm = $this->createDeleteForm($etude);
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
@@ -232,12 +229,22 @@ class EtudeController extends Controller
                 $em->persist($etude);
                 $em->flush();
 
-                return $this->redirect($this->generateUrl('MgateSuivi_etude_voir', array('nom' => $etude->getNom())));
+                if ($request->get('ap')) {
+                    return $this->redirect($this->generateUrl('MgateSuivi_ap_rediger', array('id' => $etude->getId())));
+                } else {
+                    return $this->redirect($this->generateUrl('MgateSuivi_etude_voir', array('nom' => $etude->getNom())));
+                }
+            } else {
+                $errors = $this->get('validator')->validate($etude);
+                foreach ($errors as $error) {
+                    array_push($error_messages, $error->getPropertyPath() . ' : ' . $error->getMessage());
+                }
             }
         }
 
         return $this->render('MgateSuiviBundle:Etude:modifier.html.twig', array(
             'form' => $form->createView(),
+            'errors' => $error_messages,
             'etude' => $etude,
             'delete_form' => $deleteForm->createView(),
         ));
