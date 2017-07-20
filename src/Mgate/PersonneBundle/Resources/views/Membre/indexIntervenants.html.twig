@@ -8,27 +8,33 @@
     <link rel="stylesheet" href="{{ asset('css/datatables/responsive.bootstrap.min.css') }}">
 {% endblock %}
 
-{% block title %}Liste des Intervenants - {{ parent() }}{% endblock %}
+{% block title %}
+    {{ 'member.worker_list'|trans({}, 'person') }} {{ parent() }}
+{% endblock %}
 
 {% block content_title %}
-    Liste des Intervenants
+    {{ 'member.worker_list'|trans({}, 'person') }}
+{% endblock %}
+
+{% block breadcrumb %}
+    <ul class="breadcrumb no-margin pull-right">
+        <li class="active">{{ 'member.worker_list'|trans({}, 'person') }}</li>
+    </ul>
 {% endblock %}
 
 {% block content_bundle %}
-    <span>
-    Liste des membres ayant déjà réalisé une mission.
-    </span>
+    <p>{{ 'member.worker_list_description'|trans({}, 'person') }}</p>
 
-    <table class="table table-bordered table-striped dataTable dt-responsive" id="listeIntervenants" role="grid">
+    <table class="table table-bordered table-striped dataTable dt-responsive text-left" id="listeIntervenants" role="grid" width="100%">
         <thead>
         <tr>
-            <th>Promotion</th>
-            <th>Prénom</th>
-            <th>Nom</th>
-            <th>Identifiant</th>
-            <th>Nationalité</th>
-            <th>CE</th>
-            <th>Etude</th>
+            <th>{{ 'fields.year'|trans({}, 'person') }}</th>
+            <th>{{ 'fields.firstname'|trans({}, 'person') }}</th>
+            <th>{{ 'fields.lastname'|trans({}, 'person') }}</th>
+            <th>{{ 'fields.id'|trans({}, 'person') }}</th>
+            <th>{{ 'fields.nationality'|trans({}, 'person') }}</th>
+            <th>{{ 'study.doc.CE'|trans({}, 'person') }}</th>
+            <th>{{ 'study.study'|trans({}, 'person') }}</th>
         </tr>
         </thead>
         <tbody>
@@ -43,12 +49,14 @@
                 <td>{{ membre.identifiant }}</td>
                 <td>
                     <span class="label label-{{ membre.nationalite == 'FR' ?  'success' : (  membre.nationalite == 'DZ'  ? 'danger' : 'warning' ) }}"
-                          title="{{ membre.nationalite == 'FR' ?  'Français' : (  membre.nationalite == 'DZ'  ? 'Ne peut être intervenant' : 'Une Déclaration à la préfecture est nécessaire' ) }}">
+                          title="{{ membre.nationalite == 'FR' ?  'Français' : (  membre.nationalite == 'DZ'  ? 'member.worker_forbidden'|trans({}, 'person') : 'member.worker_declare'|trans({}, 'person') ) }}">
                         {{ membre.nationalite }}
                     </span>
                 </td>
-                <td>REF : <span class="label label-{{ membre.dateConventionEleve ? "success" : "warning" }}">
-                        Convention élève {{ membre.dateConventionEleve ? membre.dateConventionEleve | date('d/m/Y') : "Non signée" }}
+                <td>
+                    <span class="label label-{{ membre.dateConventionEleve ? "success" : "warning" }}">
+                        {{ 'study.doc.CE'|trans({}, 'person') }}
+                        {{ membre.dateConventionEleve ? membre.dateConventionEleve | date('d/m/Y') : 'study.not_signed'|trans({}, 'person') }}
                     </span>
                 </td>
                 <td>
@@ -62,14 +70,11 @@
                 </td>
             </tr>
         {% else %}
-            <li>Pas (encore !) de Membre</li>
+            <li>{{ 'member.empty_worker_list_description'|trans({}, 'person') }}</li>
         {% endfor %}
         </tbody>
     </table>
-
-
 {% endblock %}
-
 
 {% block javascript %}
     {{ parent() }}
@@ -92,3 +97,4 @@
         });
     </script>
 {% endblock %}
+

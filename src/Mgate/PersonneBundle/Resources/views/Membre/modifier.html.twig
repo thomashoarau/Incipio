@@ -1,24 +1,25 @@
-{# Page de liste des intervenants : les personnes ayant déjà réalisé une mission.#}
 {% extends "MgatePersonneBundle::layout.html.twig" %}
 
-{% block title %}Ajouter/Modifier un membre {{ parent() }}{% endblock %}
+{% block title %}
+    {{ 'member.member_add_edit'|trans({}, 'person') }} {{ parent() }}
+{% endblock %}
 
 {% block content_title %}
-    Ajouter/Modifier un membre
+    {{ 'member.member_add_edit'|trans({}, 'person') }}
 {% endblock %}
 
 {% block breadcrumb %}
     <ul class="breadcrumb no-margin pull-right">
-        <li><a href="{{ path('MgatePersonne_membre_homepage') }}">Liste des membres</a></li>
+        <li><a href="{{ path('MgatePersonne_membre_homepage') }}">{{ 'member.member_list'|trans({}, 'person') }}</a></li>
         {% if form.vars.value.personne is not none %}
             <li>
                 <a href="{{ path('MgatePersonne_membre_voir', {'id': form.vars.value.id}) }}">
                     {{ form.vars.value.personne.prenomNom }}
                 </a>
             </li>
-            <li class="active">Modifier</li>
+            <li class="active">{{ 'member.edit'|trans({}, 'person') }}</li>
         {% else %}
-            <li class="active">Ajouter un nouveau membre</li>
+            <li class="active">{{ 'member.member_add_edit'|trans({}, 'person') }}</li>
         {% endif %}
     </ul>
 {% endblock %}
@@ -31,7 +32,7 @@
         <div class="col-md-7 col-xs-12">
             <div class="box box-info box-solid">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Membre</h3>
+                    <h3 class="box-title">{{ 'member.member'|trans({}, 'person') }}</h3>
 
                 </div>
                 <div class="box-body">
@@ -166,7 +167,7 @@
         <div class="col-md-5 col-xs-12">
             <div class="box box-info box-solid">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Intervenant</h3>
+                    <h3 class="box-title">{{ 'member.worker'|trans({}, 'person') }}</h3>
 
                 </div>
                 <div class="box-body">
@@ -239,7 +240,7 @@
         <div class="col-md-8 col-xs-12">
             <div class="box box-info box-solid">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Mandats</h3>
+                    <h3 class="box-title">{{ 'member.mandates'|trans({}, 'person') }}</h3>
 
                 </div>
                 <div class="box-body">
@@ -256,7 +257,7 @@
                         <tbody>
                         <tr>
                             <td colspan="7">
-                                <h4 style="display: inline;">Postes occupés</h4>
+                                <h4 style="display: inline;">{{ 'member.held_positions'|trans({}, 'person') }}</h4>
                             </td>
                         </tr>
                         {% for mandat in form.mandats %}
@@ -274,7 +275,7 @@
                         </tbody>
                     </table>
                     <a href="#" id="add-another-mandat" class="btn btn-xs btn-primary">
-                        Ajouter un mandat
+                        {{ 'member.add_mandate'|trans({}, 'person') }}
                     </a>
                 </div>
             </div>
@@ -283,7 +284,7 @@
         <div class="col-md-4 col-xs-12">
             <div class="box box-info box-solid">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Photo</h3>
+                    <h3 class="box-title">{{ 'member.photo'|trans({}, 'person') }}</h3>
                 </div>
                 <div class="box-body">
                     <table class="table table-bordered table-striped">
@@ -303,15 +304,15 @@
 
     <div class="row">
         <div class="col-md-2 col-xs-4">
-            <button type="submit" class="btn btn-success">Enregistrer</button>
+            <button type="submit" class="btn btn-success">{{ 'generic.save'|trans({}, 'person') }}</button>
             {{ form_end(form) }}
         </div>
         <div class="col-md-2 col-xs-4">
             <form class="bootbox-confirm inline"
-                  data-content="Êtes-vous sûr de vouloir supprimer définitivement ce membre ?"
+                  data-content="{{ 'member.member_delete_confirmation'|trans({}, 'person') }}"
                   action="{{ path('MgatePersonne_membre_supprimer', { 'id': form.vars.value.id }) }}" method="post">
                 {{ form_widget(delete_form) }}
-                <button class="btn btn-danger">Supprimer le membre</button>
+                <button class="btn btn-danger">{{ 'member.delete_member'|trans({}, 'person') }}</button>
             </form>
         </div>
 

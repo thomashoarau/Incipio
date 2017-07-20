@@ -1,31 +1,26 @@
 {% extends "MgatePersonneBundle::layout.html.twig" %}
 
 {% block title %}
-    Affichage d'un Membre - {{ parent() }}
+    {{ 'member.member_display'|trans({}, 'person') }} {{ parent() }}
 {% endblock %}
 
 {% block breadcrumb %}
     <ul class="breadcrumb no-margin pull-right">
-        <li>
-            <a href="{{ path('MgatePersonne_membre_homepage') }}">Liste des membres</a>
-        </li>
-        <li>
-            {{ membre.personne.PrenomNom }}
-        </li>
+        <li><a href="{{ path('MgatePersonne_membre_homepage') }}">{{ 'member.member_list'|trans({}, 'person') }}</a></li>
+        <li class="active">{{ membre.personne.PrenomNom }}</li>
     </ul>
 {% endblock %}
 
 {% block content_title %}
-    Affichage d'un Membre
+    {{ 'member.member_display'|trans({}, 'person') }}
 {% endblock %}
-
 
 {% block content_bundle %}
 
     <div class="nav-tabs-custom">
         <ul class="nav nav-tabs">
             <li class="active"><a href="#tab1" data-toggle="tab">Fiche</a></li>
-            <li><a href="#tab2" data-toggle="tab">Documents</a></li>
+            <li><a href="#tab2" data-toggle="tab">{{ 'member.documents'|trans({}, 'person') }}</a></li>
         </ul>
         <div class="tab-content">
             <!-- FICHE -->
@@ -38,16 +33,16 @@
             </div>
         </div>
     </div>
+
     <div class="row">
         {% if is_granted('ROLE_ADMIN') and membre.personne and membre.personne.user is null %}
             <div class="col-sm-3 col-xs-6">
 
                 {% if membre.personne.email is not null %}
-
                     {{ form_start(create_user_form) }}
                     {{ form_widget(create_user_form) }}
-                    <button type="submit" class="btn btn-primary">Ouvrir
-                        un compte utilisateur
+                    <button type="submit" class="btn btn-primary">
+                        {{ 'member.create_account'|trans({}, 'person') }}
                     </button>
                     {{ form_end(create_user_form) }}
                 {% elseif  membre.personne.email is null %}
@@ -60,7 +55,8 @@
         <div class="col-sm-3 col-xs-6">
 
             <a class="btn btn-warning" href="{{ path('MgatePersonne_membre_modifier', {'id': membre.id}) }}">
-                Modifier le membre</a>
+                {{ 'member.edit_member'|trans({}, 'person') }}
+            </a>
         </div>
     </div>
 

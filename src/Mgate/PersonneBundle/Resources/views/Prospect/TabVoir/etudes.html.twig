@@ -1,14 +1,14 @@
-<h3>Etudes</h3>
+<h3>{{ 'study.studies'|trans({}, 'person') }}</h3>
 
-<table class="table table-bordered table-striped dt-responsive" id="etudes">
+<table class="table table-bordered table-striped dt-responsive text-left" id="etudes">
     <thead>
     <tr>
-        <th>Date d'ajout</th>
-        <th>Nom</th>
-        <th>Statut</th>
-        <th>Sujet</th>
-        <th>Montant HT (€)</th>
-        <th>JEHs</th>
+        <th>{{ 'study.fields.creation_date'|trans({}, 'person') }}</th>
+        <th>{{ 'study.fields.name'|trans({}, 'person') }}</th>
+        <th>{{ 'study.status.status'|trans({}, 'person') }}</th>
+        <th>{{ 'study.fields.description'|trans({}, 'person') }}</th>
+        <th>{{ 'study.fields.VAT_excluded_price'|trans({}, 'person') }}</th>
+        <th>{{ 'study.fields.JEHs'|trans({}, 'person') }}</th>
     </tr>
     </thead>
     <tbody>
@@ -17,9 +17,16 @@
             <td>
                 {{ etude.dateCreation|date("d/m/Y") }}
             </td>
-            <td><a href="{{ path('MgateSuivi_etude_voir', {'nom': etude.nom}) }}">{{ etude.nom }}</a></td>
             <td>
-                {{ (etude.stateID == 4 ? "Terminée" : (etude.stateID == 5 ? "Avortée" : (etude.stateID == 3 ? "En Pause" : (etude.stateID == 2 ? "En Cours" : "En négociation")))) }}
+                <a href="{{ path('MgateSuivi_etude_voir', {'nom': etude.nom}) }}">{{ etude.nom }}</a>
+            </td>
+            <td>
+                {{ ( etude.stateID == 4 ?
+                    'study.status.completed'|trans({}, 'person') : ( etude.stateID == 5 ?
+                    'study.status.aborted'|trans({}, 'person') : ( etude.stateID == 3 ?
+                    'study.status.on_break'|trans({}, 'person') : ( etude.stateID == 2 ?
+                    'study.status.in_progress'|trans({}, 'person') : 'study.status.in_negotiation'|trans({}, 'person')
+                )))) }}
             </td>
             <td>{{ etude.description }}</td>
             <td>{{ etude.montantHT | default('0') }}</td>
@@ -28,3 +35,4 @@
     {% endfor %}
     </tbody>
 </table>
+

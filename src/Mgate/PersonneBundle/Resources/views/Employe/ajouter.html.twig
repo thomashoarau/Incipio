@@ -8,33 +8,84 @@
     {% endblock %}
 {% else %}
 
-
 {% endif %}
     #}
+
 {% block title %}
-    Ajouter un employé à {{ prospect.nom }} - {{ parent() }}
+    {{ 'employee.add_employee'|trans({}, 'person') }} {{ parent() }}
 {% endblock %}
 
 {% block content_title %}
-    Ajouter un employé à {{ prospect.nom }}
+    {{ 'employee.add_employee_to'|trans({}, 'person') }} {{ prospect.nom }}
 {% endblock %}
 
 {% block breadcrumb %}
     <ul class="breadcrumb no-margin pull-right">
-        <li>
-            <a href="{{ path('MgatePersonne_prospect_homepage') }}">Liste des prospects</a>
-        </li>
-        <li>
-            <a href="{{ path('MgatePersonne_prospect_voir', {'id': prospect.id}) }}">{{ prospect.nom }}</a>
-        </li>
-        <li>
-            Ajouter un employé
-        </li>
+        <li><a href="{{ path('MgatePersonne_prospect_homepage') }}">{{ 'prospect.prospect_list'|trans({}, 'person') }}</a></li>
+        <li><a href="{{ path('MgatePersonne_prospect_voir', {'id': prospect.id}) }}">{{ prospect.nom }}</a></li>
+        <li class="active">{{ 'employee.add_employee'|trans({}, 'person') }}</li>
     </ul>
 {% endblock %}
 
 {% block content_bundle %}
-
-    {% include "MgatePersonneBundle:Employe:formulaire.html.twig" %}
-
+    <div class="table-responsive content">
+        {{ form_start(form) }}
+        <table class="table table-bordered table-striped">
+            <tr>
+                <th colspan="6">{{ 'member.info'|trans({}, 'person') }}</th>
+            </tr>
+            <tr>
+                <td>{{ form_label(form.personne.sexe) }}</td>
+                <td>{{ form_widget(form.personne.sexe) }}</td>
+                <td>{{ form_label(form.personne.prenom) }}</td>
+                <td>{{ form_widget(form.personne.prenom) }} {{ form_errors(form.personne.prenom) }}</td>
+                <td>{{ form_label(form.personne.nom) }}</td>
+                <td>{{ form_widget(form.personne.nom) }} {{ form_errors(form.personne.nom) }}</td>
+            </tr>
+            <tr>
+                <td>{{ form_label(form.personne.mobile) }}</td>
+                <td>{{ form_widget(form.personne.mobile) }}</td>
+                <td>{{ form_label(form.personne.fix) }}</td>
+                <td>{{ form_widget(form.personne.fix) }}</td>
+                <td>{{ form_label(form.poste) }}</td>
+                <td>{{ form_widget(form.poste) }}</td>
+            </tr>
+            <tr>
+                <td>{{ form_label(form.personne.email) }}</td>
+                <td>{{ form_widget(form.personne.email) }}</td>
+                <td>{{ form_label(form.personne.estAbonneNewsletter)}}</td>
+                <td>{{ form_widget(form.personne.estAbonneNewsletter)}}</td>
+                <td>{{ form_label(form.personne.emailEstValide)}}</td>
+                <td>{{ form_widget(form.personne.emailEstValide)}}</td>
+            </tr>
+            <tr>
+                <td>{{ form_label(form.personne.adresse) }}</td>
+                <td colspan="5">{{ form_widget(form.personne.adresse) }}</td>
+            </tr>
+            <tr>
+                <td>{{ form_label(form.personne.codepostal) }}</td>
+                <td>{{ form_widget(form.personne.codepostal) }}</td>
+            </tr>
+            <tr>
+                <td>{{ form_label(form.personne.ville) }}</td>
+                <td>{{ form_widget(form.personne.ville) }}</td>
+            </tr>
+            <tr>
+                <td>{{ form_label(form.personne.pays) }}</td>
+                <td>{{ form_widget(form.personne.pays) }}</td>
+            </tr>
+            <tr>
+                <td colspan="6">
+                    <div class="row">
+                        <div class="col-md-2 col-xs-4">
+                            <button type="submit" class="btn btn-success">{{ 'generic.save'|trans({}, 'person') }}</button>
+                            {{ form_rest(form) }}
+                            {{ form_end(form) }}
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
 {% endblock %}
+

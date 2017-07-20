@@ -1,0 +1,155 @@
+generic:
+    save: Enregistrer
+    delete: Supprimer
+member:
+    edit: Modifier
+    edit_member: Modifier le membre
+    add_mandate: Ajouter un mandat
+    delete_member: Supprimer le membre
+    create_account: Ouvrir un compte utilisateur
+    member_list: Liste des membres
+    empty_member_list: Pas encore de membres
+    worker_list: Liste des intervenants
+    worker_list_description: Membres ayant déjà réalisé une mission.
+    empty_worker_list: Pas encore d'intervenants
+    unpaid_list: Liste des impayés
+    unpaid_list_description: Membres n'ayant pas payé leur cotisation à l'inscription ou dont le moyen de paiement n'est pas renseigné.
+    empty_unpaid_list: Pas d'impayés
+    member_display: Affichage d'un membre
+    member_add_edit: Ajout-Modification d'un membre
+    member_delete_confirmation: Êtes-vous sûr de vouloir supprimer définitivement ce membre ?
+    member: Membre
+    worker: Intervenant
+    mandate: Mandat
+    mandates: Mandats
+    photo: Photo
+    worker_forbidden: Ne peut être intervenant
+    worker_declare: Une déclaration à la préfecture est nécessaire
+# Card
+    card: Fiche
+    info: Informations
+    skills: Compétences
+    carried_out_missions: Missions réalisées
+    held_positions: Postes occupés
+    rights: Permissions
+    from_date: Du
+    to_date: Au
+    born_on: Né le
+    born_in: Né à
+# Documents
+    documents: Documents
+    documents_description: Documents relatifs à
+    add_document: Ajouter un document
+    generate_BA: Générer le Bulletin d'Adhésion
+    generate_CE: Générer une Convention Etudiant
+    generate_AC: Générer un Accord de Confidentialité
+    doc:
+        title: Titre
+        upload_date: Date d'upload
+        uploader: Mis en ligne par
+person:
+    newsletter_subscribed: Abonné à la newsletter
+    newsletter_unsubscribed: N'est pas abonné à la newsletter
+    mail_valid: Email valide
+    mail_invalid: Email invalide
+fields:
+    id: Identifiant
+    firstname: Prénom
+    lastname: Nom
+    sex: Sexe
+    year: Promotion
+    position: Poste
+    mail: Email
+    student_mail: Email étudiant
+    mobile: Mobile
+    address: Adresse
+    city: Ville
+    zip_code: Code postal
+    country: Pays
+    nationality: Nationalité
+    birth_date: Date de naissance (jj/mm/aaaa)
+    birth_place: Lieu de naissance
+    pathway: Filière
+    payment_means: Moyen de paiement
+    CE_signature_date: Date de signature de la CE
+    social_security_number: Numéro de sécurité sociale
+    comment: Commentaire
+    subscribed_newsletter: Abonné à la newsletter ?
+    valid_mail: Email valide ?
+    name: Nom
+    office: Bureau
+    desk_phone: Fixe
+    list: Liste
+    action: Action
+position:
+    add_position: Ajouter un poste
+    edit_position: Modifier un poste
+    delete_position: Supprimer le poste
+    positions: Postes
+    positions_list: Liste des postes
+    empty_positions_list: Pas de postes
+    position_delete_confirmation: Êtes-vous sûr de vouloir supprimer définitivement ce poste ?
+    field:
+        name: Intitulé
+        description: Description
+pathway:
+    add_pathway: Ajouter une filière
+    edit_pathway: Modifier une filière
+    delete_pathway: Supprimer la filière
+    pathways: Filières
+    pathways_list: Liste des filières
+    empty_pathways_list: Pas de filières
+    pathway_delete_confirmation: Êtes-vous sûr de vouloir supprimer définitivement cette filière ?
+    field:
+        name: Nom
+        description: Description
+prospect:
+    add_prospect: Ajouter un prospect
+    edit_prospect: Modifier le prospect
+    delete_prospect: Supprimer le prospect
+    prospect_display: Affichage d'un prospect
+    prospect_list: Liste des prospects
+    mailing_list: Liste de diffusion
+    mailing_list_description: Liste des mails valides, abonnés à la newsletter
+    prospect_delete_confirmation: Êtes-vous sûr de vouloir supprimer définitivement ce prospect ?
+    prospect_type: Type de prospect
+    comments: Commentaires
+    fields:
+        name: Nom
+        type: Type de prospect
+        address: Adresse
+        employee_number: Nombre d'employés
+employee:
+    add_employee: Ajouter un employé
+    add_employee_to: Ajouter un employé à
+    edit_employee: Modifier l'employé
+    delete_employee: Supprimer l'employé
+    employees: Employés
+    employee_list: Liste des employés
+    employee_delete_confirmation: Êtes-vous sûr de vouloir supprimer définitivement cet employé ?
+directory:
+    directory: Annuaire
+    customer: Client
+    other: Autre
+    person_delete_confirmation: Êtes-vous sûr de vouloir supprimer définitivement cette personne ?
+# Following should be moved in Suivi
+study:
+    study: Etude
+    studies: Etudes
+    doc:
+        CE: Convention Etudiant
+        CE_abbr: CE
+    fields:
+        name: Nom
+        description: Description
+        creation_date: Date d'ajout
+        VAT_excluded_price: Montant H.T. (€)
+        JEHs: JEHs
+    status:
+        status: Statut
+        in_negotiation: En négociation
+        in_progress: En cours
+        on_break: En pause
+        completed: Terminée
+        aborted: Avortée
+    not_signed: non signé

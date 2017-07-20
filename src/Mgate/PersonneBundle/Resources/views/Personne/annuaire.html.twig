@@ -2,7 +2,6 @@
 
 {% extends "MgatePersonneBundle::layout.html.twig" %}
 
-
 {% block stylesheets %}
     {{ parent() }}
     <link rel="stylesheet" href="{{ asset('css/datatables/dataTables.bootstrap.css') }}">
@@ -10,41 +9,49 @@
     <link rel="stylesheet" href="{{ asset('css/datatables/responsive.bootstrap.min.css') }}">
 {% endblock %}
 
-{% block title %}Annuaire - {{ parent() }}{% endblock %}
+{% block title %}
+    {{ 'dashboard.annuaire'|trans({}, 'dashboard') }} {{ parent() }}
+{% endblock %}
 
 {% block content_title %}
-    Annuaire
+    {{ 'dashboard.annuaire'|trans({}, 'dashboard') }}
+{% endblock %}
+
+{% block breadcrumb %}
+    <ul class="breadcrumb no-margin pull-right">
+        <li class="active">{{ 'dashboard.annuaire'|trans({}, 'dashboard') }}</li>
+    </ul>
 {% endblock %}
 
 {% block content_bundle %}
-
-    <table class="table table-bordered table-striped dataTable dt-responsive" id="annuaire" role="grid">
+    <table class="table table-bordered table-striped dataTable dt-responsive text-left" id="annuaire" role="grid" width="100%">
         <thead>
         <tr>
-            <th>Liste</th>
-            <th>Prénom Nom</th>
-            <th>Email</th>
-            <th>Mobile</th>
-            <th>Adresse</th>
+            <th>{{ 'fields.list'|trans({}, 'person') }}</th>
+            <th>{{ 'fields.name'|trans({}, 'person') }}</th>
+            <th>{{ 'fields.mail'|trans({}, 'person') }}</th>
+            <th>{{ 'fields.mobile'|trans({}, 'person') }}</th>
+            <th>{{ 'fields.address'|trans({}, 'person') }}</th>
             {% if is_granted('ROLE_CA') %}
-                <th>Action</th>
+                <th>{{ 'fields.action'|trans({}, 'person') }}</th>
             {% endif %}
         </tr>
         </thead>
         <tbody>
         {% for personne in personnes if personne.prenom != "Admin" %}
             <tr>
-                <td>{{ personne.membre ? param('abbr') : personne.employe ? "Client" : "Autre" }}</td>
+                <td>{{ personne.membre ? param('abbr') : personne.employe ? 'directory.customer'|trans({}, 'person') : 'directory.other'|trans({}, 'person') }}</td>
                 <td>{{ personne.prenomNom }}</td>
                 <td>{{ personne.email }}</td>
                 <td>{{ personne.mobile }}</td>
                 <td>{{ personne.adresse }}</td>
                 <td>
                     {% if is_granted('ROLE_ADMIN') and  personne.membre == null and personne.employe == null %}
-                        <form id="confirm"
+                        <form class="bootbox-confirm inline" id="confirm"
+                              data-content="{{ 'directory.person_delete_confirmation'|trans({}, 'person') }}"
                               action="{{ path('MgatePersonne_personne_supprimer', { 'id': personne.id }) }}"
                               method="post">
-                            <button>Supprimer</button>
+                            <button class="btn btn-danger">{{ 'generic.delete'|trans({}, 'person') }}</button>
                         </form>
                     {% endif %}
                 </td>
@@ -52,8 +59,6 @@
         {% endfor %}
         </tbody>
     </table>
-
-
 {% endblock %}
 
 {% block javascript %}

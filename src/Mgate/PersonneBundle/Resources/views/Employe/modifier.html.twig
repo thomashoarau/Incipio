@@ -1,41 +1,89 @@
 {% extends "MgatePersonneBundle::layout.html.twig" %}
 
-{% block title %}Modifier un employé - {{ parent() }}{% endblock %}
+{% block title %}
+    {{ 'employee.edit_employee'|trans({}, 'person') }} {{ parent() }}
+{% endblock %}
 
 {% block content_title %}
-    Modifier un employé
+    {{ 'employee.edit_employee'|trans({}, 'person') }}
 {% endblock %}
 
 {% block breadcrumb %}
     <ul class="breadcrumb no-margin pull-right">
-        <li>
-            <a href="{{ path('MgatePersonne_prospect_homepage') }}">Liste des prospects</a>
-        </li>
-        <li>
-            <a href="{{  path('MgatePersonne_prospect_voir', {'id': prospect.id}) }}">{{ prospect.nom }}</a>
-        </li>
-        <li>
-            Modifier {{ form.vars.value.personne.prenomNom }}
-        </li>
+        <li><a href="{{ path('MgatePersonne_prospect_homepage') }}">{{ 'prospect.prospect_list'|trans({}, 'person') }}</a></li>
+        <li><a href="{{  path('MgatePersonne_prospect_voir', {'id': prospect.id}) }}">{{ prospect.nom }}</a></li>
+        <li class="active">{{ 'employee.edit_employee'|trans({}, 'person') }} {{ form.vars.value.personne.prenomNom }}</li>
     </ul>
 {% endblock %}
 
-
 {% block content_bundle %}
+    <div class="table-responsive content">
+        {{ form_start(form) }}
+        <table class="table table-bordered table-striped">
+            <tr>
+                <th colspan="6">{{ 'member.info'|trans({}, 'person') }}</th>
+            </tr>
+            <tr>
+                <td>{{ form_label(form.personne.sexe) }}</td>
+                <td>{{ form_widget(form.personne.sexe) }}</td>
+                <td>{{ form_label(form.personne.prenom) }}</td>
+                <td>{{ form_widget(form.personne.prenom) }} {{ form_errors(form.personne.prenom) }}</td>
+                <td>{{ form_label(form.personne.nom) }}</td>
+                <td>{{ form_widget(form.personne.nom) }} {{ form_errors(form.personne.nom) }}</td>
+            </tr>
+            <tr>
+                <td>{{ form_label(form.personne.mobile) }}</td>
+                <td>{{ form_widget(form.personne.mobile) }}</td>
+                <td>{{ form_label(form.personne.fix) }}</td>
+                <td>{{ form_widget(form.personne.fix) }}</td>
+                <td>{{ form_label(form.poste) }}</td>
+                <td>{{ form_widget(form.poste) }}</td>
+            </tr>
+            <tr>
+                <td>{{ form_label(form.personne.email) }}</td>
+                <td>{{ form_widget(form.personne.email) }}</td>
+                <td>{{ form_label(form.personne.estAbonneNewsletter)}}</td>
+                <td>{{ form_widget(form.personne.estAbonneNewsletter)}}</td>
+                <td>{{ form_label(form.personne.emailEstValide)}}</td>
+                <td>{{ form_widget(form.personne.emailEstValide)}}</td>
+            </tr>
+            <tr>
+                <td>{{ form_label(form.personne.adresse) }}</td>
+                <td colspan="5">{{ form_widget(form.personne.adresse) }}</td>
+            </tr>
+            <tr>
+                <td>{{ form_label(form.personne.codepostal) }}</td>
+                <td>{{ form_widget(form.personne.codepostal) }}</td>
+            </tr>
+            <tr>
+                <td>{{ form_label(form.personne.ville) }}</td>
+                <td>{{ form_widget(form.personne.ville) }}</td>
+            </tr>
+                <td>{{ form_label(form.personne.pays) }}</td>
+                <td>{{ form_widget(form.personne.pays) }}</td>
+            </tr>
+            <tr>
+                <td colspan="6">
+                    <div class="row">
+                        <div class="col-md-2 col-xs-4">
+                            <button type="submit" class="btn btn-success">{{ 'generic.save'|trans({}, 'person') }}</button>
+                            {{ form_rest(form) }}
+                            {{ form_end(form) }}
+                        </div>
 
-    {% include "MgatePersonneBundle:Employe:formulaire.html.twig" %}
-
-    <div class="row">
-        <div class="col-md-2 col-xs-6">
-            {% if is_granted('ROLE_SUIVEUR') %}
-            <form class="bootbox-confirm" data-content="Êtes-vous sûr de vouloir supprimer définitivement cet employé ?"
-                  action="{{ path('MgatePersonne_employe_supprimer', { 'id': form.vars.value.id }) }}" method="post">
-                {{ form_widget(delete_form) }}
-                <button class=" btn btn-danger">Supprimer l'employé</button>
-            </form>
-            {% endif %}
-        </div>
+                        {% if is_granted('ROLE_SUIVEUR') %}
+                        <div class="col-md-2 col-xs-4">
+                            <form class="bootbox-confirm" data-content="{{ 'employee.employee_delete_confirm'|trans({}, 'person') }}"
+                                  action="{{ path('MgatePersonne_employe_supprimer', { 'id': form.vars.value.id }) }}" method="post">
+                                {{ form_widget(delete_form) }}
+                                <button class=" btn btn-danger">{{ 'employee.delete_employee'|trans({}, 'person') }}</button>
+                            </form>
+                        </div>
+                        {% endif %}
+                    </div>
+                </td>
+            </tr>
+        </table>
     </div>
 {% endblock %}
-
 

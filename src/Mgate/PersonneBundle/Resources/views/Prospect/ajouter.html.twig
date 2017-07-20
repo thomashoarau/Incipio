@@ -1,26 +1,60 @@
 {% extends "MgatePersonneBundle::layout.html.twig" %}
 
-
 {% block title %}
-    Ajouter un Prospect
+    {{ 'prospect.add_prospect'|trans({}, 'person') }}
 {% endblock %}
 
 {% block content_title %}
-    Ajouter un Prospect
+    {{ 'prospect.add_prospect'|trans({}, 'person') }}
 {% endblock %}
 
 {% block breadcrumb %}
     <ul class="breadcrumb no-margin pull-right">
-        <li>
-            <a href="{{ path('MgatePersonne_prospect_homepage') }}">Liste des prospects</a>
-        </li>
-        <li>
-            Ajouter un prospect
-        </li>
+        <li><a href="{{ path('MgatePersonne_prospect_homepage') }}">{{ 'prospect.prospect_list'|trans({}, 'person') }}</a></li>
+        <li class="active">{{ 'prospect.add_prospect'|trans({}, 'person') }}</li>
     </ul>
 {% endblock %}
 
 {% block content_bundle %}
-    {% include "MgatePersonneBundle:Prospect:formulaire.html.twig" %}
-    {{ format }}
+    <div class="table-responsive content">
+        {{ form_start(form) }}
+        <table class="table table-bordered table-striped">
+            <tr>
+                <th>{{ form_label(form.nom) }}</th>
+                <td>{{ form_widget(form.nom) }} {{ form_errors(form.nom) }}</td>
+            </tr>
+            <tr>
+                <th>{{ form_label(form.entite) }}</th>
+                <td>{{ form_widget(form.entite) }} {{ form_errors(form.entite) }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'fields.address'|trans({}, 'person') }}</th>
+                <td> {{ form_widget(form.adresse,{ 'attr': {'cols': '30', 'rows':'2'} }) }} {{ form_errors(form.adresse) }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'fields.zip_code'|trans({}, 'person') }}</th>
+                <td>{{ form_widget(form.codepostal) }} {{ form_errors(form.codepostal) }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'fields.city'|trans({}, 'person') }}</th>
+                <td>{{ form_widget(form.ville) }} {{ form_errors(form.ville) }}</td>
+            </tr>
+                <th>{{ 'fields.country'|trans({}, 'person') }}</th>
+                <td>{{ form_widget(form.pays) }} {{ form_errors(form.pays) }}</td>
+            </tr>
+
+            <tr>
+                <td colspan="2">
+                    <div class="row">
+                        <div class="col-md-2 col-xs-4">
+                            <button type="submit" class="btn btn-success">{{ 'generic.save'|trans({}, 'person') }}</button>
+                            {{ form_rest(form) }}
+                            {{ form_end(form) }}
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
 {% endblock %}
+

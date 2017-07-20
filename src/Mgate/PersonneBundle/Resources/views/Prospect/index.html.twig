@@ -3,7 +3,7 @@
 {% extends "MgatePersonneBundle::layout.html.twig" %}
 
 {% block title %}
-    Liste des Prospects - {{ parent() }}
+    {{ 'prospect.prospect_list.'|trans({}, 'person') }} {{ parent() }}
 {% endblock %}
 
 {% block stylesheets %}
@@ -14,14 +14,12 @@
 {% endblock %}
 
 {% block content_title %}
-    Liste des prospects
+    {{ 'prospect.prospect_list'|trans({}, 'person') }}
 {% endblock %}
 
 {% block breadcrumb %}
     <ul class="breadcrumb no-margin pull-right">
-        <li>
-            Liste des prospects
-        </li>
+        <li class="active">{{ 'prospect.prospect_list'|trans({}, 'person') }}</li>
     </ul>
 {% endblock %}
 
@@ -32,13 +30,13 @@
             <i class="fa fa-plus"></i> Ajouter un prospect
         </a>
     </div>
-    <table class="table table-bordered table-striped dataTable dt-responsive" id="listeProspects" role="grid">
+    <table class="table table-bordered table-striped dataTable dt-responsive text-left" id="listeProspects" role="grid" width="100%">
         <thead>
         <tr>
-            <th>Nom</th>
-            <th>Type</th>
-            <th>Adresse</th>
-            <th>Nombre d'employes</th>
+            <th>{{ 'prospect.fields.name'|trans({}, 'person') }}</th>
+            <th>{{ 'prospect.fields.type'|trans({}, 'person') }}</th>
+            <th>{{ 'prospect.fields.address'|trans({}, 'person') }}</th>
+            <th>{{ 'prospect.fields.employee_number'|trans({}, 'person') }}</th>
         </tr>
         </thead>
         <tbody>

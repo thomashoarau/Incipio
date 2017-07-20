@@ -1,7 +1,7 @@
 {% extends "MgatePersonneBundle::layout.html.twig" %}
 
 {% block title %}
-    Affichage d'un prospect - {{ parent() }}
+    {{ 'prospect.prospect_display'|trans({}, 'person') }} {{ parent() }}
 {% endblock %}
 
 {% block stylesheets %}
@@ -12,24 +12,21 @@
 {% endblock %}
 
 {% block content_title %}
-    Affichage d'un prospect
+    {{ 'prospect.prospect_display'|trans({}, 'person') }}
 {% endblock %}
 
 {% block breadcrumb %}
     <ul class="breadcrumb no-margin pull-right">
-        <li>
-            <a href="{{ path('MgatePersonne_prospect_homepage') }}">Liste des prospects</a>
-        </li>
-        <li>{{ prospect.nom }}</li>
+        <li><a href="{{ path('MgatePersonne_prospect_homepage') }}">{{ 'prospect.prospect_list'|trans({}, 'person') }}</a></li>
+        <li class="active">{{ prospect.nom }}</li>
     </ul>
 {% endblock %}
 
 {% block content_bundle %}
-
     <h2>{{ prospect.nom }}</h2>
-    <em><h4>Type de prospect : {{ prospect.EntiteToString }}</h4></em>
+    <em><h4>{{ 'prospect.fields.type'|trans({}, 'person') }} : {{ prospect.EntiteToString }}</h4></em>
     <p>
-    <h4>Adresse : {{ prospect.adresse }}
+    <h4>{{ 'prospect.fields.address'|trans({}, 'person') }} : {{ prospect.adresse }}
         <br>
         {{ prospect.codePostal }} {{ prospect.ville }}
     </h4>
@@ -37,10 +34,10 @@
 
     <div class="nav-tabs-custom">
         <ul class="nav nav-tabs">
-            <li class="active"><a href="#tab1" data-toggle="tab">Employés</a></li>
-            <li><a href="#tab2" data-toggle="tab">Etudes</a></li>
-            <li><a href="#tab3" data-toggle="tab">Mailing</a></li>
-            <li><a href="#tab4" data-toggle="tab">Commentaires</a></li>
+            <li class="active"><a href="#tab1" data-toggle="tab">{{ 'employee.employees'|trans({}, 'person') }}</a></li>
+            <li><a href="#tab2" data-toggle="tab">{{ 'study.studies'|trans({}, 'person') }}</a></li>
+            <li><a href="#tab3" data-toggle="tab">{{ 'prospect.mailing_list'|trans({}, 'person') }}</a></li>
+            <li><a href="#tab4" data-toggle="tab">{{ 'prospect.comments'|trans({}, 'person') }}</a></li>
         </ul>
         <div class="tab-content">
             <!-- Liste des employés -->
@@ -61,10 +58,7 @@
             </div>
         </div>
     </div>
-
-
 {% endblock %}
-
 
 {% block javascript %}
     {{ parent() }}
@@ -92,5 +86,5 @@
             });
         });
     </script>
-
 {% endblock %}
+

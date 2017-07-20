@@ -1,16 +1,26 @@
 {% extends "MgatePersonneBundle::layout.html.twig" %}
-{% block title %}Liste de diffusions{% endblock %}
+
+{% block title %}
+    {{ 'prospect.mailing_list'|trans({}, 'person') }}
+{% endblock %}
 
 {% block content_title %}
-    Liste de diffusions
+    {{ 'prospect.mailing_list'|trans({}, 'person') }}
+{% endblock %}
+
+{% block breadcrumb %}
+    <ul class="breadcrumb no-margin pull-right">
+        <li class="active">{{ 'prospect.mailing_list'|trans({}, 'person') }}</li>
+    </ul>
 {% endblock %}
 
 {% block content_bundle %}
-<table class="table table-bordered table-striped">
+<div class="table-responsive content">
+    <table class="table table-bordered table-striped">
     <tr>
-        <td>Liste de diffusion client - Abonné Newsletter</td>
-        <td>Liste de diffusion membre Mail Externe - Newsletter</td>
-        <td>Liste de diffusion membre Mail étu - Newsletter</td>
+        <td>{{ 'prospect.mailing_list'|trans({}, 'person') }} : {{ 'directory.customer'|trans({}, 'person') }} & {{ 'person.newsletter_subscribed'|trans({}, 'person') }}</td>
+        <td>{{ 'prospect.mailing_list'|trans({}, 'person') }} ({{ 'fields.mail'|trans({}, 'person') }}) : {{ 'member.member'|trans({}, 'person') }} & {{ 'person.newsletter_subscribed'|trans({}, 'person') }}</td>
+        <td>{{ 'prospect.mailing_list'|trans({}, 'person') }} ({{ 'fields.student_mail'|trans({}, 'person') }}) : {{ 'member.member'|trans({}, 'person') }} & {{ 'person.newsletter_subscribed'|trans({}, 'person') }}</td>
     </tr>
     <tr>
         <td>
@@ -30,9 +40,9 @@
         </td>
     </tr>
     <tr>
-        <td>Liste de diffusion client - Complète</td>
-        <td>Liste de diffusion membre Mail Externe - Complète</td>
-        <td>Liste de diffusion membre Mail étu - Complète</td>
+        <td>{{ 'prospect.mailing_list'|trans({}, 'person') }} : {{ 'directory.customer'|trans({}, 'person') }}</td>
+        <td>{{ 'prospect.mailing_list'|trans({}, 'person') }} ({{ 'fields.mail'|trans({}, 'person') }}) : {{ 'member.member'|trans({}, 'person') }}</td>
+        <td>{{ 'prospect.mailing_list'|trans({}, 'person') }} ({{ 'fields.student_mail'|trans({}, 'person') }}) : {{ 'member.member'|trans({}, 'person') }}</td>
     </tr>
     <tr>
         <td>
@@ -45,13 +55,17 @@
             {% for personne in personnes if personne.membre %}{{personne.prenomNom }} &lt;{{ personne.membre.emailEMSE }}&gt;;<br />{% endfor %}
         </td>
     </tr>
-</table>
-<h3>Liste de diffusion cotisant ({{ nbrCotisantsEtu}})(mails école)</h3>
-<pre>
-{{ cotisantsEtu }}
-</pre>
-<h3>Liste de diffusion cotisant ({{ nbrCotisants }}) (hors mails école)</h3>
-<pre>
-{{ cotisants }}
-</pre>
+    </table>
+</div>
+
+    <h3>Liste de diffusion cotisant ({{ nbrCotisantsEtu}})(mails école)</h3>
+    <pre>
+        {{ cotisantsEtu }}
+    </pre>
+
+    <h3>Liste de diffusion cotisant ({{ nbrCotisants }}) (hors mails école)</h3>
+    <pre>
+        {{ cotisants }}
+    </pre>
 {% endblock %}
+

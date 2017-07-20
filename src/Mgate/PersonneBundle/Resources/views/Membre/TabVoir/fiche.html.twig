@@ -30,10 +30,10 @@
                     </tr>
                     <tr>
                         <td>
-                            <i class="fa fa-book"></i> Promo : {{ membre.promotion }}
+                            <i class="fa fa-book"></i> {{ 'fields.year'|trans({}, 'person') }} : {{ membre.promotion }}
                         </td>
                         <td>
-                            <i class="fa fa-barcode"></i> Identifiant : {{ membre.identifiant }}
+                            <i class="fa fa-barcode"></i> {{ 'fields.id'|trans({}, 'person') }} : {{ membre.identifiant }}
                         </td>
                     </tr>
                 </table>
@@ -45,7 +45,7 @@
     <div class="col-md-5 col-md-offset-1 col-xs-12">
         <div class="box box-info box-solid">
             <div class="box-header with-border">
-                <h3 class="box-title">Informations</h3>
+                <h3 class="box-title">{{ 'member.info'|trans({}, 'person') }}</h3>
 
             </div>
             <div class="box-body">
@@ -62,17 +62,19 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>Né le : {{ membre.dateDeNaissance ? membre.dateDeNaissance | date("d/m/Y") }}</td>
-                        <td>Né à : {{ membre.lieuDeNaissance }}</td>
-                        <td colspan="2">Nationalité : {{ membre.nationalite }}</td>
+                        <td>
+                            {{ 'member.born_on'|trans({}, 'person') }} : {{ membre.dateDeNaissance ? membre.dateDeNaissance | date("d/m/Y") }}
+                        </td>
+                        <td>{{ 'member.born_in'|trans({}, 'person') }} : {{ membre.lieuDeNaissance }}</td>
+                        <td colspan="2">{{ 'fields.nationality'|trans({}, 'person') }} : {{ membre.nationalite }}</td>
                     </tr>
                     <tr>
-                        <td>Format Paiement : {{ membre.formatPaiement }}</td>
-                        <td>Filière : {{ membre.filiere.nom }}</td>
-                        <td>Securite Sociale : {{ membre.securiteSociale }}</td>
+                        <td>{{ 'fields.payment_means'|trans({}, 'person') }} : {{ membre.formatPaiement }}</td>
+                        <td>{{ 'fields.pathway'|trans({}, 'person') }} : {{ membre.filiere.nom }}</td>
+                        <td>{{ 'fields.social_security_number'|trans({}, 'person') }} : {{ membre.securiteSociale }}</td>
                     </tr>
                     <tr>
-                        <td>Commentaire :</td>
+                        <td>{{ 'fields.comment'|trans({}, 'person') }} :</td>
                         <td colspan="3">{{ membre.commentaire }}</td>
                     </tr>
                 </table>
@@ -89,7 +91,7 @@
         <div class="col-md-5 col-xs-12">
             <div class="box box-default box-solid">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Compétences</h3>
+                    <h3 class="box-title">{{ 'member.skills'|trans({}, 'person') }}</h3>
 
                 </div>
                 <div class="box-body">
@@ -112,7 +114,7 @@
         <div class="col-md-5 col-xs-12 {% if i is even %}col-md-offset-1{% endif %}">
             <div class="box box-default box-solid">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Missions réalisées</h3>
+                    <h3 class="box-title">{{ 'member.carried_out_missions'|trans({}, 'person') }}</h3>
 
                 </div>
                 <div class="box-body">
@@ -145,7 +147,7 @@
         <div class="col-md-5 col-xs-12 {% if i is even %}col-md-offset-1{% endif %}">
             <div class="box box-default box-solid">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Postes occupés</h3>
+                    <h3 class="box-title">{{ 'member.held_positions'|trans({}, 'person') }}</h3>
 
                 </div>
                 <div class="box-body">
@@ -153,8 +155,8 @@
                         {% for mandat in membre.mandats %}
                             <tr class="mandats">
                                 <td colspan="2">{{ mandat.poste.intitule }}</td>
-                                <td>Du : {{ mandat.debutMandat | date("d/m/Y") }}</td>
-                                <td>Au : {{ mandat.finMandat | date("d/m/Y") }}</td>
+                                <td>{{ 'member.from_date'|trans({}, 'person') }} : {{ mandat.debutMandat | date("d/m/Y") }}</td>
+                                <td>{{ 'member.to_date'|trans({}, 'person') }} : {{ mandat.finMandat | date("d/m/Y") }}</td>
                                 <td>
                                     <span class="badge badge-{{ "now"|date('Ymd')  > mandat.finMandat |date('Ymd') ? 'default' : 'success' }}">
                                         {{ "now"|date('Ymd')  > mandat.finMandat |date('Ymd') ? 'Alumni' : 'En cours' }}
@@ -173,7 +175,7 @@
         <div class="col-md-5 col-xs-12 {% if i is even %}col-md-offset-1{% endif %}">
             <div class="box box-default box-solid">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Permissions</h3>
+                    <h3 class="box-title">{{ 'member.rights'|trans({}, 'person') }}</h3>
 
                 </div>
                 <div class="box-body">

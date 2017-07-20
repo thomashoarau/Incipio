@@ -7,23 +7,32 @@
     <link rel="stylesheet" href="{{ asset('css/datatables/responsive.bootstrap.min.css') }}">
 {% endblock %}
 
-{% block title %}Liste des Impayés - {{ parent() }}{% endblock %}
+{% block title %}
+    {{ 'member.unpaid_list'|trans({}, 'person') }} {{ parent() }}
+{% endblock %}
 
 {% block content_title %}
-    Liste des Impayés
+    {{ 'member.unpaid_list'|trans({}, 'person') }}
+{% endblock %}
+
+{% block breadcrumb %}
+    <ul class="breadcrumb no-margin pull-right">
+        <li class="active">{{ 'member.unpaid_list'|trans({}, 'person') }}</li>
+    </ul>
 {% endblock %}
 
 {% block content_bundle %}
-    <p>Membres n'ayant pas payés leur cotisation à l'inscription ou dont le moyen de paiement n'est pas renseigné.</p>
-    <table class="table table-bordered table-striped dataTable dt-responsive" id="listeImpayes" role="grid">
+    <p>{{ 'member.unpaid_list_description'|trans({}, 'person') }}</p>
+
+    <table class="table table-bordered table-striped dataTable dt-responsive text-left" id="listeImpayes" role="grid" width="100%">
         <thead>
         <tr>
-            <th>Prénom</th>
-            <th>Nom</th>
-            <th>Email</th>
-            <th>Promotion</th>
-            <th>Mobile</th>
-            <th>Adresse</th>
+            <th>{{ 'fields.firstname'|trans({}, 'person') }}</th>
+            <th>{{ 'fields.lastname'|trans({}, 'person') }}</th>
+            <th>{{ 'fields.mail'|trans({}, 'person') }}</th>
+            <th>{{ 'fields.year'|trans({}, 'person') }}</th>
+            <th>{{ 'fields.mobile'|trans({}, 'person') }}</th>
+            <th>{{ 'fields.address'|trans({}, 'person') }}</th>
         </tr>
         </thead>
         <tbody>
