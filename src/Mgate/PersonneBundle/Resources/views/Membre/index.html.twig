@@ -39,11 +39,11 @@
         <tbody>
         {% for membre in membres %}
             <tr>
-                <td style="text-align: center;"><span
-                            class="label label-default">{{ membre.promotion ? "P" ~ membre.promotion }}</span>
+                <td class="text-center">
+                    <span class="label label-default">{{ membre.promotion ? "P" ~ membre.promotion }}</span>
                 </td>
-                <td style="text-align: center;"><h4><span class="label label-info">{{ membre.identifiant }}</span>
-                    </h4>
+                <td class="text-center">
+                    <span class="label label-info">{{ membre.identifiant }}</span>
                 </td>
                 <td>
                     <a href="{{ path('MgatePersonne_membre_voir', {'id': membre.id}) }}">{{ membre.personne ? membre.personne.prenom }}</a>
@@ -53,16 +53,21 @@
                 </td>
                 <td>
                     {% for mandat in membre.mandats %}
-                        <span class="label label-{{ "now"|date('Ymd')  > mandat.finMandat |date('Ymd') ? 'default' : 'success' }}"
-                              data-valide="{{ "now"|date('Ymd')  > mandat.finMandat |date('Ymd') ? 'ancien' : 'actuel' }}{{ mandat.poste.intitule }}">{{ mandat.debutMandat | date("d/m/Y") }}
+                        <span class="label label-{{ "now"|date('Ymd') > mandat.finMandat |date('Ymd') ? 'default' : 'success' }}"
+                              data-valide="{{ "now"|date('Ymd') > mandat.finMandat |date('Ymd') ? 'ancien' : 'actuel' }}{{ mandat.poste.intitule }}">{{ mandat.debutMandat | date("d/m/Y") }}
                             <span class="fa fa-arrow-right"></span> {{ mandat.finMandat | date("d/m/Y") }}</span> {{ mandat.poste.intitule }}
                         <br/>
                     {% endfor %}
                 </td>
                 <td>{{ membre.personne ? membre.personne.email }}</td>
                 <td>{{ membre.personne ? membre.personne.mobile }}</td>
-                <td>{{ membre.personne ? membre.personne.adresse }} {{ membre.personne ? membre.personne.codepostal }} {{ membre.personne ? membre.personne.ville }}</td>
+                <td>
+                    {{ membre.personne ? membre.personne.adresse }}<br/>
+                    {{ membre.personne ? membre.personne.codepostal }} {{ membre.personne ? membre.personne.ville }}
+                </td>
             </tr>
+        {% else %}
+            <li>{{ 'member.empty_member_list_description'|trans({}, 'person') }}</li>
         {% endfor %}
         </tbody>
     </table>

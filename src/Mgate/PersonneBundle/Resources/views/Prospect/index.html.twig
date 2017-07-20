@@ -24,12 +24,6 @@
 {% endblock %}
 
 {% block content_bundle %}
-
-    <div>
-        <a href="{{ path('MgatePersonne_prospect_ajouter') }}" class="btn btn-info btn-sm">
-            <i class="fa fa-plus"></i> Ajouter un prospect
-        </a>
-    </div>
     <table class="table table-bordered table-striped dataTable dt-responsive text-left" id="listeProspects" role="grid" width="100%">
         <thead>
         <tr>
@@ -63,11 +57,13 @@
     <script type="text/javascript" charset="utf-8">
         $(document).ready(function () {
             $('#listeProspects').DataTable({
-                "paging": false,
+                "paging": true,
                 "lengthChange": true,
                 "searching": true,
                 "ordering": true,
                 "info": true,
+                "iDisplayLength": 50,
+                "responsive": true,
                 "aaSorting": [[0, 'desc']]
             });
         });

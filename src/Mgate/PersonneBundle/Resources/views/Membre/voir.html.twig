@@ -36,8 +36,7 @@
 
     <div class="row">
         {% if is_granted('ROLE_ADMIN') and membre.personne and membre.personne.user is null %}
-            <div class="col-sm-3 col-xs-6">
-
+            <div class="col-md-4 col-sm-5 col-xs-6">
                 {% if membre.personne.email is not null %}
                     {{ form_start(create_user_form) }}
                     {{ form_widget(create_user_form) }}
@@ -52,8 +51,7 @@
                 {% endif %}
             </div>
         {% endif %}
-        <div class="col-sm-3 col-xs-6">
-
+        <div class="col-md-4 col-sm-5 col-xs-6">
             <a class="btn btn-warning" href="{{ path('MgatePersonne_membre_modifier', {'id': membre.id}) }}">
                 {{ 'member.edit_member'|trans({}, 'person') }}
             </a>

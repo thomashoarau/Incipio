@@ -40,13 +40,18 @@
         <tbody>
         {% for membre in intervenants %}
             <tr>
-                <td>{{ membre.promotion ? "P" ~ membre.promotion }}</td>
+                <td class="text-center">
+                    <span class="label label-default">{{ membre.promotion ? "P" ~ membre.promotion }}</span>
+                </td>
                 <td>
                     <a href="{{ path('MgatePersonne_membre_voir', {'id': membre.id}) }}">{{ membre.personne.prenom }}</a>
                 </td>
-                <td><a href="{{ path('MgatePersonne_membre_voir', {'id': membre.id}) }}">{{ membre.personne.nom }}</a>
+                <td>
+                    <a href="{{ path('MgatePersonne_membre_voir', {'id': membre.id}) }}">{{ membre.personne.nom }}</a>
                 </td>
-                <td>{{ membre.identifiant }}</td>
+                <td class="text-center">
+                    <span class="label label-info">{{ membre.identifiant }}</span>
+                </td>
                 <td>
                     <span class="label label-{{ membre.nationalite == 'FR' ?  'success' : (  membre.nationalite == 'DZ'  ? 'danger' : 'warning' ) }}"
                           title="{{ membre.nationalite == 'FR' ?  'Français' : (  membre.nationalite == 'DZ'  ? 'member.worker_forbidden'|trans({}, 'person') : 'member.worker_declare'|trans({}, 'person') ) }}">
@@ -62,9 +67,8 @@
                 <td>
                     {% for mission in membre.missions %}
                         <span class="label label-{{ membre.dateConventionEleve ? ( membre.dateConventionEleve <= mission.debutOm |date_modify("-7 day") ? "success" : "warning" ) : "danger" }}">{{ mission.debutOm ? mission.debutOm  | date("d/m/Y") : "?" }}
-                            -> {{ mission.finOm ? mission.finOm | date("d/m/Y") : "?" }}</span>
-                        | <a
-                            href="{{ path("MgateSuivi_etude_voir", {'nom' : mission.etude.nom}) }}">{{ mission.etude.reference(param('namingConvention')) }}</a>
+                            <span class="fa fa-arrow-right"></span> {{ mission.finOm ? mission.finOm | date("d/m/Y") : "?" }}</span>
+                        | <a href="{{ path("MgateSuivi_etude_voir", {'nom' : mission.etude.nom}) }}">{{ mission.etude.reference(param('namingConvention')) }}</a>
                         <br/>
                     {% endfor %}
                 </td>

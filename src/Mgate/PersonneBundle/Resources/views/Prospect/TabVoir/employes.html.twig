@@ -14,15 +14,18 @@
     <tbody>
         {% for employe in prospect.employes %}
             <tr>
-                <td><h4>
-                        <a href="{{ path('MgatePersonne_employe_modifier', {'id': employe.id}) }}">{{ employe.personne.nom | title }} {{ employe.personne.prenom }}</a>
-                    </h4></td>
+                <td>
+                    <a href="{{ path('MgatePersonne_employe_modifier', {'id': employe.id}) }}">
+                        {{ employe.personne.nom | title }} {{ employe.personne.prenom }}
+                    </a>
+                </td>
                 <td title="{{ employe.personne.emailEstValide ? (employe.personne.estAbonneNewsletter ? 'person.newsletter_subscribed'|trans({}, 'person') : 'person.newsletter_unsubscribed'|trans({}, 'person') ) : 'person.mail_invalid'|trans({}, 'person') }}"
                     class="{{ employe.personne.emailEstValide ? (employe.personne.estAbonneNewsletter ? "success" : "warning") : "error" }}">{{ employe.personne.email }}</td>
                 <td>{{ employe.personne.fix }}</td>
                 <td>{{ employe.personne.mobile }}</td>
-                <td><h5>{{ employe.poste }}</h5></td>
-                <td>{{ employe.personne.adresse }}<br/>
+                <td>{{ employe.poste }}</td>
+                <td>
+                    {{ employe.personne.adresse }}<br/>
                     {{ employe.personne.codePostal }} {{ employe.personne.ville }}
                 </td>
             </tr>

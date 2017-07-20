@@ -3,7 +3,8 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    <link rel="stylesheet" href="{{ asset('css/datatables/dataTables.bootstrap.css') }}">     <link rel="stylesheet" href="{{ asset('css/datatables/dataTables.fontAwesome.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/datatables/dataTables.bootstrap.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/datatables/dataTables.fontAwesome.css') }}">
     <link rel="stylesheet" href="{{ asset('css/datatables/responsive.bootstrap.min.css') }}">
 {% endblock %}
 
@@ -45,12 +46,17 @@
                     <a href="{{ path('MgatePersonne_membre_voir', {'id': membre.id}) }}">{{ membre.personne ? membre.personne.nom }}</a>
                 </td>
                 <td>{{ membre.personne ? membre.personne.email }}</td>
-                <td style="text-align: center;"><h4><span
-                                class="label label-default">{{ membre.promotion ? "P" ~ membre.promotion }}</span>
+                <td class="text-center">
+                    <span class="label label-default">{{ membre.promotion ? "P" ~ membre.promotion }}</span>
                 </td>
                 <td>{{ membre.personne ? membre.personne.mobile }}</td>
-                <td>{{ membre.personne ? membre.personne.adresse }} {{ membre.personne ? membre.personne.codepostal }} {{ membre.personne ? membre.personne.ville }}</td>
+                <td>
+                    {{ membre.personne ? membre.personne.adresse }}<br/>
+                    {{ membre.personne ? membre.personne.codepostal }} {{ membre.personne ? membre.personne.ville }}
+                </td>
             </tr>
+        {% else %}
+            <li>{{ 'member.empty_unpaid_list_description'|trans({}, 'person') }}</li>
         {% endfor %}
         </tbody>
     </table>
