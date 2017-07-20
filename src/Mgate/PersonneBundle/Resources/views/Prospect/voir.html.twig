@@ -70,6 +70,7 @@
     <script type="text/javascript" charset="utf-8">
         $(document).ready(function () {
             $('#employes').dataTable({
+                responsive: true,
                 "searching": false,
                 "bPaginate": false,
                 "bAutoWidth": false,
@@ -84,6 +85,11 @@
                 "bAutoWidth": false,
                 "aaSorting": [[0, 'asc']]
             });
+        });
+        $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+            $($.fn.dataTable.tables(true)).DataTable()
+                .columns.adjust()
+                .responsive.recalc();
         });
     </script>
 {% endblock %}
