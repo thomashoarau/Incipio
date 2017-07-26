@@ -1,4 +1,5 @@
 {# Page de liste des membres : les personnes s'étant inscrites à la Junior. #}
+
 {% extends "MgatePersonneBundle::layout.html.twig" %}
 
 {% block stylesheets %}
@@ -9,16 +10,16 @@
 {% endblock %}
 
 {% block title %}
-    {{ 'member.member_list'|trans({}, 'person') }} {{ parent() }}
+    {{ 'membre.liste_membre'|trans({}, 'personne') }} {{ parent() }}
 {% endblock %}
 
 {% block content_title %}
-    {{ 'member.member_list'|trans({}, 'person') }}
+    {{ 'membre.liste_membre'|trans({}, 'personne') }}
 {% endblock %}
 
 {% block breadcrumb %}
     <ul class="breadcrumb no-margin pull-right">
-        <li class="active">{{ 'member.member_list'|trans({}, 'person') }}</li>
+        <li class="active">{{ 'membre.liste_membre'|trans({}, 'personne') }}</li>
     </ul>
 {% endblock %}
 
@@ -26,14 +27,14 @@
     <table class="table table-bordered table-striped dataTable dt-responsive text-left" id="listeMembres" role="grid" width="100%">
         <thead>
         <tr>
-            <th>{{ 'fields.year'|trans({}, 'person') }}</th>
-            <th>{{ 'fields.id'|trans({}, 'person') }}</th>
-            <th>{{ 'fields.firstname'|trans({}, 'person') }}</th>
-            <th>{{ 'fields.lastname'|trans({}, 'person') }}</th>
-            <th>{{ 'fields.position'|trans({}, 'person') }}</th>
-            <th>{{ 'fields.mail'|trans({}, 'person') }}</th>
-            <th>{{ 'fields.mobile'|trans({}, 'person') }}</th>
-            <th>{{ 'fields.address'|trans({}, 'person') }}</th>
+            <th>{{ 'champs.promotion'|trans({}, 'personne') }}</th>
+            <th>{{ 'champs.id'|trans({}, 'personne') }}</th>
+            <th>{{ 'champs.prenom'|trans({}, 'personne') }}</th>
+            <th>{{ 'champs.nom'|trans({}, 'personne') }}</th>
+            <th>{{ 'champs.poste'|trans({}, 'personne') }}</th>
+            <th>{{ 'champs.mail'|trans({}, 'personne') }}</th>
+            <th>{{ 'champs.mobile'|trans({}, 'personne') }}</th>
+            <th>{{ 'champs.adresse'|trans({}, 'personne') }}</th>
         </tr>
         </thead>
         <tbody>
@@ -67,7 +68,7 @@
                 </td>
             </tr>
         {% else %}
-            <li>{{ 'member.empty_member_list_description'|trans({}, 'person') }}</li>
+            <li>{{ 'membre.liste_membre_vide'|trans({}, 'personne') }}</li>
         {% endfor %}
         </tbody>
     </table>

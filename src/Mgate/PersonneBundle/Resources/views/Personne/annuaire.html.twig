@@ -27,36 +27,36 @@
     <table class="table table-bordered table-striped dataTable dt-responsive text-left" id="annuaire" role="grid" width="100%">
         <thead>
         <tr>
-            <th>{{ 'fields.list'|trans({}, 'person') }}</th>
-            <th>{{ 'fields.name'|trans({}, 'person') }}</th>
-            <th>{{ 'fields.mail'|trans({}, 'person') }}</th>
-            <th>{{ 'fields.mobile'|trans({}, 'person') }}</th>
-            <th>{{ 'fields.address'|trans({}, 'person') }}</th>
+            <th>{{ 'champs.liste'|trans({}, 'personne') }}</th>
+            <th>{{ 'champs.prenom_nom'|trans({}, 'personne') }}</th>
+            <th>{{ 'champs.mail'|trans({}, 'personne') }}</th>
+            <th>{{ 'champs.mobile'|trans({}, 'personne') }}</th>
+            <th>{{ 'champs.adresse'|trans({}, 'personne') }}</th>
             {% if is_granted('ROLE_CA') %}
-                <th>{{ 'fields.action'|trans({}, 'person') }}</th>
+            <th>{{ 'champs.action'|trans({}, 'personne') }}</th>
             {% endif %}
         </tr>
         </thead>
         <tbody>
-        {% for personne in personnes if personne.prenom != "Admin" %}
+            {% for personne in personnes if personne.prenom != "Admin" %}
             <tr>
-                <td>{{ personne.membre ? param('abbr') : personne.employe ? 'directory.customer'|trans({}, 'person') : 'directory.other'|trans({}, 'person') }}</td>
+                <td>{{ personne.membre ? param('abbr') : personne.employe ? 'annuaire.client'|trans({}, 'personne') : 'annuaire.autre'|trans({}, 'personne') }}</td>
                 <td>{{ personne.prenomNom }}</td>
                 <td>{{ personne.email }}</td>
                 <td>{{ personne.mobile }}</td>
                 <td>{{ personne.adresse }}</td>
                 <td>
                     {% if is_granted('ROLE_ADMIN') and  personne.membre == null and personne.employe == null %}
-                        <form class="bootbox-confirm inline" id="confirm"
-                              data-content="{{ 'directory.person_delete_confirmation'|trans({}, 'person') }}"
-                              action="{{ path('MgatePersonne_personne_supprimer', { 'id': personne.id }) }}"
-                              method="post">
-                            <button class="btn btn-danger">{{ 'generic.delete'|trans({}, 'person') }}</button>
-                        </form>
+                    <form class="bootbox-confirm inline" id="confirm"
+                          data-content="{{ 'annuaire.confirmation_supprimer_personne'|trans({}, 'personne') }}"
+                          action="{{ path('MgatePersonne_personne_supprimer', { 'id': personne.id }) }}"
+                          method="post">
+                        <button class="btn btn-danger">{{ 'generique.supprimer'|trans({}, 'personne') }}</button>
+                    </form>
                     {% endif %}
                 </td>
             </tr>
-        {% endfor %}
+            {% endfor %}
         </tbody>
     </table>
 {% endblock %}
@@ -80,3 +80,4 @@
         });
     </script>
 {% endblock %}
+

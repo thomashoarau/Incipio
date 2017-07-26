@@ -1,17 +1,17 @@
 {% extends "MgatePersonneBundle::layout.html.twig" %}
 
 {% block title %}
-    {{ 'position.edit_position'|trans({}, 'person') }} {{ parent() }}
+    {{ 'poste.modifier_poste'|trans({}, 'personne') }} {{ parent() }}
 {% endblock %}
 
 {% block content_title %}
-    {{ 'position.edit_position'|trans({}, 'person') }}
+    {{ 'poste.modifier_poste'|trans({}, 'personne') }}
 {% endblock %}
 
 {% block breadcrumb %}
     <ul class="breadcrumb no-margin pull-right">
         <li><a href="{{ path('MgatePersonne_poste_homepage') }}">{{ 'dashboard.postes_filieres'|trans({}, 'dashboard') }}</a></li>
-        <li class="active">{{ 'position.edit_position'|trans({}, 'person') }}</li>
+        <li class="active">{{ 'poste.modifier_poste'|trans({}, 'personne') }}</li>
     </ul>
 {% endblock %}
 
@@ -31,16 +31,16 @@
                 <td colspan="2">
                     <div class="row">
                         <div class="col-md-2 col-xs-4">
-                            <button type="submit" class="btn btn-success">{{ 'generic.save'|trans({}, 'person') }}</button>
+                            <button type="submit" class="btn btn-success">{{ 'generique.enregistrer'|trans({}, 'personne') }}</button>
                             {{ form_rest(form) }}
                             {{ form_end(form) }}
                         </div>
                         <div class="col-md-2 col-xs-4">
                             <form class="bootbox-confirm inline"
-                                  data-content="{{ 'position.position_delete_confirmation'|trans({}, 'person') }}"
+                                  data-content="{{ 'poste.confirmation_supprimer_poste'|trans({}, 'personne') }}"
                                   action="{{ path('MgatePersonne_poste_supprimer', { 'id': form.vars.value.id }) }}" method="post">
                                 {{ form_widget(delete_form) }}
-                                <button class="btn btn-danger">{{ 'position.delete_position'|trans({}, 'person') }}</button>
+                                <button class="btn btn-danger">{{ 'poste.supprimer_poste'|trans({}, 'personne') }}</button>
                             </form>
                         </div>
                     </div>

@@ -1,4 +1,5 @@
 {# Page de liste des intervenants : les personnes ayant déjà réalisé une mission.#}
+
 {% extends "MgatePersonneBundle::layout.html.twig" %}
 
 {% block stylesheets %}
@@ -9,32 +10,32 @@
 {% endblock %}
 
 {% block title %}
-    {{ 'member.worker_list'|trans({}, 'person') }} {{ parent() }}
+    {{ 'membre.liste_intervenant'|trans({}, 'personne') }} {{ parent() }}
 {% endblock %}
 
 {% block content_title %}
-    {{ 'member.worker_list'|trans({}, 'person') }}
+    {{ 'membre.liste_intervenant'|trans({}, 'personne') }}
 {% endblock %}
 
 {% block breadcrumb %}
     <ul class="breadcrumb no-margin pull-right">
-        <li class="active">{{ 'member.worker_list'|trans({}, 'person') }}</li>
+        <li class="active">{{ 'membre.liste_intervenant'|trans({}, 'personne') }}</li>
     </ul>
 {% endblock %}
 
 {% block content_bundle %}
-    <p>{{ 'member.worker_list_description'|trans({}, 'person') }}</p>
+    <p>{{ 'membre.description_liste_intervenant'|trans({}, 'personne') }}</p>
 
     <table class="table table-bordered table-striped dataTable dt-responsive text-left" id="listeIntervenants" role="grid" width="100%">
         <thead>
         <tr>
-            <th>{{ 'fields.year'|trans({}, 'person') }}</th>
-            <th>{{ 'fields.firstname'|trans({}, 'person') }}</th>
-            <th>{{ 'fields.lastname'|trans({}, 'person') }}</th>
-            <th>{{ 'fields.id'|trans({}, 'person') }}</th>
-            <th>{{ 'fields.nationality'|trans({}, 'person') }}</th>
-            <th>{{ 'study.doc.CE'|trans({}, 'person') }}</th>
-            <th>{{ 'study.study'|trans({}, 'person') }}</th>
+            <th>{{ 'champs.promotion'|trans({}, 'personne') }}</th>
+            <th>{{ 'champs.prenom'|trans({}, 'personne') }}</th>
+            <th>{{ 'champs.nom'|trans({}, 'personne') }}</th>
+            <th>{{ 'champs.id'|trans({}, 'personne') }}</th>
+            <th>{{ 'champs.nationalite'|trans({}, 'personne') }}</th>
+            <th>{{ 'etude.doc.CE'|trans({}, 'personne') }}</th>
+            <th>{{ 'etude.etude'|trans({}, 'personne') }}</th>
         </tr>
         </thead>
         <tbody>
@@ -54,14 +55,14 @@
                 </td>
                 <td>
                     <span class="label label-{{ membre.nationalite == 'FR' ?  'success' : (  membre.nationalite == 'DZ'  ? 'danger' : 'warning' ) }}"
-                          title="{{ membre.nationalite == 'FR' ?  'Français' : (  membre.nationalite == 'DZ'  ? 'member.worker_forbidden'|trans({}, 'person') : 'member.worker_declare'|trans({}, 'person') ) }}">
+                          title="{{ membre.nationalite == 'FR' ?  'Français' : (  membre.nationalite == 'DZ'  ? 'membre.intervenant_interdit'|trans({}, 'personne') : 'membre.intervenant_declaration'|trans({}, 'personne') ) }}">
                         {{ membre.nationalite }}
                     </span>
                 </td>
                 <td>
                     <span class="label label-{{ membre.dateConventionEleve ? "success" : "warning" }}">
-                        {{ 'study.doc.CE'|trans({}, 'person') }}
-                        {{ membre.dateConventionEleve ? membre.dateConventionEleve | date('d/m/Y') : 'study.not_signed'|trans({}, 'person') }}
+                        {{ 'etude.doc.CE'|trans({}, 'personne') }}
+                        {{ membre.dateConventionEleve ? membre.dateConventionEleve | date('d/m/Y') : 'etude.non_signe'|trans({}, 'personne') }}
                     </span>
                 </td>
                 <td>
@@ -74,7 +75,7 @@
                 </td>
             </tr>
         {% else %}
-            <li>{{ 'member.empty_worker_list_description'|trans({}, 'person') }}</li>
+            <li>{{ 'membre.liste_intervenant_vide'|trans({}, 'personne') }}</li>
         {% endfor %}
         </tbody>
     </table>

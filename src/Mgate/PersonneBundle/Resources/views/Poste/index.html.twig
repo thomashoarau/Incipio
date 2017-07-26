@@ -17,7 +17,7 @@
 {% block content_bundle %}
     <div class="row">
         <div class="col-sm-6 col-xs-12">
-            <h2>{{ 'position.positions_list'|trans({}, 'person') }}</h2>
+            <h2>{{ 'poste.liste_postes'|trans({}, 'personne') }}</h2>
 
             <a href="{{ path('MgatePersonne_poste_ajouter') }}" class="btn btn-info">
                 {{ 'dashboard.poste_ajouter'|trans({}, 'dashboard') }}
@@ -26,7 +26,7 @@
             <table class="table table-striped">
                 <thead>
                 <tr>
-                    <th>{{ 'position.positions'|trans({}, 'person') }}</th>
+                    <th>{{ 'poste.postes'|trans({}, 'personne') }}</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -45,7 +45,7 @@
                     {% endif %}
                 {% else %}
                     <tr>
-                        <td>{{ 'position.empty_positions_list'|trans({}, 'person') }}</td>
+                        <td>{{ 'poste.liste_poste_vide'|trans({}, 'personne') }}</td>
                     </tr>
                 {% endfor %}
                 </tbody>

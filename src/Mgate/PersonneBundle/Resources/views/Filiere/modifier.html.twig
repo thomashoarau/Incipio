@@ -1,17 +1,17 @@
 {% extends "MgatePersonneBundle::layout.html.twig" %}
 
 {% block title %}
-    {{ 'pathway.edit_pathway'|trans({}, 'person') }} {{ parent() }}
+    {{ 'filiere.modifier_filiere'|trans({}, 'personne') }} {{ parent() }}
 {% endblock %}
 
 {% block content_title %}
-    {{ 'pathway.edit_pathway'|trans({}, 'person') }}
+    {{ 'filiere.modifier_filiere'|trans({}, 'personne') }}
 {% endblock %}
 
 {% block breadcrumb %}
     <ul class="breadcrumb no-margin pull-right">
         <li><a href="{{ path('MgatePersonne_poste_homepage') }}">{{ 'dashboard.postes_filieres'|trans({}, 'dashboard') }}</a></li>
-        <li class="active">{{ 'pathway.edit_pathway'|trans({}, 'person') }}</li>
+        <li class="active">{{ 'filiere.modifier_filiere'|trans({}, 'personne') }}</li>
     </ul>
 {% endblock %}
 
@@ -31,16 +31,16 @@
                 <td colspan="2">
                     <div class="row">
                         <div class="col-md-2 col-xs-4">
-                            <button type="submit" class="btn btn-success">{{ 'generic.save'|trans({}, 'person') }}</button>
+                            <button type="submit" class="btn btn-success">{{ 'generique.enregistrer'|trans({}, 'personne') }}</button>
                             {{ form_rest(form) }}
                             {{ form_end(form) }}
                         </div>
                         <div class="col-md-2 col-xs-4">
                             <form class="bootbox-confirm inline"
-                                  data-content="{{ 'pathway.pathway_delete_confirmation'|trans({}, 'person') }}"
+                                  data-content="{{ 'filiere.confirmation_supprimer_filiere'|trans({}, 'personne') }}"
                                   action="{{ path('MgatePersonne_filiere_supprimer', { 'id': form.vars.value.id }) }}" method="post">
                                 {{ form_widget(delete_form) }}
-                                <button class="btn btn-danger">{{ 'pathway.delete_pathway'|trans({}, 'person') }}</button>
+                                <button class="btn btn-danger">{{ 'filiere.supprimer_filiere'|trans({}, 'personne') }}</button>
                             </form>
                         </div>
                     </div>

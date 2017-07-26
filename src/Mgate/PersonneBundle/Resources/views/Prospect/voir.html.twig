@@ -1,7 +1,7 @@
 {% extends "MgatePersonneBundle::layout.html.twig" %}
 
 {% block title %}
-    {{ 'prospect.prospect_display'|trans({}, 'person') }} {{ parent() }}
+    {{ 'prospect.affichage_prospect'|trans({}, 'personne') }} {{ parent() }}
 {% endblock %}
 
 {% block stylesheets %}
@@ -12,21 +12,21 @@
 {% endblock %}
 
 {% block content_title %}
-    {{ 'prospect.prospect_display'|trans({}, 'person') }}
+    {{ 'prospect.affichage_prospect'|trans({}, 'personne') }}
 {% endblock %}
 
 {% block breadcrumb %}
     <ul class="breadcrumb no-margin pull-right">
-        <li><a href="{{ path('MgatePersonne_prospect_homepage') }}">{{ 'prospect.prospect_list'|trans({}, 'person') }}</a></li>
+        <li><a href="{{ path('MgatePersonne_prospect_homepage') }}">{{ 'prospect.liste_prospect'|trans({}, 'personne') }}</a></li>
         <li class="active">{{ prospect.nom }}</li>
     </ul>
 {% endblock %}
 
 {% block content_bundle %}
     <h2>{{ prospect.nom }}</h2>
-    <em><h4>{{ 'prospect.fields.type'|trans({}, 'person') }} : {{ prospect.EntiteToString }}</h4></em>
+    <em><h4>{{ 'prospect.champs.type'|trans({}, 'personne') }} : {{ prospect.EntiteToString }}</h4></em>
     <p>
-    <h4>{{ 'prospect.fields.address'|trans({}, 'person') }} : {{ prospect.adresse }}
+    <h4>{{ 'prospect.champs.adresse'|trans({}, 'personne') }} : {{ prospect.adresse }}
         <br>
         {{ prospect.codePostal }} {{ prospect.ville }}
     </h4>
@@ -34,10 +34,10 @@
 
     <div class="nav-tabs-custom">
         <ul class="nav nav-tabs">
-            <li class="active"><a href="#tab1" data-toggle="tab">{{ 'employee.employees'|trans({}, 'person') }}</a></li>
-            <li><a href="#tab2" data-toggle="tab">{{ 'study.studies'|trans({}, 'person') }}</a></li>
-            <li><a href="#tab3" data-toggle="tab">{{ 'prospect.mailing_list'|trans({}, 'person') }}</a></li>
-            <li><a href="#tab4" data-toggle="tab">{{ 'prospect.comments'|trans({}, 'person') }}</a></li>
+            <li class="active"><a href="#tab1" data-toggle="tab">{{ 'employe.employes'|trans({}, 'personne') }}</a></li>
+            <li><a href="#tab2" data-toggle="tab">{{ 'etude.etudes'|trans({}, 'personne') }}</a></li>
+            <li><a href="#tab3" data-toggle="tab">{{ 'prospect.liste_diffusion'|trans({}, 'personne') }}</a></li>
+            <li><a href="#tab4" data-toggle="tab">{{ 'prospect.commentaires'|trans({}, 'personne') }}</a></li>
         </ul>
         <div class="tab-content">
             <!-- Liste des employés -->

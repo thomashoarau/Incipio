@@ -1,17 +1,17 @@
 {% extends "MgatePersonneBundle::layout.html.twig" %}
 
 {% block title %}
-    {{ 'pathway.add_pathway'|trans({}, 'person') }} {{ parent() }}
+    {{ 'filiere.ajouter_filiere'|trans({}, 'personne') }} {{ parent() }}
 {% endblock %}
 
 {% block content_title %}
-    {{ 'pathway.add_pathway'|trans({}, 'person') }}
+    {{ 'filiere.ajouter_filiere'|trans({}, 'personne') }}
 {% endblock %}
 
 {% block breadcrumb %}
     <ul class="breadcrumb no-margin pull-right">
         <li><a href="{{ path('MgatePersonne_poste_homepage') }}">{{ 'dashboard.postes_filieres'|trans({}, 'dashboard') }}</a></li>
-        <li class="active">{{ 'pathway.add_pathway'|trans({}, 'person') }}</li>
+        <li class="active">{{ 'filiere.ajouter_filiere'|trans({}, 'personne') }}</li>
     </ul>
 {% endblock %}
 
@@ -31,7 +31,7 @@
                 <td colspan="2">
                     <div class="row">
                         <div class="col-md-2 col-xs-4">
-                            <button type="submit" class="btn btn-success">{{ 'generic.save'|trans({}, 'person') }}</button>
+                            <button type="submit" class="btn btn-success">{{ 'generique.enregistrer'|trans({}, 'personne') }}</button>
                             {{ form_rest(form) }}
                             {{ form_end(form) }}
                         </div>
