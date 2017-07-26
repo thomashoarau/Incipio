@@ -35,7 +35,6 @@ twig:
     globals:
         role_voir_confidentiel: "%role_voir_confidentiel%"
         authorizedStorageSize: "%junior_authorizedstoragesize%"
-        technical_to: "%technical_to%"
 # Assetic Configuration
 assetic:
     debug:          "%kernel.debug%"
