@@ -23,7 +23,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
-
 class EtudeController extends Controller
 {
     const STATE_ID_EN_NEGOCIATION = 1;
@@ -62,6 +61,7 @@ class EtudeController extends Controller
         }
 
         $anneeCreation = $this->get('app.json_key_value_store')->get('anneeCreation');
+
         return $this->render('MgateSuiviBundle:Etude:index.html.twig', array(
             'etudesEnNegociation' => $etudesEnNegociation,
             'etudesEnCours' => $etudesEnCours,
@@ -75,7 +75,9 @@ class EtudeController extends Controller
 
     /**
      * @Security("has_role('ROLE_SUIVEUR')")
+     *
      * @param Request $request
+     *
      * @return Response
      */
     public function getEtudesAsyncAction(Request $request)
@@ -95,9 +97,7 @@ class EtudeController extends Controller
                 return $this->render('MgateSuiviBundle:Etude:Tab/EtudesAvortees.html.twig', array('etudes' => $etudes));
             }
         } else {
-            return $this->render('MgateSuiviBundle:Etude:Tab/EtudesAvortees.html.twig', array(
-                'etudes' => null,
-            ));
+            return $this->render('MgateSuiviBundle:Etude:Tab/EtudesAvortees.html.twig', array('etudes' => null, ));
         }
     }
 
@@ -126,7 +126,7 @@ class EtudeController extends Controller
                 $em->flush();
             }
 
-            return $this->redirect($this->generateUrl('MgateSuivi_state'));
+            return $this->redirectToRoute('MgateSuivi_state');
         }
 
         return new Response('ok !');
@@ -134,7 +134,9 @@ class EtudeController extends Controller
 
     /**
      * @Security("has_role('ROLE_SUIVEUR')")
+     *
      * @param Request $request
+     *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
     public function addAction(Request $request)
@@ -164,7 +166,7 @@ class EtudeController extends Controller
                 $em->persist($etude);
                 $em->flush();
 
-                return $this->redirect($this->generateUrl('MgateSuivi_etude_voir', array('nom' => $etude->getNom())));
+                return $this->redirectToRoute('MgateSuivi_etude_voir', array('nom' => $etude->getNom()));
             } else {
                 //constitution du tableau d'erreurs
                 $errors = $this->get('validator')->validate($etude);
@@ -230,9 +232,9 @@ class EtudeController extends Controller
                 $em->flush();
 
                 if ($request->get('ap')) {
-                    return $this->redirect($this->generateUrl('MgateSuivi_ap_rediger', array('id' => $etude->getId())));
+                    return $this->redirectToRoute('MgateSuivi_ap_rediger', array('id' => $etude->getId()));
                 } else {
-                    return $this->redirect($this->generateUrl('MgateSuivi_etude_voir', array('nom' => $etude->getNom())));
+                    return $this->redirectToRoute('MgateSuivi_etude_voir', array('nom' => $etude->getNom()));
                 }
             } else {
                 $errors = $this->get('validator')->validate($etude);
@@ -253,7 +255,7 @@ class EtudeController extends Controller
     /**
      * @Security("has_role('ROLE_ADMIN')")
      *
-     * @param Etude $etude
+     * @param Etude   $etude
      * @param Request $request
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
@@ -276,7 +278,7 @@ class EtudeController extends Controller
             $request->getSession()->getFlashBag()->add('success', 'Etude supprimée');
         }
 
-        return $this->redirect($this->generateUrl('MgateSuivi_etude_homepage'));
+        return $this->redirectToRoute('MgateSuivi_etude_homepage');
     }
 
     private function createDeleteForm(Etude $etude)
@@ -329,12 +331,12 @@ class EtudeController extends Controller
         $id = 0;
         foreach (array_reverse($etudesParMandat) as $etudesInMandat) {
             foreach ($etudesInMandat as $etude) {
-                $form = $form->add((string)(2 * $id), HiddenType::class,
+                $form = $form->add((string) (2 * $id), HiddenType::class,
                     array('label' => 'refEtude',
-                        'data' => $etude->getReference($namingConvention))
+                        'data' => $etude->getReference($namingConvention), )
                 )
-                    ->add((string)(2 * $id + 1), 'textarea', array('label' => $etude->getReference($namingConvention),
-                        'required' => false, 'data' => $etude->getStateDescription()));
+                    ->add((string) (2 * $id + 1), 'textarea', array('label' => $etude->getReference($namingConvention),
+                        'required' => false, 'data' => $etude->getStateDescription(), ));
                 ++$id;
                 if ($etude->getStateID() == self::STATE_ID_EN_COURS) {
                     array_push($etudesEnCours, $etude);
@@ -451,8 +453,8 @@ class EtudeController extends Controller
         }
 
         //Etudes En Négociation : stateID = 1
-        $etudesDisplayList = $em->getRepository('MgateSuiviBundle:Etude')->getTwoStates([self::STATE_ID_EN_NEGOCIATION,
-            self::STATE_ID_EN_COURS], array('mandat' => 'ASC', 'num' => 'ASC'));
+        $etudesDisplayList = $em->getRepository('MgateSuiviBundle:Etude')->getTwoStates(array(self::STATE_ID_EN_NEGOCIATION,
+            self::STATE_ID_EN_COURS, ), array('mandat' => 'ASC', 'num' => 'ASC'));
 
         if (!in_array($etude, $etudesDisplayList)) {
             throw $this->createNotFoundException('Etude incorrecte');
@@ -469,8 +471,8 @@ class EtudeController extends Controller
         return $this->render('MgateSuiviBundle:Etude:vuCA.html.twig', array(
             'etude' => $etude,
             'chart' => $ob,
-            'nextID' => ($etudesDisplayList[$nextId] !== null ? $etudesDisplayList[$nextId]->getId():0),
-            'prevID' => ($etudesDisplayList[$previousId] !== null ?$etudesDisplayList[$previousId]->getId():0),
+            'nextID' => ($etudesDisplayList[$nextId] !== null ? $etudesDisplayList[$nextId]->getId() : 0),
+            'prevID' => ($etudesDisplayList[$previousId] !== null ?$etudesDisplayList[$previousId]->getId() : 0),
             'etudesDisplayList' => $etudesDisplayList,
         ));
     }

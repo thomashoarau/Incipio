@@ -21,9 +21,8 @@ use Mgate\PersonneBundle\Entity\Prospect;
 use Mgate\PubliBundle\Entity\RelatedDocument;
 use Mgate\TresoBundle\Entity\Facture;
 use N7consulting\RhBundle\Entity\Competence;
-use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Mgate\SuiviBundle\Entity\Etude.
@@ -303,7 +302,8 @@ class Etude
     /**
      * @ORM\PrePersist
      */
-    public function prePersist(){
+    public function prePersist()
+    {
         $this->dateCreation = new \DateTime('now');
         $this->dateModification = new \DateTime('now');
     }
@@ -311,7 +311,8 @@ class Etude
     /**
      * @ORM\PreUpdate
      */
-    public function preUpdate(){
+    public function preUpdate()
+    {
         $this->dateModification = new \DateTime('now');
     }
 
@@ -324,7 +325,7 @@ class Etude
             $em = $args->getEntityManager();
             $t = new Thread();
             $this->setThread($t);
-            $this->getThread()->setId('etude_'.$this->getId());
+            $this->getThread()->setId('etude_' . $this->getId());
             $this->getThread()->setPermalink('fake');
             $em->persist($t);
             $em->flush();
@@ -337,14 +338,15 @@ class Etude
 
     /**
      * @return string
+     *
      * @internal Should not be used in controllers, hardly in doctypes
      * Because of different naming conventions between, reference should not be used anymore. References should be
      * manually handed in your doctypes.
      */
     public function getReference($namingConvention = 'id')
     {
-        return $namingConvention == 'nom' ? $this->getNom():
-            ($namingConvention === 'numero' ? $this->getNumero(): $this->getId());
+        return $namingConvention == 'nom' ? $this->getNom() :
+            ($namingConvention === 'numero' ? $this->getNumero() : $this->getId());
     }
 
     public function getFa()
@@ -438,7 +440,7 @@ class Etude
         foreach ($phases as $p) {
             if ($p->getDateDebut() !== null && $p->getDelai() !== null) {
                 $dateDebut = clone $p->getDateDebut(); //WARN $a = $b : $a pointe vers le même objet que $b...
-                array_push($dateFin, $dateDebut->modify('+'.$p->getDelai().' day'));
+                array_push($dateFin, $dateDebut->modify('+' . $p->getDelai() . ' day'));
                 unset($dateDebut);
             }
         }
@@ -446,7 +448,7 @@ class Etude
         if (count($dateFin) > 0) {
             $dateFin = max($dateFin);
             if ($avecAvenant && $this->avs && $this->avs->last()) {
-                $dateFin->modify('+'.$this->avs->last()->getDifferentielDelai().' day');
+                $dateFin->modify('+' . $this->avs->last()->getDifferentielDelai() . ' day');
             }
 
             return $dateFin;
@@ -979,7 +981,6 @@ class Etude
     {
         $this->suiveurQualite = $suiveurQualite;
     }
-
 
     /**
      * Add clientContacts.
