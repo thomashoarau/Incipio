@@ -25,12 +25,10 @@
 {% block content_bundle %}
     <h2>{{ prospect.nom }}</h2>
     <em><h4>{{ 'prospect.champs.type'|trans({}, 'personne') }} : {{ prospect.EntiteToString }}</h4></em>
-    <p>
     <h4>{{ 'prospect.champs.adresse'|trans({}, 'personne') }} : {{ prospect.adresse }}
         <br>
         {{ prospect.codePostal }} {{ prospect.ville }}
     </h4>
-    </p>
 
     <div class="nav-tabs-custom">
         <ul class="nav nav-tabs">

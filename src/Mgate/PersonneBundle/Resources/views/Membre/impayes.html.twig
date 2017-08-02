@@ -56,8 +56,6 @@
                     {{ membre.personne ? membre.personne.codepostal }} {{ membre.personne ? membre.personne.ville }}
                 </td>
             </tr>
-        {% else %}
-            <li>{{ 'membre.liste_impaye_vide'|trans({}, 'personne') }}</li>
         {% endfor %}
         </tbody>
     </table>

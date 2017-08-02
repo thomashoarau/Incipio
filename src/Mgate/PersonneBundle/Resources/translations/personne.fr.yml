@@ -9,13 +9,10 @@ membre:
     creer_compte: Ouvrir un compte utilisateur
     mail_invalide_creation_compte: Vous devez définir un email valide pour créer un compte utilisateur à ce membre.
     liste_membre: Liste des membres
-    liste_membre_vide: Pas encore de membres
     liste_intervenant: Liste des intervenants
     description_liste_intervenant: Membres ayant déjà réalisé une mission.
-    liste_intervenant_vide: Pas encore d'intervenants
     liste_impaye: Liste des impayés
     description_liste_impaye: Membres n'ayant pas payé leur cotisation à l'inscription ou dont le moyen de paiement n'est pas renseigné.
-    liste_impaye_vide: Pas d'impayés
     affichage_membre: Affichage d'un membre
     ajout_modification_membre: Ajout-Modification d'un membre
     confirmation_supprimer_membre: Êtes-vous sûr de vouloir supprimer définitivement ce membre ?
