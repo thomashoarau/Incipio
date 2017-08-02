@@ -97,7 +97,7 @@ class EtudeController extends Controller
                 return $this->render('MgateSuiviBundle:Etude:Tab/EtudesAvortees.html.twig', array('etudes' => $etudes));
             }
         } else {
-            return $this->render('MgateSuiviBundle:Etude:Tab/EtudesAvortees.html.twig', array('etudes' => null, ));
+            return $this->render('MgateSuiviBundle:Etude:Tab/EtudesAvortees.html.twig', array('etudes' => null));
         }
     }
 
@@ -154,7 +154,6 @@ class EtudeController extends Controller
         $form = $this->createForm(EtudeType::class, $etude);
         $em = $this->getDoctrine()->getManager();
 
-        $error_messages = array();
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
 
@@ -171,14 +170,13 @@ class EtudeController extends Controller
                 //constitution du tableau d'erreurs
                 $errors = $this->get('validator')->validate($etude);
                 foreach ($errors as $error) {
-                    array_push($error_messages, $error->getPropertyPath() . ' : ' . $error->getMessage());
+                    $this->addFlash('danger', $error->getPropertyPath() . ' : ' . $error->getMessage());
                 }
             }
         }
 
         return $this->render('MgateSuiviBundle:Etude:ajouter.html.twig', array(
             'form' => $form->createView(),
-            'errors' => $error_messages,
         ));
     }
 
@@ -222,7 +220,6 @@ class EtudeController extends Controller
 
         $form = $this->createForm(EtudeType::class, $etude);
 
-        $error_messages = array();
         $deleteForm = $this->createDeleteForm($etude);
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
@@ -239,14 +236,13 @@ class EtudeController extends Controller
             } else {
                 $errors = $this->get('validator')->validate($etude);
                 foreach ($errors as $error) {
-                    array_push($error_messages, $error->getPropertyPath() . ' : ' . $error->getMessage());
+                    $this->addFlash('danger', $error->getPropertyPath() . ' : ' . $error->getMessage());
                 }
             }
         }
 
         return $this->render('MgateSuiviBundle:Etude:modifier.html.twig', array(
             'form' => $form->createView(),
-            'errors' => $error_messages,
             'etude' => $etude,
             'delete_form' => $deleteForm->createView(),
         ));
@@ -472,7 +468,7 @@ class EtudeController extends Controller
             'etude' => $etude,
             'chart' => $ob,
             'nextID' => ($etudesDisplayList[$nextId] !== null ? $etudesDisplayList[$nextId]->getId() : 0),
-            'prevID' => ($etudesDisplayList[$previousId] !== null ?$etudesDisplayList[$previousId]->getId() : 0),
+            'prevID' => ($etudesDisplayList[$previousId] !== null ? $etudesDisplayList[$previousId]->getId() : 0),
             'etudesDisplayList' => $etudesDisplayList,
         ));
     }
