@@ -39,24 +39,24 @@ class UserAdminType extends AbstractType
         $subscriber = new AddMembreFieldSubscriber();
         $builder->addEventSubscriber($subscriber);
 
-        $builder->add('enabled', CheckboxType::class, array(
+        $builder->add('enabled', CheckboxType::class, [
             'label' => 'Adresse email validé ?',
             'required' => false,
-        ));
-        $builder->add('roles', ChoiceType::class, array(
+        ]);
+        $builder->add('roles', ChoiceType::class, [
             'choices' => $this->refactorRoles($this->roles),
             'required' => false, 'label' => 'Roles', 'multiple' => true,
-        ));
+        ]);
 
         //from ProfileFormType
         $this->buildUserForm($builder, $options);
 
-        $builder->add('current_password', PasswordType::class, array(
+        $builder->add('current_password', PasswordType::class, [
             'label' => 'form.current_password',
             'translation_domain' => 'FOSUserBundle',
             'mapped' => false,
             'constraints' => new UserPassword(),
-        ));
+        ]);
         // end from
     }
 
@@ -69,8 +69,8 @@ class UserAdminType extends AbstractType
     protected function buildUserForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('username', null, array('label' => 'form.username', 'translation_domain' => 'FOSUserBundle'))
-            ->add('email', EmailType::class, array('label' => 'form.email', 'translation_domain' => 'FOSUserBundle'));
+            ->add('username', null, ['label' => 'form.username', 'translation_domain' => 'FOSUserBundle'])
+            ->add('email', EmailType::class, ['label' => 'form.email', 'translation_domain' => 'FOSUserBundle']);
     }
 
     /**
@@ -78,12 +78,12 @@ class UserAdminType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => $this->class,
             'csrf_token_id' => 'profile',
             // BC for SF < 2.8
             'intention' => 'profile',
-        ));
+        ]);
         $resolver->setRequired(['user_class', 'roles']);
     }
 
@@ -94,7 +94,7 @@ class UserAdminType extends AbstractType
 
     private function refactorRoles($originRoles)
     {
-        $roles = array();
+        $roles = [];
 
         $rolesParent = array_keys($originRoles);
         foreach ($rolesParent as $roleParent) {

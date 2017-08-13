@@ -115,7 +115,7 @@ class Mission extends DocType
      */
     private $remunere;
 
-//Ajout fonction rapide
+    // Ajout fonction rapide
     public function getReference()
     {
         return $this->etude->getReference() . '/' . (!empty($this->getDebutOm()) ? $this->getDebutOm()->format('Y') : 'XX') .
@@ -141,20 +141,20 @@ class Mission extends DocType
      */
     public function getRemuneration()
     {
-        $nbrJEHRemuneration = (int)0;
-        $prixRemuneration = (float)0;
+        $nbrJEHRemuneration = (int) 0;
+        $prixRemuneration = (float) 0;
         foreach ($this->getRepartitionsJEH() as $repartitionJEH) {
             $nbrJEHRemuneration += $repartitionJEH->getNbrJEH();
             $prixRemuneration += $repartitionJEH->getNbrJEH() * $repartitionJEH->getPrixJEH();
         }
         $prixRemuneration *= 1 - $this->getPourcentageJunior();
 
-        return array('jehRemuneration' => $nbrJEHRemuneration, 'montantRemuneration' => $prixRemuneration);
+        return ['jehRemuneration' => $nbrJEHRemuneration, 'montantRemuneration' => $prixRemuneration];
     }
 
     public function getRemunerationBrute()
     {
-        $prixRemuneration = (float)0;
+        $prixRemuneration = (float) 0;
         foreach ($this->getRepartitionsJEH() as $repartitionJEH) {
             $prixRemuneration += $repartitionJEH->getNbrJEH() * $repartitionJEH->getPrixJEH();
         }
@@ -173,7 +173,7 @@ class Mission extends DocType
         return $nbr;
     }
 
-//Block astuce pour ajout direct d'intervenant dans formulaire
+    // Block astuce pour ajout direct d'intervenant dans formulaire
     public function getMission()
     {
         return $this;
@@ -202,7 +202,7 @@ class Mission extends DocType
         $this->newIntervenant = $var;
     }
 
-// Fin du block
+    // Fin du block
 
     /**
      * Get id.

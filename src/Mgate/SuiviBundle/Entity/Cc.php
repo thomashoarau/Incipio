@@ -36,12 +36,12 @@ class Cc extends DocType
      */
     protected $etude;
 
-   /*
-    * ADDITIONAL
-    */
+    /*
+     * ADDITIONAL
+     */
     public function getReference()
     {
-        return $this->etude->getReference().'/'.$this->getDateSignature()->format('Y').'/CC/'.$this->getVersion();
+        return $this->etude->getReference() . '/' . $this->getDateSignature()->format('Y') . '/CC/' . $this->getVersion();
     }
 
     /**
@@ -80,6 +80,6 @@ class Cc extends DocType
 
     public function __toString()
     {
-        return $this->etude->getReference().'/CC/';
+        return $this->etude->getReference() . '/CC/';
     }
 }

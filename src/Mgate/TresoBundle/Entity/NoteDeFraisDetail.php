@@ -89,8 +89,8 @@ class NoteDeFraisDetail
     // Perso
     public static function getTypeChoices()
     {
-        return array(1 => 'Classique',
-            2 => 'Kilométrique', );
+        return [1 => 'Classique',
+            2 => 'Kilométrique', ];
     }
 
     public function getMontantHT()

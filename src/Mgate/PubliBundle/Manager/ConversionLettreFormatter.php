@@ -65,13 +65,13 @@ class ConversionLettreFormatter
             case 1:
                 $strDev = ' euro';
                 if ($byDec > 0) {
-                    $strCentimes = $strCentimes.' centime'.($byDec > 1 ? 's' : '');
+                    $strCentimes = $strCentimes . ' centime' . ($byDec > 1 ? 's' : '');
                 }
                 break;
             case 2:
                 $strDev = ' dollar';
                 if ($byDec > 0) {
-                    $strCentimes = $strCentimes.' cent';
+                    $strCentimes = $strCentimes . ' cent';
                 }
                 break;
         }
@@ -81,13 +81,13 @@ class ConversionLettreFormatter
         if (($byDec > 0) && ($Devise != 0)) {
             $strDev .= ' et';
         }
-        $NumberLetter = $this->convNumEnt(floatval($dblEnt), $Langue).$strDev;
+        $NumberLetter = $this->convNumEnt(floatval($dblEnt), $Langue) . $strDev;
         if (($byDec > 0) && ($Devise != 0)) {
-            $NumberLetter .= ' '.$this->convNumDizaine($byDec, $Langue).$strCentimes;
+            $NumberLetter .= ' ' . $this->convNumDizaine($byDec, $Langue) . $strCentimes;
         }
 
         if ($bNegatif) {
-            $NumberLetter = 'moins '.$NumberLetter;
+            $NumberLetter = 'moins ' . $NumberLetter;
         }
 
         return $NumberLetter;
@@ -107,9 +107,9 @@ class ConversionLettreFormatter
                 $StrTmp = 'mille ';
                 break;
             default:
-                $StrTmp = $StrTmp.' mille ';
+                $StrTmp = $StrTmp . ' mille ';
         }
-        $NumEnt = $StrTmp.$NumEnt;
+        $NumEnt = $StrTmp . $NumEnt;
         $dblReste = intval($dblReste / 1000);
         $iTmp = $dblReste - (intval($dblReste / 1000) * 1000);
         $StrTmp = $this->convNumCent(intval($iTmp), $Langue);
@@ -117,12 +117,12 @@ class ConversionLettreFormatter
             case 0:
                 break;
             case 1:
-                $StrTmp = $StrTmp.' million ';
+                $StrTmp = $StrTmp . ' million ';
                 break;
             default:
-                $StrTmp = $StrTmp.' millions ';
+                $StrTmp = $StrTmp . ' millions ';
         }
-        $NumEnt = $StrTmp.$NumEnt;
+        $NumEnt = $StrTmp . $NumEnt;
         $dblReste = intval($dblReste / 1000);
         $iTmp = $dblReste - (intval($dblReste / 1000) * 1000);
         $StrTmp = $this->convNumCent(intval($iTmp), $Langue);
@@ -130,12 +130,12 @@ class ConversionLettreFormatter
             case 0:
                 break;
             case 1:
-                $StrTmp = $StrTmp.' milliard ';
+                $StrTmp = $StrTmp . ' milliard ';
                 break;
             default:
-                $StrTmp = $StrTmp.' milliards ';
+                $StrTmp = $StrTmp . ' milliards ';
         }
-        $NumEnt = $StrTmp.$NumEnt;
+        $NumEnt = $StrTmp . $NumEnt;
         $dblReste = intval($dblReste / 1000);
         $iTmp = $dblReste - (intval($dblReste / 1000) * 1000);
         $StrTmp = $this->convNumCent(intval($iTmp), $Langue);
@@ -143,23 +143,23 @@ class ConversionLettreFormatter
             case 0:
                 break;
             case 1:
-                $StrTmp = $StrTmp.' billion ';
+                $StrTmp = $StrTmp . ' billion ';
                 break;
             default:
-                $StrTmp = $StrTmp.' billions ';
+                $StrTmp = $StrTmp . ' billions ';
         }
-        $NumEnt = $StrTmp.$NumEnt;
+        $NumEnt = $StrTmp . $NumEnt;
 
         return $NumEnt;
     }
 
     private function convNumDizaine($Nombre, $Langue)
     {
-        $TabUnit = array('', 'un', 'deux', 'trois', 'quatre', 'cinq', 'six', 'sept',
+        $TabUnit = ['', 'un', 'deux', 'trois', 'quatre', 'cinq', 'six', 'sept',
             'huit', 'neuf', 'dix', 'onze', 'douze', 'treize', 'quatorze', 'quinze',
-            'seize', 'dix-sept', 'dix-huit', 'dix-neuf', );
-        $TabDiz = array('', '', 'vingt', 'trente', 'quarante', 'cinquante',
-            'soixante', 'soixante', 'quatre-vingt', 'quatre-vingt', );
+            'seize', 'dix-sept', 'dix-huit', 'dix-neuf', ];
+        $TabDiz = ['', '', 'vingt', 'trente', 'quarante', 'cinquante',
+            'soixante', 'soixante', 'quatre-vingt', 'quatre-vingt', ];
         if ($Langue == 1) {
             $TabDiz[7] = 'septante';
             $TabDiz[9] = 'nonante';
@@ -201,10 +201,10 @@ class ConversionLettreFormatter
         }
         $NumDizaine = $TabDiz[$byDiz];
         if ($byDiz == 8 && $Langue != 2 && $byUnit == 0) {
-            $NumDizaine = $NumDizaine.'s';
+            $NumDizaine = $NumDizaine . 's';
         }
         if ($TabUnit[$byUnit] != '') {
-            $NumDizaine = $NumDizaine.$strLiaison.$TabUnit[$byUnit];
+            $NumDizaine = $NumDizaine . $strLiaison . $TabUnit[$byUnit];
         } else {
             $NumDizaine = $NumDizaine;
         }
@@ -214,7 +214,7 @@ class ConversionLettreFormatter
 
     private function convNumCent($Nombre, $Langue)
     {
-        $TabUnit = array('', 'un', 'deux', 'trois', 'quatre', 'cinq', 'six', 'sept', 'huit', 'neuf', 'dix');
+        $TabUnit = ['', 'un', 'deux', 'trois', 'quatre', 'cinq', 'six', 'sept', 'huit', 'neuf', 'dix'];
 
         $byCent = intval($Nombre / 100);
         $byReste = $Nombre - ($byCent * 100);
@@ -227,14 +227,14 @@ class ConversionLettreFormatter
                 if ($byReste == 0) {
                     $NumCent = 'cent';
                 } else {
-                    $NumCent = 'cent '.$strReste;
+                    $NumCent = 'cent ' . $strReste;
                 }
                 break;
             default:
                 if ($byReste == 0) {
-                    $NumCent = $TabUnit[$byCent].' cents';
+                    $NumCent = $TabUnit[$byCent] . ' cents';
                 } else {
-                    $NumCent = $TabUnit[$byCent].' cent '.$strReste;
+                    $NumCent = $TabUnit[$byCent] . ' cent ' . $strReste;
                 }
         }
 

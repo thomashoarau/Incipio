@@ -68,7 +68,7 @@ class AvMission extends DocType
 
     public function __toString()
     {
-        return 'AvMission '.$this->id;
+        return 'AvMission ' . $this->id;
     }
 
     /**
@@ -80,6 +80,7 @@ class AvMission extends DocType
     {
         return $this->id;
     }
+
     /**
      * Constructor.
      */

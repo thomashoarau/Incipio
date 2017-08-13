@@ -31,9 +31,9 @@ class ThreadType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'Mgate\CommentBundle\Entity\Thread',
-        ));
+        ]);
     }
 
     public function getBlockPrefix()

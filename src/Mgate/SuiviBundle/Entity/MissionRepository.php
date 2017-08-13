@@ -5,6 +5,7 @@
  * Date: 29/08/2016
  * Time: 14:18.
  */
+
 namespace Mgate\SuiviBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
@@ -36,7 +37,7 @@ class MissionRepository extends EntityRepository
             ->addSelect('phases')
             ->where('m.debutOm <= :date')
             ->orderBy('m.finOm', 'DESC')
-            ->setParameters(array('date' => $date));
+            ->setParameters(['date' => $date]);
 
         return $qb->getQuery()->getResult();
     }

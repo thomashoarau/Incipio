@@ -30,48 +30,48 @@ class EtudeType extends AbstractType
     {
         $builder
 
-            ->add('knownProspect', CheckboxType::class, array(
+            ->add('knownProspect', CheckboxType::class, [
                 'required' => false,
                 'label' => 'Le signataire client existe-t-il déjà dans la base de donnée ?',
-                ))
-             ->add('prospect', Select2EntityType::class, array(
+                ])
+             ->add('prospect', Select2EntityType::class, [
                 'class' => 'Mgate\PersonneBundle\Entity\Prospect',
                 'choice_label' => 'nom',
                 'required' => false,
                 'label' => 'Prospect existant',
-                ))
-            ->add('newProspect', ProspectType::class, array('label' => 'Nouveau prospect:', 'required' => false))
-            ->add('nom', TextType::class, array('label' => 'Nom interne de l\'étude'))
-            ->add('description', TextareaType::class, array('label' => 'Présentation interne de l\'étude', 'required' => false, 'attr' => array('cols' => '100%', 'rows' => 5)))
+                ])
+            ->add('newProspect', ProspectType::class, ['label' => 'Nouveau prospect:', 'required' => false])
+            ->add('nom', TextType::class, ['label' => 'Nom interne de l\'étude'])
+            ->add('description', TextareaType::class, ['label' => 'Présentation interne de l\'étude', 'required' => false, 'attr' => ['cols' => '100%', 'rows' => 5]])
             ->add('mandat', IntegerType::class)
-            ->add('num', IntegerType::class, array('label' => 'Numéro de l\'étude', 'required' => false))
-            ->add('confidentiel', CheckboxType::class, array('label' => 'Confidentialité :', 'required' => false, 'attr' => array('title' => "Si l'étude est confidentielle, elle ne sera visible que par vous et les membres du CA.")))
+            ->add('num', IntegerType::class, ['label' => 'Numéro de l\'étude', 'required' => false])
+            ->add('confidentiel', CheckboxType::class, ['label' => 'Confidentialité :', 'required' => false, 'attr' => ['title' => "Si l'étude est confidentielle, elle ne sera visible que par vous et les membres du CA."]])
             ->add('suiveur', Select2EntityType::class,
-                array('label' => 'Suiveur de projet',
+                ['label' => 'Suiveur de projet',
                        'class' => 'Mgate\\PersonneBundle\\Entity\\Personne',
                        'choice_label' => 'prenomNom',
                        'query_builder' => function (PersonneRepository $pr) {
                            return $pr->getMembreOnly();
                        },
-                       'required' => false, ))
+                       'required' => false, ])
             ->add('suiveurQualite', Select2EntityType::class,
-                array('label' => 'Suiveur qualité',
+                ['label' => 'Suiveur qualité',
                        'class' => 'Mgate\\PersonneBundle\\Entity\\Personne',
                        'choice_label' => 'prenomNom',
                        'query_builder' => function (PersonneRepository $pr) {
                            return $pr->getMembreOnly();
                        },
-                       'required' => false, ))
-            ->add('domaineCompetence', Select2EntityType::class, array(
+                       'required' => false, ])
+            ->add('domaineCompetence', Select2EntityType::class, [
                 'class' => 'Mgate\SuiviBundle\Entity\DomaineCompetence',
                 'choice_label' => 'nom',
                 'required' => false,
                 'label' => 'Domaine de compétence',
-                ))
-            ->add('sourceDeProspection', ChoiceType::class, array(
+                ])
+            ->add('sourceDeProspection', ChoiceType::class, [
                 'choices' => array_flip(Etude::getSourceDeProspectionChoice()),
                 'required' => false,
-            ));
+            ]);
     }
 
     public function getBlockPrefix()
@@ -81,8 +81,8 @@ class EtudeType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'Mgate\SuiviBundle\Entity\Etude',
-        ));
+        ]);
     }
 }

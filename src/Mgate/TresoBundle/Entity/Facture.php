@@ -122,7 +122,7 @@ class Facture
 
     public function getReference()
     {
-        return $this->exercice.'-'.($this->type > 1 ? 'FV' : 'FA').'-'.sprintf('%1$02d', $this->numero);
+        return $this->exercice . '-' . ($this->type > 1 ? 'FV' : 'FA') . '-' . sprintf('%1$02d', $this->numero);
     }
 
     public function getMontantHT()
@@ -158,13 +158,13 @@ class Facture
 
     public function getTypeAbbrToString()
     {
-        $type = array(
+        $type = [
             0 => 'Facture',
             1 => 'Facture',
             2 => 'FV',
             3 => TraitementController::DOCTYPE_FACTURE_ACOMTE,
             4 => TraitementController::DOCTYPE_FACTURE_INTERMEDIAIRE,
-            5 => TraitementController::DOCTYPE_FACTURE_SOLDE, );
+            5 => TraitementController::DOCTYPE_FACTURE_SOLDE, ];
 
         return $type[$this->type];
     }
@@ -183,13 +183,13 @@ class Facture
 
     public static function getTypeChoices()
     {
-        return array(
+        return [
             self::TYPE_ACHAT => 'FA - Facture d\'achat',
             self::TYPE_VENTE => 'FV - Facture de vente',
             self::TYPE_VENTE_ACCOMPTE => 'FV - Facture d\'acompte',
             self::TYPE_VENTE_INTERMEDIAIRE => 'FV - Facture intermédiaire',
             self::TYPE_VENTE_SOLDE => 'FV - Facture de solde',
-            );
+            ];
     }
 
     /**
@@ -469,6 +469,6 @@ class Facture
 
     public function __toString()
     {
-        return $this->getNumero().' '.$this->getObjet();
+        return $this->getNumero() . ' ' . $this->getObjet();
     }
 }

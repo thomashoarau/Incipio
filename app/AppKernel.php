@@ -16,7 +16,7 @@ class AppKernel extends Kernel
 {
     public function registerBundles()
     {
-        $bundles = array(
+        $bundles = [
             /****************************************
              *                Symfony                *
              *****************************************/
@@ -42,7 +42,6 @@ class AppKernel extends Kernel
             new FOS\CommentBundle\FOSCommentBundle(),
             new FOS\RestBundle\FOSRestBundle(),
 
-
             new Ob\HighchartsBundle\ObHighchartsBundle(),
             new Genemu\Bundle\FormBundle\GenemuFormBundle(),
             new JMS\SerializerBundle\JMSSerializerBundle($this),
@@ -62,9 +61,9 @@ class AppKernel extends Kernel
             new JavierEguiluz\Bundle\EasyAdminBundle\EasyAdminBundle(),
             new N7consulting\RhBundle\N7consultingRhBundle(),
             new N7consulting\DevcoBundle\N7consultingDevcoBundle(),
-        );
+        ];
 
-        if (in_array($this->getEnvironment(), array('dev', 'test'))) {
+        if (in_array($this->getEnvironment(), ['dev', 'test'])) {
             $bundles[] = new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle();
             $bundles[] = new Sensio\Bundle\DistributionBundle\SensioDistributionBundle();
             $bundles[] = new Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle();

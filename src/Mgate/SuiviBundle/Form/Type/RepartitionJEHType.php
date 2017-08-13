@@ -20,8 +20,8 @@ class RepartitionJEHType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('nbrJEH', IntegerType::class, array('required' => true))
-                ->add('prixJEH', IntegerType::class, array('required' => true, 'attr' => array('min' => 80)));
+        $builder->add('nbrJEH', IntegerType::class, ['required' => true])
+                ->add('prixJEH', IntegerType::class, ['required' => true, 'attr' => ['min' => 80]]);
     }
 
     public function getBlockPrefix()
@@ -31,11 +31,11 @@ class RepartitionJEHType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'Mgate\SuiviBundle\Entity\RepartitionJEH',
             'type' => '',
             'prospect' => '',
             'phases' => '',
-        ));
+        ]);
     }
 }

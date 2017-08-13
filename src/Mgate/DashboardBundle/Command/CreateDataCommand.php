@@ -20,8 +20,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class CreateDataCommand extends ContainerAwareCommand
 {
-    const NOM = array('Henry', 'Martinez', 'Durand', 'Duval', 'Leroux', 'Robert', 'Morel', 'Bourgeois', 'Dupont', 'Dumont', 'Bernard', 'Francois', 'Dupond', 'Dubois', 'Blanc', 'Paul', 'Petit');
-    const PRENOM = array('Alexandre', 'Paul', 'Thomas', 'Raphaël', 'Camille', 'Inès', 'Emma', 'Gabriel', 'Antoine', 'Louis', 'Victor', 'Maxime', 'Hugo', 'Louise', 'Marie', 'Sarah', 'Arthur', 'Clara', 'Lea', 'Alice', 'Lucas', 'Jules', 'Chloe', 'Elsa', 'Manon');
+    const NOM = ['Henry', 'Martinez', 'Durand', 'Duval', 'Leroux', 'Robert', 'Morel', 'Bourgeois', 'Dupont', 'Dumont', 'Bernard', 'Francois', 'Dupond', 'Dubois', 'Blanc', 'Paul', 'Petit'];
+    const PRENOM = ['Alexandre', 'Paul', 'Thomas', 'Raphaël', 'Camille', 'Inès', 'Emma', 'Gabriel', 'Antoine', 'Louis', 'Victor', 'Maxime', 'Hugo', 'Louise', 'Marie', 'Sarah', 'Arthur', 'Clara', 'Lea', 'Alice', 'Lucas', 'Jules', 'Chloe', 'Elsa', 'Manon'];
 
     /**
      * {@inheritdoc}
@@ -41,133 +41,133 @@ class CreateDataCommand extends ContainerAwareCommand
     {
         $em = $this->getContainer()->get('doctrine.orm.entity_manager');
 
-        $array_projects = array(
-            array(
+        $array_projects = [
+            [
                 'nom' => '315GLA',
                 'description' => 'Realisation site web',
                 'statut' => 1,
                 'nbrJEH' => 9,
                 'duree' => 5,
                 'dateCC' => 'ok',
-                'prospect' => array('entreprise' => 'Gladiator Consulting',
+                'prospect' => ['entreprise' => 'Gladiator Consulting',
                     'adresse' => '3 rue du chene noir',
                     'codePostal' => 33100,
                     'ville' => 'Toulouse',
                     'entite' => 2,
                     'email' => 'contact@glad.fr',
-                ),
-            ),
-            array(
+                ],
+            ],
+            [
                 'nom' => '316BLA',
                 'description' => 'Electronique avancee',
                 'statut' => 2,
                 'nbrJEH' => 5,
                 'duree' => 3,
                 'dateCC' => 'ok',
-                'prospect' => array('entreprise' => 'Blackwater',
+                'prospect' => ['entreprise' => 'Blackwater',
                     'adresse' => '1020 5th Avenue',
                     'codePostal' => 92200,
                     'ville' => 'Neuilly',
                     'entite' => 3,
                     'email' => 'hello@black.ninja',
-                ),
-            ),
-            array(
+                ],
+            ],
+            [
                 'nom' => '317IMU',
                 'description' => 'Design Base de donnes',
                 'statut' => 4,
                 'nbrJEH' => 8,
                 'duree' => 4,
                 'dateCC' => 'ok',
-                'prospect' => array('entreprise' => 'Imuka',
+                'prospect' => ['entreprise' => 'Imuka',
                     'adresse' => 'Kuruma San',
                     'codePostal' => 91000,
                     'ville' => 'Evry',
                     'entite' => 4,
                     'email' => 'contact@imuka.jp',
-                ),
-            ),
-            array(
+                ],
+            ],
+            [
                 'nom' => '319UNI',
                 'description' => 'Conception Radar recul',
                 'statut' => 4,
                 'nbrJEH' => 12,
                 'duree' => 8,
                 'dateCC' => 'ok',
-                'prospect' => array('entreprise' => 'Universal rad',
+                'prospect' => ['entreprise' => 'Universal rad',
                     'adresse' => '2 rue Marie Curie',
                     'codePostal' => 35000,
                     'ville' => 'Rennes',
                     'entite' => 5,
                     'email' => 'contact@univ.radar',
-                ),
-            ),
-            array(
+                ],
+            ],
+            [
                 'nom' => '320TEK',
                 'description' => 'Refactorisation code Java',
                 'statut' => 2,
                 'nbrJEH' => 10,
                 'duree' => 8,
                 'dateCC' => 'ok',
-                'prospect' => array('entreprise' => 'Teknik studio',
+                'prospect' => ['entreprise' => 'Teknik studio',
                     'adresse' => '10 impasse sunderland',
                     'codePostal' => 35000,
                     'ville' => 'Rennes',
                     'entite' => 6,
                     'email' => 'contact@teknik.paris',
-                ),
-            ),
-            array(
+                ],
+            ],
+            [
                 'nom' => '321DUV',
                 'description' => 'Calcul de flux thermique',
                 'statut' => 2,
                 'nbrJEH' => 9,
                 'duree' => 4,
                 'dateCC' => 'ok',
-                'prospect' => array('entreprise' => 'Duvilcolor',
+                'prospect' => ['entreprise' => 'Duvilcolor',
                     'adresse' => '600 la pyrennene ',
                     'codePostal' => 33100,
                     'ville' => 'Labege',
                     'entite' => 4,
                     'email' => 'contact@duvilcol.or',
-                ),
-            ),
-            array(
+                ],
+            ],
+            [
                 'nom' => '322NIL',
                 'description' => 'Application Android',
                 'statut' => 1,
                 'nbrJEH' => 8,
                 'duree' => 12,
                 'dateCC' => 'ok',
-                'prospect' => array('entreprise' => 'Nilsen Industries',
+                'prospect' => ['entreprise' => 'Nilsen Industries',
                     'adresse' => '2 rue saint-louis',
                     'codePostal' => 31000,
                     'ville' => 'Bordeaux',
                     'entite' => 7,
                     'email' => 'contact@nislen.com',
-                ),
-            ),
-            array(
+                ],
+            ],
+            [
                 'nom' => '323PRR',
                 'description' => 'Etude de faisabilite',
                 'statut' => 3,
                 'nbrJEH' => 4,
                 'duree' => 4,
                 'dateCC' => 'ok',
-                'prospect' => array('entreprise' => 'PRR',
+                'prospect' => ['entreprise' => 'PRR',
                     'adresse' => 'PRR',
                     'codePostal' => 35000,
                     'ville' => 'Rennes',
                     'entite' => 4,
                     'email' => 'contact@prr.cn',
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
 
         /* Filiere management */
-        $filieres = array('Info', 'Hydro', 'Electronique', 'Telecoms', 'Automatique');
+        $filieres = ['Info', 'Hydro', 'Electronique', 'Telecoms', 'Automatique'];
 
-        foreach ($filieres as $ff){
+        foreach ($filieres as $ff) {
             $nf = new Filiere();
             $nf->setDescription('Demo filiere');
             $nf->setNom($ff);
@@ -178,7 +178,6 @@ class CreateDataCommand extends ContainerAwareCommand
         $inserted_prospects = 0;
 
         foreach ($array_projects as $etude) {
-
             //create project
             $e = new Etude();
             ++$inserted_projects;
@@ -188,12 +187,12 @@ class CreateDataCommand extends ContainerAwareCommand
             $e->setMandat($mandat);
             $e->setNom($etude['nom']);
             $e->setDescription($etude['description']);
-            $e->setDateCreation(new \DateTime($mandat.'-'.$month.'-'.$day));
+            $e->setDateCreation(new \DateTime($mandat . '-' . $month . '-' . $day));
             $e->setStateID($etude['statut']);
             $e->setAcompte(true);
             $e->setPourcentageAcompte(0.3);
             $e->setFraisDossier(90);
-            $e->setPresentationProjet('Presentation '.$etude['description']);
+            $e->setPresentationProjet('Presentation ' . $etude['description']);
             $e->setDescriptionPrestation('Describe what we will do here');
             $e->setSourceDeProspection(rand(1, 10));
             $em->persist($e);
@@ -232,7 +231,7 @@ class CreateDataCommand extends ContainerAwareCommand
 
             //create phases
             $g = new GroupePhases(); //default group
-            $g->setTitre('Random generated'.rand());
+            $g->setTitre('Random generated' . rand());
             $g->setNumero(1);
             $g->setDescription('Automatic description');
             $g->setEtude($e);
@@ -246,7 +245,7 @@ class CreateDataCommand extends ContainerAwareCommand
             $ph->setPrixJEH(340);
             $ph->setTitre('Default phase');
             $ph->setDelai($etude['duree'] * 7);
-            $ph->setDateDebut(new \DateTime($mandat.'-'.$month.'-'.$day));
+            $ph->setDateDebut(new \DateTime($mandat . '-' . $month . '-' . $day));
             $em->persist($ph);
 
             //manage project manager
@@ -273,7 +272,7 @@ class CreateDataCommand extends ContainerAwareCommand
 
                 $cc = new Cc();
                 $cc->setEtude($e);
-                $cc->setDateSignature(new \DateTime($mandat.'-'.$month.'-'.$day));
+                $cc->setDateSignature(new \DateTime($mandat . '-' . $month . '-' . $day));
                 $cc->setSignataire2($pe);
                 $em->persist($cc);
             }
@@ -299,25 +298,24 @@ class CreateDataCommand extends ContainerAwareCommand
                 $mi = new Mission();
                 $mi->setSignataire2($dev);
                 $mi->setEtude($e);
-                $mi->setDateSignature(new \DateTime($mandat.'-'.$month.'-'.$day));
-                $mi->setDebutOm(new \DateTime($mandat.'-'.$month.'-'.$day));
+                $mi->setDateSignature(new \DateTime($mandat . '-' . $month . '-' . $day));
+                $mi->setDebutOm(new \DateTime($mandat . '-' . $month . '-' . $day));
                 $mi->setAvancement(rand(90, 100));
                 $mi->setIntervenant($mdev);
 
                 $em->persist($mi);
             }
 
-                //manage PVR
+            //manage PVR
             if ($etude['statut'] > 1 && $etude['statut'] < 5) {
                 $pv = new ProcesVerbal();
                 $pv->setEtude($e);
-                $pv->setDateSignature(new \DateTime($mandat.'-'.($month + 1).'-'.($day)));
+                $pv->setDateSignature(new \DateTime($mandat . '-' . ($month + 1) . '-' . ($day)));
                 $pv->setSignataire2($pe);
                 $pv->setType('pvr');
                 $em->persist($pv);
             }
         }
-
 
         $em->flush();
 

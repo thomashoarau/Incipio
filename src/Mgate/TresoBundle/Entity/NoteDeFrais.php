@@ -102,7 +102,7 @@ class NoteDeFrais
     public function getReference()
     {
         // UNSAFE
-        return $this->mandat.'-NF'.$this->getNumero().'-'.$this->getDemandeur()->getMembre()->getIdentifiant();
+        return $this->mandat . '-NF' . $this->getNumero() . '-' . $this->getDemandeur()->getMembre()->getIdentifiant();
     }
 
     /*
@@ -118,6 +118,7 @@ class NoteDeFrais
     {
         return $this->id;
     }
+
     /**
      * Constructor.
      */

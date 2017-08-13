@@ -102,7 +102,7 @@ class Formation
 
     public static function getCategoriesChoice()
     {
-        return array(
+        return [
             '0' => 'Junior-Entreprise - Généralité',
             '1' => 'Suivi d\'études',
             '2' => 'Gestion Associative',
@@ -111,7 +111,7 @@ class Formation
             '5' => 'Développement Commercial',
             '6' => 'Communication',
             '7' => 'Intervenants',
-            '8' => 'Autre', );
+            '8' => 'Autre', ];
     }
 
     public static function getCategoriesChoiceToString($choice = null)

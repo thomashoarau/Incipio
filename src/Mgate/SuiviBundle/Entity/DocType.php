@@ -111,11 +111,12 @@ class DocType
         $this->setVersion(1);
     }
 
-/// rajout à la main
+    // rajout à la main
     public function isKnownSignataire2()
     {
         return $this->knownSignataire2;
     }
+
     public function setKnownSignataire2($boolean)
     {
         $this->knownSignataire2 = $boolean;
@@ -125,11 +126,13 @@ class DocType
     {
         return $this->newSignataire2;
     }
+
     public function setNewSignataire2($var)
     {
         $this->newSignataire2 = $var;
     }
-/// fin rajout
+
+    // fin rajout
 
     /**
      * Set version.

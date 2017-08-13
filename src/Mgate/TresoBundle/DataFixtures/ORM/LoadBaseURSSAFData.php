@@ -22,7 +22,7 @@ class LoadBaseURSSAFData implements FixtureInterface
      */
     public function load(ObjectManager $manager)
     {
-        $base = array(
+        $base = [
             2017 => 39.04,
             2016 => 38.68,
             2015 => 38.44,
@@ -34,17 +34,17 @@ class LoadBaseURSSAFData implements FixtureInterface
             2009 => 34.84,
             2008 => 33.76,
             2007 => 33.08,
-        );
+        ];
         for ($y = 2009; $y < 2018; ++$y) {
             $baseURSSAF = new BaseURSSAF();
-            if (key_exists($y, $base)) {
+            if (array_key_exists($y, $base)) {
                 $baseURSSAF->setBaseURSSAF($base[$y])->setDateDebut(new \DateTime("$y-01-01"))->setDateFin(new \DateTime("$y-12-31"));
                 $manager->persist($baseURSSAF);
             }
         }
-        if (!$manager->getRepository('MgateTresoBundle:BaseURSSAF')->findBy(array(
+        if (!$manager->getRepository('MgateTresoBundle:BaseURSSAF')->findBy([
             'dateDebut' => $baseURSSAF->getDateDebut(),
-            ))) {
+            ])) {
             $manager->flush();
         }
     }

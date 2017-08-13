@@ -29,15 +29,15 @@ class BVType extends AbstractType
             ->add('numero', IntegerType::class)
             ->add('nombreJEH', IntegerType::class)
             ->add('remunerationBruteParJEH', MoneyType::class)
-            ->add('dateDeVersement', DateType::class, array('label' => 'Date de versement', 'required' => true, 'widget' => 'single_text'))
-            ->add('dateDemission', DateType::class, array('label' => 'Date d\'émission', 'required' => true, 'widget' => 'single_text'))
+            ->add('dateDeVersement', DateType::class, ['label' => 'Date de versement', 'required' => true, 'widget' => 'single_text'])
+            ->add('dateDemission', DateType::class, ['label' => 'Date d\'émission', 'required' => true, 'widget' => 'single_text'])
             ->add('typeDeTravail', TextType::class)
-            ->add('mission', Select2EntityType::class, array(
+            ->add('mission', Select2EntityType::class, [
                       'label' => 'Mission',
                        'class' => 'Mgate\\SuiviBundle\\Entity\\Mission',
                        'choice_label' => 'nom',
-                       'required' => true, ))
-            ->add('numeroVirement', TextType::class, array('label' => 'Numéro de Virement', 'required' => true));
+                       'required' => true, ])
+            ->add('numeroVirement', TextType::class, ['label' => 'Numéro de Virement', 'required' => true]);
     }
 
     public function getBlockPrefix()
@@ -47,8 +47,8 @@ class BVType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'Mgate\TresoBundle\Entity\BV',
-        ));
+        ]);
     }
 }

@@ -21,9 +21,9 @@ class SuiviType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('date', DateType::class, array('label' => 'Date du suivi'))
-                ->add('etat', TextareaType::class, array('label' => 'Etat de l\'étude', 'attr' => array('cols' => '100%', 'rows' => 5)))
-                ->add('todo', TextareaType::class, array('label' => 'Taches à faire', 'attr' => array('cols' => '100%', 'rows' => 5)));
+        $builder->add('date', DateType::class, ['label' => 'Date du suivi'])
+                ->add('etat', TextareaType::class, ['label' => 'Etat de l\'étude', 'attr' => ['cols' => '100%', 'rows' => 5]])
+                ->add('todo', TextareaType::class, ['label' => 'Taches à faire', 'attr' => ['cols' => '100%', 'rows' => 5]]);
     }
 
     public function getBlockPrefix()
@@ -33,8 +33,8 @@ class SuiviType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
                 'data_class' => 'Mgate\SuiviBundle\Entity\Suivi',
-            ));
+            ]);
     }
 }

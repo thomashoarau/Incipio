@@ -26,14 +26,14 @@ class BVRepository extends EntityRepository
      */
     public function findAllByMandat()
     {
-        $entities = $this->findBy(array(), array('mandat' => 'desc', 'dateDeVersement' => 'asc'));
-        $bvsParMandat = array();
+        $entities = $this->findBy([], ['mandat' => 'desc', 'dateDeVersement' => 'asc']);
+        $bvsParMandat = [];
         foreach ($entities as $bv) {
             $mandat = $bv->getMandat();
             if (array_key_exists($mandat, $bvsParMandat)) {
                 $bvsParMandat[$mandat][] = $bv;
             } else {
-                $bvsParMandat[$mandat] = array($bv);
+                $bvsParMandat[$mandat] = [$bv];
             }
         }
 

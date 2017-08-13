@@ -79,7 +79,7 @@ class Prospect extends Adressable
         if ($this->getThread() === null) {
             $em = $args->getEntityManager();
             $t = new Thread();
-            $t->setId('prospect_'.$this->getId());
+            $t->setId('prospect_' . $this->getId());
             $this->setThread($t);
             $this->getThread()->setPermalink('fake');
             $em->persist($t);
@@ -89,7 +89,7 @@ class Prospect extends Adressable
 
     public function __toString()
     {
-        return 'Prospect '.$this->nom;
+        return 'Prospect ' . $this->nom;
     }
 
     /**
@@ -208,7 +208,7 @@ class Prospect extends Adressable
 
     public static function getEntiteChoice()
     {
-        return array(
+        return [
             1 => 'Particulier',
             2 => 'Association',
             3 => 'TPE (moins de 20 salariés)',
@@ -217,8 +217,9 @@ class Prospect extends Adressable
             6 => 'Ecole',
             7 => 'Administration',
             8 => 'Junior-Entreprise',
-            );
+            ];
     }
+
     public static function getEntiteChoiceAssert()
     {
         return array_keys(self::getEntiteChoice());

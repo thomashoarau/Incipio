@@ -39,14 +39,14 @@ class ProspectController extends Controller
                 $em->persist($prospect);
                 $em->flush();
 
-                return $this->redirect($this->generateUrl('MgatePersonne_prospect_voir', array('id' => $prospect->getId())));
+                return $this->redirect($this->generateUrl('MgatePersonne_prospect_voir', ['id' => $prospect->getId()]));
             }
         }
 
-        return $this->render('MgatePersonneBundle:Prospect:ajouter.html.twig', array(
+        return $this->render('MgatePersonneBundle:Prospect:ajouter.html.twig', [
             'form' => $form->createView(),
             'format' => $format,
-        ));
+        ]);
     }
 
     /**
@@ -58,9 +58,9 @@ class ProspectController extends Controller
 
         $entities = $em->getRepository('MgatePersonneBundle:Prospect')->getAllProspect();
 
-        return $this->render('MgatePersonneBundle:Prospect:index.html.twig', array(
+        return $this->render('MgatePersonneBundle:Prospect:index.html.twig', [
             'prospects' => $entities,
-        ));
+        ]);
     }
 
     /**
@@ -78,7 +78,7 @@ class ProspectController extends Controller
 
         //récupération des employés
         $mailing = '';
-        $employes = array();
+        $employes = [];
         foreach ($entity->getEmployes() as $employe) {
             if ($employe->getPersonne()->getEmailEstValide() && $employe->getPersonne()->getEstAbonneNewsletter()) {
                 $nom = $employe->getPersonne()->getNom();
@@ -94,11 +94,11 @@ class ProspectController extends Controller
         //récupération des études faites avec ce prospect
         $etudes = $em->getRepository('MgateSuiviBundle:Etude')->findByProspect($entity);
 
-        return $this->render('MgatePersonneBundle:Prospect:voir.html.twig', array(
+        return $this->render('MgatePersonneBundle:Prospect:voir.html.twig', [
             'prospect' => $entity,
             'mailing' => $mailing,
             'etudes' => $etudes,
-            ));
+            ]);
     }
 
     /**
@@ -122,15 +122,15 @@ class ProspectController extends Controller
                 $em->persist($prospect);
                 $em->flush();
 
-                return $this->redirect($this->generateUrl('MgatePersonne_prospect_voir', array('id' => $prospect->getId())));
+                return $this->redirect($this->generateUrl('MgatePersonne_prospect_voir', ['id' => $prospect->getId()]));
             }
         }
 
-        return $this->render('MgatePersonneBundle:Prospect:modifier.html.twig', array(
+        return $this->render('MgatePersonneBundle:Prospect:modifier.html.twig', [
             'form' => $form->createView(),
             'delete_form' => $deleteForm->createView(),
             'prospect' => $prospect,
-        ));
+        ]);
     }
 
     /**
@@ -157,7 +157,7 @@ class ProspectController extends Controller
                 //can't delete a prospect with related projects
                 $session->getFlashBag()->add('warning', 'Impossible de supprimer un prospect ayant une étude liée.');
 
-                return $this->redirect($this->generateUrl('MgatePersonne_prospect_voir', array('id' => $prospect->getId())));
+                return $this->redirect($this->generateUrl('MgatePersonne_prospect_voir', ['id' => $prospect->getId()]));
             } else {
                 //remove employes
                 foreach ($prospect->getEmployes() as $employe) {
@@ -174,7 +174,7 @@ class ProspectController extends Controller
 
     private function createDeleteForm($id)
     {
-        return $this->createFormBuilder(array('id' => $id))
+        return $this->createFormBuilder(['id' => $id])
             ->add('id', HiddenType::class)
             ->getForm()
         ;
@@ -192,12 +192,12 @@ class ProspectController extends Controller
         $em = $this->getDoctrine()->getManager();
         $members = $em->getRepository('MgatePersonneBundle:Prospect')->ajaxSearch($value);
 
-        $json = array();
+        $json = [];
         foreach ($members as $member) {
-            $json[] = array(
+            $json[] = [
                 'label' => $member->getNom(),
                 'value' => $member->getId(),
-            );
+            ];
         }
 
         $response = new Response();
@@ -215,9 +215,9 @@ class ProspectController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $employes = $em->getRepository('MgatePersonneBundle:Employe')->findByProspect($prospect);
-        $json = array();
+        $json = [];
         foreach ($employes as $employe) {
-            array_push($json, array('label' => $employe->__toString(), 'value' => $employe->getId()));
+            array_push($json, ['label' => $employe->__toString(), 'value' => $employe->getId()]);
         }
         $response = new JsonResponse();
         $response->setData($json);

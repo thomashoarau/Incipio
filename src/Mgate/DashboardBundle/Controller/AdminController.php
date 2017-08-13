@@ -20,18 +20,20 @@ class AdminController extends Controller
 {
     /**
      * @Security("has_role('ROLE_ADMIN')")
+     *
      * @param Request $request
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function indexAction(Request $request)
     {
         $form = $this->createForm(AdminParamType::class);
 
-        $json_key_value_store =  $this->get('app.json_key_value_store');
+        $json_key_value_store = $this->get('app.json_key_value_store');
 
         $keys = $json_key_value_store->keys();
 
-        foreach ($keys as $key){
+        foreach ($keys as $key) {
             $form->get($key)->setData($json_key_value_store->get($key));
         }
 
@@ -40,17 +42,17 @@ class AdminController extends Controller
 
             if ($form->isValid()) {
                 $form_fields = $form->getData();
-                foreach($form_fields as $key => $value) {
-                    $json_key_value_store->set($key,$value);
+                foreach ($form_fields as $key => $value) {
+                    $json_key_value_store->set($key, $value);
                 }
                 $this->addFlash('success', 'Paramètres mis à jour');
             }
+
             return $this->redirect($this->generateUrl('Mgate_dashboard_parameters_admin'));
         }
 
         return $this->render('MgateDashboardBundle:Admin:index.html.twig',
-            array('form' => $form->createView())
+            ['form' => $form->createView()]
         );
     }
-
 }

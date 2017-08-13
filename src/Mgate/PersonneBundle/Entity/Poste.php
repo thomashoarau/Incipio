@@ -110,6 +110,7 @@ class Poste
 
         return $this;
     }
+
     /**
      * Constructor.
      */

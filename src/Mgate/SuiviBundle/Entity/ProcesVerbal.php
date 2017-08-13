@@ -36,7 +36,7 @@ class ProcesVerbal extends DocType
      */
     protected $etude;
 
-    //Justification du choix: choix des phases dans un select multiple destiner qu'à un affichage, aucun traitement sur les phases
+    // Justification du choix: choix des phases dans un select multiple destiner qu'à un affichage, aucun traitement sur les phases
     /**
      * @var string
      *
@@ -51,12 +51,12 @@ class ProcesVerbal extends DocType
      */
     private $type;
 
-     /*
+    /*
     * ADDITIONAL
     */
     public function getReference()
     {
-        return $this->etude->getReference().'/'.$this->etude->getCc()->getDateSignature()->format('Y').'/PVR/'.$this->getVersion();
+        return $this->etude->getReference() . '/' . $this->etude->getCc()->getDateSignature()->format('Y') . '/PVR/' . $this->getVersion();
     }
 
     /**
@@ -167,6 +167,6 @@ class ProcesVerbal extends DocType
 
     public function __toString()
     {
-        return $this->etude->getReference().'/PVR/';
+        return $this->etude->getReference() . '/PVR/';
     }
 }

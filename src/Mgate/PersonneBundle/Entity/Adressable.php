@@ -5,6 +5,7 @@
  * Date: 13/11/2016
  * Time: 15:53.
  */
+
 namespace Mgate\PersonneBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;

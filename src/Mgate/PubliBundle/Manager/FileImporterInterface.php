@@ -18,7 +18,7 @@ interface FileImporterInterface
     public function expectedFormat();
 
     /**
-     * Process Import
+     * Process Import.
      *
      * @param UploadedFile $upload resources file contzaining data to import
      *

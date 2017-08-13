@@ -35,13 +35,13 @@ class FormationRepository extends EntityRepository
 
         $entities = $query->getQuery()->getResult();
 
-        $formationsParMandat = array();
+        $formationsParMandat = [];
         foreach ($entities as $formation) {
             $mandat = $formation->getMandat();
             if (array_key_exists($mandat, $formationsParMandat)) {
                 $formationsParMandat[$mandat][] = $formation;
             } else {
-                $formationsParMandat[$mandat] = array($formation);
+                $formationsParMandat[$mandat] = [$formation];
             }
         }
 

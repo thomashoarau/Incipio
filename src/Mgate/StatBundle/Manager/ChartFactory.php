@@ -18,9 +18,9 @@ class ChartFactory
         $ob->yAxis->min(0);
         $ob->yAxis->max(100);
         $style = IndicateursController::DEFAULT_STYLE;
-        $ob->title->style(array('fontWeight' => 'bold', 'fontSize' => '20px'));
-        $ob->xAxis->labels(array('style' => $style));
-        $ob->yAxis->labels(array('style' => $style));
+        $ob->title->style(['fontWeight' => 'bold', 'fontSize' => '20px']);
+        $ob->xAxis->labels(['style' => $style]);
+        $ob->yAxis->labels(['style' => $style]);
         $ob->credits->enabled(false);
         $ob->legend->enabled(false);
 
@@ -28,8 +28,8 @@ class ChartFactory
         $ob->xAxis->categories($categories);
 
         $ob->title->text('Title');
-        $ob->yAxis->title(array('text' => 'Title y', 'style' => $style));
-        $ob->xAxis->title(array('text' => 'Title x', 'style' => $style));
+        $ob->yAxis->title(['text' => 'Title y', 'style' => $style]);
+        $ob->xAxis->title(['text' => 'Title x', 'style' => $style]);
         $ob->tooltip->headerFormat('<b>header Format</b><br />');
         $ob->tooltip->pointFormat('Point format');
 
@@ -40,9 +40,9 @@ class ChartFactory
     {
         $ob = new Highchart();
 
-        $ob->plotOptions->pie(array('allowPointSelect' => true, 'cursor' => 'pointer', 'showInLegend' => true, 'dataLabels' => array('enabled' => false)));
+        $ob->plotOptions->pie(['allowPointSelect' => true, 'cursor' => 'pointer', 'showInLegend' => true, 'dataLabels' => ['enabled' => false]]);
         $ob->series($series);
-        $ob->title->style(array('fontWeight' => 'bold', 'fontSize' => '20px'));
+        $ob->title->style(['fontWeight' => 'bold', 'fontSize' => '20px']);
         $ob->credits->enabled(false);
         $ob->title->text('Répartition des dépenses selon les comptes comptables (Mandat en cours)');
         $ob->tooltip->pointFormat('{point.percentage:.1f} %');

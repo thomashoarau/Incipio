@@ -38,20 +38,20 @@ class RegistrationListener implements EventSubscriberInterface
      */
     public static function getSubscribedEvents()
     {
-        return array(
+        return [
             FOSUserEvents::REGISTRATION_CONFIRMED => 'onRegistrationConfirmed',
-        );
+        ];
     }
 
     // Prévenir lorsque quelqu'un valide compte
     public function onRegistrationConfirmed(FilterUserResponseEvent $event)
     {
         $message = \Swift_Message::newInstance()
-            ->setSubject('Jeyser CRM : Nouvel utilisateur '.$event->getUser()->getUsername())
+            ->setSubject('Jeyser CRM : Nouvel utilisateur ' . $event->getUser()->getUsername())
             ->setFrom($this->mail_from)
             ->setTo($this->mail_to)
             ->setBody($this->templating->render('MgateUserBundle:Default:alert-email.html.twig',
-                                        array('username' => $event->getUser()->getUsername(), 'email' => $event->getUser()->getEmail())), 'text/html');
+                                        ['username' => $event->getUser()->getUsername(), 'email' => $event->getUser()->getEmail()]), 'text/html');
         $this->mailer->send($message);
     }
 }

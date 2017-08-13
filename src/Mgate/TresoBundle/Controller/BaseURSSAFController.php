@@ -27,7 +27,7 @@ class BaseURSSAFController extends Controller
         $em = $this->getDoctrine()->getManager();
         $bases = $em->getRepository('MgateTresoBundle:BaseURSSAF')->findAll();
 
-        return $this->render('MgateTresoBundle:BaseURSSAF:index.html.twig', array('bases' => $bases));
+        return $this->render('MgateTresoBundle:BaseURSSAF:index.html.twig', ['bases' => $bases]);
     }
 
     /**
@@ -49,14 +49,14 @@ class BaseURSSAFController extends Controller
                 $em->persist($base);
                 $em->flush();
 
-                return $this->redirect($this->generateUrl('MgateTreso_BaseURSSAF_index', array()));
+                return $this->redirect($this->generateUrl('MgateTreso_BaseURSSAF_index', []));
             }
         }
 
-        return $this->render('MgateTresoBundle:BaseURSSAF:modifier.html.twig', array(
+        return $this->render('MgateTresoBundle:BaseURSSAF:modifier.html.twig', [
                     'form' => $form->createView(),
                     'base' => $base,
-                ));
+                ]);
     }
 
     /**
@@ -73,6 +73,6 @@ class BaseURSSAFController extends Controller
         $em->remove($base);
         $em->flush();
 
-        return $this->redirect($this->generateUrl('MgateTreso_BaseURSSAF_index', array()));
+        return $this->redirect($this->generateUrl('MgateTreso_BaseURSSAF_index', []));
     }
 }

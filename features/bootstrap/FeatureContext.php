@@ -1,13 +1,9 @@
 <?php
 
-use Mgate\DashboardBundle\Command\CreateDataCommand;
-use Mgate\UserBundle\DataFixtures\ORM\LoadAdminData;
 use Behat\Behat\Context\Context;
-use Behat\Behat\Hook\Scope\AfterScenarioScope;
 use Behat\Behat\Hook\Scope\AfterStepScope;
 use Behat\MinkExtension\Context\MinkContext;
 use Behat\Symfony2Extension\Context\KernelDictionary;
-use Behat\Testwork\Hook\Scope\BeforeSuiteScope;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\Tools\SchemaTool;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
@@ -22,9 +18,9 @@ class FeatureContext extends MinkContext implements Context
 {
     use KernelDictionary;
 
-    const DEFAULT_USERS = array(
-        'admin' => array('username' => 'Load', 'password' => 'admin', 'roles'=> array('ROLE_ADMIN')),
-    );
+    const DEFAULT_USERS = [
+        'admin' => ['username' => 'Load', 'password' => 'admin', 'roles' => ['ROLE_ADMIN']],
+    ];
 
     /**
      * @var array
@@ -51,7 +47,7 @@ class FeatureContext extends MinkContext implements Context
      */
     private $kernel;
 
-    public $username_password = array('admin' => 'admin', 'moderateur' => 'moderateur', 'user' => 'user');
+    public $username_password = ['admin' => 'admin', 'moderateur' => 'moderateur', 'user' => 'user'];
 
     /**
      * Initializes context.
@@ -59,6 +55,7 @@ class FeatureContext extends MinkContext implements Context
      * Every scenario gets its own context instance.
      * You can also pass arbitrary arguments to the
      * context constructor through behat.yml.
+     *
      * @param ManagerRegistry $doctrine
      * @param KernelInterface $kernel
      */
@@ -81,15 +78,13 @@ class FeatureContext extends MinkContext implements Context
         $application = new Application($this->kernel);
         $application->setAutoExit(false);
 
-
-        $input = new ArrayInput(array(
+        $input = new ArrayInput([
             'command' => 'doctrine:fixtures:load',
             '-n' => true,
             '-e' => 'test',
-        ));
+        ]);
         $output = new BufferedOutput();
         $application->run($input, $output);
-
     }
 
     /**
@@ -100,7 +95,6 @@ class FeatureContext extends MinkContext implements Context
     {
         $this->schemaTool->dropSchema($this->classes);
     }
-
 
     /** @AfterStep */
     public function afterStep(AfterStepScope $event)
@@ -115,10 +109,10 @@ class FeatureContext extends MinkContext implements Context
      */
     public function iAmLoggedInAs($username)
     {
-        $this->visit("/login");
-        $this->fillField("_username", $username);
-        $this->fillField("_password", self::DEFAULT_USERS[$username]['password']);
-        $this->pressButton("Connexion");
+        $this->visit('/login');
+        $this->fillField('_username', $username);
+        $this->fillField('_password', self::DEFAULT_USERS[$username]['password']);
+        $this->pressButton('Connexion');
     }
 
     /**
@@ -130,11 +124,11 @@ class FeatureContext extends MinkContext implements Context
 
         $repository = $doctrine->getRepository('Mgate\EtudeBundle\Entity\Etude');
 
-        $etude = $repository->findOneBy(array(
-            'nom' => $name
-        ));
+        $etude = $repository->findOneBy([
+            'nom' => $name,
+        ]);
 
-        $this->visit($this->getContainer()->get('router')->generate('MgateSuivi_etude_voir', array('nom' => $etude->getNom())));
+        $this->visit($this->getContainer()->get('router')->generate('MgateSuivi_etude_voir', ['nom' => $etude->getNom()]));
     }
 
     /**
@@ -145,15 +139,11 @@ class FeatureContext extends MinkContext implements Context
         $doctrine = $this->getContainer()->get('doctrine');
         $repository = $doctrine->getRepository('Mgate\UserBundle\Entity\User');
 
-        $user = $repository->findOneBy(array(
-            'username' => $username
-        ));
+        $user = $repository->findOneBy([
+            'username' => $username,
+        ]);
         $user->setEnabled(true);
 
         $doctrine->getManager()->flush();
     }
-
-
 }
-
-

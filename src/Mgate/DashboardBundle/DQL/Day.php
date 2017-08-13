@@ -38,6 +38,6 @@ class Day extends FunctionNode
      */
     public function getSql(SqlWalker $sqlWalker)
     {
-        return 'DAY('.$sqlWalker->walkArithmeticPrimary($this->date).')';
+        return 'DAY(' . $sqlWalker->walkArithmeticPrimary($this->date) . ')';
     }
 }

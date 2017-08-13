@@ -43,9 +43,9 @@ class FiliereController extends Controller
             }
         }
 
-        return $this->render('MgatePersonneBundle:Filiere:ajouter.html.twig', array(
+        return $this->render('MgatePersonneBundle:Filiere:ajouter.html.twig', [
             'form' => $form->createView(),
-        ));
+        ]);
     }
 
     /**
@@ -75,10 +75,10 @@ class FiliereController extends Controller
             }
         }
 
-        return $this->render('MgatePersonneBundle:Filiere:modifier.html.twig', array(
+        return $this->render('MgatePersonneBundle:Filiere:modifier.html.twig', [
             'form' => $form->createView(),
             'delete_form' => $deleteForm->createView(),
-        ));
+        ]);
     }
 
     /**
@@ -110,12 +110,13 @@ class FiliereController extends Controller
             }
         }
         $this->addFlash('danger', 'formulaire invalide');
+
         return $this->redirect($this->generateUrl('MgatePersonne_poste_homepage'));
     }
 
     private function createDeleteForm($id)
     {
-        return $this->createFormBuilder(array('id' => $id))
+        return $this->createFormBuilder(['id' => $id])
             ->add('id', HiddenType::class)
             ->getForm()
             ;

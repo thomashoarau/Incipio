@@ -5,6 +5,7 @@
  * Date: 20/09/2016
  * Time: 14:51.
  */
+
 namespace Mgate\PubliBundle\Manager;
 
 /**
@@ -32,7 +33,7 @@ class CsvImporter
                 return $result;
             }
         } else {
-            throw new \Exception('Unknown column '.$columnName);
+            throw new \Exception('Unknown column ' . $columnName);
         }
     }
 
@@ -45,7 +46,7 @@ class CsvImporter
     {
         $date = explode('/', $date); //date under d/m/Y format
         if (array_key_exists(2, $date)) {
-            return new \DateTime($date['2'].'-'.$date['1'].'-'.$date['0']);
+            return new \DateTime($date['2'] . '-' . $date['1'] . '-' . $date['0']);
         } else {
             return null;
         }
@@ -72,7 +73,7 @@ class CsvImporter
      */
     protected function normalize($string)
     {
-        $table = array(
+        $table = [
             'Š' => 'S', 'š' => 's', 'Đ' => 'Dj', 'đ' => 'dj', 'Ž' => 'Z', 'ž' => 'z', 'Č' => 'C', 'č' => 'c', 'Ć' => 'C', 'ć' => 'c',
             'À' => 'A', 'Á' => 'A', 'Â' => 'A', 'Ã' => 'A', 'Ä' => 'A', 'Å' => 'A', 'Æ' => 'A', 'Ç' => 'C', 'È' => 'E', 'É' => 'E',
             'Ê' => 'E', 'Ë' => 'E', 'Ì' => 'I', 'Í' => 'I', 'Î' => 'I', 'Ï' => 'I', 'Ñ' => 'N', 'Ò' => 'O', 'Ó' => 'O', 'Ô' => 'O',
@@ -81,7 +82,7 @@ class CsvImporter
             'ê' => 'e', 'ë' => 'e', 'ì' => 'i', 'í' => 'i', 'î' => 'i', 'ï' => 'i', 'ð' => 'o', 'ñ' => 'n', 'ò' => 'o', 'ó' => 'o',
             'ô' => 'o', 'õ' => 'o', 'ö' => 'o', 'ø' => 'o', 'ù' => 'u', 'ú' => 'u', 'û' => 'u', 'ý' => 'y', 'þ' => 'b',
             'ÿ' => 'y', 'Ŕ' => 'R', 'ŕ' => 'r',
-        );
+        ];
 
         return strtr($string, $table);
     }

@@ -25,7 +25,7 @@ class ProspectRepository extends EntityRepository
     {
         $qb = $this->_em->createQueryBuilder();
         $query = $qb->select('n')->from('MgatePersonneBundle:Prospect', 'n')
-          ->where($qb->expr()->like('n.nom', $qb->expr()->literal('%'.$nom.'%')))
+          ->where($qb->expr()->like('n.nom', $qb->expr()->literal('%' . $nom . '%')))
           ->getQuery();
 
         return $query->getResult();
@@ -60,7 +60,7 @@ class ProspectRepository extends EntityRepository
         $qb->select('p')
             ->from('MgatePersonneBundle:Prospect', 'p')
             ->where('p.nom LIKE :nom')
-            ->setParameter('nom', '%'.$search.'%')
+            ->setParameter('nom', '%' . $search . '%')
             ->setMaxResults($limit);
         $query = $qb->getQuery();
 

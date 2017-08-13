@@ -21,18 +21,18 @@ class AppelType extends AbstractType
     {
         $builder
             ->add('suiveur', Select2EntityType::class,
-                array('label' => 'Appellant',
+                ['label' => 'Appellant',
                 'class' => 'Mgate\\PersonneBundle\\Entity\\Membre',
                 'query_builder' => function (MembreRepository $mr) {
                     return $mr->getByMandatNonNulQueryBuilder();
                 },
-                'required' => false, ))
+                'required' => false, ])
             ->add('prospect')
             ->add('employe')
-            ->add('dateAppel', DateType::class, array('label' => 'Date appel (jj/mm/aaaa)', 'widget' => 'single_text', 'format' => 'dd/MM/yyyy', 'required' => false))
-            ->add('aRappeller', CheckboxType::class, array('required' => false, 'attr' => array('checked' => true)))
-            ->add('dateRappel', DateType::class, array('label' => 'Date de Rappel', 'required' => false, 'format' => 'dd/MM/yyyy', 'widget' => 'single_text', 'attr' => array('cols' => 10, 'rows' => 6)))
-            ->add('noteAppel', TextareaType::class, array('label' => 'Note sur l\'appel', 'required' => false))
+            ->add('dateAppel', DateType::class, ['label' => 'Date appel (jj/mm/aaaa)', 'widget' => 'single_text', 'format' => 'dd/MM/yyyy', 'required' => false])
+            ->add('aRappeller', CheckboxType::class, ['required' => false, 'attr' => ['checked' => true]])
+            ->add('dateRappel', DateType::class, ['label' => 'Date de Rappel', 'required' => false, 'format' => 'dd/MM/yyyy', 'widget' => 'single_text', 'attr' => ['cols' => 10, 'rows' => 6]])
+            ->add('noteAppel', TextareaType::class, ['label' => 'Note sur l\'appel', 'required' => false])
         ;
     }
 
@@ -41,9 +41,9 @@ class AppelType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'N7consulting\DevcoBundle\Entity\Appel',
-        ));
+        ]);
     }
 
     /**

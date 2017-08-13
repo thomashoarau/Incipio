@@ -54,7 +54,7 @@ class RepartitionJEH
 
     public function __toString()
     {
-        return '(id :'.$this->id.') '.$this->nbrJEH.' * '.$this->prixJEH;
+        return '(id :' . $this->id . ') ' . $this->nbrJEH . ' * ' . $this->prixJEH;
     }
 
     /**

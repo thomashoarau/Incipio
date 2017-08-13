@@ -12,10 +12,10 @@ if (isset($_SERVER['HTTP_CLIENT_IP'])
     || getenv('SYMFONY_ENV') != 'dev'
 ) {
     header('HTTP/1.0 403 Forbidden');
-    exit('You are not allowed to access this file. Check '.basename(__FILE__).' for more information.');
+    exit('You are not allowed to access this file. Check ' . basename(__FILE__) . ' for more information.');
 }
 
-$loader = require __DIR__.'/../vendor/autoload.php';
+$loader = require __DIR__ . '/../vendor/autoload.php';
 
 $kernel = new AppKernel('dev', true);
 $request = Request::createFromGlobals();

@@ -12,19 +12,19 @@ class SubApType extends DocTypeType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('contactMgate', Select2EntityType::class, array('label' => "'En cas d’absence ou de problème, il est également possible de joindre ...' ex: Vice-Président",
+        $builder->add('contactMgate', Select2EntityType::class, ['label' => "'En cas d’absence ou de problème, il est également possible de joindre ...' ex: Vice-Président",
             'class' => 'Mgate\\PersonneBundle\\Entity\\Personne',
             'choice_label' => 'prenomNom',
-            'attr' => array('title' => "Dans l'AP: 'En cas d’absence ou de problème, il est également possible de joindre le ...'"),
+            'attr' => ['title' => "Dans l'AP: 'En cas d’absence ou de problème, il est également possible de joindre le ...'"],
             'query_builder' => function (PersonneRepository $pr) {
                 return $pr->getMembresByPoste('%vice-president%');
             },
-            'required' => true, ));
+            'required' => true, ]);
         DocTypeType::buildForm($builder, $options);
         $builder->add('nbrDev', IntegerType::class,
-            array('label' => 'Nombre d\'intervenants estimé',
+            ['label' => 'Nombre d\'intervenants estimé',
                 'required' => false,
-                'attr' => array('title' => 'Mettre 0 pour ne pas afficher la phrase indiquant le nombre d\'intervenant'), )
+                'attr' => ['title' => 'Mettre 0 pour ne pas afficher la phrase indiquant le nombre d\'intervenant'], ]
         );
     }
 
@@ -35,9 +35,9 @@ class SubApType extends DocTypeType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'Mgate\SuiviBundle\Entity\Ap',
             'prospect' => '',
-        ));
+        ]);
     }
 }

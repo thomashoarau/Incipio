@@ -42,10 +42,10 @@ class DomaineCompetenceController extends Controller
             }
         }
 
-        return $this->render('MgateSuiviBundle:DomaineCompetence:index.html.twig', array(
+        return $this->render('MgateSuiviBundle:DomaineCompetence:index.html.twig', [
             'domaines' => $entities,
             'form' => $form->createView(),
-        ));
+        ]);
     }
 
     /**

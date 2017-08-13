@@ -31,13 +31,15 @@ class DefaultController extends Controller
 
         $entities = $em->getRepository('MgateUserBundle:User')->findAll();
 
-        return $this->render('MgateUserBundle:Default:lister.html.twig', array('users' => $entities));
+        return $this->render('MgateUserBundle:Default:lister.html.twig', ['users' => $entities]);
     }
 
     /**
      * @Security("has_role('ROLE_ADMIN')")
+     *
      * @param Request $request
-     * @param User $user
+     * @param User    $user
+     *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function modifierAction(Request $request, User $user)
@@ -48,9 +50,9 @@ class DefaultController extends Controller
             throw new AccessDeniedException('Impossible de modifier un Super Administrateur. Contactez dsi@n7consulting.fr si cette action est vraiment nécessaire.');
         }
 
-        $form = $this->createForm(UserAdminType::class, $user, array(
-            'user_class' => 'Mgate\UserBundle\Entity\User', 'roles' => $this->getParameter('security.role_hierarchy.roles')
-        ));
+        $form = $this->createForm(UserAdminType::class, $user, [
+            'user_class' => 'Mgate\UserBundle\Entity\User', 'roles' => $this->getParameter('security.role_hierarchy.roles'),
+        ]);
         $deleteForm = $this->createDeleteForm($user->getId());
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
@@ -67,18 +69,20 @@ class DefaultController extends Controller
             }
         }
 
-        return $this->render('MgateUserBundle:Default:modifier.html.twig', array(
+        return $this->render('MgateUserBundle:Default:modifier.html.twig', [
             'form' => $form->createView(),
             'delete_form' => $deleteForm->createView(),
-        ));
+        ]);
     }
 
     /**
      * @Security("has_role('ROLE_ADMIN')")
      *
-     * @param User $user the user to be deleted
+     * @param User    $user    the user to be deleted
      * @param Request $request
+     *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     *
      * @internal param $id
      */
     public function deleteAction(User $user, Request $request)
@@ -108,20 +112,23 @@ class DefaultController extends Controller
 
     private function createDeleteForm($id)
     {
-        return $this->createFormBuilder(array('id' => $id))
+        return $this->createFormBuilder(['id' => $id])
             ->add('id', HiddenType::class)
             ->getForm();
     }
 
     /**
      * @Security("has_role('ROLE_ADMIN')")
+     *
      * @param Personne $personne the personne whom a user should be added
+     *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     *
      * @throws \Exception
      */
     public function addUserFromPersonneAction(Request $request, Personne $personne)
     {
-        $create_user_form = $this->createFormBuilder(array('id' => $personne->getId()))
+        $create_user_form = $this->createFormBuilder(['id' => $personne->getId()])
             ->add('id', HiddenType::class)
             ->getForm();
 
@@ -129,7 +136,6 @@ class DefaultController extends Controller
             $create_user_form->handleRequest($request);
 
             if ($create_user_form->isValid()) {
-
                 if ($personne->getUser()) {
                     throw new \Exception('Un utilisateur est déjà liée à cette personne !');
                 }
@@ -157,9 +163,10 @@ class DefaultController extends Controller
                 /* Envoie d'un email de confirmation */
                 $mailer = $this->container->get('fos_user.mailer');
                 $mailer->sendConfirmationEmailMessage($user);
-                $this->addFlash('success','Compte utilisateur créé');
+                $this->addFlash('success', 'Compte utilisateur créé');
             }
         }
+
         return $this->redirect($this->generateUrl('Mgate_user_lister'));
     }
 
@@ -167,22 +174,22 @@ class DefaultController extends Controller
     {
         $texte = mb_strtolower($texte, 'UTF-8');
         $texte = str_replace(
-            array(
+            [
                 'à', 'â', 'ä', 'á', 'ã', 'å',
                 'î', 'ï', 'ì', 'í',
                 'ô', 'ö', 'ò', 'ó', 'õ', 'ø',
                 'ù', 'û', 'ü', 'ú',
                 'é', 'è', 'ê', 'ë',
                 'ç', 'ÿ', 'ñ',
-            ),
-            array(
+            ],
+            [
                 'a', 'a', 'a', 'a', 'a', 'a',
                 'i', 'i', 'i', 'i',
                 'o', 'o', 'o', 'o', 'o', 'o',
                 'u', 'u', 'u', 'u',
                 'e', 'e', 'e', 'e',
                 'c', 'y', 'n',
-            ),
+            ],
             $texte
         );
 

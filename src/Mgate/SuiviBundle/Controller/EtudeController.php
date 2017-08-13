@@ -23,7 +23,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
-
 class EtudeController extends Controller
 {
     const STATE_ID_EN_NEGOCIATION = 1;
@@ -43,26 +42,27 @@ class EtudeController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         //Etudes En Négociation : stateID = 1
-        $etudesEnNegociation = $em->getRepository('MgateSuiviBundle:Etude')->getPipeline(array('stateID' => self::STATE_ID_EN_NEGOCIATION), array('mandat' => 'DESC', 'num' => 'DESC'));
+        $etudesEnNegociation = $em->getRepository('MgateSuiviBundle:Etude')->getPipeline(['stateID' => self::STATE_ID_EN_NEGOCIATION], ['mandat' => 'DESC', 'num' => 'DESC']);
 
         //Etudes En Cours : stateID = 2
-        $etudesEnCours = $em->getRepository('MgateSuiviBundle:Etude')->getPipeline(array('stateID' => self::STATE_ID_EN_COURS), array('mandat' => 'DESC', 'num' => 'DESC'));
+        $etudesEnCours = $em->getRepository('MgateSuiviBundle:Etude')->getPipeline(['stateID' => self::STATE_ID_EN_COURS], ['mandat' => 'DESC', 'num' => 'DESC']);
 
         //Etudes en pause : stateID = 3
-        $etudesEnPause = $em->getRepository('MgateSuiviBundle:Etude')->getPipeline(array('stateID' => self::STATE_ID_EN_PAUSE), array('mandat' => 'DESC', 'num' => 'DESC'));
+        $etudesEnPause = $em->getRepository('MgateSuiviBundle:Etude')->getPipeline(['stateID' => self::STATE_ID_EN_PAUSE], ['mandat' => 'DESC', 'num' => 'DESC']);
 
         //Etudes Terminees et Avortees Chargée en Ajax dans getEtudesAsyncAction
         //On push des arrays vides pour avoir les menus déroulants
-        $etudesTermineesParMandat = array();
-        $etudesAvorteesParMandat = array();
+        $etudesTermineesParMandat = [];
+        $etudesAvorteesParMandat = [];
 
         for ($i = $MANDAT_MIN; $i <= $MANDAT_MAX; ++$i) {
-            array_push($etudesTermineesParMandat, array());
-            array_push($etudesAvorteesParMandat, array());
+            array_push($etudesTermineesParMandat, []);
+            array_push($etudesAvorteesParMandat, []);
         }
 
         $anneeCreation = $this->get('app.json_key_value_store')->get('anneeCreation');
-        return $this->render('MgateSuiviBundle:Etude:index.html.twig', array(
+
+        return $this->render('MgateSuiviBundle:Etude:index.html.twig', [
             'etudesEnNegociation' => $etudesEnNegociation,
             'etudesEnCours' => $etudesEnCours,
             'etudesEnPause' => $etudesEnPause,
@@ -70,12 +70,14 @@ class EtudeController extends Controller
             'etudesAvorteesParMandat' => $etudesAvorteesParMandat,
             'anneeCreation' => $anneeCreation,
             'mandatMax' => $MANDAT_MAX,
-        ));
+        ]);
     }
 
     /**
      * @Security("has_role('ROLE_SUIVEUR')")
+     *
      * @param Request $request
+     *
      * @return Response
      */
     public function getEtudesAsyncAction(Request $request)
@@ -87,17 +89,17 @@ class EtudeController extends Controller
             $stateID = $request->query->get('stateID');
 
             // CHECK VAR ATTENTION INJECTION SQL ?
-            $etudes = $em->getRepository('MgateSuiviBundle:Etude')->findBy(array('stateID' => $stateID, 'mandat' => $mandat), array('num' => 'DESC'));
+            $etudes = $em->getRepository('MgateSuiviBundle:Etude')->findBy(['stateID' => $stateID, 'mandat' => $mandat], ['num' => 'DESC']);
 
             if ($stateID == self::STATE_ID_TERMINEE) {
-                return $this->render('MgateSuiviBundle:Etude:Tab/EtudesTerminees.html.twig', array('etudes' => $etudes));
+                return $this->render('MgateSuiviBundle:Etude:Tab/EtudesTerminees.html.twig', ['etudes' => $etudes]);
             } elseif ($stateID == self::STATE_ID_AVORTEE) {
-                return $this->render('MgateSuiviBundle:Etude:Tab/EtudesAvortees.html.twig', array('etudes' => $etudes));
+                return $this->render('MgateSuiviBundle:Etude:Tab/EtudesAvortees.html.twig', ['etudes' => $etudes]);
             }
         } else {
-            return $this->render('MgateSuiviBundle:Etude:Tab/EtudesAvortees.html.twig', array(
+            return $this->render('MgateSuiviBundle:Etude:Tab/EtudesAvortees.html.twig', [
                 'etudes' => null,
-            ));
+            ]);
         }
     }
 
@@ -134,7 +136,9 @@ class EtudeController extends Controller
 
     /**
      * @Security("has_role('ROLE_SUIVEUR')")
+     *
      * @param Request $request
+     *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
     public function addAction(Request $request)
@@ -152,7 +156,7 @@ class EtudeController extends Controller
         $form = $this->createForm(EtudeType::class, $etude);
         $em = $this->getDoctrine()->getManager();
 
-        $error_messages = array();
+        $error_messages = [];
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
 
@@ -165,9 +169,9 @@ class EtudeController extends Controller
                 $em->flush();
 
                 if ($request->get('ap')) {
-                    return $this->redirect($this->generateUrl('MgateSuivi_ap_rediger', array('id' => $etude->getId())));
+                    return $this->redirect($this->generateUrl('MgateSuivi_ap_rediger', ['id' => $etude->getId()]));
                 } else {
-                    return $this->redirect($this->generateUrl('MgateSuivi_etude_voir', array('nom' => $etude->getNom())));
+                    return $this->redirect($this->generateUrl('MgateSuivi_etude_voir', ['nom' => $etude->getNom()]));
                 }
             } else {
                 //constitution du tableau d'erreurs
@@ -178,10 +182,10 @@ class EtudeController extends Controller
             }
         }
 
-        return $this->render('MgateSuiviBundle:Etude:ajouter.html.twig', array(
+        return $this->render('MgateSuiviBundle:Etude:ajouter.html.twig', [
             'form' => $form->createView(),
             'errors' => $error_messages,
-        ));
+        ]);
     }
 
     /**
@@ -196,19 +200,19 @@ class EtudeController extends Controller
         }
 
         //get contacts clients
-        $clientContacts = $em->getRepository('MgateSuiviBundle:ClientContact')->getByEtude($etude, array('date' => 'desc'));
+        $clientContacts = $em->getRepository('MgateSuiviBundle:ClientContact')->getByEtude($etude, ['date' => 'desc']);
 
         $chartManager = $this->get('Mgate.chart_manager');
         $ob = $chartManager->getGantt($etude, 'suivi');
 
         $formSuivi = $this->createForm(SuiviEtudeType::class, $etude);
 
-        return $this->render('MgateSuiviBundle:Etude:voir.html.twig', array(
+        return $this->render('MgateSuiviBundle:Etude:voir.html.twig', [
             'etude' => $etude,
             'formSuivi' => $formSuivi->createView(),
             'chart' => $ob,
             'clientContacts' => $clientContacts,
-            /* 'delete_form' => $deleteForm->createView(),  */));
+            /* 'delete_form' => $deleteForm->createView(),  */]);
     }
 
     /**
@@ -232,21 +236,21 @@ class EtudeController extends Controller
                 $em->persist($etude);
                 $em->flush();
 
-                return $this->redirect($this->generateUrl('MgateSuivi_etude_voir', array('nom' => $etude->getNom())));
+                return $this->redirect($this->generateUrl('MgateSuivi_etude_voir', ['nom' => $etude->getNom()]));
             }
         }
 
-        return $this->render('MgateSuiviBundle:Etude:modifier.html.twig', array(
+        return $this->render('MgateSuiviBundle:Etude:modifier.html.twig', [
             'form' => $form->createView(),
             'etude' => $etude,
             'delete_form' => $deleteForm->createView(),
-        ));
+        ]);
     }
 
     /**
      * @Security("has_role('ROLE_ADMIN')")
      *
-     * @param Etude $etude
+     * @param Etude   $etude
      * @param Request $request
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
@@ -274,7 +278,7 @@ class EtudeController extends Controller
 
     private function createDeleteForm(Etude $etude)
     {
-        return $this->createFormBuilder(array('id' => $etude->getId()))
+        return $this->createFormBuilder(['id' => $etude->getId()])
             ->add('id', HiddenType::class)
             ->getForm();
     }
@@ -288,10 +292,10 @@ class EtudeController extends Controller
 
         $MANDAT_MAX = 10;
 
-        $etudesParMandat = array();
+        $etudesParMandat = [];
 
         for ($i = 1; $i < $MANDAT_MAX; ++$i) {
-            array_push($etudesParMandat, $em->getRepository('MgateSuiviBundle:Etude')->findBy(array('mandat' => $i), array('num' => 'DESC')));
+            array_push($etudesParMandat, $em->getRepository('MgateSuiviBundle:Etude')->findBy(['mandat' => $i], ['num' => 'DESC']));
         }
 
         //WARN
@@ -305,7 +309,7 @@ class EtudeController extends Controller
          * bref rien de bien fracassant. Solution qui se doit d'être temporaire bien que fonctionnelle !
          * Cependant en cas de suppression d'une étude, chose qui n'arrive pas tous les jours, les données seront perdues !!
          */
-        $etudesEnCours = array();
+        $etudesEnCours = [];
 
         $NbrEtudes = 0;
         foreach ($etudesParMandat as $etudesInMandat) {
@@ -322,12 +326,12 @@ class EtudeController extends Controller
         $id = 0;
         foreach (array_reverse($etudesParMandat) as $etudesInMandat) {
             foreach ($etudesInMandat as $etude) {
-                $form = $form->add((string)(2 * $id), HiddenType::class,
-                    array('label' => 'refEtude',
-                        'data' => $etude->getReference($namingConvention))
+                $form = $form->add((string) (2 * $id), HiddenType::class,
+                    ['label' => 'refEtude',
+                        'data' => $etude->getReference($namingConvention), ]
                 )
-                    ->add((string)(2 * $id + 1), 'textarea', array('label' => $etude->getReference($namingConvention),
-                        'required' => false, 'data' => $etude->getStateDescription()));
+                    ->add((string) (2 * $id + 1), 'textarea', ['label' => $etude->getReference($namingConvention),
+                        'required' => false, 'data' => $etude->getStateDescription(), ]);
                 ++$id;
                 if ($etude->getStateID() == self::STATE_ID_EN_COURS) {
                     array_push($etudesEnCours, $etude);
@@ -361,11 +365,11 @@ class EtudeController extends Controller
         $chartManager = $this->get('Mgate.chart_manager');
         $ob = $chartManager->getGanttSuivi($etudesEnCours);
 
-        return $this->render('MgateSuiviBundle:Etude:suiviEtudes.html.twig', array(
+        return $this->render('MgateSuiviBundle:Etude:suiviEtudes.html.twig', [
             'etudesParMandat' => $etudesParMandat,
             'form' => $form->createView(),
             'chart' => $ob,
-        ));
+        ]);
     }
 
     /**
@@ -375,18 +379,18 @@ class EtudeController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $etudesEnCours = $em->getRepository('MgateSuiviBundle:Etude')->findBy(array('stateID' => self::STATE_ID_EN_COURS), array('mandat' => 'DESC', 'num' => 'DESC'));
-        $etudesTerminees = $em->getRepository('MgateSuiviBundle:Etude')->findBy(array('stateID' => self::STATE_ID_TERMINEE), array('mandat' => 'DESC', 'num' => 'DESC'));
+        $etudesEnCours = $em->getRepository('MgateSuiviBundle:Etude')->findBy(['stateID' => self::STATE_ID_EN_COURS], ['mandat' => 'DESC', 'num' => 'DESC']);
+        $etudesTerminees = $em->getRepository('MgateSuiviBundle:Etude')->findBy(['stateID' => self::STATE_ID_TERMINEE], ['mandat' => 'DESC', 'num' => 'DESC']);
         $etudes = array_merge($etudesEnCours, $etudesTerminees);
 
         $chartManager = $this->get('Mgate.chart_manager');
         $ob = $chartManager->getGanttSuivi($etudes);
 
-        return $this->render('MgateSuiviBundle:Etude:suiviQualite.html.twig', array(
+        return $this->render('MgateSuiviBundle:Etude:suiviQualite.html.twig', [
             'etudesEnCours' => $etudesEnCours,
             'etudesTerminees' => $etudesTerminees,
             'chart' => $ob,
-        ));
+        ]);
     }
 
     /**
@@ -413,9 +417,9 @@ class EtudeController extends Controller
                 $em->persist($etude);
                 $em->flush();
 
-                $return = array('responseCode' => 200, 'msg' => 'ok');
+                $return = ['responseCode' => 200, 'msg' => 'ok'];
             } else {
-                $return = array('responseCode' => 412, 'msg' => 'Erreur:' . $formSuivi->getErrors(true, false));
+                $return = ['responseCode' => 412, 'msg' => 'Erreur:' . $formSuivi->getErrors(true, false)];
             }
         }
 
@@ -432,11 +436,11 @@ class EtudeController extends Controller
         if ($id > 0) {
             $etude = $em->getRepository('MgateSuiviBundle:Etude')->find($id);
         } else {
-            $etude = $em->getRepository('MgateSuiviBundle:Etude')->findOneBy(array('stateID' => self::STATE_ID_EN_COURS));
+            $etude = $em->getRepository('MgateSuiviBundle:Etude')->findOneBy(['stateID' => self::STATE_ID_EN_COURS]);
         }
 
         if ($etude === null) {
-            $etude = $em->getRepository('MgateSuiviBundle:Etude')->findOneBy(array('stateID' => self::STATE_ID_EN_NEGOCIATION));
+            $etude = $em->getRepository('MgateSuiviBundle:Etude')->findOneBy(['stateID' => self::STATE_ID_EN_NEGOCIATION]);
         }
 
         if ($etude === null) {
@@ -445,7 +449,7 @@ class EtudeController extends Controller
 
         //Etudes En Négociation : stateID = 1
         $etudesDisplayList = $em->getRepository('MgateSuiviBundle:Etude')->getTwoStates([self::STATE_ID_EN_NEGOCIATION,
-            self::STATE_ID_EN_COURS], array('mandat' => 'ASC', 'num' => 'ASC'));
+            self::STATE_ID_EN_COURS, ], ['mandat' => 'ASC', 'num' => 'ASC']);
 
         if (!in_array($etude, $etudesDisplayList)) {
             throw $this->createNotFoundException('Etude incorrecte');
@@ -459,12 +463,12 @@ class EtudeController extends Controller
         $chartManager = $this->get('Mgate.chart_manager');
         $ob = $chartManager->getGantt($etude, 'suivi');
 
-        return $this->render('MgateSuiviBundle:Etude:vuCA.html.twig', array(
+        return $this->render('MgateSuiviBundle:Etude:vuCA.html.twig', [
             'etude' => $etude,
             'chart' => $ob,
-            'nextID' => ($etudesDisplayList[$nextId] !== null ? $etudesDisplayList[$nextId]->getId():0),
-            'prevID' => ($etudesDisplayList[$previousId] !== null ?$etudesDisplayList[$previousId]->getId():0),
+            'nextID' => ($etudesDisplayList[$nextId] !== null ? $etudesDisplayList[$nextId]->getId() : 0),
+            'prevID' => ($etudesDisplayList[$previousId] !== null ? $etudesDisplayList[$previousId]->getId() : 0),
             'etudesDisplayList' => $etudesDisplayList,
-        ));
+        ]);
     }
 }

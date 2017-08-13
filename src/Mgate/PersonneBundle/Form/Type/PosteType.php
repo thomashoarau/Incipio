@@ -21,8 +21,8 @@ class PosteType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-                ->add('intitule', TextType::class, array('required' => true))
-                ->add('description', TextType::class, array('required' => false))
+                ->add('intitule', TextType::class, ['required' => true])
+                ->add('description', TextType::class, ['required' => false])
         ;
     }
 
@@ -33,8 +33,8 @@ class PosteType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'Mgate\PersonneBundle\Entity\Poste',
-        ));
+        ]);
     }
 }

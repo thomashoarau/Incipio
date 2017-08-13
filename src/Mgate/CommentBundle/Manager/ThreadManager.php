@@ -35,7 +35,7 @@ class ThreadManager
     public function creerThread($name, $permaLink, Etude $entity)
     {
         if (!$entity->getThread()) {
-            $thread = $this->tm->createThread($name.$entity->getId());
+            $thread = $this->tm->createThread($name . $entity->getId());
             $thread->setPermalink($permaLink); //non exploité dans notre cas. Commentable.
             $entity->setThread($thread);
             //persist thread inutile, car cascade sur $entity.

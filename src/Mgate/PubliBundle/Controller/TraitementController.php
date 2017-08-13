@@ -38,7 +38,7 @@ class TraitementController extends Controller
     const DOCTYPE_ACCORD_CONFIDENTIALITE = 'AC';
     const DOCTYPE_DECLARATION_ETUDIANT_ETR = 'DEE';
     const DOCTYPE_NOTE_DE_FRAIS = 'NF';
-    const DOCTYPE_BULLETIN_DE_VERSEMENT = 'BV'; 
+    const DOCTYPE_BULLETIN_DE_VERSEMENT = 'BV';
 
     const ROOTNAME_ETUDE = 'etude';
     const ROOTNAME_PROCES_VERBAL = 'pvr';
@@ -156,12 +156,12 @@ class TraitementController extends Controller
             }
             if (!$debug) {
                 //avoid collision with references using / or other characters.
-                $refDocx = $rootObject->getReference($namingConvention).'-'.$templateName.'-';
+                $refDocx = $rootObject->getReference($namingConvention) . '-' . $templateName . '-';
             } else {
                 $refDocx = '';
             }
         } elseif ($rootName == 'etudiant') {
-            $refDocx = $templateName.'-'.$rootObject->getIdentifiant();
+            $refDocx = $templateName . '-' . $rootObject->getIdentifiant();
         } else {
             $refDocx = 'UNREF';
         }
@@ -171,21 +171,21 @@ class TraitementController extends Controller
             $refDocx = preg_replace('#RM#', 'DM', $refDocx);
         }
 
-        $idDocx = $refDocx.'-'.((int) strtotime('now') + rand());
-        copy($chemin, $repertoire.'/'.$idDocx);
+        $idDocx = $refDocx . '-' . ((int) strtotime('now') + rand());
+        copy($chemin, $repertoire . '/' . $idDocx);
         $zip = new \ZipArchive();
-        $zip->open($repertoire.'/'.$idDocx);
+        $zip->open($repertoire . '/' . $idDocx);
 
         /*
          * TRAITEMENT INSERT IMAGE
          */
-        $images = array();
+        $images = [];
         //Gantt
         if ($templateName == 'AP' || (isset($isDM) && $isDM)) {
             $chartManager = $this->get('Mgate.chart_manager');
             $ob = $chartManager->getGantt($rootObject, $templateName);
             if ($chartManager->exportGantt($ob, $idDocx)) {
-                $image = array();
+                $image = [];
                 $image['fileLocation'] = "$repertoire/$idDocx.png";
                 $info = getimagesize("$repertoire/$idDocx.png");
                 $image['width'] = $info[0];
@@ -197,17 +197,17 @@ class TraitementController extends Controller
         //Intégration temporaire
         $imagesInDocx = $this->traiterImages($templatesXMLtraite, $images);
         foreach ($imagesInDocx as $image) {
-            $zip->deleteName('word/media/'.$image[2]);
-            $zip->addFile($repertoire.'/'.$idDocx.'.png', 'word/media/'.$image[2]);
+            $zip->deleteName('word/media/' . $image[2]);
+            $zip->addFile($repertoire . '/' . $idDocx . '.png', 'word/media/' . $image[2]);
         }
         /*****/
 
         $zip = new \ZipArchive();
-        $zip->open($repertoire.'/'.$idDocx);
+        $zip->open($repertoire . '/' . $idDocx);
 
         foreach ($templatesXMLtraite as $templateXMLName => $templateXMLContent) {
-            $zip->deleteName('word/'.$templateXMLName);
-            $zip->addFromString('word/'.$templateXMLName, $templateXMLContent);
+            $zip->deleteName('word/' . $templateXMLName);
+            $zip->addFromString('word/' . $templateXMLName, $templateXMLContent);
         }
 
         $zip->close();
@@ -228,12 +228,12 @@ class TraitementController extends Controller
             $idDocx = $this->idDocx;
             $refDocx = $this->refDocx;
 
-            $templateName = 'tmp/'.$idDocx;
+            $templateName = 'tmp/' . $idDocx;
 
             $response = new Response();
             $response->headers->set('Content-Type', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
             $response->headers->set('Content-Length', filesize($templateName));
-            $response->headers->set('Content-disposition', 'attachment; filename="'.$refDocx.'.docx"');
+            $response->headers->set('Content-disposition', 'attachment; filename="' . $refDocx . '.docx"');
             $response->headers->set('Pragma', 'no-cache');
             $response->headers->set('Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0');
             $response->headers->set('Expires', 0);
@@ -243,7 +243,7 @@ class TraitementController extends Controller
             return $response;
         }
 
-        return $this->redirect($this->generateUrl('MgateSuivi_etude_homepage', array('page' => 1)));
+        return $this->redirect($this->generateUrl('MgateSuivi_etude_homepage', ['page' => 1]));
     }
 
     private function arrayPushAssoc(&$array, $key, $value)
@@ -262,10 +262,10 @@ class TraitementController extends Controller
             return $doc;
         }
 
-        if (!$documenttype = $em->getRepository('Mgate\PubliBundle\Entity\Document')->findOneBy(array('name' => $doc))) {
-            throw $this->createNotFoundException('Le doctype '.$doc.' n\'existe pas... C\'est bien balo');
+        if (!$documenttype = $em->getRepository('Mgate\PubliBundle\Entity\Document')->findOneBy(['name' => $doc])) {
+            throw $this->createNotFoundException('Le doctype ' . $doc . ' n\'existe pas... C\'est bien balo');
         } else {
-            $chemin = $this->get('kernel')->getRootDir().''.$documenttype::DOCUMENT_STORAGE_ROOT.'/'.$documenttype->getPath();
+            $chemin = $this->get('kernel')->getRootDir() . '' . $documenttype::DOCUMENT_STORAGE_ROOT . '/' . $documenttype->getPath();
         }
 
         return $chemin;
@@ -275,7 +275,7 @@ class TraitementController extends Controller
     private function getDocxContent($docxFullPath)
     {
         $zip = new \ZipArchive();
-        $templateXML = array();
+        $templateXML = [];
         if ($zip->open($docxFullPath) === true) {
             for ($i = 0; $i < $zip->numFiles; ++$i) {
                 $name = $zip->getNameIndex($i);
@@ -293,7 +293,7 @@ class TraitementController extends Controller
     private function getDocxRelationShip($docxFullPath)
     {
         $zip = new \ZipArchive();
-        $templateXML = array();
+        $templateXML = [];
         if ($zip->open($docxFullPath) === true) {
             for ($i = 0; $i < $zip->numFiles; ++$i) {
                 $name = $zip->getNameIndex($i);
@@ -310,10 +310,10 @@ class TraitementController extends Controller
     private function traiterTemplates($templateFullPath, $rootName, $rootObject)
     {
         $templatesXML = $this->getDocxContent($templateFullPath); //récup contenu XML
-        $templatesXMLTraite = array();
+        $templatesXMLTraite = [];
 
         foreach ($templatesXML as $templateName => $templateXML) {
-            $templateXML = $this->get('twig')->render($templateXML, array($rootName => $rootObject));
+            $templateXML = $this->get('twig')->render($templateXML, [$rootName => $rootObject]);
             $this->arrayPushAssoc($templatesXMLTraite, $templateName, $templateXML);
         }
 
@@ -322,7 +322,7 @@ class TraitementController extends Controller
 
     private function traiterImages(&$templatesXML, $images)
     {
-        $allmatches = array();
+        $allmatches = [];
         foreach ($templatesXML as $key => $templateXML) {
             $i = preg_match_all('#<!--IMAGE\|(.*?)\|\/IMAGE-->#', $templateXML, $matches);
             while ($i--) {
@@ -335,7 +335,7 @@ class TraitementController extends Controller
                         $cx = round($cx);
                         $cy = round($cy);
 
-                        $replacement = array();
+                        $replacement = [];
                         preg_match("#wp:extent cx=\"$splited[3]\" cy=\"$splited[4]\".*wp:docPr.*a:blip r:embed=\"$splited[1]\".*a:ext cx=\"$splited[3]\" cy=\"$splited[4]\"#", $templateXML, $replacement);
                         $replacement = $replacement[0];
                         $replacement = preg_replace("#cy=\"$splited[4]\"#", "cy=\"$cy\"", $replacement);
@@ -369,7 +369,7 @@ class TraitementController extends Controller
      */
     private function cleanDocxFields(&$templateXML)
     {
-        $fields = array();
+        $fields = [];
         preg_match_all(self::REG_CHECK_FIELDS, $templateXML, $fields);
         $fields = $fields[0];
         foreach ($fields as $field) {
@@ -382,7 +382,7 @@ class TraitementController extends Controller
             if ($field == strtoupper($field)) {
                 $field = strtolower($field);
             }
-            $templateXML = preg_replace('#'.addcslashes(addslashes($originalField), self::REG_SPECIAL_CHAR).'#', html_entity_decode($field), $templateXML);
+            $templateXML = preg_replace('#' . addcslashes(addslashes($originalField), self::REG_SPECIAL_CHAR) . '#', html_entity_decode($field), $templateXML);
         }
 
         return $templateXML;
@@ -393,9 +393,9 @@ class TraitementController extends Controller
      */
     private function cleanDocxTableRow(&$templateXML)
     {
-        $parts = array();
+        $parts = [];
         $nbr = preg_match_all(self::REG_REPEAT_LINE, $templateXML, $parts);
-        $datas = array();
+        $datas = [];
         foreach ($parts as $part) {
             for ($i = 0; $i < $nbr; ++$i) {
                 $datas[$i][] = $part[$i];
@@ -406,11 +406,11 @@ class TraitementController extends Controller
             $forStart = $data[2];
             $forEnd = $data[4];
 
-            $body = preg_replace(array(
-               '#'.addcslashes(addslashes($forStart), self::REG_SPECIAL_CHAR).'#',
-               '#'.addcslashes(addslashes($forEnd), self::REG_SPECIAL_CHAR).'#', ), '', $data[0]);
+            $body = preg_replace([
+               '#' . addcslashes(addslashes($forStart), self::REG_SPECIAL_CHAR) . '#',
+               '#' . addcslashes(addslashes($forEnd), self::REG_SPECIAL_CHAR) . '#', ], '', $data[0]);
 
-            $templateXML = preg_replace('#'.addcslashes(addslashes($data[0]), self::REG_SPECIAL_CHAR).'#', preg_replace('#TRfor#', 'for', $forStart).$body.'{% endfor %}', $templateXML);
+            $templateXML = preg_replace('#' . addcslashes(addslashes($data[0]), self::REG_SPECIAL_CHAR) . '#', preg_replace('#TRfor#', 'for', $forStart) . $body . '{% endfor %}', $templateXML);
         }
 
         return $templateXML;
@@ -421,9 +421,9 @@ class TraitementController extends Controller
      */
     private function cleanDocxParagraph(&$templateXML)
     {
-        $parts = array();
+        $parts = [];
         $nbr = preg_match_all(self::REG_REPEAT_PARAGRAPH, $templateXML, $parts);
-        $datas = array();
+        $datas = [];
         foreach ($parts as $part) {
             for ($i = 0; $i < $nbr; ++$i) {
                 $datas[$i][] = $part[$i];
@@ -434,11 +434,11 @@ class TraitementController extends Controller
             $forStart = $data[2];
             $forEnd = $data[4];
 
-            $body = preg_replace(array(
-               '#'.addcslashes(addslashes($forStart), self::REG_SPECIAL_CHAR).'#',
-               '#'.addcslashes(addslashes($forEnd), self::REG_SPECIAL_CHAR).'#', ), '', $data[0]);
+            $body = preg_replace([
+               '#' . addcslashes(addslashes($forStart), self::REG_SPECIAL_CHAR) . '#',
+               '#' . addcslashes(addslashes($forEnd), self::REG_SPECIAL_CHAR) . '#', ], '', $data[0]);
 
-            $templateXML = preg_replace('#'.addcslashes(addslashes($data[0]), self::REG_SPECIAL_CHAR).'#', preg_replace('#Pfor#', 'for', $forStart).$body.'{% endfor %}', $templateXML);
+            $templateXML = preg_replace('#' . addcslashes(addslashes($data[0]), self::REG_SPECIAL_CHAR) . '#', preg_replace('#Pfor#', 'for', $forStart) . $body . '{% endfor %}', $templateXML);
         }
 
         return $templateXML;
@@ -449,24 +449,24 @@ class TraitementController extends Controller
      */
     private function linkDocxImages(&$templateXML, $relationship)
     {
-        $images = array();
+        $images = [];
         preg_match(self::REG_IMAGE_DOC, $templateXML, $images);
 
         foreach ($images as $image) {
-            $imageInfo = array();
+            $imageInfo = [];
             if (preg_match(self::REG_IMAGE_DOC_FIELD, $image, $imageInfo)) {
                 $cx = $imageInfo[1];
                 $cy = $imageInfo[2];
                 $fileName = explode('\\', $imageInfo[3]);
-                $originalFilename = preg_replace(self::REG_FILE_EXT,  '', end($fileName));
+                $originalFilename = preg_replace(self::REG_FILE_EXT, '', end($fileName));
                 $rId = $imageInfo[4];
 
                 if (preg_match(self::IMAGE_VAR, $originalFilename) || preg_match(self::IMAGE_VAR, $originalFilename)) {
-                    $relatedImage = array();
+                    $relatedImage = [];
                     preg_match(self::REG_IMAGE_REL, $relationship, $relatedImage);
                     $localFilename = $relatedImage[2];
 
-                    $commentsRel = '<!--IMAGE|'.$originalFilename.'|'.$rId.'|'.$localFilename.'|'.$cx.'|'.$cy.'|/IMAGE-->';
+                    $commentsRel = '<!--IMAGE|' . $originalFilename . '|' . $rId . '|' . $localFilename . '|' . $cx . '|' . $cy . '|/IMAGE-->';
                     $templateXML = preg_replace("#(<\?.*?\?>)#", "$0$commentsRel", $templateXML, 1);
                 }
             }
@@ -480,7 +480,7 @@ class TraitementController extends Controller
      */
     public function uploadNewDoctypeAction(Request $request)
     {
-        $data = array();
+        $data = [];
         $form = $this->createForm(DocTypeType::class, $data);
         $session = $request->getSession();
 
@@ -493,15 +493,15 @@ class TraitementController extends Controller
                 // Création d'un fichier temporaire
                 $file = $data['template'];
                 $filename = sha1(uniqid(mt_rand(), true));
-                $filename .= '.'.$file->guessExtension();
+                $filename .= '.' . $file->guessExtension();
                 $file->move('tmp/', $filename);
-                $docxFullPath = 'tmp/'.$filename;
+                $docxFullPath = 'tmp/' . $filename;
 
                 // Extraction des infos XML
                 $templatesXML = $this->getDocxContent($docxFullPath);
                 $relationship = $this->getDocxRelationShip($docxFullPath);
                 // Nettoyage des XML
-                $templatesXMLTraite = array();
+                $templatesXMLTraite = [];
                 foreach ($templatesXML as $templateName => $templateXML) {
                     $this->cleanDocxFields($templateXML);
                     $this->cleanDocxTableRow($templateXML);
@@ -515,8 +515,8 @@ class TraitementController extends Controller
                 $zip->open($docxFullPath);
 
                 foreach ($templatesXMLTraite as $templateXMLName => $templateXMLContent) {
-                    $zip->deleteName('word/'.$templateXMLName);
-                    $zip->addFromString('word/'.$templateXMLName, $templateXMLContent);
+                    $zip->deleteName('word/' . $templateXMLName);
+                    $zip->addFromString('word/' . $templateXMLName, $templateXMLContent);
                 }
                 $zip->close();
 
@@ -562,7 +562,7 @@ class TraitementController extends Controller
                 $kernel = $this->get('kernel');
                 $doc->setRootDir($kernel->getRootDir());
                 $em->persist($doc);
-                $docs = $em->getRepository('MgatePubliBundle:Document')->findBy(array('name' => $doc->getName()));
+                $docs = $em->getRepository('MgatePubliBundle:Document')->findBy(['name' => $doc->getName()]);
                 foreach ($docs as $doc) {
                     $doc->setRootDir($kernel->getRootDir());
                     $em->remove($doc);
@@ -576,7 +576,7 @@ class TraitementController extends Controller
         }
 
         return $this->render('MgatePubliBundle:DocType:upload.html.twig',
-                            array('form' => $form->createView())
+                            ['form' => $form->createView()]
                 );
     }
 }

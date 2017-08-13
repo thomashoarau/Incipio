@@ -26,35 +26,35 @@ class FactureType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('exercice', IntegerType::class, array('label' => 'Exercice Comptable', 'required' => true))
-                ->add('numero', IntegerType::class, array('label' => 'Numéro de la Facture', 'required' => true))
-                ->add('type', ChoiceType::class, array('choices' => array_flip(Facture::getTypeChoices()),
+        $builder->add('exercice', IntegerType::class, ['label' => 'Exercice Comptable', 'required' => true])
+                ->add('numero', IntegerType::class, ['label' => 'Numéro de la Facture', 'required' => true])
+                ->add('type', ChoiceType::class, ['choices' => array_flip(Facture::getTypeChoices()),
                     'required' => true,
-                    ))
+                    ])
                 ->add('objet', TextareaType::class,
-                    array('label' => 'Objet de la Facture',
+                    ['label' => 'Objet de la Facture',
                         'required' => true,
-                        'attr' => array(
+                        'attr' => [
                             'cols' => '100%',
-                            'rows' => 5, ),
-                        )
+                            'rows' => 5, ],
+                        ]
                     )
-                ->add('details', CollectionType::class, array(
+                ->add('details', CollectionType::class, [
                     'entry_type' => FactureDetailType::class,
                     'allow_add' => true,
                     'allow_delete' => true,
                     'prototype' => true,
                     'by_reference' => false,
-                ))
-                ->add('beneficiaire', Select2EntityType::class, array(
+                ])
+                ->add('beneficiaire', Select2EntityType::class, [
                     'class' => 'Mgate\PersonneBundle\Entity\Prospect',
                     'choice_label' => 'nom',
                     'required' => true,
                     'label' => 'Facture émise pour/par',
-                ))
-                ->add('montantADeduire', FactureDetailType::class, array('label' => 'Montant à déduire', 'required' => true))
-                ->add('dateEmission', DateType::class, array('label' => 'Date d\'émission', 'required' => true, 'widget' => 'single_text'))
-                ->add('dateVersement', DateType::class, array('label' => 'Date de versement', 'required' => false, 'widget' => 'single_text'));
+                ])
+                ->add('montantADeduire', FactureDetailType::class, ['label' => 'Montant à déduire', 'required' => true])
+                ->add('dateEmission', DateType::class, ['label' => 'Date d\'émission', 'required' => true, 'widget' => 'single_text'])
+                ->add('dateVersement', DateType::class, ['label' => 'Date de versement', 'required' => false, 'widget' => 'single_text']);
     }
 
     public function getBlockPrefix()
@@ -64,8 +64,8 @@ class FactureType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'Mgate\TresoBundle\Entity\Facture',
-        ));
+        ]);
     }
 }

@@ -26,16 +26,16 @@ class DocTypeType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         // Version du document
-        $builder->add('version', IntegerType::class, array('label' => 'Version du document'));
+        $builder->add('version', IntegerType::class, ['label' => 'Version du document']);
 
         $builder->add('signataire1', Select2EntityType::class,
-            array('label' => 'Signataire Junior',
+            ['label' => 'Signataire Junior',
                 'class' => 'Mgate\\PersonneBundle\\Entity\\Personne',
                 'choice_label' => 'prenomNom',
                 'query_builder' => function (PersonneRepository $pr) {
                     return $pr->getMembresByPoste('president%');
                 },
-                'required' => true, ));
+                'required' => true, ]);
 
         // Si le document n'est ni une FactureVente ni un RM
         if ($options['data_class'] != 'Mgate\SuiviBundle\Entity\Mission') {
@@ -44,34 +44,34 @@ class DocTypeType extends AbstractType
             $pro = $options['prospect'];
             if ($options['data_class'] != 'Mgate\SuiviBundle\Entity\Av') {
                 $builder->add('knownSignataire2', CheckboxType::class,
-                    array(
+                    [
                         'required' => false,
                         'label' => 'Le signataire client existe-t-il déjà dans la base de donnée ?',
-                    ))
+                    ])
                     ->add('newSignataire2', EmployeType::class,
-                        array('label' => 'Nouveau signataire '.$pro->getNom(),
+                        ['label' => 'Nouveau signataire ' . $pro->getNom(),
                             'required' => false,
                             'signataire' => true,
-                            'mini' => true, )
+                            'mini' => true, ]
                     );
             }
 
-            $builder->add('signataire2', Select2EntityType::class, array(
+            $builder->add('signataire2', Select2EntityType::class, [
                 'class' => 'Mgate\\PersonneBundle\\Entity\\Personne',
                 'choice_label' => 'prenomNom',
-                'label' => 'Signataire '.$pro->getNom(),
+                'label' => 'Signataire ' . $pro->getNom(),
                 'query_builder' => function (PersonneRepository $pr) use ($pro) {
                     return $pr->getEmployeOnly($pro);
                 },
                 'required' => false,
-            ));
+            ]);
         }
 
         $builder->add('dateSignature', DateType::class,
-            array('label' => 'Date de Signature du document',
+            ['label' => 'Date de Signature du document',
                 'required' => false,
                 'format' => 'dd/MM/yyyy',
-                'widget' => 'single_text', ));
+                'widget' => 'single_text', ]);
     }
 
     public function getBlockPrefix()
@@ -81,9 +81,9 @@ class DocTypeType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'Mgate\SuiviBundle\Entity\DocType',
             'prospect' => '',
-        ));
+        ]);
     }
 }

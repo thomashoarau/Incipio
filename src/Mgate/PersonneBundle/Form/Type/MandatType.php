@@ -22,12 +22,12 @@ class MandatType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-                ->add('debutMandat', GenemuDateType::class, array('label' => 'Date de début', 'format' => 'dd/MM/yyyy', 'required' => false, 'widget' => 'single_text'))
-                ->add('finMandat', GenemuDateType::class, array('label' => 'Date de Fin', 'format' => 'dd/MM/yyyy', 'required' => false, 'widget' => 'single_text'))
-                ->add('poste', EntityType::class, array('label' => 'Intitulé',
+                ->add('debutMandat', GenemuDateType::class, ['label' => 'Date de début', 'format' => 'dd/MM/yyyy', 'required' => false, 'widget' => 'single_text'])
+                ->add('finMandat', GenemuDateType::class, ['label' => 'Date de Fin', 'format' => 'dd/MM/yyyy', 'required' => false, 'widget' => 'single_text'])
+                ->add('poste', EntityType::class, ['label' => 'Intitulé',
                     'class' => 'Mgate\\PersonneBundle\\Entity\\Poste',
                     'choice_label' => 'intitule',
-                    'required' => true, )); //ajout de la condition "requis" pour éviter la corruption de la liste des membres par manque d'intitulé.
+                    'required' => true, ]); //ajout de la condition "requis" pour éviter la corruption de la liste des membres par manque d'intitulé.
     }
 
     public function getBlockPrefix()
@@ -37,8 +37,8 @@ class MandatType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'Mgate\PersonneBundle\Entity\Mandat',
-        ));
+        ]);
     }
 }
