@@ -307,8 +307,8 @@ class Etude
      */
     public function prePersist()
     {
-        $this->dateCreation = new \DateTime('now');
-        $this->dateModification = new \DateTime('now');
+        $this->dateCreation = $this->dateCreation ?? new \DateTime('now');
+        $this->dateModification = $this->dateModification ?? new \DateTime('now');
     }
 
     /**
