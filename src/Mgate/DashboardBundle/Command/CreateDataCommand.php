@@ -22,6 +22,131 @@ class CreateDataCommand extends ContainerAwareCommand
 {
     const NOM = ['Henry', 'Martinez', 'Durand', 'Duval', 'Leroux', 'Robert', 'Morel', 'Bourgeois', 'Dupont', 'Dumont', 'Bernard', 'Francois', 'Dupond', 'Dubois', 'Blanc', 'Paul', 'Petit'];
     const PRENOM = ['Alexandre', 'Paul', 'Thomas', 'Raphaël', 'Camille', 'Inès', 'Emma', 'Gabriel', 'Antoine', 'Louis', 'Victor', 'Maxime', 'Hugo', 'Louise', 'Marie', 'Sarah', 'Arthur', 'Clara', 'Lea', 'Alice', 'Lucas', 'Jules', 'Chloe', 'Elsa', 'Manon'];
+    const FILIERES = ['Hydro', 'Electronique', 'Telecoms', 'Automatique', 'Info'];
+    const ETUDES = [
+        [
+            'nom' => '315GLA',
+            'description' => 'Realisation site web',
+            'statut' => 1,
+            'nbrJEH' => 9,
+            'duree' => 5,
+            'dateCC' => 'ok',
+            'prospect' => ['entreprise' => 'Gladiator Consulting',
+                'adresse' => '3 rue du chene noir',
+                'codePostal' => 33100,
+                'ville' => 'Toulouse',
+                'entite' => 2,
+                'email' => 'contact@glad.fr',
+            ],
+        ],
+        [
+            'nom' => '316BLA',
+            'description' => 'Electronique avancee',
+            'statut' => 2,
+            'nbrJEH' => 5,
+            'duree' => 3,
+            'dateCC' => 'ok',
+            'prospect' => ['entreprise' => 'Blackwater',
+                'adresse' => '1020 5th Avenue',
+                'codePostal' => 92200,
+                'ville' => 'Neuilly',
+                'entite' => 3,
+                'email' => 'hello@black.ninja',
+            ],
+        ],
+        [
+            'nom' => '317IMU',
+            'description' => 'Design Base de donnes',
+            'statut' => 4,
+            'nbrJEH' => 8,
+            'duree' => 4,
+            'dateCC' => 'ok',
+            'prospect' => ['entreprise' => 'Imuka',
+                'adresse' => 'Kuruma San',
+                'codePostal' => 91000,
+                'ville' => 'Evry',
+                'entite' => 4,
+                'email' => 'contact@imuka.jp',
+            ],
+        ],
+        [
+            'nom' => '319UNI',
+            'description' => 'Conception Radar recul',
+            'statut' => 4,
+            'nbrJEH' => 12,
+            'duree' => 8,
+            'dateCC' => 'ok',
+            'prospect' => ['entreprise' => 'Universal rad',
+                'adresse' => '2 rue Marie Curie',
+                'codePostal' => 35000,
+                'ville' => 'Rennes',
+                'entite' => 5,
+                'email' => 'contact@univ.radar',
+            ],
+        ],
+        [
+            'nom' => '320TEK',
+            'description' => 'Refactorisation code Java',
+            'statut' => 2,
+            'nbrJEH' => 10,
+            'duree' => 8,
+            'dateCC' => 'ok',
+            'prospect' => ['entreprise' => 'Teknik studio',
+                'adresse' => '10 impasse sunderland',
+                'codePostal' => 35000,
+                'ville' => 'Rennes',
+                'entite' => 6,
+                'email' => 'contact@teknik.paris',
+            ],
+        ],
+        [
+            'nom' => '321DUV',
+            'description' => 'Calcul de flux thermique',
+            'statut' => 2,
+            'nbrJEH' => 9,
+            'duree' => 4,
+            'dateCC' => 'ok',
+            'prospect' => ['entreprise' => 'Duvilcolor',
+                'adresse' => '600 la pyrennene ',
+                'codePostal' => 33100,
+                'ville' => 'Labege',
+                'entite' => 4,
+                'email' => 'contact@duvilcol.or',
+            ],
+        ],
+        [
+            'nom' => '322NIL',
+            'description' => 'Application Android',
+            'statut' => 1,
+            'nbrJEH' => 8,
+            'duree' => 12,
+            'dateCC' => 'ok',
+            'prospect' => ['entreprise' => 'Nilsen Industries',
+                'adresse' => '2 rue saint-louis',
+                'codePostal' => 31000,
+                'ville' => 'Bordeaux',
+                'entite' => 7,
+                'email' => 'contact@nislen.com',
+            ],
+        ],
+        [
+            'nom' => '323PRR',
+            'description' => 'Etude de faisabilite',
+            'statut' => 3,
+            'nbrJEH' => 4,
+            'duree' => 4,
+            'dateCC' => 'ok',
+            'prospect' => ['entreprise' => 'PRR',
+                'adresse' => 'PRR',
+                'codePostal' => 35000,
+                'ville' => 'Rennes',
+                'entite' => 4,
+                'email' => 'contact@prr.cn',
+            ],
+        ],
+    ];
+
+    private $etudes = [];
 
     /**
      * {@inheritdoc}
@@ -41,147 +166,29 @@ class CreateDataCommand extends ContainerAwareCommand
     {
         $em = $this->getContainer()->get('doctrine.orm.entity_manager');
 
-        $array_projects = [
-            [
-                'nom' => '315GLA',
-                'description' => 'Realisation site web',
-                'statut' => 1,
-                'nbrJEH' => 9,
-                'duree' => 5,
-                'dateCC' => 'ok',
-                'prospect' => ['entreprise' => 'Gladiator Consulting',
-                    'adresse' => '3 rue du chene noir',
-                    'codePostal' => 33100,
-                    'ville' => 'Toulouse',
-                    'entite' => 2,
-                    'email' => 'contact@glad.fr',
-                ],
-            ],
-            [
-                'nom' => '316BLA',
-                'description' => 'Electronique avancee',
-                'statut' => 2,
-                'nbrJEH' => 5,
-                'duree' => 3,
-                'dateCC' => 'ok',
-                'prospect' => ['entreprise' => 'Blackwater',
-                    'adresse' => '1020 5th Avenue',
-                    'codePostal' => 92200,
-                    'ville' => 'Neuilly',
-                    'entite' => 3,
-                    'email' => 'hello@black.ninja',
-                ],
-            ],
-            [
-                'nom' => '317IMU',
-                'description' => 'Design Base de donnes',
-                'statut' => 4,
-                'nbrJEH' => 8,
-                'duree' => 4,
-                'dateCC' => 'ok',
-                'prospect' => ['entreprise' => 'Imuka',
-                    'adresse' => 'Kuruma San',
-                    'codePostal' => 91000,
-                    'ville' => 'Evry',
-                    'entite' => 4,
-                    'email' => 'contact@imuka.jp',
-                ],
-            ],
-            [
-                'nom' => '319UNI',
-                'description' => 'Conception Radar recul',
-                'statut' => 4,
-                'nbrJEH' => 12,
-                'duree' => 8,
-                'dateCC' => 'ok',
-                'prospect' => ['entreprise' => 'Universal rad',
-                    'adresse' => '2 rue Marie Curie',
-                    'codePostal' => 35000,
-                    'ville' => 'Rennes',
-                    'entite' => 5,
-                    'email' => 'contact@univ.radar',
-                ],
-            ],
-            [
-                'nom' => '320TEK',
-                'description' => 'Refactorisation code Java',
-                'statut' => 2,
-                'nbrJEH' => 10,
-                'duree' => 8,
-                'dateCC' => 'ok',
-                'prospect' => ['entreprise' => 'Teknik studio',
-                    'adresse' => '10 impasse sunderland',
-                    'codePostal' => 35000,
-                    'ville' => 'Rennes',
-                    'entite' => 6,
-                    'email' => 'contact@teknik.paris',
-                ],
-            ],
-            [
-                'nom' => '321DUV',
-                'description' => 'Calcul de flux thermique',
-                'statut' => 2,
-                'nbrJEH' => 9,
-                'duree' => 4,
-                'dateCC' => 'ok',
-                'prospect' => ['entreprise' => 'Duvilcolor',
-                    'adresse' => '600 la pyrennene ',
-                    'codePostal' => 33100,
-                    'ville' => 'Labege',
-                    'entite' => 4,
-                    'email' => 'contact@duvilcol.or',
-                ],
-            ],
-            [
-                'nom' => '322NIL',
-                'description' => 'Application Android',
-                'statut' => 1,
-                'nbrJEH' => 8,
-                'duree' => 12,
-                'dateCC' => 'ok',
-                'prospect' => ['entreprise' => 'Nilsen Industries',
-                    'adresse' => '2 rue saint-louis',
-                    'codePostal' => 31000,
-                    'ville' => 'Bordeaux',
-                    'entite' => 7,
-                    'email' => 'contact@nislen.com',
-                ],
-            ],
-            [
-                'nom' => '323PRR',
-                'description' => 'Etude de faisabilite',
-                'statut' => 3,
-                'nbrJEH' => 4,
-                'duree' => 4,
-                'dateCC' => 'ok',
-                'prospect' => ['entreprise' => 'PRR',
-                    'adresse' => 'PRR',
-                    'codePostal' => 35000,
-                    'ville' => 'Rennes',
-                    'entite' => 4,
-                    'email' => 'contact@prr.cn',
-                ],
-            ],
-        ];
-
         /* Filiere management */
-        $filieres = ['Info', 'Hydro', 'Electronique', 'Telecoms', 'Automatique'];
-
-        foreach ($filieres as $ff) {
+        foreach (self::FILIERES as $ff) {
             $nf = new Filiere();
             $nf->setDescription('Demo filiere');
             $nf->setNom($ff);
+            $em->persist($nf);
+        }
+        // ensure $nf is defined for the following steps
+        if (!isset($nf)) {
+            $nf = new Filiere();
+            $nf->setDescription('Demo filiere');
+            $nf->setNom('Maths appliquees');
             $em->persist($nf);
         }
 
         $inserted_projects = 0;
         $inserted_prospects = 0;
 
-        foreach ($array_projects as $etude) {
+        foreach (self::ETUDES as $etude) {
             //create project
             $e = new Etude();
             ++$inserted_projects;
-            $mandat = rand(2013, 2016);
+            $mandat = rand(intval(date('Y')) - 3, intval(date('Y')));
             $month = rand(1, 10);
             $day = rand(1, 30);
             $e->setMandat($mandat);
@@ -258,24 +265,12 @@ class CreateDataCommand extends ContainerAwareCommand
             $m = new Membre();
             $m->setPersonne($pm);
             $m->setPromotion($mandat + 2);
+            $m->setFiliere($nf);
             $em->persist($m);
             if ($c !== null) {
                 $c->addMembre($m);
             }
             $e->setSuiveur($pm);
-
-            //manage AP & CC
-            if ($etude['dateCC'] !== null && $etude['statut'] > 1) {
-                $ap = new Ap();
-                $ap->setEtude($e);
-                $em->persist($ap);
-
-                $cc = new Cc();
-                $cc->setEtude($e);
-                $cc->setDateSignature(new \DateTime($mandat . '-' . $month . '-' . $day));
-                $cc->setSignataire2($pe);
-                $em->persist($cc);
-            }
 
             //manage intervenant
             if ($etude['statut'] > 1 && $etude['statut'] < 5) {
@@ -290,6 +285,7 @@ class CreateDataCommand extends ContainerAwareCommand
                 $mdev = new Membre();
                 $mdev->setPersonne($dev);
                 $mdev->setPromotion($mandat + rand(1, 2));
+                $mdev->setFiliere($nf);
                 $em->persist($mdev);
                 if ($c !== null) {
                     $c->addMembre($mdev);
@@ -315,8 +311,32 @@ class CreateDataCommand extends ContainerAwareCommand
                 $pv->setType('pvr');
                 $em->persist($pv);
             }
+
+            $this->etudes[$etude['nom']] = $e;
         }
 
+        $em->flush();
+
+        //manage AP & CC
+
+        foreach (self::ETUDES as $etude) {
+            /** @var Etude $e */
+            $e = $this->etudes[$etude['nom']];
+            if ($etude['dateCC'] !== null && $etude['statut'] > 1) {
+                $ap = new Ap();
+                $ap->setEtude($e);
+                $e->setAp($ap);
+                $em->persist($ap);
+
+                $cc = new Cc();
+                $cc->setDateSignature($e->getDateCreation());
+                /** @var Employe $emp */
+                $emp = $e->getProspect()->getEmployes()[0];
+                $cc->setSignataire2($emp !== null ? $emp->getPersonne() : $emp);
+                $e->setCc($cc);
+                $em->persist($cc);
+            }
+        }
         $em->flush();
 
         $output->writeln('Done.');
