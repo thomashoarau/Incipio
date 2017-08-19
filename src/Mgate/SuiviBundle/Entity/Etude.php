@@ -511,7 +511,7 @@ class Etude
             case 'FA':
                 return $this->getFa();
             case 'FI':
-                return $this->getFis($key);
+                throw new \Exception('Missing implementation of getFis() on Etude entity');
             case 'FS':
                 return $this->getFs();
             case 'PVR':
