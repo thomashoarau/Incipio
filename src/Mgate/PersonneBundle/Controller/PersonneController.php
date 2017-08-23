@@ -25,9 +25,9 @@ class PersonneController extends Controller
 
         $entities = $em->getRepository('MgatePersonneBundle:Personne')->findAll();
 
-        return $this->render('MgatePersonneBundle:Personne:annuaire.html.twig', array(
+        return $this->render('MgatePersonneBundle:Personne:annuaire.html.twig', [
             'personnes' => $entities,
-        ));
+        ]);
     }
 
     /**
@@ -39,8 +39,8 @@ class PersonneController extends Controller
 
         $entities = $em->getRepository('MgatePersonneBundle:Personne')->getAllPersonne();
 
-        $cotisants = array();
-        $cotisantsEtu = array();
+        $cotisants = [];
+        $cotisantsEtu = [];
         //Formely here (check git history if required) : membres mail management code commented.
         $nbrCotisants = count($cotisants);
         $nbrCotisantsEtu = count($cotisantsEtu);
@@ -54,14 +54,13 @@ class PersonneController extends Controller
             $listCotisantsEtu .= "$nom <$mail>; ";
         }
 
-        return $this->render('MgatePersonneBundle:Personne:listeDiffusion.html.twig', array(
+        return $this->render('MgatePersonneBundle:Personne:listeDiffusion.html.twig', [
             'personnes' => $entities,
             'cotisants' => $listCotisants,
             'cotisantsEtu' => $listCotisantsEtu,
             'nbrCotisants' => $nbrCotisants,
             'nbrCotisantsEtu' => $nbrCotisantsEtu,
-
-        ));
+        ]);
     }
 
     /**

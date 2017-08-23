@@ -308,6 +308,6 @@ class ClientContact
 
     public function __toString()
     {
-        return $this->getId().' - '.$this->getFaitPar()->__toString().' '.$this->getObjet();
+        return $this->getId() . ' - ' . $this->getFaitPar()->__toString() . ' ' . $this->getObjet();
     }
 }

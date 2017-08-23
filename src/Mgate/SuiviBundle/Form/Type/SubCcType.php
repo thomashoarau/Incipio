@@ -29,9 +29,9 @@ class SubCcType extends DocTypeType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'Mgate\SuiviBundle\Entity\Cc',
             'prospect' => '',
-        ));
+        ]);
     }
 }

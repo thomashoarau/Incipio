@@ -18,14 +18,13 @@ use Mgate\SuiviBundle\Entity\Etude;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class DocumentController extends Controller
 {
-
     /**
      * @Security("has_role('ROLE_CA')")
      */
@@ -40,16 +39,17 @@ class DocumentController extends Controller
             $totalSize += $entity->getSize();
         }
 
-        return $this->render('MgatePubliBundle:Document:index.html.twig', array(
+        return $this->render('MgatePubliBundle:Document:index.html.twig', [
             'docs' => $entities,
             'totalSize' => $totalSize,
-        ));
+        ]);
     }
 
     /**
      * @Security("has_role('ROLE_CA')")
      *
-     * @param Document $documentType (ParamConverter) The document to be downloaded.
+     * @param Document $documentType (ParamConverter) The document to be downloaded
+     *
      * @return BinaryFileResponse
      *
      * @throws \Exception
@@ -71,7 +71,7 @@ class DocumentController extends Controller
      * @Security("has_role('ROLE_SUIVEUR')")
      *
      * @param Request $request
-     * @param Etude $etude
+     * @param Etude   $etude
      *
      * @return Response
      */
@@ -83,8 +83,10 @@ class DocumentController extends Controller
 
         if (!$response = $this->upload($request, false, ['etude' => $etude])) {
             $this->addFlash('success', 'Document mis en ligne');
-            return $this->redirect($this->generateUrl('MgateSuivi_etude_voir', array('nom' => $etude->getNom())));
+
+            return $this->redirect($this->generateUrl('MgateSuivi_etude_voir', ['nom' => $etude->getNom()]));
         }
+
         return $response;
     }
 
@@ -104,7 +106,8 @@ class DocumentController extends Controller
 
         if (!$response = $this->upload($request, false, $options)) {
             $this->addFlash('success', 'Document mis en ligne');
-            return $this->redirect($this->generateUrl('MgatePersonne_membre_voir', array('id' => $membre_id)));
+
+            return $this->redirect($this->generateUrl('MgatePersonne_membre_voir', ['id' => $membre_id]));
         } else {
             return $response;
         }
@@ -159,7 +162,7 @@ class DocumentController extends Controller
         return $this->redirect($this->generateUrl('Mgate_publi_documenttype_index'));
     }
 
-    private function upload(Request $request, $deleteIfExist = false, $options = array())
+    private function upload(Request $request, $deleteIfExist = false, $options = [])
     {
         $document = new Document();
         $document->setRootDir($this->get('kernel')->getRootDir());
@@ -167,10 +170,10 @@ class DocumentController extends Controller
             $relatedDocument = new RelatedDocument();
             $relatedDocument->setDocument($document);
             $document->setRelation($relatedDocument);
-            if (key_exists('etude', $options)) {
+            if (array_key_exists('etude', $options)) {
                 $relatedDocument->setEtude($options['etude']);
             }
-            if (key_exists('etudiant', $options)) {
+            if (array_key_exists('etudiant', $options)) {
                 $relatedDocument->setMembre($options['etudiant']);
             }
         }
@@ -188,6 +191,6 @@ class DocumentController extends Controller
             }
         }
 
-        return $this->render('MgatePubliBundle:Document:upload.html.twig', array('form' => $form->createView()));
+        return $this->render('MgatePubliBundle:Document:upload.html.twig', ['form' => $form->createView()]);
     }
 }

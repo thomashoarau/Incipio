@@ -20,7 +20,6 @@ use Symfony\Component\Form\FormEvents;
  * Where is that stuff used ? Doesn't seem to be.
  *
  * Class AddUserFieldSubscriber
- * @package Mgate\PersonneBundle\Form\EventListener
  */
 class AddUserFieldSubscriber implements EventSubscriberInterface
 {
@@ -28,7 +27,7 @@ class AddUserFieldSubscriber implements EventSubscriberInterface
     {
         // Tells the dispatcher that you want to listen on the form.pre_set_data
         // event and that the preSetData method should be called.
-        return array(FormEvents::PRE_SET_DATA => 'preSetData');
+        return [FormEvents::PRE_SET_DATA => 'preSetData'];
     }
 
     public function preSetData(FormEvent $event)
@@ -44,13 +43,13 @@ class AddUserFieldSubscriber implements EventSubscriberInterface
 
         $personne = $data;
         $form->add('user', 'entity',
-            array('label' => "Séléctionner un compte d'utilisateur associé s'il existe déjà",
+            ['label' => "Séléctionner un compte d'utilisateur associé s'il existe déjà",
                 'class' => 'Mgate\\UserBundle\\Entity\\User',
                 'property' => 'username',
                 'required' => false,
                 'query_builder' => function (UserRepository $ur) use ($personne) {
                     return $ur->getNotPersonne($personne);
                 },
-            ));
+            ]);
     }
 }

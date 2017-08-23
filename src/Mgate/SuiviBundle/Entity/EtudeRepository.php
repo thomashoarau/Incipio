@@ -23,7 +23,7 @@ use N7consulting\RhBundle\Entity\Competence;
 class EtudeRepository extends EntityRepository
 {
     /**
-     * Création d'une méthode précise au lieu d'utiliser findOneByNom pour permettre l'ajout ultérieur de jointure
+     * Création d'une méthode précise au lieu d'utiliser findOneByNom pour permettre l'ajout ultérieur de jointure.
      *
      * @param $nom
      *
@@ -90,7 +90,7 @@ class EtudeRepository extends EntityRepository
 
         if ($orders !== null) {
             foreach ($orders as $column => $value) {
-                $qb->orderBy('e.'.$column, $value);
+                $qb->orderBy('e.' . $column, $value);
             }
         }
         //les jointures
@@ -143,7 +143,7 @@ class EtudeRepository extends EntityRepository
             ->setParameter('stateCurrent', $states[1]);
         if ($orders !== null) {
             foreach ($orders as $column => $value) {
-                $qb->orderBy('e.'.$column, $value);
+                $qb->orderBy('e.' . $column, $value);
             }
         }
         $query = $qb->getQuery();
@@ -163,7 +163,7 @@ class EtudeRepository extends EntityRepository
         $qb->select('e')
             ->from('MgateSuiviBundle:Etude', 'e')
             ->where('e.nom LIKE :nom')
-            ->setParameter('nom', '%'.$search.'%')
+            ->setParameter('nom', '%' . $search . '%')
             ->setMaxResults($limit);
         $query = $qb->getQuery();
 

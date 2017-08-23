@@ -24,23 +24,15 @@ class ClientContactType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            //->add('dateCreation',  'date')
-
-            ->add('faitPar', Select2EntityType::class, array('label' => 'Fait par',
+            ->add('faitPar', Select2EntityType::class, ['label' => 'Fait par',
                        'class' => 'Mgate\\PersonneBundle\\Entity\\Personne',
                        'choice_label' => 'prenomNom',
-                       'required' => true, ))
-
-            //->add('thread', new ThreadType) // délicat
-           ->add('date', DateType::class, array('label' => 'Date du contact',  'required' => true, 'widget' => 'single_text'))
-           ->add('objet', TextType::class, array('label' => 'Objet'))
-           ->add('contenu', TextareaType::class, array('label' => 'Résumé du contact', 'attr' => array('cols' => '100%', 'rows' => 5)))
-           ->add('moyenContact', MoyenContactType::class, array('label' => 'Contact effectué par'))
+                       'required' => true, ])
+           ->add('date', DateType::class, ['label' => 'Date du contact',  'required' => true, 'widget' => 'single_text'])
+           ->add('objet', TextType::class, ['label' => 'Objet'])
+           ->add('contenu', TextareaType::class, ['label' => 'Résumé du contact', 'attr' => ['cols' => '100%', 'rows' => 5]])
+           ->add('moyenContact', MoyenContactType::class, ['label' => 'Contact effectué par'])
            ;
-
-            /*             ->add('prospect', 'collection', array('type'  => new \Mgate\PersonneBundle\Form\ProspectType,
-                                              'prototype' => true,
-                                              'allow_add' => true)); */
     }
 
     public function getBlockPrefix()
@@ -50,8 +42,8 @@ class ClientContactType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
                 'data_class' => 'Mgate\SuiviBundle\Entity\ClientContact',
-            ));
+            ]);
     }
 }

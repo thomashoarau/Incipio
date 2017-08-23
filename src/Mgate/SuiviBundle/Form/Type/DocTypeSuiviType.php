@@ -21,10 +21,10 @@ class DocTypeSuiviType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('redige', CheckboxType::class, array('label' => 'Est-ce que le document est rédigé ?', 'required' => false))
-            ->add('relu', CheckboxType::class, array('label' => 'Est-ce que le document est relu ?', 'required' => false))
-            ->add('envoye', CheckboxType::class, array('label' => 'Est-ce que le document est envoyé ?', 'required' => false))
-            ->add('receptionne', CheckboxType::class, array('label' => 'Est-ce que le document est réceptionné ?', 'required' => false));
+            ->add('redige', CheckboxType::class, ['label' => 'Est-ce que le document est rédigé ?', 'required' => false])
+            ->add('relu', CheckboxType::class, ['label' => 'Est-ce que le document est relu ?', 'required' => false])
+            ->add('envoye', CheckboxType::class, ['label' => 'Est-ce que le document est envoyé ?', 'required' => false])
+            ->add('receptionne', CheckboxType::class, ['label' => 'Est-ce que le document est réceptionné ?', 'required' => false]);
     }
 
     public function getBlockPrefix()
@@ -34,8 +34,8 @@ class DocTypeSuiviType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
                 'data_class' => 'Mgate\SuiviBundle\Entity\DocType',
-            ));
+            ]);
     }
 }

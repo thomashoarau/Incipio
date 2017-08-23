@@ -22,9 +22,9 @@ class BaseURSSAFType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('baseURSSAF', MoneyType::class, array('label' => 'Base en Euro', 'required' => true))
-            ->add('dateDebut', DateType::class, array('label' => 'Applicable du', 'required' => true, 'widget' => 'single_text'))
-            ->add('dateFin', DateType::class, array('label' => 'Applicable au', 'required' => true, 'widget' => 'single_text'));
+            ->add('baseURSSAF', MoneyType::class, ['label' => 'Base en Euro', 'required' => true])
+            ->add('dateDebut', DateType::class, ['label' => 'Applicable du', 'required' => true, 'widget' => 'single_text'])
+            ->add('dateFin', DateType::class, ['label' => 'Applicable au', 'required' => true, 'widget' => 'single_text']);
     }
 
     public function getBlockPrefix()
@@ -34,8 +34,8 @@ class BaseURSSAFType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'Mgate\TresoBundle\Entity\BaseURSSAF',
-        ));
+        ]);
     }
 }

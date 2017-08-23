@@ -108,7 +108,7 @@ class BV
     //GETTER ADITION
     public function getReference()
     {
-        return $this->mandat.'-BV-'.sprintf('%1$02d', $this->numero);
+        return $this->mandat . '-BV-' . sprintf('%1$02d', $this->numero);
     }
 
     public function getRemunerationBrute()
@@ -148,10 +148,10 @@ class BV
      */
     public function getTauxPartJunior()
     {
-        $tauxPartJunior = array(
+        $tauxPartJunior = [
             'baseURSSAF' => 0,
             'baseBrute' => 0,
-        );
+        ];
 
         foreach ($this->cotisationURSSAF as $cotisation) {
             if ($cotisation->getSurBaseURSSAF() && $this->baseURSSAF) {
@@ -169,10 +169,10 @@ class BV
      */
     public function getTauxPartEtu()
     {
-        $tauxPartEtu = array(
+        $tauxPartEtu = [
             'baseURSSAF' => 0,
             'baseBrute' => 0,
-        );
+        ];
 
         foreach ($this->cotisationURSSAF as $cotisation) {
             if ($cotisation->getSurBaseURSSAF() && $this->baseURSSAF) {
@@ -192,10 +192,10 @@ class BV
      */
     public function getPartJunior($inArray = false)
     {
-        $partJunior = array(
+        $partJunior = [
             'baseURSSAF' => 0,
             'baseBrute' => 0,
-        );
+        ];
         foreach ($this->cotisationURSSAF as $cotisation) {
             if ($cotisation->getSurBaseURSSAF() && $this->baseURSSAF) {
                 $partJunior['baseURSSAF'] += round($this->nombreJEH * $this->baseURSSAF->getBaseURSSAF() * $cotisation->getTauxPartJE(), 2);
@@ -217,10 +217,10 @@ class BV
      */
     public function getPartEtudiant($inArray = false, $nonImposable = false)
     {
-        $partEtu = array(
+        $partEtu = [
             'baseURSSAF' => 0,
             'baseBrute' => 0,
-        );
+        ];
 
         foreach ($this->cotisationURSSAF as $cotisation) {
             if ($nonImposable && !$cotisation->getDeductible()) {

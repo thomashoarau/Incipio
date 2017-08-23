@@ -28,11 +28,11 @@ class FormationController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $formations = $em->getRepository('MgateFormationBundle:Formation')->getAllFormations(array(), array('dateDebut' => 'DESC'));
+        $formations = $em->getRepository('MgateFormationBundle:Formation')->getAllFormations([], ['dateDebut' => 'DESC']);
 
-        return $this->render('MgateFormationBundle:Gestion:index.html.twig', array(
+        return $this->render('MgateFormationBundle:Gestion:index.html.twig', [
             'formations' => $formations,
-        ));
+        ]);
     }
 
     /**
@@ -44,9 +44,9 @@ class FormationController extends Controller
         $em = $this->getDoctrine()->getManager();
         $formationsParMandat = $em->getRepository('MgateFormationBundle:Formation')->findAllByMandat();
 
-        return $this->render('MgateFormationBundle:Formations:lister.html.twig', array(
+        return $this->render('MgateFormationBundle:Formations:lister.html.twig', [
             'formationsParMandat' => $formationsParMandat,
-        ));
+        ]);
     }
 
     /**
@@ -59,9 +59,9 @@ class FormationController extends Controller
      */
     public function voirAction(Formation $formation)
     {
-        return $this->render('MgateFormationBundle:Formations:voir.html.twig', array(
+        return $this->render('MgateFormationBundle:Formations:voir.html.twig', [
             'formation' => $formation,
-        ));
+        ]);
     }
 
     /**
@@ -70,7 +70,7 @@ class FormationController extends Controller
      * @param $id mixed valid id : modify an existing training; unknown id : display a creation form
      *
      * @return Response
-     * Manage creation and update of a training
+     *                  Manage creation and update of a training
      */
     public function modifierAction(Request $request, $id)
     {
@@ -94,14 +94,14 @@ class FormationController extends Controller
                 //constitution du tableau d'erreurs
                 $errors = $this->get('validator')->validate($formation);
                 foreach ($errors as $error) {
-                    $this->addFlash('warning', $error->getPropertyPath().' : '.$error->getMessage());
+                    $this->addFlash('warning', $error->getPropertyPath() . ' : ' . $error->getMessage());
                 }
             }
         }
 
-        return $this->render('MgateFormationBundle:Gestion:modifier.html.twig', array('form' => $form->createView(),
-            'formation' => $formation
-        ));
+        return $this->render('MgateFormationBundle:Gestion:modifier.html.twig', ['form' => $form->createView(),
+            'formation' => $formation,
+        ]);
     }
 
     /**
@@ -117,30 +117,30 @@ class FormationController extends Controller
         $em = $this->getDoctrine()->getManager();
         $formationsParMandat = $em->getRepository('MgateFormationBundle:Formation')->findAllByMandat();
 
-        $choices = array();
+        $choices = [];
         foreach ($formationsParMandat as $key => $value) {
             $choices[$key] = $key;
         }
 
-        $defaultData = array();
+        $defaultData = [];
         $form = $this->createFormBuilder($defaultData)
             ->add(
                 'mandat',
                 ChoiceType::class,
-                array(
+                [
                     'label' => 'Présents aux formations du mandat ',
                     'choices' => $choices,
                     'required' => true,
-                )
+                ]
             )->getForm();
 
         if ($mandat !== null) {
-            $formations = array_key_exists($mandat, $formationsParMandat) ? $formationsParMandat[$mandat] : array();
+            $formations = array_key_exists($mandat, $formationsParMandat) ? $formationsParMandat[$mandat] : [];
         } else {
-            $formations = count($formationsParMandat) ? reset($formationsParMandat) : array();
+            $formations = count($formationsParMandat) ? reset($formationsParMandat) : [];
         }
 
-        $presents = array();
+        $presents = [];
 
         foreach ($formations as $formation) {
             foreach ($formation->getMembresPresents() as $present) {
@@ -148,17 +148,17 @@ class FormationController extends Controller
                 if (array_key_exists($id, $presents)) {
                     $presents[$id][] = $formation->getId();
                 } else {
-                    $presents[$id] = array($formation->getId());
+                    $presents[$id] = [$formation->getId()];
                 }
             }
         }
 
-        return $this->render('MgateFormationBundle:Gestion:participation.html.twig', array(
+        return $this->render('MgateFormationBundle:Gestion:participation.html.twig', [
             'form' => $form->createView(),
             'formations' => $formations,
             'presents' => $presents,
             'mandat' => $mandat,
-        ));
+        ]);
     }
 
     /**
@@ -176,6 +176,6 @@ class FormationController extends Controller
         $em->remove($formation);
         $em->flush();
 
-        return $this->redirect($this->generateUrl('Mgate_formations_lister', array()));
+        return $this->redirect($this->generateUrl('Mgate_formations_lister', []));
     }
 }

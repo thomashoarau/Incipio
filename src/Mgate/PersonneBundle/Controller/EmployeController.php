@@ -45,17 +45,17 @@ class EmployeController extends Controller
                 $em->persist($employe);
                 $employe->getPersonne()->setEmploye($employe);
                 $em->flush();
-                $this->addFlash('success','Employé ajouté');
+                $this->addFlash('success', 'Employé ajouté');
 
-                return $this->redirect($this->generateUrl('MgatePersonne_prospect_voir', array('id' => $employe->getProspect()->getId())));
+                return $this->redirect($this->generateUrl('MgatePersonne_prospect_voir', ['id' => $employe->getProspect()->getId()]));
             }
         }
 
-        return $this->render('MgatePersonneBundle:Employe:ajouter.html.twig', array(
+        return $this->render('MgatePersonneBundle:Employe:ajouter.html.twig', [
             'form' => $form->createView(),
             'prospect' => $prospect,
             'format' => $format,
-        ));
+        ]);
     }
 
     /**
@@ -74,20 +74,21 @@ class EmployeController extends Controller
             if ($form->isValid()) {
                 $em->persist($employe);
                 $em->flush();
-                $this->addFlash('success','Employé modifié');
-                return $this->redirect($this->generateUrl('MgatePersonne_prospect_voir', array('id' => $employe->getProspect()->getId())));
+                $this->addFlash('success', 'Employé modifié');
+
+                return $this->redirect($this->generateUrl('MgatePersonne_prospect_voir', ['id' => $employe->getProspect()->getId()]));
             }
         }
 
         //to avoid asynchronous request at display time
         $prospect = $em->getRepository('MgatePersonneBundle:Prospect')->findOneById($employe->getProspect()->getId());
 
-        return $this->render('MgatePersonneBundle:Employe:modifier.html.twig', array(
+        return $this->render('MgatePersonneBundle:Employe:modifier.html.twig', [
             'form' => $form->createView(),
             'delete_form' => $deleteForm->createView(),
             'employe' => $employe,
             'prospect' => $prospect,
-        ));
+        ]);
     }
 
     /**
@@ -100,7 +101,6 @@ class EmployeController extends Controller
      */
     public function deleteAction(Employe $employe, Request $request)
     {
-
         $form = $this->createDeleteForm($employe->getId());
         $form->handleRequest($request);
 
@@ -111,7 +111,7 @@ class EmployeController extends Controller
             $em->flush();
             $this->addFlash('success', 'Employé supprimé');
 
-            return $this->redirect($this->generateUrl('MgatePersonne_prospect_voir', array('id' => $employe->getProspect()->getId())));
+            return $this->redirect($this->generateUrl('MgatePersonne_prospect_voir', ['id' => $employe->getProspect()->getId()]));
         }
 
         return $this->redirect($this->generateUrl('MgatePersonne_prospect_homepage'));
@@ -119,7 +119,7 @@ class EmployeController extends Controller
 
     private function createDeleteForm($id)
     {
-        return $this->createFormBuilder(array('id' => $id))
+        return $this->createFormBuilder(['id' => $id])
             ->add('id', HiddenType::class)
             ->getForm()
             ;

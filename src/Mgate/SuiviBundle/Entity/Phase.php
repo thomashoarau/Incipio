@@ -139,7 +139,7 @@ class Phase
     {
         if ($this->dateDebut) {
             $date = clone $this->dateDebut;
-            $date->modify('+ '.$this->delai.' day');
+            $date->modify('+ ' . $this->delai . ' day');
 
             return $date;
         } else {
@@ -158,7 +158,7 @@ class Phase
 
     public function __toString()
     {
-        return 'Phase : '.$this->getTitre();
+        return 'Phase : ' . $this->getTitre();
     }
 
     /**
@@ -442,9 +442,9 @@ class Phase
      */
     public static function getValidationChoice()
     {
-        return array(//0 => "Aucune", //Inutile
+        return [//0 => "Aucune", //Inutile
                         1 => 'Cette phase sera soumise à une validation orale lors d’un entretien avec le client.',
-                        2 => 'Cette phase sera soumise à une validation écrite qui prend la forme d’un Procès-Verbal Intermédiaire signé par le client.', );
+                        2 => 'Cette phase sera soumise à une validation écrite qui prend la forme d’un Procès-Verbal Intermédiaire signé par le client.', ];
     }
 
     /**
@@ -488,10 +488,11 @@ class Phase
 
     public static function getEtatSurAvenantChoice()
     {
-        return array(0 => 'Modifiée', //Inutile
+        return [0 => 'Modifiée', //Inutile
                         1 => 'Ajoutée',
-                        -1 => 'Supprimée', );
+                        -1 => 'Supprimée', ];
     }
+
     public static function getEtatSurAvenantChoiceAssert()
     {
         return array_keys(self::getEtatSurAvenantChoice());

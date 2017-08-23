@@ -24,40 +24,40 @@ class SuiviEtudeType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('stateID', ChoiceType::class, array('choices' => array_flip(Etude::getStateIDChoice()), 'label' => 'Etat de l\'Étude',
-            'required' => true, ))
-                ->add('auditDate', GenemuDateType::class, array('label' => 'Audité le', 'format' => 'd/MM/y', 'required' => false, 'widget' => 'single_text'))
-                ->add('auditType', AuditType::class, array('label' => 'Type d\'audit', 'required' => false, 'choice_label' => function ($var) {
+        $builder->add('stateID', ChoiceType::class, ['choices' => array_flip(Etude::getStateIDChoice()), 'label' => 'Etat de l\'Étude',
+            'required' => true, ])
+                ->add('auditDate', GenemuDateType::class, ['label' => 'Audité le', 'format' => 'd/MM/y', 'required' => false, 'widget' => 'single_text'])
+                ->add('auditType', AuditType::class, ['label' => 'Type d\'audit', 'required' => false, 'choice_label' => function ($var) {
                     return $var;
-                }))
-                ->add('stateDescription', TextareaType::class, array('label' => 'Problèmes', 'required' => false, 'attr' => array('cols' => '100%', 'rows' => 5)))
-                ->add('ap', DocTypeSuiviType::class, array('label' => 'Avant-Projet', 'data_class' => 'Mgate\SuiviBundle\Entity\Ap'))
-                ->add('cc', DocTypeSuiviType::class, array('label' => 'Convention Client', 'data_class' => 'Mgate\SuiviBundle\Entity\Cc'));
+                }])
+                ->add('stateDescription', TextareaType::class, ['label' => 'Problèmes', 'required' => false, 'attr' => ['cols' => '100%', 'rows' => 5]])
+                ->add('ap', DocTypeSuiviType::class, ['label' => 'Avant-Projet', 'data_class' => 'Mgate\SuiviBundle\Entity\Ap'])
+                ->add('cc', DocTypeSuiviType::class, ['label' => 'Convention Client', 'data_class' => 'Mgate\SuiviBundle\Entity\Cc']);
 
-        $builder->add('missions', CollectionType::class, array(
+        $builder->add('missions', CollectionType::class, [
             'entry_type' => DocTypeSuiviType::class,
             'allow_add' => true,
             'allow_delete' => true,
             'prototype' => true,
             'by_reference' => false, //indispensable cf doc
-        ));
+        ]);
 
-        $builder->add('pvis', CollectionType::class, array(
+        $builder->add('pvis', CollectionType::class, [
             'entry_type' => DocTypeSuiviType::class,
             'allow_add' => true,
             'allow_delete' => true,
             'prototype' => true,
             'by_reference' => false, //indispensable cf doc
-        ));
-        $builder->add('avs', CollectionType::class, array(
+        ]);
+        $builder->add('avs', CollectionType::class, [
                 'entry_type' => DocTypeSuiviType::class,
                 'allow_add' => true,
                 'allow_delete' => true,
                 'prototype' => true,
                 'by_reference' => false, //indispensable cf doc
-            )
+            ]
         );
-        $builder->add('pvr', DocTypeSuiviType::class, array('label' => 'PVR', 'data_class' => 'Mgate\SuiviBundle\Entity\ProcesVerbal'));
+        $builder->add('pvr', DocTypeSuiviType::class, ['label' => 'PVR', 'data_class' => 'Mgate\SuiviBundle\Entity\ProcesVerbal']);
     }
 
     public function getBlockPrefix()
@@ -67,8 +67,8 @@ class SuiviEtudeType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'Mgate\SuiviBundle\Entity\Etude',
-        ));
+        ]);
     }
 }

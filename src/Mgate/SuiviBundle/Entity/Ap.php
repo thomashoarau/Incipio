@@ -69,7 +69,7 @@ class Ap extends DocType
 
     public function getReference()
     {
-        return $this->etude->getReference().'/'.$this->getDateSignature()->format('Y').'/PM/'.$this->getVersion();
+        return $this->etude->getReference() . '/' . $this->getDateSignature()->format('Y') . '/PM/' . $this->getVersion();
     }
 
     /**
@@ -170,6 +170,6 @@ class Ap extends DocType
 
     public function __toString()
     {
-        return 'PM '.$this->id;
+        return 'PM ' . $this->id;
     }
 }

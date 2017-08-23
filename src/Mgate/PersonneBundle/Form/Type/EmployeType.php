@@ -20,7 +20,7 @@ class EmployeType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-                ->add('personne', PersonneType::class, array('label' => ' ', 'signataire' => $options['signataire'], 'mini' => $options['mini']))
+                ->add('personne', PersonneType::class, ['label' => ' ', 'signataire' => $options['signataire'], 'mini' => $options['mini']])
                 ->add('poste');
     }
 
@@ -31,10 +31,10 @@ class EmployeType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'Mgate\PersonneBundle\Entity\Employe',
             'mini' => false,
             'signataire' => false,
-        ));
+        ]);
     }
 }

@@ -22,11 +22,12 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class ApController extends Controller
 {
-
     /**
      * @Security("has_role('ROLE_SUIVEUR')")
+     *
      * @param Request $request
-     * @param Etude $etude etude which Ap should be edited
+     * @param Etude   $etude   etude which Ap should be edited
+     *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function redigerAction(Request $request, Etude $etude)
@@ -42,7 +43,7 @@ class ApController extends Controller
             $etude->setAp($ap);
         }
 
-        $form = $this->createForm(ApType::class, $etude, array('prospect' => $etude->getProspect()));
+        $form = $this->createForm(ApType::class, $etude, ['prospect' => $etude->getProspect()]);
 
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
@@ -51,30 +52,31 @@ class ApController extends Controller
                 $this->get('Mgate.doctype_manager')->checkSaveNewEmploye($etude->getAp());
                 $em->flush();
 
-                $this->addFlash('success','Avant-Projet modifié');
+                $this->addFlash('success', 'Avant-Projet modifié');
                 if ($request->get('phases')) {
-                    return $this->redirect($this->generateUrl('MgateSuivi_phases_modifier', array('id' => $etude->getId())));
+                    return $this->redirect($this->generateUrl('MgateSuivi_phases_modifier', ['id' => $etude->getId()]));
                 } else {
-                    return $this->redirect($this->generateUrl('MgateSuivi_etude_voir', array('nom' => $etude->getNom())));
+                    return $this->redirect($this->generateUrl('MgateSuivi_etude_voir', ['nom' => $etude->getNom()]));
                 }
             }
         }
 
-        return $this->render('MgateSuiviBundle:Ap:rediger.html.twig', array(
+        return $this->render('MgateSuiviBundle:Ap:rediger.html.twig', [
             'form' => $form->createView(),
             'etude' => $etude,
-        ));
+        ]);
     }
 
     /**
      * @Security("has_role('ROLE_SUIVEUR')")
+     *
      * @param Request $request
-     * @param Etude $etude
+     * @param Etude   $etude
+     *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function suiviAction(Request $request, Etude $etude)
     {
-
         if ($this->get('Mgate.etude_manager')->confidentielRefus($etude, $this->getUser(), $this->get('security.authorization_checker'))) {
             throw new AccessDeniedException('Cette étude est confidentielle');
         }
@@ -89,13 +91,13 @@ class ApController extends Controller
                 $em = $this->getDoctrine()->getManager();
                 $em->flush();
 
-                return $this->redirect($this->generateUrl('MgateSuivi_etude_voir', array('nom' => $etude->getNom())));
+                return $this->redirect($this->generateUrl('MgateSuivi_etude_voir', ['nom' => $etude->getNom()]));
             }
         }
 
-        return $this->render('MgateSuiviBundle:Ap:rediger.html.twig', array(
+        return $this->render('MgateSuiviBundle:Ap:rediger.html.twig', [
             'form' => $form->createView(),
             'etude' => $etude,
-        ));
+        ]);
     }
 }

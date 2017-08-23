@@ -21,11 +21,11 @@ class DefaultController extends Controller
         $etudes = $em->getRepository('MgateSuiviBundle:Etude')->findAll();
 
         foreach ($etudes as $entity) {
-            if (!$em->getRepository('MgateCommentBundle:Thread')->findBy(array('id' => $entity))) {
-                $this->container->get('Mgate_comment.thread')->creerThread('etude_', $this->container->get('router')->generate('MgatePersonne_prospect_voir', array('id' => $entity->getId())), $entity);
+            if (!$em->getRepository('MgateCommentBundle:Thread')->findBy(['id' => $entity])) {
+                $this->container->get('Mgate_comment.thread')->creerThread('etude_', $this->container->get('router')->generate('MgatePersonne_prospect_voir', ['id' => $entity->getId()]), $entity);
             }
         }
 
-        return $this->render('MgateCommentBundle:Default:index.html.twig', array('name' => 'rien'));
+        return $this->render('MgateCommentBundle:Default:index.html.twig', ['name' => 'rien']);
     }
 }

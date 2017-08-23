@@ -29,9 +29,9 @@ class PhasesController extends Controller
 
         $entities = $em->getRepository('MgateSuiviBundle:Etude')->findAll();
 
-        return $this->render('MgateSuiviBundle:Etude:index.html.twig', array(
+        return $this->render('MgateSuiviBundle:Etude:index.html.twig', [
             'etudes' => $entities,
-        ));
+        ]);
     }
 
     /**
@@ -49,13 +49,13 @@ class PhasesController extends Controller
             throw new AccessDeniedException('Cette étude est confidentielle');
         }
 
-        $originalPhases = array();
+        $originalPhases = [];
         // Create an array of the current Phase objects in the database
         foreach ($etude->getPhases() as $phase) {
             $originalPhases[] = $phase;
         }
 
-        $form = $this->createForm(PhasesType::class, $etude, array('etude' => $etude));
+        $form = $this->createForm(PhasesType::class, $etude, ['etude' => $etude]);
 
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
@@ -86,12 +86,12 @@ class PhasesController extends Controller
                 $em->flush();
             }
 
-            return $this->redirect($this->generateUrl('MgateSuivi_phases_modifier', array('id' => $etude->getId())));
+            return $this->redirect($this->generateUrl('MgateSuivi_phases_modifier', ['id' => $etude->getId()]));
         }
 
-        return $this->render('MgateSuiviBundle:Phase:phases.html.twig', array(
+        return $this->render('MgateSuiviBundle:Phase:phases.html.twig', [
             'form' => $form->createView(),
             'etude' => $etude,
-        ));
+        ]);
     }
 }

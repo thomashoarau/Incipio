@@ -11,8 +11,8 @@
 
 namespace Mgate\SuiviBundle\Controller;
 
-use Mgate\SuiviBundle\Entity\Mission;
 use Mgate\SuiviBundle\Entity\Etude;
+use Mgate\SuiviBundle\Entity\Mission;
 use Mgate\SuiviBundle\Entity\RepartitionJEH;
 use Mgate\SuiviBundle\Form\Type\MissionsType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -24,12 +24,12 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class MissionsController extends Controller
 {
-
     /**
      * @Security("has_role('ROLE_SUIVEUR')")
      *
      * @param Request $request
-     * @param Etude $etude
+     * @param Etude   $etude
+     *
      * @return RedirectResponse|Response
      */
     public function modifierAction(Request $request, Etude $etude)
@@ -42,20 +42,19 @@ class MissionsController extends Controller
         }
 
         /* Form handling */
-        $form = $this->createForm(MissionsType::class, $etude, array('etude' => $etude));
+        $form = $this->createForm(MissionsType::class, $etude, ['etude' => $etude]);
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
 
             if ($form->isValid()) {
-
-                foreach ($form->get('missions') as $missionForm){
+                foreach ($form->get('missions') as $missionForm) {
                     $m = $missionForm->getData();
-                    foreach ($missionForm->get('repartitionsJEH') as $repartitionForm){
+                    foreach ($missionForm->get('repartitionsJEH') as $repartitionForm) {
                         $r = $repartitionForm->getData();
-                        /** @var RepartitionJEH $r */
+                        /* @var RepartitionJEH $r */
                         $r->setMission($m);
                     }
-                    /** @var Mission $m  */
+                    /* @var Mission $m  */
                     $m->setEtude($etude);
                 }
 
@@ -63,15 +62,14 @@ class MissionsController extends Controller
                 $em->flush();
                 $this->addFlash('success', 'Mission enregistrée');
 
-
                 return $this->redirectToRoute('MgateSuivi_missions_modifier', ['id' => $etude->getId()]);
             }
             $this->addFlash('danger', 'Le formulaire contient des erreurs.');
         }
 
-        return $this->render('MgateSuiviBundle:Mission:missions.html.twig', array(
+        return $this->render('MgateSuiviBundle:Mission:missions.html.twig', [
             'form' => $form->createView(),
             'etude' => $etude,
-        ));
+        ]);
     }
 }

@@ -22,11 +22,11 @@ class CompteType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('libelle', TextType::class,
-                    array('label' => 'Libellé du compte',
-                        'required' => true, )
+                    ['label' => 'Libellé du compte',
+                        'required' => true, ]
                     )
-                ->add('numero', TextType::class, array('label' => 'Numéro de compte', 'required' => true, 'attr' => array('maxlength' => 6)))
-                ->add('categorie', CheckboxType::class, array('label' => 'Est utilisé comme catégorie ? ', 'required' => false));
+                ->add('numero', TextType::class, ['label' => 'Numéro de compte', 'required' => true, 'attr' => ['maxlength' => 6]])
+                ->add('categorie', CheckboxType::class, ['label' => 'Est utilisé comme catégorie ? ', 'required' => false]);
     }
 
     public function getBlockPrefix()
@@ -36,8 +36,8 @@ class CompteType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'Mgate\TresoBundle\Entity\Compte',
-        ));
+        ]);
     }
 }

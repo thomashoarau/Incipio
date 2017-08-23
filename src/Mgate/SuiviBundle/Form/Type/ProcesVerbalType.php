@@ -20,10 +20,10 @@ class ProcesVerbalType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add(strtolower($options['type']), ProcesVerbalSubType::class,
-            array('label' => ' ',
+            ['label' => ' ',
                 'type' => $options['type'],
                 'prospect' => $options['prospect'],
-                'phases' => $options['phases'], )
+                'phases' => $options['phases'], ]
         );
     }
 
@@ -34,11 +34,11 @@ class ProcesVerbalType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'Mgate\SuiviBundle\Entity\Etude',
             'type' => '',
             'prospect' => '',
             'phases' => '',
-        ));
+        ]);
     }
 }

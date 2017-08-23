@@ -20,19 +20,19 @@ class TwigExtensionManager extends \Twig_Extension
 
     public function getFunctions()
     {
-        return array(
-        );
+        return [
+        ];
     }
 
     public function getFilters()
     {
-        return array(
+        return [
             'nl2wbr' => new \Twig_Filter_Method($this, 'nl2wbr'),
             'money' => new \Twig_Filter_Method($this, 'money'),
             'nbrToLetters' => new \Twig_Filter_Method($this, 'nbrToLetters'),
             'liaison' => new \Twig_Filter_Method($this, 'liaison'),
             'pluriel' => new \Twig_Filter_Method($this, 'pluriel'),
-        );
+        ];
     }
 
     public function nl2wbr($input)
@@ -68,13 +68,13 @@ class TwigExtensionManager extends \Twig_Extension
     public function liaison($mot, $entiere = 'de', $contractee = null)
     {
         if (!$contractee) {
-            $contractee = substr($entiere, 0, 1)."'";
+            $contractee = substr($entiere, 0, 1) . "'";
         }
 
         if (preg_match('#^[aeiouy]#', $mot)) {
-            return $contractee.' '.$mot;
+            return $contractee . ' ' . $mot;
         } else {
-            return $entiere.' '.$mot;
+            return $entiere . ' ' . $mot;
         }
     }
 

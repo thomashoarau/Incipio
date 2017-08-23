@@ -24,22 +24,22 @@ class FactureDetailType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('description', TextareaType::class,
-                    array('label' => 'Description de la dépense',
+                    ['label' => 'Description de la dépense',
                         'required' => false,
-                        'attr' => array(
+                        'attr' => [
                             'cols' => '100%',
-                            'rows' => 2, ),
-                        )
+                            'rows' => 2, ],
+                        ]
                     )
-                ->add('montantHT', MoneyType::class, array('label' => 'Prix H.T.', 'required' => false))
-                ->add('tauxTVA', NumberType::class, array('label' => 'Taux TVA (%)', 'required' => false))
-                ->add('compte', Select2EntityType::class, array(
+                ->add('montantHT', MoneyType::class, ['label' => 'Prix H.T.', 'required' => false])
+                ->add('tauxTVA', NumberType::class, ['label' => 'Taux TVA (%)', 'required' => false])
+                ->add('compte', Select2EntityType::class, [
                         'class' => 'Mgate\TresoBundle\Entity\Compte',
                         'choice_label' => 'libelle',
                         'required' => false,
                         'label' => 'Catégorie',
-                        'configs' => array('placeholder' => 'Sélectionnez une catégorie', 'allowClear' => true),
-                        ));
+                        'configs' => ['placeholder' => 'Sélectionnez une catégorie', 'allowClear' => true],
+                        ]);
     }
 
     public function getBlockPrefix()
@@ -49,8 +49,8 @@ class FactureDetailType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'Mgate\TresoBundle\Entity\FactureDetail',
-        ));
+        ]);
     }
 }

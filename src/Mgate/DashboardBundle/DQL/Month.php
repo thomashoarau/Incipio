@@ -38,6 +38,6 @@ class Month extends FunctionNode
      */
     public function getSql(SqlWalker $sqlWalker)
     {
-        return 'MONTH('.$sqlWalker->walkArithmeticPrimary($this->date).')';
+        return 'MONTH(' . $sqlWalker->walkArithmeticPrimary($this->date) . ')';
     }
 }

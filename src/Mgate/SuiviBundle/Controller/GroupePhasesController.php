@@ -35,7 +35,7 @@ class GroupePhasesController extends Controller
             throw new AccessDeniedException('Cette étude est confidentielle');
         }
 
-        $originalGroupes = array();
+        $originalGroupes = [];
         // Create an array of the current groupe objects in the database
         foreach ($etude->getGroupes() as $groupe) {
             $originalGroupes[] = $groupe;
@@ -73,12 +73,12 @@ class GroupePhasesController extends Controller
                 $em->flush();
             }
 
-            return $this->redirect($this->generateUrl('MgateSuivi_groupes_modifier', array('id' => $etude->getId())));
+            return $this->redirect($this->generateUrl('MgateSuivi_groupes_modifier', ['id' => $etude->getId()]));
         }
 
-        return $this->render('MgateSuiviBundle:GroupePhases:modifier.html.twig', array(
+        return $this->render('MgateSuiviBundle:GroupePhases:modifier.html.twig', [
             'form' => $form->createView(),
             'etude' => $etude,
-        ));
+        ]);
     }
 }

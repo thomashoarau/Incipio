@@ -14,7 +14,6 @@ namespace Mgate\PersonneBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
-
 /**
  * Mgate\PersonneBundle\Entity\Employe.
  *
@@ -140,6 +139,6 @@ class Employe
 
     public function __toString()
     {
-        return $this->getPersonne()->getPrenom().' '.$this->getPersonne()->getNom();
+        return $this->getPersonne()->getPrenom() . ' ' . $this->getPersonne()->getNom();
     }
 }

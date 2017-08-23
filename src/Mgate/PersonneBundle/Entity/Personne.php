@@ -109,12 +109,12 @@ class Personne extends Adressable
     // Merci de ne pas supprimer
     public function getPrenomNom()
     {
-        return $this->prenom.' '.$this->nom;
+        return $this->prenom . ' ' . $this->nom;
     }
 
     public function getNomFormel()
     {
-        return $this->sexe.' '.mb_strtoupper($this->nom, 'UTF-8').' '.$this->prenom;
+        return $this->sexe . ' ' . mb_strtoupper($this->nom, 'UTF-8') . ' ' . $this->prenom;
     }
 
     public function getPoste()
@@ -418,6 +418,6 @@ class Personne extends Adressable
 
     public function __toString()
     {
-        return $this->getPrenom().' '.$this->getNom();
+        return $this->getPrenom() . ' ' . $this->getNom();
     }
 }

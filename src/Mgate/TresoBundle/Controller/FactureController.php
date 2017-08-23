@@ -28,7 +28,7 @@ class FactureController extends Controller
         $em = $this->getDoctrine()->getManager();
         $factures = $em->getRepository('MgateTresoBundle:Facture')->findAll();
 
-        return $this->render('MgateTresoBundle:Facture:index.html.twig', array('factures' => $factures));
+        return $this->render('MgateTresoBundle:Facture:index.html.twig', ['factures' => $factures]);
     }
 
     /**
@@ -41,7 +41,7 @@ class FactureController extends Controller
             throw $this->createNotFoundException('La Facture n\'existe pas !');
         }
 
-        return $this->render('MgateTresoBundle:Facture:voir.html.twig', array('facture' => $facture));
+        return $this->render('MgateTresoBundle:Facture:voir.html.twig', ['facture' => $facture]);
     }
 
     /**
@@ -73,20 +73,20 @@ class FactureController extends Controller
 
                 if (!count($etude->getFactures()) && $etude->getAcompte()) {
                     $facture->setType(Facture::TYPE_VENTE_ACCOMPTE);
-                    $facture->setObjet('Facture d\'acompte sur l\'étude '.$etude->getReference($namingConvention).', correspondant au règlement de '.$formater->moneyFormat(($etude->getPourcentageAcompte() * 100)).' % de l’étude.');
+                    $facture->setObjet('Facture d\'acompte sur l\'étude ' . $etude->getReference($namingConvention) . ', correspondant au règlement de ' . $formater->moneyFormat(($etude->getPourcentageAcompte() * 100)) . ' % de l’étude.');
                     $detail = new FactureDetail();
-                    $detail->setCompte($em->getRepository('MgateTresoBundle:Compte')->findOneBy(array('numero' => $compteAcompte)));
+                    $detail->setCompte($em->getRepository('MgateTresoBundle:Compte')->findOneBy(['numero' => $compteAcompte]));
                     $detail->setFacture($facture);
                     $facture->addDetail($detail);
-                    $detail->setDescription('Acompte de '.$formater->moneyFormat(($etude->getPourcentageAcompte() * 100)).' % sur l\'étude '.$etude->getReference());
+                    $detail->setDescription('Acompte de ' . $formater->moneyFormat(($etude->getPourcentageAcompte() * 100)) . ' % sur l\'étude ' . $etude->getReference());
                     $detail->setMontantHT($etude->getPourcentageAcompte() * $etude->getMontantHT());
                     $detail->setTauxTVA($tauxTVA);
                 } else {
                     $facture->setType(Facture::TYPE_VENTE_SOLDE);
                     if ($etude->getAcompte() && $etude->getFa()) {
                         $montantADeduire = new FactureDetail();
-                        $montantADeduire->setDescription('Facture d\'acompte sur l\'étude '.$etude->getReference($namingConvention).
-                            ', correspondant au règlement de '.$formater->moneyFormat(($etude->getPourcentageAcompte() * 100)).
+                        $montantADeduire->setDescription('Facture d\'acompte sur l\'étude ' . $etude->getReference($namingConvention) .
+                            ', correspondant au règlement de ' . $formater->moneyFormat(($etude->getPourcentageAcompte() * 100)) .
                             ' % de l’étude.')->setFacture($facture);
                         $facture->setMontantADeduire($montantADeduire);
                     }
@@ -94,18 +94,18 @@ class FactureController extends Controller
                     $totalTTC = 0;
                     foreach ($etude->getPhases() as $phase) {
                         $detail = new FactureDetail();
-                        $detail->setCompte($em->getRepository('MgateTresoBundle:Compte')->findOneBy(array('numero' => $compteEtude)));
+                        $detail->setCompte($em->getRepository('MgateTresoBundle:Compte')->findOneBy(['numero' => $compteEtude]));
                         $detail->setFacture($facture);
                         $facture->addDetail($detail);
-                        $detail->setDescription('Phase '.($phase->getPosition() + 1).' : '.$phase->getTitre().' : '.
-                            $phase->getNbrJEH().' JEH * '.$formater->moneyFormat($phase->getPrixJEH()).' €');
+                        $detail->setDescription('Phase ' . ($phase->getPosition() + 1) . ' : ' . $phase->getTitre() . ' : ' .
+                            $phase->getNbrJEH() . ' JEH * ' . $formater->moneyFormat($phase->getPrixJEH()) . ' €');
                         $detail->setMontantHT($phase->getPrixJEH() * $phase->getNbrJEH());
                         $detail->setTauxTVA($tauxTVA);
 
                         $totalTTC += $phase->getPrixJEH() * $phase->getNbrJEH();
                     }
                     $detail = new FactureDetail();
-                    $detail->setCompte($em->getRepository('MgateTresoBundle:Compte')->findOneBy(array('numero' => $compteFrais)))
+                    $detail->setCompte($em->getRepository('MgateTresoBundle:Compte')->findOneBy(['numero' => $compteFrais]))
                            ->setFacture($facture)
                            ->setDescription('Frais de dossier')
                            ->setMontantHT($etude->getFraisDossier());
@@ -115,7 +115,7 @@ class FactureController extends Controller
                     $totalTTC += $etude->getFraisDossier();
                     $totalTTC *= (1 + $tauxTVA / 100);
 
-                    $facture->setObjet('Facture de Solde sur l\'étude '.$etude->getReference($namingConvention).'.');
+                    $facture->setObjet('Facture de Solde sur l\'étude ' . $etude->getReference($namingConvention) . '.');
                 }
             }
         }
@@ -137,13 +137,13 @@ class FactureController extends Controller
                 $em->persist($facture);
                 $em->flush();
 
-                return $this->redirect($this->generateUrl('MgateTreso_Facture_voir', array('id' => $facture->getId())));
+                return $this->redirect($this->generateUrl('MgateTreso_Facture_voir', ['id' => $facture->getId()]));
             }
         }
 
-        return $this->render('MgateTresoBundle:Facture:modifier.html.twig', array(
+        return $this->render('MgateTresoBundle:Facture:modifier.html.twig', [
                     'form' => $form->createView(),
-                ));
+                ]);
     }
 
     /**
@@ -165,6 +165,6 @@ class FactureController extends Controller
         $em->remove($facture);
         $em->flush();
 
-        return $this->redirect($this->generateUrl('MgateTreso_Facture_index', array()));
+        return $this->redirect($this->generateUrl('MgateTreso_Facture_index', []));
     }
 }

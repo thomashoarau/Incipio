@@ -19,7 +19,7 @@ class LoadPosteFiliereData implements FixtureInterface
      */
     public function load(ObjectManager $manager)
     {
-        $postes = array(
+        $postes = [
             //Bureau
             'Président',
             'Président par procuration',
@@ -38,7 +38,7 @@ class LoadPosteFiliereData implements FixtureInterface
             'membre',
             'Intervenant',
             'Chef de Projet',
-        );
+        ];
 
         foreach ($postes as $poste) {
             $p = new Poste();

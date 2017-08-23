@@ -30,14 +30,16 @@ class CcController extends Controller
 
         $entities = $em->getRepository('MgateSuiviBundle:Etude')->findAll();
 
-        return $this->render('MgateSuiviBundle:Etude:index.html.twig', array(
+        return $this->render('MgateSuiviBundle:Etude:index.html.twig', [
             'etudes' => $entities,
-        ));
+        ]);
     }
 
     /**
      * @Security("has_role('ROLE_SUIVEUR')")
+     *
      * @param Cc $cc
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function voirAction(Cc $cc)
@@ -48,15 +50,17 @@ class CcController extends Controller
             throw new AccessDeniedException('Cette étude est confidentielle');
         }
 
-        return $this->render('MgateSuiviBundle:Cc:voir.html.twig', array(
+        return $this->render('MgateSuiviBundle:Cc:voir.html.twig', [
             'cc' => $cc,
-        ));
+        ]);
     }
 
     /**
      * @Security("has_role('ROLE_SUIVEUR')")
+     *
      * @param Request $request
-     * @param Etude $etude etude which CC should belong to.
+     * @param Etude   $etude   etude which CC should belong to
+     *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function redigerAction(Request $request, Etude $etude)
@@ -72,7 +76,7 @@ class CcController extends Controller
             $etude->setCc($cc);
         }
 
-        $form = $this->createForm(CcType::class, $etude, array('prospect' => $etude->getProspect()));
+        $form = $this->createForm(CcType::class, $etude, ['prospect' => $etude->getProspect()]);
 
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
@@ -81,13 +85,13 @@ class CcController extends Controller
                 $this->get('Mgate.doctype_manager')->checkSaveNewEmploye($etude->getCc());
                 $em->flush();
 
-                return $this->redirect($this->generateUrl('MgateSuivi_etude_voir', array('nom' => $etude->getNom())));
+                return $this->redirect($this->generateUrl('MgateSuivi_etude_voir', ['nom' => $etude->getNom()]));
             }
         }
 
-        return $this->render('MgateSuiviBundle:Cc:rediger.html.twig', array(
+        return $this->render('MgateSuiviBundle:Cc:rediger.html.twig', [
             'form' => $form->createView(),
             'etude' => $etude,
-        ));
+        ]);
     }
 }

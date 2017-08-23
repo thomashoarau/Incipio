@@ -30,8 +30,8 @@ class DomaineCompetenceType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'Mgate\SuiviBundle\Entity\DomaineCompetence',
-        ));
+        ]);
     }
 }

@@ -27,25 +27,25 @@ class NoteDeFraisDetailType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('description', TextareaType::class,
-                    array('label' => 'Description de la dépense',
+                    ['label' => 'Description de la dépense',
                         'required' => true,
-                        'attr' => array(
+                        'attr' => [
                             'cols' => '100%',
-                            'rows' => 5, ),
-                        )
+                            'rows' => 5, ],
+                        ]
                     )
-                ->add('prixHT', MoneyType::class, array('label' => 'Prix H.T.', 'required' => false))
-                ->add('tauxTVA', NumberType::class, array('label' => 'Taux TVA (%)', 'required' => false))
-                ->add('kilometrage', IntegerType::class, array('label' => 'Nombre de Kilomètre', 'required' => false))
-                ->add('tauxKm', IntegerType::class, array('label' => 'Prix au kilomètre (en cts)', 'required' => false))
-                ->add('type', ChoiceType::class, array('choices' => array_flip(NoteDeFraisDetail::getTypeChoices()), 'required' => true))
-                ->add('compte', Select2EntityType::class, array(
+                ->add('prixHT', MoneyType::class, ['label' => 'Prix H.T.', 'required' => false])
+                ->add('tauxTVA', NumberType::class, ['label' => 'Taux TVA (%)', 'required' => false])
+                ->add('kilometrage', IntegerType::class, ['label' => 'Nombre de Kilomètre', 'required' => false])
+                ->add('tauxKm', IntegerType::class, ['label' => 'Prix au kilomètre (en cts)', 'required' => false])
+                ->add('type', ChoiceType::class, ['choices' => array_flip(NoteDeFraisDetail::getTypeChoices()), 'required' => true])
+                ->add('compte', Select2EntityType::class, [
                         'class' => 'Mgate\TresoBundle\Entity\Compte',
                         'choice_label' => 'libelle',
                         'required' => false,
                         'label' => 'Catégorie',
-                        'configs' => array('placeholder' => 'Sélectionnez une catégorie', 'allowClear' => true),
-                        ));
+                        'configs' => ['placeholder' => 'Sélectionnez une catégorie', 'allowClear' => true],
+                        ]);
     }
 
     public function getBlockPrefix()
@@ -55,8 +55,8 @@ class NoteDeFraisDetailType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'Mgate\TresoBundle\Entity\NoteDeFraisDetail',
-        ));
+        ]);
     }
 }

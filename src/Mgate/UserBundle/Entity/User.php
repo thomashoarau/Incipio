@@ -101,7 +101,7 @@ class User extends BaseUser
 
         $liste = '';
         foreach ($rolesArray as $role) {
-            $liste .= ' '.self::convertRoleToLabel($role);
+            $liste .= ' ' . self::convertRoleToLabel($role);
         }
 
         return $liste;

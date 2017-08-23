@@ -27,7 +27,7 @@ class NoteDeFraisController extends Controller
         $em = $this->getDoctrine()->getManager();
         $nfs = $em->getRepository('MgateTresoBundle:NoteDeFrais')->findAll();
 
-        return $this->render('MgateTresoBundle:NoteDeFrais:index.html.twig', array('nfs' => $nfs));
+        return $this->render('MgateTresoBundle:NoteDeFrais:index.html.twig', ['nfs' => $nfs]);
     }
 
     /**
@@ -40,7 +40,7 @@ class NoteDeFraisController extends Controller
             throw $this->createNotFoundException('La Note de Frais n\'existe pas !');
         }
 
-        return $this->render('MgateTresoBundle:NoteDeFrais:voir.html.twig', array('nf' => $nf));
+        return $this->render('MgateTresoBundle:NoteDeFrais:voir.html.twig', ['nf' => $nf]);
     }
 
     /**
@@ -68,13 +68,13 @@ class NoteDeFraisController extends Controller
                 $em->persist($nf);
                 $em->flush();
 
-                return $this->redirect($this->generateUrl('MgateTreso_NoteDeFrais_voir', array('id' => $nf->getId())));
+                return $this->redirect($this->generateUrl('MgateTreso_NoteDeFrais_voir', ['id' => $nf->getId()]));
             }
         }
 
-        return $this->render('MgateTresoBundle:NoteDeFrais:modifier.html.twig', array(
+        return $this->render('MgateTresoBundle:NoteDeFrais:modifier.html.twig', [
                     'form' => $form->createView(),
-                ));
+                ]);
     }
 
     /**
@@ -91,6 +91,6 @@ class NoteDeFraisController extends Controller
         $em->remove($nf);
         $em->flush();
 
-        return $this->redirect($this->generateUrl('MgateTreso_NoteDeFrais_index', array()));
+        return $this->redirect($this->generateUrl('MgateTreso_NoteDeFrais_index', []));
     }
 }

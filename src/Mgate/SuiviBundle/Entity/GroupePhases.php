@@ -216,6 +216,6 @@ class GroupePhases
 
     public function __toString()
     {
-        return 'Groupe : '.$this->getTitre();
+        return 'Groupe : ' . $this->getTitre();
     }
 }

@@ -183,11 +183,15 @@ class Etude
     private $suivis;
 
     /**
+     * @var Ap
+     *
      * @ORM\OneToOne(targetEntity="Ap", inversedBy="etude", cascade={"persist", "remove"})
      */
     private $ap;
 
     /**
+     * @var Cc
+     *
      * @ORM\OneToOne(targetEntity="Cc", inversedBy="etude", cascade={"persist", "remove"})
      */
     private $cc;
@@ -258,21 +262,21 @@ class Etude
     private $fraisDossier;
 
     /**
-     * @var text
+     * @var string
      *
      * @ORM\Column(name="presentationProjet", type="text", nullable=true)
      */
     private $presentationProjet;
 
     /**
-     * @var text
+     * @var string
      *
      * @ORM\Column(name="descriptionPrestation", type="text", nullable=true)
      */
     private $descriptionPrestation;
 
     /**
-     * @var text
+     * @var string
      *
      * @ORM\Column(name="prestation", type="integer", nullable=true)
      */
@@ -304,8 +308,8 @@ class Etude
      */
     public function prePersist()
     {
-        $this->dateCreation = new \DateTime('now');
-        $this->dateModification = new \DateTime('now');
+        $this->dateCreation = $this->dateCreation ?? new \DateTime('now');
+        $this->dateModification = $this->dateModification ?? new \DateTime('now');
     }
 
     /**
@@ -357,7 +361,7 @@ class Etude
             }
         }
 
-        return;
+        return null;
     }
 
     public function getFs()
@@ -368,7 +372,7 @@ class Etude
             }
         }
 
-        return;
+        return null;
     }
 
     public function getNumero()
@@ -404,14 +408,14 @@ class Etude
     /**
      * Renvoie la date de lancement Réel (Signature CC) ou Théorique (Début de la phase la plus en amont).
      *
-     * @return DateTime
+     * @return \DateTime
      */
     public function getDateLancement()
     {
         if ($this->cc) { // Réel
             return $this->cc->getDateSignature();
         } else { // Théorique
-            $dateDebut = array();
+            $dateDebut = [];
             $phases = $this->phases;
             foreach ($phases as $phase) {
                 if ($phase->getDateDebut() !== null) {
@@ -421,25 +425,28 @@ class Etude
 
             if (count($dateDebut) > 0) {
                 return min($dateDebut);
-            } else {
-                return;
             }
+
+            return null;
         }
     }
 
     /**
      * Renvoie la date de fin : Fin de la phase la plus en aval.
      *
-     * @return DateTime
+     * @param bool $avecAvenant
+     *
+     * @return \DateTime
      */
     public function getDateFin($avecAvenant = false)
     {
-        $dateFin = array();
+        $dateFin = [];
         $phases = $this->phases;
 
+        /** @var Phase $p */
         foreach ($phases as $p) {
             if ($p->getDateDebut() !== null && $p->getDelai() !== null) {
-                $dateDebut = clone $p->getDateDebut(); //WARN $a = $b : $a pointe vers le même objet que $b...
+                $dateDebut = clone $p->getDateDebut();
                 array_push($dateFin, $dateDebut->modify('+' . $p->getDelai() . ' day'));
                 unset($dateDebut);
             }
@@ -452,9 +459,9 @@ class Etude
             }
 
             return $dateFin;
-        } else {
-            return;
         }
+
+        return null;
     }
 
     public function getDelai($avecAvenant = false)
@@ -467,7 +474,7 @@ class Etude
             }
         }
 
-        return;
+        return null;
     }
 
     /**
@@ -505,7 +512,7 @@ class Etude
             case 'FA':
                 return $this->getFa();
             case 'FI':
-                return $this->getFis($key);
+                throw new \Exception('Missing implementation of getFis() on Etude entity');
             case 'FS':
                 return $this->getFs();
             case 'PVR':
@@ -516,12 +523,12 @@ class Etude
                 return $this->getAvs()->get($key);
             case 'RM':
                 if ($key == -1) {
-                    return;
+                    return null;
                 } else {
                     return $this->getMissions()->get($key);
                 }
             default:
-                return;
+                return null;
         }
     }
 
@@ -733,8 +740,8 @@ class Etude
 
     public static function getAuditTypeChoice()
     {
-        return array('1' => 'Déontologique',
-            '2' => 'Exhaustif', );
+        return ['1' => 'Déontologique',
+            '2' => 'Exhaustif', ];
     }
 
     public static function getAuditTypeChoiceAssert()
@@ -895,11 +902,11 @@ class Etude
 
     public static function getTypePrestationChoice()
     {
-        return array('1' => 'ingénieur Info',
+        return ['1' => 'ingénieur Info',
             '2' => 'ingénieur EN',
             '3' => 'ingénieur TR',
             '4' => 'ingénieur GEA',
-            '5' => 'ingénieur Hydro', );
+            '5' => 'ingénieur Hydro', ];
     }
 
     public static function getTypePrestationChoiceAssert()
@@ -914,7 +921,7 @@ class Etude
 
             return $tab[$this->typePrestation];
         } else {
-            return;
+            return null;
         }
     }
 
@@ -1261,7 +1268,7 @@ class Etude
      */
     public function getPvis($key = -1)
     {
-        $pvis = array();
+        $pvis = [];
 
         foreach ($this->procesVerbaux as $value) {
             if ($value->getType() == 'pvi') {
@@ -1273,11 +1280,11 @@ class Etude
             if ($key < count($pvis)) {
                 return $pvis[$key];
             } else {
-                return;
+                return null;
             }
         }
 
-        usort($pvis, array($this, 'trieDateSignature'));
+        usort($pvis, [$this, 'trieDateSignature']);
 
         return $pvis;
     }
@@ -1363,13 +1370,15 @@ class Etude
         $pvr->setType('pvr');
 
         foreach ($this->procesVerbaux as $pv) {
-            if ($pv->getType() == 'pvr') {
+            if ($pv->getType() === 'pvr') {
                 $pv = $pvr;
 
                 return $this;
             }
         }
         $this->procesVerbaux[] = $pvr;
+
+        return $this;
     }
 
     /**
@@ -1384,6 +1393,8 @@ class Etude
                 return $pv;
             }
         }
+
+        return null;
     }
 
     /**
@@ -1391,7 +1402,7 @@ class Etude
      *
      * @param Thread $thread
      *
-     * @return Prospect
+     * @return Etude
      */
     public function setThread(Thread $thread)
     {
@@ -1403,7 +1414,7 @@ class Etude
     /**
      * Get thread.
      *
-     * @return Mgate\CommentBundle\Entity\Thread
+     * @return Thread
      */
     public function getThread()
     {
@@ -1436,11 +1447,11 @@ class Etude
 
     public static function getStateIDChoice()
     {
-        return array('1' => 'En négociation',
+        return ['1' => 'En négociation',
             '2' => 'En cours',
             '3' => 'En pause',
             '4' => 'Cloturée',
-            '5' => 'Avortée', );
+            '5' => 'Avortée', ];
     }
 
     public static function getStateIDChoiceAssert()
@@ -1506,7 +1517,7 @@ class Etude
     /**
      * Add groupes.
      *
-     * @param GroupePhases $groupes
+     * @param GroupePhases $groupe
      *
      * @return Etude
      */
@@ -1568,7 +1579,7 @@ class Etude
      */
     public static function getSourceDeProspectionChoice()
     {
-        return array(
+        return [
             1 => 'Kiwi',
             2 => 'Etude avec l\'Ecole',
             3 => 'Relation école (EPRD, Incubateur, Direction...)',
@@ -1580,7 +1591,7 @@ class Etude
             9 => 'Dev\'Co N7C',
             10 => 'Partenariat JE',
             11 => 'Autre',
-            );
+        ];
     }
 
     public function getSourceDeProspectionToString()
@@ -1726,7 +1737,7 @@ class Etude
     /**
      * Get competences.
      *
-     * @return Doctrine\Common\Collections\Collection
+     * @return ArrayCollection
      */
     public function getCompetences()
     {

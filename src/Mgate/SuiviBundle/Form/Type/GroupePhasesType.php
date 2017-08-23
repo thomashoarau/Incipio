@@ -22,9 +22,9 @@ class GroupePhasesType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('numero', HiddenType::class, array('attr' => array('class' => 'position')))
+        $builder->add('numero', HiddenType::class, ['attr' => ['class' => 'position']])
                 ->add('titre', TextType::class)
-                ->add('description', TextareaType::class, array('label' => 'Description', 'required' => false));
+                ->add('description', TextareaType::class, ['label' => 'Description', 'required' => false]);
     }
 
     public function getBlockPrefix()
@@ -34,8 +34,8 @@ class GroupePhasesType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'Mgate\SuiviBundle\Entity\GroupePhases',
-        ));
+        ]);
     }
 }

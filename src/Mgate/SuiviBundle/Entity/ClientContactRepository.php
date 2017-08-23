@@ -10,7 +10,7 @@ use Doctrine\ORM\EntityRepository;
 class ClientContactRepository extends EntityRepository
 {
     /** Returns all contacts for an Etude */
-    public function getByEtude(Etude $etude, array $order = array('id' => 'asc'))
+    public function getByEtude(Etude $etude, array $order = ['id' => 'asc'])
     {
         $qb = $this->_em->createQueryBuilder();
 
@@ -21,7 +21,7 @@ class ClientContactRepository extends EntityRepository
             ->addSelect('faitPar')
             ->where('cc.etude = :etude')
             ->setParameter('etude', $etude)
-            ->orderBy('cc.'.$key, $order[$key])
+            ->orderBy('cc.' . $key, $order[$key])
             ->getQuery();
 
         return $query->getResult();

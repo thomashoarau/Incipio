@@ -28,8 +28,8 @@ class AvMissionType extends DocTypeType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'Mgate\SuiviBundle\Entity\AvMission',
-        ));
+        ]);
     }
 }

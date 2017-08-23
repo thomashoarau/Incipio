@@ -24,7 +24,7 @@ class AddMembreFieldSubscriber implements EventSubscriberInterface
     {
         // Tells the dispatcher that you want to listen on the form.pre_set_data
         // event and that the preSetData method should be called.
-        return array(FormEvents::PRE_SET_DATA => 'preSetData');
+        return [FormEvents::PRE_SET_DATA => 'preSetData'];
     }
 
     public function preSetData(FormEvent $event)
@@ -39,15 +39,14 @@ class AddMembreFieldSubscriber implements EventSubscriberInterface
         // over the null condition.
         {
         $user = $data;
-        $form->add('personne', Select2EntityType::class, array('label' => "Associer ce compte d'utilisateur à un Membre existant",
+        $form->add('personne', Select2EntityType::class, ['label' => "Associer ce compte d'utilisateur à un Membre existant",
                        'class' => 'Mgate\PersonneBundle\Entity\Personne',
                        'choice_label' => 'prenomNom',
                        'required' => false,
                        'query_builder' => function (PersonneRepository $pr) use ($user) {
                            return $pr->getMembreNotUser($user);
                        },
-                        ));
-
+                        ]);
         }
     }
 }

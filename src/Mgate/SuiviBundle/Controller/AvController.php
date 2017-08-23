@@ -31,9 +31,9 @@ class AvController extends Controller
 
         $entities = $em->getRepository('MgateSuiviBundle:Etude')->findAll();
 
-        return $this->render('MgateSuiviBundle:Av:index.html.twig', array(
+        return $this->render('MgateSuiviBundle:Av:index.html.twig', [
             'etudes' => $entities,
-        ));
+        ]);
     }
 
     /**
@@ -63,9 +63,9 @@ class AvController extends Controller
             throw new AccessDeniedException('Cette étude est confidentielle');
         }
 
-        return $this->render('MgateSuiviBundle:Av:voir.html.twig', array(
+        return $this->render('MgateSuiviBundle:Av:voir.html.twig', [
             'av' => $entity,
-        ));
+        ]);
     }
 
     private function getPhaseByPosition($position, $array)
@@ -79,13 +79,13 @@ class AvController extends Controller
         return;
     }
 
-    public static $phaseMethodes = array('NbrJEH', 'PrixJEH', 'Titre', 'Objectif', 'Methodo', 'DateDebut', 'Validation', 'Delai', 'Position');
+    public static $phaseMethodes = ['NbrJEH', 'PrixJEH', 'Titre', 'Objectif', 'Methodo', 'DateDebut', 'Validation', 'Delai', 'Position'];
 
     private function mergePhaseIfNotNull($phaseReceptor, $phaseToMerge, $changes)
     {
         foreach (self::$phaseMethodes as $methode) {
-            $getMethode = 'get'.$methode;
-            $setMethode = 'set'.$methode;
+            $getMethode = 'get' . $methode;
+            $setMethode = 'set' . $methode;
             if ($phaseToMerge->$getMethode() !== null) {
                 $changes->$setMethode(true);
                 $phaseReceptor->$setMethode($phaseToMerge->$getMethode());
@@ -96,8 +96,8 @@ class AvController extends Controller
     private function copyPhase($source, $destination)
     {
         foreach (self::$phaseMethodes as $methode) {
-            $getMethode = 'get'.$methode;
-            $setMethode = 'set'.$methode;
+            $getMethode = 'get' . $methode;
+            $setMethode = 'set' . $methode;
             $destination->$setMethode($source->$getMethode());
         }
     }
@@ -106,7 +106,7 @@ class AvController extends Controller
     {
         $isNotNull = false;
         foreach (self::$phaseMethodes as $methode) {
-            $getMethode = 'get'.$methode;
+            $getMethode = 'get' . $methode;
             $isNotNull = $isNotNull || ($phase->$getMethode() !== null && $methode != 'Position');
         }
 
@@ -117,8 +117,8 @@ class AvController extends Controller
     {
         $isNotNull = false;
         foreach (self::$phaseMethodes as $methode) {
-            $getMethode = 'get'.$methode;
-            $setMethode = 'set'.$methode;
+            $getMethode = 'get' . $methode;
+            $setMethode = 'set' . $methode;
             if ($phaseReceptor->$getMethode() == $phaseToCompare->$getMethode() && $methode != 'Position') {
                 $phaseReceptor->$setMethode(null);
             } else {
@@ -153,7 +153,7 @@ class AvController extends Controller
             throw new AccessDeniedException('Cette étude est confidentielle');
         }
 
-        $phasesAv = array();
+        $phasesAv = [];
         if ($av->getPhases()) {
             $phasesAv = $av->getPhases()->toArray();
 
@@ -163,7 +163,7 @@ class AvController extends Controller
             }
         }
 
-        $phasesChanges = array();
+        $phasesChanges = [];
 
         $phasesEtude = $av->getEtude()->getPhases()->toArray();
         foreach ($phasesEtude as $phase) {
@@ -181,7 +181,7 @@ class AvController extends Controller
             $phasesChanges[] = $changes;
         }
 
-        $form = $this->createForm(AvType::class, $av, array('prospect' => $av->getEtude()->getProspect()));
+        $form = $this->createForm(AvType::class, $av, ['prospect' => $av->getEtude()->getProspect()]);
 
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
@@ -223,14 +223,14 @@ class AvController extends Controller
                 }
                 $em->flush();
 
-                return $this->redirect($this->generateUrl('MgateSuivi_av_voir', array('id' => $av->getId())));
+                return $this->redirect($this->generateUrl('MgateSuivi_av_voir', ['id' => $av->getId()]));
             }
         }
 
-        return $this->render('MgateSuiviBundle:Av:modifier.html.twig', array(
+        return $this->render('MgateSuiviBundle:Av:modifier.html.twig', [
             'form' => $form->createView(),
             'av' => $av,
             'changes' => $phasesChanges,
-        ));
+        ]);
     }
 }

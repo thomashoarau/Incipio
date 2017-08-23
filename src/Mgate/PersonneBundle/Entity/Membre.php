@@ -600,5 +600,4 @@ class Membre
     {
         $this->commentaire = $commentaire;
     }
-
 }

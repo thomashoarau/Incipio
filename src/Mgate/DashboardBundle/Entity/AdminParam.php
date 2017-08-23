@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: Antoine
  * Date: 29/01/2017
- * Time: 10:35
+ * Time: 10:35.
  */
 
 namespace Mgate\DashboardBundle\Entity;
@@ -12,12 +12,12 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Class AdminParam
+ * Class AdminParam.
+ *
  * @ORM\Entity()
  */
 class AdminParam
 {
-
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -62,7 +62,6 @@ class AdminParam
      * @ORM\Column(type="integer", nullable=false)
      */
     private $priority;
-
 
     /** Auto generated methods */
 
@@ -193,6 +192,4 @@ class AdminParam
     {
         $this->priority = $priority;
     }
-
-
 }

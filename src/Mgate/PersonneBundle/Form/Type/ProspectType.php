@@ -25,11 +25,11 @@ class ProspectType extends AbstractType
     {
         $builder
                 ->add('nom', TextType::class)
-                ->add('entite', ChoiceType::class, array('choices' => array_flip(Prospect::getEntiteChoice()), 'required' => false,))
-                ->add('adresse', TextareaType::class, array('required' => false))
-                ->add('codepostal', TextType::class, array('required' => false, 'attr' => array('placeholder' => 'Code Postal')))
-                ->add('ville', TextType::class, array('required' => false, 'attr' => array('placeholder' => 'Ville')))
-                ->add('pays', TextType::class, array('required' => false, 'attr' => array('placeholder' => 'Pays')));
+                ->add('entite', ChoiceType::class, ['choices' => array_flip(Prospect::getEntiteChoice()), 'required' => false])
+                ->add('adresse', TextareaType::class, ['required' => false])
+                ->add('codepostal', TextType::class, ['required' => false, 'attr' => ['placeholder' => 'Code Postal']])
+                ->add('ville', TextType::class, ['required' => false, 'attr' => ['placeholder' => 'Ville']])
+                ->add('pays', TextType::class, ['required' => false, 'attr' => ['placeholder' => 'Pays']]);
     }
 
     public function getBlockPrefix()
@@ -39,8 +39,8 @@ class ProspectType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'Mgate\PersonneBundle\Entity\Prospect',
-        ));
+        ]);
     }
 }
