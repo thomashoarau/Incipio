@@ -633,7 +633,6 @@ class IndicateursController extends Controller
         }
 
         $data = [];
-        $categories = [];
         foreach ($repartitions as $type => $nombre) {
             if ($type === null) {
                 $type = 'Autre';
