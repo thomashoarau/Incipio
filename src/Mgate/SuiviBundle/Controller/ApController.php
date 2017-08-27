@@ -59,6 +59,7 @@ class ApController extends Controller
                     return $this->redirect($this->generateUrl('MgateSuivi_etude_voir', ['nom' => $etude->getNom()]));
                 }
             }
+            $this->addFlash('danger', 'Le formulaire contient des erreurs.');
         }
 
         return $this->render('MgateSuiviBundle:Ap:rediger.html.twig', [
