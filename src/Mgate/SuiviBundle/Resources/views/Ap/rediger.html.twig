@@ -4,10 +4,12 @@
     {{ 'suivi.ap_rediger'|trans({}, 'suivi') }} - {{ parent() }}
 {% endblock %}
 
+{% block content_title %}
+    {{ 'suivi.ap_rediger'|trans({}, 'suivi') }}
+{% endblock %}
 
 {% block content_bundle %}
 
-    <h2>{{ 'suivi.ap_rediger'|trans({}, 'suivi') }}</h2>
     <!--<a href="{{ path('MgatePersonne_employe_ajouter', {'prospect_id':etude.prospect.id, 'format':'mini'}) }}?KeepThis=true&TB_iframe=true&height=400&width=600" title="Ajouter un signataire" class="thickbox">Ajouter un signataire</a>-->
 
 
