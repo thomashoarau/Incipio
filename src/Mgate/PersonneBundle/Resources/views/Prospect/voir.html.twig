@@ -1,7 +1,7 @@
 {% extends "MgatePersonneBundle::layout.html.twig" %}
 
 {% block title %}
-    Affichage d'un prospect - {{ parent() }}
+    {{ 'prospect.affichage_prospect'|trans({}, 'personne') }} {{ parent() }}
 {% endblock %}
 
 {% block stylesheets %}
@@ -12,35 +12,30 @@
 {% endblock %}
 
 {% block content_title %}
-    Affichage d'un prospect
+    {{ 'prospect.affichage_prospect'|trans({}, 'personne') }}
 {% endblock %}
 
 {% block breadcrumb %}
     <ul class="breadcrumb no-margin pull-right">
-        <li>
-            <a href="{{ path('MgatePersonne_prospect_homepage') }}">Liste des prospects</a>
-        </li>
-        <li>{{ prospect.nom }}</li>
+        <li><a href="{{ path('MgatePersonne_prospect_homepage') }}">{{ 'prospect.liste_prospect'|trans({}, 'personne') }}</a></li>
+        <li class="active">{{ prospect.nom }}</li>
     </ul>
 {% endblock %}
 
 {% block content_bundle %}
-
     <h2>{{ prospect.nom }}</h2>
-    <em><h4>Type de prospect : {{ prospect.EntiteToString }}</h4></em>
-    <p>
-    <h4>Adresse : {{ prospect.adresse }}
+    <em><h4>{{ 'prospect.champs.type'|trans({}, 'personne') }} : {{ prospect.EntiteToString }}</h4></em>
+    <h4>{{ 'prospect.champs.adresse'|trans({}, 'personne') }} : {{ prospect.adresse }}
         <br>
         {{ prospect.codePostal }} {{ prospect.ville }}
     </h4>
-    </p>
 
     <div class="nav-tabs-custom">
         <ul class="nav nav-tabs">
-            <li class="active"><a href="#tab1" data-toggle="tab">Employés</a></li>
-            <li><a href="#tab2" data-toggle="tab">Etudes</a></li>
-            <li><a href="#tab3" data-toggle="tab">Mailing</a></li>
-            <li><a href="#tab4" data-toggle="tab">Commentaires</a></li>
+            <li class="active"><a href="#tab1" data-toggle="tab">{{ 'employe.employes'|trans({}, 'personne') }}</a></li>
+            <li><a href="#tab2" data-toggle="tab">{{ 'etude.etudes'|trans({}, 'personne') }}</a></li>
+            <li><a href="#tab3" data-toggle="tab">{{ 'prospect.liste_diffusion'|trans({}, 'personne') }}</a></li>
+            <li><a href="#tab4" data-toggle="tab">{{ 'prospect.commentaires'|trans({}, 'personne') }}</a></li>
         </ul>
         <div class="tab-content">
             <!-- Liste des employés -->
@@ -61,10 +56,7 @@
             </div>
         </div>
     </div>
-
-
 {% endblock %}
-
 
 {% block javascript %}
     {{ parent() }}
@@ -76,6 +68,7 @@
     <script type="text/javascript" charset="utf-8">
         $(document).ready(function () {
             $('#employes').dataTable({
+                responsive: true,
                 "searching": false,
                 "bPaginate": false,
                 "bAutoWidth": false,
@@ -91,6 +84,11 @@
                 "aaSorting": [[0, 'asc']]
             });
         });
+        $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+            $($.fn.dataTable.tables(true)).DataTable()
+                .columns.adjust()
+                .responsive.recalc();
+        });
     </script>
-
 {% endblock %}
+

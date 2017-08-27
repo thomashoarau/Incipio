@@ -15,7 +15,7 @@ class AppelController extends Controller
      */
     public function indexAction()
     {
-        return $this->render('N7consultingDevcoBundle:Default:index.html.twig', array('name' => 'tocard'));
+        return $this->render('N7consultingDevcoBundle:Default:index.html.twig', ['name' => 'tocard']);
     }
 
     /**
@@ -36,13 +36,13 @@ class AppelController extends Controller
                 $em->persist($appel);
                 $em->flush();
 
-                return $this->redirect($this->generateUrl('N7consultingDevco_appel_voir', array('id' => $appel->getId())));
+                return $this->redirect($this->generateUrl('N7consultingDevco_appel_voir', ['id' => $appel->getId()]));
             }
         }
 
-        return $this->render('N7consultingDevcoBundle:Appel:ajouter.html.twig', array(
+        return $this->render('N7consultingDevcoBundle:Appel:ajouter.html.twig', [
             'form' => $form->createView(),
-        ));
+        ]);
     }
 
     /**
@@ -69,14 +69,14 @@ class AppelController extends Controller
                 $em->persist($appel);
                 $em->flush();
 
-                return $this->redirect($this->generateUrl('N7consultingDevco_appel_voir', array('id' => $appel->getId())));
+                return $this->redirect($this->generateUrl('N7consultingDevco_appel_voir', ['id' => $appel->getId()]));
             }
         }
 
-        return $this->render('N7consultingDevcoBundle:Appel:modifier.html.twig', array(
+        return $this->render('N7consultingDevcoBundle:Appel:modifier.html.twig', [
             'form' => $form->createView(),
             'delete_form' => $deleteForm->createView(),
-        ));
+        ]);
     }
 
     /**
@@ -85,7 +85,7 @@ class AppelController extends Controller
      */
     public function voirAction(Appel $appel, $id)
     {
-        return $this->render('N7consultingDevcoBundle:Appel:voir.html.twig', array('appel' => $appel));
+        return $this->render('N7consultingDevcoBundle:Appel:voir.html.twig', ['appel' => $appel]);
     }
 
     /**
@@ -112,7 +112,7 @@ class AppelController extends Controller
 
     private function createDeleteForm($id)
     {
-        return $this->createFormBuilder(array('id' => $id))
+        return $this->createFormBuilder(['id' => $id])
             ->add('id', 'hidden')
             ->getForm();
     }

@@ -32,11 +32,11 @@ class DefaultController extends Controller
         $prospects = $em->getRepository('MgatePersonneBundle:Prospect')->searchByNom($search);
         $people = $em->getRepository('MgatePersonneBundle:Personne')->searchByNom($search);
 
-        return $this->render('MgateDashboardBundle:Default:search.html.twig', array(
+        return $this->render('MgateDashboardBundle:Default:search.html.twig', [
             'search' => $search,
             'projects' => $projects,
             'prospects' => $prospects,
             'people' => $people,
-        ));
+        ]);
     }
 }

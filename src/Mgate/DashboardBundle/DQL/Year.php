@@ -38,6 +38,6 @@ class Year extends FunctionNode
      */
     public function getSql(SqlWalker $sqlWalker)
     {
-        return 'YEAR('.$sqlWalker->walkArithmeticPrimary($this->date).')';
+        return 'YEAR(' . $sqlWalker->walkArithmeticPrimary($this->date) . ')';
     }
 }

@@ -28,11 +28,11 @@ class ClientContactController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('MgateSuiviBundle:ClientContact')->findBy(array(), array('date' => 'ASC'));
+        $entities = $em->getRepository('MgateSuiviBundle:ClientContact')->findBy([], ['date' => 'ASC']);
 
-        return $this->render('MgateSuiviBundle:ClientContact:index.html.twig', array(
+        return $this->render('MgateSuiviBundle:ClientContact:index.html.twig', [
             'contactsClient' => $entities,
-        ));
+        ]);
     }
 
     /**
@@ -56,13 +56,13 @@ class ClientContactController extends Controller
         $formHandler = new ClientContactHandler($form, $request, $em);
 
         if ($formHandler->process()) {
-            return $this->redirect($this->generateUrl('MgateSuivi_clientcontact_voir', array('id' => $clientcontact->getId())));
+            return $this->redirect($this->generateUrl('MgateSuivi_clientcontact_voir', ['id' => $clientcontact->getId()]));
         }
 
-        return $this->render('MgateSuiviBundle:ClientContact:ajouter.html.twig', array(
+        return $this->render('MgateSuiviBundle:ClientContact:ajouter.html.twig', [
             'form' => $form->createView(),
             'etude' => $etude,
-        ));
+        ]);
     }
 
     private function compareDate(ClientContact $a, ClientContact $b)
@@ -95,13 +95,13 @@ class ClientContactController extends Controller
 
         $etude = $contactClient->getEtude();
         $contactsClient = $etude->getClientContacts()->toArray();
-        usort($contactsClient, array($this, 'compareDate'));
+        usort($contactsClient, [$this, 'compareDate']);
 
-        return $this->render('MgateSuiviBundle:ClientContact:voir.html.twig', array(
+        return $this->render('MgateSuiviBundle:ClientContact:voir.html.twig', [
             'contactsClient' => $contactsClient,
             'selectedContactClient' => $contactClient,
             'etude' => $etude,
-            ));
+            ]);
     }
 
     /**
@@ -129,14 +129,14 @@ class ClientContactController extends Controller
             if ($form->isValid()) {
                 $em->flush();
 
-                return $this->redirect($this->generateUrl('MgateSuivi_clientcontact_voir', array('id' => $clientcontact->getId())));
+                return $this->redirect($this->generateUrl('MgateSuivi_clientcontact_voir', ['id' => $clientcontact->getId()]));
             }
         }
 
-        return $this->render('MgateSuiviBundle:ClientContact:modifier.html.twig', array(
+        return $this->render('MgateSuiviBundle:ClientContact:modifier.html.twig', [
             'form' => $form->createView(),
             'clientcontact' => $clientcontact,
             'etude' => $etude,
-        ));
+        ]);
     }
 }

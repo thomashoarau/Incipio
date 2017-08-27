@@ -8,33 +8,42 @@
     {% endblock %}
 {% else %}
 
-
 {% endif %}
     #}
+
 {% block title %}
-    Ajouter un employé à {{ prospect.nom }} - {{ parent() }}
+    {{ 'employe.ajouter_employe'|trans({}, 'personne') }} {{ parent() }}
 {% endblock %}
 
 {% block content_title %}
-    Ajouter un employé à {{ prospect.nom }}
+    {{ 'employe.ajouter_employe_a'|trans({}, 'personne') }} {{ prospect.nom }}
 {% endblock %}
 
 {% block breadcrumb %}
     <ul class="breadcrumb no-margin pull-right">
-        <li>
-            <a href="{{ path('MgatePersonne_prospect_homepage') }}">Liste des prospects</a>
-        </li>
-        <li>
-            <a href="{{ path('MgatePersonne_prospect_voir', {'id': prospect.id}) }}">{{ prospect.nom }}</a>
-        </li>
-        <li>
-            Ajouter un employé
-        </li>
+        <li><a href="{{ path('MgatePersonne_prospect_homepage') }}">{{ 'prospect.liste_prospect'|trans({}, 'personne') }}</a></li>
+        <li><a href="{{ path('MgatePersonne_prospect_voir', {'id': prospect.id}) }}">{{ prospect.nom }}</a></li>
+        <li class="active">{{ 'employe.ajouter_employe'|trans({}, 'personne') }}</li>
     </ul>
 {% endblock %}
 
 {% block content_bundle %}
-
-    {% include "MgatePersonneBundle:Employe:formulaire.html.twig" %}
-
+    <div class="table-responsive content">
+        {{ form_start(form) }}
+        <table class="table table-bordered table-striped">
+            {% include "MgatePersonneBundle:Employe:formulaire.html.twig" %}
+            <tr>
+                <td colspan="6">
+                    <div class="row">
+                        <div class="col-md-2 col-xs-4">
+                            <button type="submit" class="btn btn-success">{{ 'generique.enregistrer'|trans({}, 'personne') }}</button>
+                            {{ form_rest(form) }}
+                            {{ form_end(form) }}
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
 {% endblock %}
+

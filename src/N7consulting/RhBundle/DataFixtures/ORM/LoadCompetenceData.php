@@ -13,7 +13,7 @@ class LoadCompetenceData implements FixtureInterface
      */
     public function load(ObjectManager $manager)
     {
-        $competences = array(
+        $competences = [
             'PHP',
             'HTML',
             'CSS',
@@ -27,7 +27,7 @@ class LoadCompetenceData implements FixtureInterface
             'Wordpress',
             'Phonegap / Cordova',
             'IOS',
-        );
+        ];
 
         foreach ($competences as $competence) {
             $c = new Competence();

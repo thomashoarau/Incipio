@@ -23,21 +23,21 @@ class AvType extends DocTypeType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('differentielDelai', IntegerType::class, array('label' => 'Modification du Délai (+/- x jours)', 'required' => true))
-        ->add('objet', TextareaType::class, array('label' => 'Exposer les causes de l’Avenant. Ne pas hésiter à 
+        $builder->add('differentielDelai', IntegerType::class, ['label' => 'Modification du Délai (+/- x jours)', 'required' => true])
+        ->add('objet', TextareaType::class, ['label' => 'Exposer les causes de l’Avenant. Ne pas hésiter à 
         détailler l\'historique des relations avec le client et du travail sur l\'étude qui ont conduit à l\'Avenant.',
-        'required' => true, ))
-        ->add('clauses', ChoiceType::class, array('label' => 'Type d\'avenant', 'multiple' => true, 'choices' => Av::getClausesChoices(),
-            ))
-        ->add('phases', CollectionType::class, array(
+        'required' => true, ])
+        ->add('clauses', ChoiceType::class, ['label' => 'Type d\'avenant', 'multiple' => true, 'choices' => Av::getClausesChoices(),
+            ])
+        ->add('phases', CollectionType::class, [
                 'entry_type' => PhaseType::class,
-                'entry_options' => array('isAvenant' => true),
+                'entry_options' => ['isAvenant' => true],
                 'allow_add' => true,
                 'allow_delete' => true,
                 'prototype' => true,
                 'by_reference' => false,
-                ));
-                /*->add('avenantsMissions', 'collection', array(
+                ]);
+        /*->add('avenantsMissions', 'collection', array(
             'type' => new AvMissionType,
             'allow_add' => true,
             'allow_delete' => true,
@@ -55,9 +55,9 @@ class AvType extends DocTypeType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'Mgate\SuiviBundle\Entity\Av',
             'prospect' => '',
-        ));
+        ]);
     }
 }

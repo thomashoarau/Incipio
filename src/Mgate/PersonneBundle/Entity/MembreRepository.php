@@ -37,14 +37,14 @@ class MembreRepository extends EntityRepository
      */
     public function getMembresParPromo()
     {
-        $entities = $this->findBy(array(), array('promotion' => 'desc'));
-        $membresParMandat = array();
+        $entities = $this->findBy([], ['promotion' => 'desc']);
+        $membresParMandat = [];
         foreach ($entities as $membre) {
             $promo = $membre->getPromotion();
             if (array_key_exists($promo, $membresParMandat)) {
                 $membresParMandat[$promo][] = $membre;
             } else {
-                $membresParMandat[$promo] = array($membre);
+                $membresParMandat[$promo] = [$membre];
             }
         }
 

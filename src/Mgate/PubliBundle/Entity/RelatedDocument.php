@@ -192,6 +192,6 @@ class RelatedDocument
 
     public function __toString()
     {
-        return 'RelatedDocument '.$this->getId();
+        return 'RelatedDocument ' . $this->getId();
     }
 }

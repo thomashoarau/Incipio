@@ -29,13 +29,13 @@ class CompetenceController extends Controller
                 $em->persist($competence);
                 $em->flush();
 
-                return $this->redirect($this->generateUrl('N7consultingRh_competence_voir', array('id' => $competence->getId())));
+                return $this->redirect($this->generateUrl('N7consultingRh_competence_voir', ['id' => $competence->getId()]));
             }
         }
 
-        return $this->render('N7consultingRhBundle:Competence:ajouter.html.twig', array(
+        return $this->render('N7consultingRhBundle:Competence:ajouter.html.twig', [
             'form' => $form->createView(),
-        ));
+        ]);
     }
 
     /**
@@ -45,9 +45,9 @@ class CompetenceController extends Controller
     {
         $entities = $this->getDoctrine()->getManager()->getRepository('N7consultingRhBundle:Competence')->findAll();
 
-        return $this->render('N7consultingRhBundle:Competence:index.html.twig', array(
+        return $this->render('N7consultingRhBundle:Competence:index.html.twig', [
             'competences' => $entities,
-        ));
+        ]);
     }
 
     /**
@@ -67,11 +67,11 @@ class CompetenceController extends Controller
 
         $etudes = $em->getRepository('MgateSuiviBundle:Etude')->findByCompetence($entity);
 
-        return $this->render('N7consultingRhBundle:Competence:voir.html.twig', array(
+        return $this->render('N7consultingRhBundle:Competence:voir.html.twig', [
             'competence' => $entity,
             'devs' => $devs,
             'etudes' => $etudes,
-        ));
+        ]);
     }
 
     /**
@@ -91,14 +91,14 @@ class CompetenceController extends Controller
                 $em->persist($competence);
                 $em->flush();
 
-                return $this->redirect($this->generateUrl('N7consultingRh_competence_voir', array('id' => $competence->getId())));
+                return $this->redirect($this->generateUrl('N7consultingRh_competence_voir', ['id' => $competence->getId()]));
             }
         }
 
-        return $this->render('N7consultingRhBundle:Competence:modifier.html.twig', array(
+        return $this->render('N7consultingRhBundle:Competence:modifier.html.twig', [
             'form' => $form->createView(),
             'delete_form' => $deleteForm->createView(),
-        ));
+        ]);
     }
 
     /**
@@ -110,19 +110,19 @@ class CompetenceController extends Controller
         $competences = $em->getRepository('N7consulting\RhBundle\Entity\Competence')->getCompetencesTree();
         $membres = $em->getRepository('MgatePersonneBundle:Membre')->getByCompetencesNonNul();
 
-        return $this->render('N7consultingRhBundle:Competence:visualiser.html.twig', array(
+        return $this->render('N7consultingRhBundle:Competence:visualiser.html.twig', [
             'competences' => $competences,
             'membres' => $membres,
-        ));
+        ]);
     }
 
     /**
      * @Security("has_role('ROLE_CA')")
      *
-     * @param Request $request
+     * @param Request    $request
      * @param Competence $competence param converter on id
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function deleteAction(Request $request, Competence $competence)
     {
@@ -140,7 +140,7 @@ class CompetenceController extends Controller
 
     private function createDeleteForm($id)
     {
-        return $this->createFormBuilder(array('id' => $id))
+        return $this->createFormBuilder(['id' => $id])
             ->add('id', HiddenType::class)
             ->getForm()
             ;

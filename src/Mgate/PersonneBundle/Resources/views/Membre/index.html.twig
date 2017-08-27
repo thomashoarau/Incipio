@@ -1,4 +1,5 @@
 {# Page de liste des membres : les personnes s'étant inscrites à la Junior. #}
+
 {% extends "MgatePersonneBundle::layout.html.twig" %}
 
 {% block stylesheets %}
@@ -8,43 +9,42 @@
     <link rel="stylesheet" href="{{ asset('css/datatables/responsive.bootstrap.min.css') }}">
 {% endblock %}
 
-{% block title %}Liste des Membres - {{ parent() }}{% endblock %}
+{% block title %}
+    {{ 'membre.liste_membre'|trans({}, 'personne') }} {{ parent() }}
+{% endblock %}
 
 {% block content_title %}
-    Liste des Membres
+    {{ 'membre.liste_membre'|trans({}, 'personne') }}
 {% endblock %}
 
 {% block breadcrumb %}
     <ul class="breadcrumb no-margin pull-right">
-        <li>
-            Liste des membres
-        </li>
+        <li class="active">{{ 'membre.liste_membre'|trans({}, 'personne') }}</li>
     </ul>
 {% endblock %}
 
 {% block content_bundle %}
-
-    <table class="table table-bordered table-striped dataTable dt-responsive" id="listeMembres" role="grid">
+    <table class="table table-bordered table-striped dataTable dt-responsive text-left" id="listeMembres" role="grid" width="100%">
         <thead>
         <tr>
-            <th>Promotion</th>
-            <th>Identifiant</th>
-            <th>Prénom</th>
-            <th>Nom</th>
-            <th>Poste</th>
-            <th>Email</th>
-            <th>Mobile</th>
-            <th>Adresse</th>
+            <th>{{ 'champs.promotion'|trans({}, 'personne') }}</th>
+            <th>{{ 'champs.id'|trans({}, 'personne') }}</th>
+            <th>{{ 'champs.prenom'|trans({}, 'personne') }}</th>
+            <th>{{ 'champs.nom'|trans({}, 'personne') }}</th>
+            <th>{{ 'champs.poste'|trans({}, 'personne') }}</th>
+            <th>{{ 'champs.mail'|trans({}, 'personne') }}</th>
+            <th>{{ 'champs.mobile'|trans({}, 'personne') }}</th>
+            <th>{{ 'champs.adresse'|trans({}, 'personne') }}</th>
         </tr>
         </thead>
         <tbody>
         {% for membre in membres %}
             <tr>
-                <td style="text-align: center;"><span
-                            class="label label-default">{{ membre.promotion ? "P" ~ membre.promotion }}</span>
+                <td class="text-center">
+                    <span class="label label-default">{{ membre.promotion ? "P" ~ membre.promotion }}</span>
                 </td>
-                <td style="text-align: center;"><h4><span class="label label-info">{{ membre.identifiant }}</span>
-                    </h4>
+                <td class="text-center">
+                    <span class="label label-info">{{ membre.identifiant }}</span>
                 </td>
                 <td>
                     <a href="{{ path('MgatePersonne_membre_voir', {'id': membre.id}) }}">{{ membre.personne ? membre.personne.prenom }}</a>
@@ -54,21 +54,22 @@
                 </td>
                 <td>
                     {% for mandat in membre.mandats %}
-                        <span class="label label-{{ "now"|date('Ymd')  > mandat.finMandat |date('Ymd') ? 'default' : 'success' }}"
-                              data-valide="{{ "now"|date('Ymd')  > mandat.finMandat |date('Ymd') ? 'ancien' : 'actuel' }}{{ mandat.poste.intitule }}">{{ mandat.debutMandat | date("d/m/Y") }}
+                        <span class="label label-{{ "now"|date('Ymd') > mandat.finMandat |date('Ymd') ? 'default' : 'success' }}"
+                              data-valide="{{ "now"|date('Ymd') > mandat.finMandat |date('Ymd') ? 'ancien' : 'actuel' }}{{ mandat.poste.intitule }}">{{ mandat.debutMandat | date("d/m/Y") }}
                             <span class="fa fa-arrow-right"></span> {{ mandat.finMandat | date("d/m/Y") }}</span> {{ mandat.poste.intitule }}
                         <br/>
                     {% endfor %}
                 </td>
                 <td>{{ membre.personne ? membre.personne.email }}</td>
                 <td>{{ membre.personne ? membre.personne.mobile }}</td>
-                <td>{{ membre.personne ? membre.personne.adresse }} {{ membre.personne ? membre.personne.codepostal }} {{ membre.personne ? membre.personne.ville }}</td>
+                <td>
+                    {{ membre.personne ? membre.personne.adresse }}<br/>
+                    {{ membre.personne ? membre.personne.codepostal }} {{ membre.personne ? membre.personne.ville }}
+                </td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
-
-
 {% endblock %}
 
 {% block javascript %}
@@ -93,3 +94,4 @@
         });
     </script>
 {% endblock %}
+

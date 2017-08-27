@@ -26,14 +26,14 @@ class NoteDeFraisRepository extends EntityRepository
      */
     public function findAllByMandat()
     {
-        $entities = $this->findBy(array(), array('mandat' => 'desc', 'date' => 'asc'));
-        $nfsParMandat = array();
+        $entities = $this->findBy([], ['mandat' => 'desc', 'date' => 'asc']);
+        $nfsParMandat = [];
         foreach ($entities as $nf) {
             $mandat = $nf->getMandat();
             if (array_key_exists($mandat, $nfsParMandat)) {
                 $nfsParMandat[$mandat][] = $nf;
             } else {
-                $nfsParMandat[$mandat] = array($nf);
+                $nfsParMandat[$mandat] = [$nf];
             }
         }
 

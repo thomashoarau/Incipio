@@ -14,6 +14,7 @@ namespace Mgate\PersonneBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Mgate\PersonneBundle\Entity\Poste.
@@ -35,7 +36,7 @@ class Poste
 
     /**
      * @var string
-     *
+     * @Assert\NotBlank()
      * @ORM\Column(name="intitule", type="string", length=127)
      */
     private $intitule;
@@ -48,7 +49,7 @@ class Poste
 
     /**
      * @var string
-     *
+     * @Assert\NotBlank()
      * @ORM\Column(name="description", type="string", length=255)
      */
     private $description;
@@ -110,6 +111,7 @@ class Poste
 
         return $this;
     }
+
     /**
      * Constructor.
      */

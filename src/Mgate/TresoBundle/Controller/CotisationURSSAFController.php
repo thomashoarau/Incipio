@@ -27,7 +27,7 @@ class CotisationURSSAFController extends Controller
         $em = $this->getDoctrine()->getManager();
         $cotisations = $em->getRepository('MgateTresoBundle:CotisationURSSAF')->findAll();
 
-        return $this->render('MgateTresoBundle:CotisationURSSAF:index.html.twig', array('cotisations' => $cotisations));
+        return $this->render('MgateTresoBundle:CotisationURSSAF:index.html.twig', ['cotisations' => $cotisations]);
     }
 
     /**
@@ -49,14 +49,14 @@ class CotisationURSSAFController extends Controller
                 $em->persist($cotisation);
                 $em->flush();
 
-                return $this->redirect($this->generateUrl('MgateTreso_CotisationURSSAF_index', array()));
+                return $this->redirect($this->generateUrl('MgateTreso_CotisationURSSAF_index', []));
             }
         }
 
-        return $this->render('MgateTresoBundle:CotisationURSSAF:modifier.html.twig', array(
+        return $this->render('MgateTresoBundle:CotisationURSSAF:modifier.html.twig', [
                     'form' => $form->createView(),
                     'cotisation' => $cotisation,
-                ));
+                ]);
     }
 
     /**
@@ -73,6 +73,6 @@ class CotisationURSSAFController extends Controller
         $em->remove($cotisation);
         $em->flush();
 
-        return $this->redirect($this->generateUrl('MgateTreso_CotisationURSSAF_index', array()));
+        return $this->redirect($this->generateUrl('MgateTreso_CotisationURSSAF_index', []));
     }
 }

@@ -149,8 +149,8 @@ class PersonneRepository extends EntityRepository
             ->from('MgatePersonneBundle:Personne', 'p')
             ->where('p.nom LIKE :nom')
             ->orWhere('p.prenom LIKE :prenom')
-            ->setParameter('nom', '%'.$search.'%')
-            ->setParameter('prenom', '%'.$search.'%')
+            ->setParameter('nom', '%' . $search . '%')
+            ->setParameter('prenom', '%' . $search . '%')
             ->setMaxResults($limit);
         $query = $qb->getQuery();
 

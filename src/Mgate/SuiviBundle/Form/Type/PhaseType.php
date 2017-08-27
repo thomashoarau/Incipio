@@ -28,19 +28,19 @@ class PhaseType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('position', HiddenType::class, array('attr' => array('class' => 'position')))
-                ->add('titre', TextType::class, array('attr' => array('placeholder' => 'Titre phase')))
-                ->add('objectif', TextareaType::class, array('label' => 'Objectif', 'required' => false, 'attr' => array('placeholder' => 'Objectif')))
-                ->add('methodo', TextareaType::class, array('label' => 'Méthodologie', 'required' => false, 'attr' => array('placeholder' => 'Méthodologie')))
+        $builder->add('position', HiddenType::class, ['attr' => ['class' => 'position']])
+                ->add('titre', TextType::class, ['attr' => ['placeholder' => 'Titre phase']])
+                ->add('objectif', TextareaType::class, ['label' => 'Objectif', 'required' => false, 'attr' => ['placeholder' => 'Objectif']])
+                ->add('methodo', TextareaType::class, ['label' => 'Méthodologie', 'required' => false, 'attr' => ['placeholder' => 'Méthodologie']])
                 // Obsolète, la validation porte maintenant sur les groupes de phases
                 // Une validation orale est impossible à prouver
                 //->add('validation', 'choice', array('choices' => Phase::getValidationChoice(), 'required' => true))
-                ->add('nbrJEH', IntegerType::class, array('label' => 'Nombre de JEH', 'required' => false, 'attr' => array('class' => 'nbrJEH')))
-                ->add('prixJEH', IntegerType::class, array('label' => 'Prix du JEH HT', 'required' => false, 'attr' => array('class' => 'prixJEH')))
-                ->add('dateDebut', DateType::class, array('label' => 'Date de début', 'format' => 'd/MM/y', 'required' => false, 'widget' => 'single_text'))
-                ->add('delai', IntegerType::class, array('label' => 'Durée en nombre de jours', 'required' => false));
+                ->add('nbrJEH', IntegerType::class, ['label' => 'Nombre de JEH', 'required' => false, 'attr' => ['class' => 'nbrJEH']])
+                ->add('prixJEH', IntegerType::class, ['label' => 'Prix du JEH HT', 'required' => false, 'attr' => ['class' => 'prixJEH']])
+                ->add('dateDebut', DateType::class, ['label' => 'Date de début', 'format' => 'd/MM/y', 'required' => false, 'widget' => 'single_text'])
+                ->add('delai', IntegerType::class, ['label' => 'Durée en nombre de jours', 'required' => false]);
         if ($options['etude']) {
-            $builder->add('groupe', Select2EntityType::class, array(
+            $builder->add('groupe', Select2EntityType::class, [
                 'class' => 'Mgate\SuiviBundle\Entity\GroupePhases',
                 'choice_label' => 'titre',
                 'required' => false,
@@ -48,11 +48,11 @@ class PhaseType extends AbstractType
                     return $er->getGroupePhasesByEtude($options['etude']);
                 },
                 'label' => 'Groupe',
-                ));
+                ]);
         }
 
         if ($options['isAvenant']) {
-            $builder->add('etatSurAvenant', ChoiceType::class, array('choices' => array_flip(Phase::getEtatSurAvenantChoice()), 'required' => false));
+            $builder->add('etatSurAvenant', ChoiceType::class, ['choices' => array_flip(Phase::getEtatSurAvenantChoice()), 'required' => false]);
         }
     }
 
@@ -63,10 +63,10 @@ class PhaseType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'Mgate\SuiviBundle\Entity\Phase',
             'isAvenant' => false,
             'etude' => null,
-        ));
+        ]);
     }
 }

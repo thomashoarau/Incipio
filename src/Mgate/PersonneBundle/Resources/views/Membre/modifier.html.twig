@@ -1,38 +1,37 @@
-{# Page de liste des intervenants : les personnes ayant déjà réalisé une mission.#}
 {% extends "MgatePersonneBundle::layout.html.twig" %}
 
-{% block title %}Ajouter/Modifier un membre {{ parent() }}{% endblock %}
+{% block title %}
+    {{ 'membre.ajout_modification_membre'|trans({}, 'personne') }} {{ parent() }}
+{% endblock %}
 
 {% block content_title %}
-    Ajouter/Modifier un membre
+    {{ 'membre.ajout_modification_membre'|trans({}, 'personne') }}
 {% endblock %}
 
 {% block breadcrumb %}
     <ul class="breadcrumb no-margin pull-right">
-        <li><a href="{{ path('MgatePersonne_membre_homepage') }}">Liste des membres</a></li>
+        <li><a href="{{ path('MgatePersonne_membre_homepage') }}">{{ 'membre.liste_membre'|trans({}, 'personne') }}</a></li>
         {% if form.vars.value.personne is not none %}
             <li>
                 <a href="{{ path('MgatePersonne_membre_voir', {'id': form.vars.value.id}) }}">
                     {{ form.vars.value.personne.prenomNom }}
                 </a>
             </li>
-            <li class="active">Modifier</li>
+            <li class="active">{{ 'membre.modifier'|trans({}, 'personne') }}</li>
         {% else %}
-            <li class="active">Ajouter un nouveau membre</li>
+            <li class="active">{{ 'membre.ajout_modification_membre'|trans({}, 'personne') }}</li>
         {% endif %}
     </ul>
 {% endblock %}
 
 {% block content_bundle %}
-
     {{ form_start(form, {'attr': {'id': 'form', 'class': 'form-horizontal'}}) }}
 
     <div class="row">
         <div class="col-md-7 col-xs-12">
             <div class="box box-info box-solid">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Membre</h3>
-
+                    <h3 class="box-title">{{ 'membre.membre'|trans({}, 'personne') }}</h3>
                 </div>
                 <div class="box-body">
                     <div class="form-group">
@@ -160,14 +159,12 @@
                     </div>
                 </div>
             </div>
-
         </div>
 
         <div class="col-md-5 col-xs-12">
             <div class="box box-info box-solid">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Intervenant</h3>
-
+                    <h3 class="box-title">{{ 'membre.intervenant'|trans({}, 'personne') }}</h3>
                 </div>
                 <div class="box-body">
                     <div class="form-group">
@@ -232,31 +229,27 @@
                 </div>
             </div>
         </div>
-
     </div>
 
     <div class="row">
         <div class="col-md-8 col-xs-12">
             <div class="box box-info box-solid">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Mandats</h3>
-
+                    <h3 class="box-title">{{ 'membre.mandats'|trans({}, 'personne') }}</h3>
                 </div>
                 <div class="box-body">
                     <table class="table table-bordered table-striped" id="mandats-fields-list"
-                           data-prototype="
-                           {% set proto = form.mandats.vars.prototype %}
-                                <td>{{ form_label(proto.poste) |e }}</td>
-                                <td colspan='2'>{{ form_widget(proto.poste, {'attr': {'class': 'select2'}}) |e }}
-                                                {{ form_errors(proto.poste) |e }}</td>
-                    <td>{{ form_label(proto.debutMandat) |e }}</td>
-                    <td>{{ form_widget(proto.debutMandat, {'attr': {'class': 'js-datepicker'}}) |e }} {{ form_errors(proto.debutMandat) |e }}</td>
-                    <td>{{ form_label(proto.finMandat) |e }}</td>
-                    <td>{{ form_widget(proto.finMandat, {'attr': {'class': 'js-datepicker'}}) |e }} {{ form_errors(proto.finMandat) |e }}</td>">
+                            data-prototype="{% set proto = form.mandats.vars.prototype %}
+                              <td>{{ form_label(proto.poste) |e }}</td>
+                              <td colspan='2'>{{ form_widget(proto.poste, {'attr': {'class': 'select2'}}) |e }} {{ form_errors(proto.poste) |e }}</td>
+                              <td>{{ form_label(proto.debutMandat) |e }}</td>
+                              <td>{{ form_widget(proto.debutMandat, {'attr': {'class': 'js-datepicker'}}) |e }} {{ form_errors(proto.debutMandat) |e }}</td>
+                              <td>{{ form_label(proto.finMandat) |e }}</td>
+                              <td>{{ form_widget(proto.finMandat, {'attr': {'class': 'js-datepicker'}}) |e }} {{ form_errors(proto.finMandat) |e }}</td>">
                         <tbody>
                         <tr>
                             <td colspan="7">
-                                <h4 style="display: inline;">Postes occupés</h4>
+                                <h4 style="display: inline;">{{ 'membre.postes_occupes'|trans({}, 'personne') }}</h4>
                             </td>
                         </tr>
                         {% for mandat in form.mandats %}
@@ -274,7 +267,7 @@
                         </tbody>
                     </table>
                     <a href="#" id="add-another-mandat" class="btn btn-xs btn-primary">
-                        Ajouter un mandat
+                        {{ 'membre.ajouter_mandat'|trans({}, 'personne') }}
                     </a>
                 </div>
             </div>
@@ -283,14 +276,13 @@
         <div class="col-md-4 col-xs-12">
             <div class="box box-info box-solid">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Photo</h3>
+                    <h3 class="box-title">{{ 'membre.photo'|trans({}, 'personne') }}</h3>
                 </div>
                 <div class="box-body">
                     <table class="table table-bordered table-striped">
                         <tr>
                             <td rowspan="6" style="text-align: center;">
-                                <img class="img-thumbnail" style="height: 200px"
-                                     src="{{ asset(photoURI) }}"/><br><br>
+                                <img class="img-thumbnail" style="height: 200px" src="{{ asset(photoURI) }}"/><br><br>
                                 {{ form_widget(form.photo) }}
                             </td>
                         </tr>
@@ -300,23 +292,20 @@
         </div>
     </div>
 
-
     <div class="row">
         <div class="col-md-2 col-xs-4">
-            <button type="submit" class="btn btn-success">Enregistrer</button>
+            <button type="submit" class="btn btn-success">{{ 'generique.enregistrer'|trans({}, 'personne') }}</button>
             {{ form_end(form) }}
         </div>
         <div class="col-md-2 col-xs-4">
             <form class="bootbox-confirm inline"
-                  data-content="Êtes-vous sûr de vouloir supprimer définitivement ce membre ?"
+                  data-content="{{ 'membre.confirmation_supprimer_membre'|trans({}, 'personne') }}"
                   action="{{ path('MgatePersonne_membre_supprimer', { 'id': form.vars.value.id }) }}" method="post">
                 {{ form_widget(delete_form) }}
-                <button class="btn btn-danger">Supprimer le membre</button>
+                <button class="btn btn-danger">{{ 'membre.supprimer_membre'|trans({}, 'personne') }}</button>
             </form>
         </div>
-
     </div>
-
 {% endblock %}
 
 {% block javascript %}
@@ -399,5 +388,4 @@
 
     </script>
 {% endblock %}
-
 

@@ -1,57 +1,73 @@
 {% extends "MgatePersonneBundle::layout.html.twig" %}
-{% block title %}Liste de diffusions{% endblock %}
+
+{% block title %}
+    {{ 'prospect.liste_diffusion'|trans({}, 'personne') }}
+{% endblock %}
 
 {% block content_title %}
-    Liste de diffusions
+    {{ 'prospect.liste_diffusion'|trans({}, 'personne') }}
+{% endblock %}
+
+{% block breadcrumb %}
+    <ul class="breadcrumb no-margin pull-right">
+        <li class="active">{{ 'prospect.liste_diffusion'|trans({}, 'personne') }}</li>
+    </ul>
 {% endblock %}
 
 {% block content_bundle %}
-<table class="table table-bordered table-striped">
-    <tr>
-        <td>Liste de diffusion client - Abonné Newsletter</td>
-        <td>Liste de diffusion membre Mail Externe - Newsletter</td>
-        <td>Liste de diffusion membre Mail étu - Newsletter</td>
-    </tr>
-    <tr>
-        <td>
-            {% for personne in personnes if personne.employe and personne.emailestvalide and personne.estabonnenewsletter and personne.email %}
-                {{personne.prenomNom }} &lt;{{ personne.email }}&gt;;<br />
-            {% endfor %}
-        </td>
-        <td>
-            {% for personne in personnes if personne.membre and personne.emailestvalide and personne.estabonnenewsletter and  personne.email %}
-                {{personne.prenomNom }} &lt;{{ personne.email }}&gt;;<br />
-            {% endfor %}
-        </td>
-        <td>
-            {% for personne in personnes if personne.membre and personne.emailestvalide and personne.estabonnenewsletter  %}
-                {{personne.prenomNom }} &lt;{{ personne.membre.emailEMSE }}&gt;;<br />
-            {% endfor %}
-        </td>
-    </tr>
-    <tr>
-        <td>Liste de diffusion client - Complète</td>
-        <td>Liste de diffusion membre Mail Externe - Complète</td>
-        <td>Liste de diffusion membre Mail étu - Complète</td>
-    </tr>
-    <tr>
-        <td>
-            {% for personne in personnes if personne.employe and personne.email and personne.emailestvalide %}{{personne.prenomNom }} &lt;{{ personne.email }}&gt;;<br />{% endfor %}
-        </td>
-        <td>
-            {% for personne in personnes if personne.membre and personne.email and personne.emailestvalide %}{{personne.prenomNom }} &lt;{{ personne.email }}&gt;;<br />{% endfor %}
-        </td>
-        <td>
-            {% for personne in personnes if personne.membre %}{{personne.prenomNom }} &lt;{{ personne.membre.emailEMSE }}&gt;;<br />{% endfor %}
-        </td>
-    </tr>
-</table>
-<h3>Liste de diffusion cotisant ({{ nbrCotisantsEtu}})(mails école)</h3>
-<pre>
-{{ cotisantsEtu }}
-</pre>
-<h3>Liste de diffusion cotisant ({{ nbrCotisants }}) (hors mails école)</h3>
-<pre>
-{{ cotisants }}
-</pre>
+    <div class="table-responsive content">
+        <table class="table table-bordered table-striped">
+            <tr>
+                <td>
+                    {{ 'prospect.liste_diffusion'|trans({}, 'personne') }} : {{ 'annuaire.client'|trans({}, 'personne') }} & {{ 'personne.newsletter_abonne'|trans({}, 'personne') }}
+                </td>
+                <td>
+                    {{ 'prospect.liste_diffusion'|trans({}, 'personne') }} ({{ 'champs.mail'|trans({}, 'personne') }}) : {{ 'membre.membre'|trans({}, 'personne') }} & {{ 'personne.newsletter_abonne'|trans({}, 'personne') }}
+                </td>
+                <td>
+                    {{ 'prospect.liste_diffusion'|trans({}, 'personne') }} ({{ 'champs.mail_etudiant'|trans({}, 'personne') }}) : {{ 'membre.membre'|trans({}, 'personne') }} & {{ 'personne.newsletter_abonne'|trans({}, 'personne') }}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    {% for personne in personnes if personne.employe and personne.emailestvalide and personne.estabonnenewsletter and personne.email %}
+                    {{personne.prenomNom }} &lt;{{ personne.email }}&gt;;<br />
+                    {% endfor %}
+                </td>
+                <td>
+                    {% for personne in personnes if personne.membre and personne.emailestvalide and personne.estabonnenewsletter and  personne.email %}
+                    {{personne.prenomNom }} &lt;{{ personne.email }}&gt;;<br />
+                    {% endfor %}
+                </td>
+                <td>
+                    {% for personne in personnes if personne.membre and personne.emailestvalide and personne.estabonnenewsletter  %}
+                    {{personne.prenomNom }} &lt;{{ personne.membre.emailEMSE }}&gt;;<br />
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <td>{{ 'prospect.liste_diffusion'|trans({}, 'personne') }} : {{ 'annuaire.client'|trans({}, 'personne') }}</td>
+                <td>{{ 'prospect.liste_diffusion'|trans({}, 'personne') }} ({{ 'champs.mail'|trans({}, 'personne') }}) : {{ 'membre.membre'|trans({}, 'personne') }}</td>
+                <td>{{ 'prospect.liste_diffusion'|trans({}, 'personne') }} ({{ 'champs.mail_etudiant'|trans({}, 'personne') }}) : {{ 'membre.membre'|trans({}, 'personne') }}</td>
+            </tr>
+            <tr>
+                <td>
+                    {% for personne in personnes if personne.employe and personne.email and personne.emailestvalide %}
+                    {{personne.prenomNom }} &lt;{{ personne.email }}&gt;;<br />
+                    {% endfor %}
+                </td>
+                <td>
+                    {% for personne in personnes if personne.membre and personne.email and personne.emailestvalide %}
+                    {{personne.prenomNom }} &lt;{{ personne.email }}&gt;;<br />
+                    {% endfor %}
+                </td>
+                <td>
+                    {% for personne in personnes if personne.membre %}
+                    {{personne.prenomNom }} &lt;{{ personne.membre.emailEMSE }}&gt;;<br />
+                    {% endfor %}
+                </td>
+            </tr>
+        </table>
+    </div>
 {% endblock %}
+

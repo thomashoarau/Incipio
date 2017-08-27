@@ -1,13 +1,15 @@
 {# Liste of Filieres. Displayed on Poste:index.html.twig if user is granted ROLE_ADMIN #}
 
-<h2>Liste des Filières</h2>
+<h2>{{ 'filiere.liste_filiere'|trans({}, 'personne') }}</h2>
 
-<a href="{{ path('MgatePersonne_filiere_ajouter') }}"
-   class="btn btn-info">{{ 'dashboard.filiere_ajouter'|trans({}, 'dashboard') }}</a>
+<a href="{{ path('MgatePersonne_filiere_ajouter') }}" class="btn btn-info">
+    {{ 'dashboard.filiere_ajouter'|trans({}, 'dashboard') }}
+</a>
+
 <table class="table table-striped">
     <thead>
     <tr>
-        <th>Filières</th>
+        <th>{{ 'filiere.filieres'|trans({}, 'personne') }}</th>
     </tr>
     </thead>
     <tbody>
@@ -26,7 +28,7 @@
         {% endif %}
     {% else %}
         <tr>
-            <td>Pas de Filière</td>
+            <td>{{ 'filiere.liste_filiere_vide'|trans({}, 'personne') }}</td>
         </tr>
     {% endfor %}
     </tbody>

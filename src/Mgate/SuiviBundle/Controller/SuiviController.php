@@ -36,9 +36,9 @@ class SuiviController extends Controller
             ->addOrderBy('s.date', 'DESC')
             ->getQuery()->getResult();
 
-        return $this->render('MgateSuiviBundle:Suivi:index.html.twig', array(
+        return $this->render('MgateSuiviBundle:Suivi:index.html.twig', [
             'suivis' => $entities,
-        ));
+        ]);
     }
 
     /**
@@ -64,14 +64,14 @@ class SuiviController extends Controller
                 $em->persist($suivi);
                 $em->flush();
 
-                return $this->redirect($this->generateUrl('MgateSuivi_suivi_voir', array('id' => $suivi->getId())));
+                return $this->redirect($this->generateUrl('MgateSuivi_suivi_voir', ['id' => $suivi->getId()]));
             }
         }
 
-        return $this->render('MgateSuiviBundle:Suivi:ajouter.html.twig', array(
+        return $this->render('MgateSuiviBundle:Suivi:ajouter.html.twig', [
             'form' => $form->createView(),
             'etude' => $etude,
-        ));
+        ]);
     }
 
     private function compareDate(Suivi $a, Suivi $b)
@@ -98,13 +98,13 @@ class SuiviController extends Controller
 
         $etude = $suivi->getEtude();
         $suivis = $etude->getSuivis()->toArray();
-        usort($suivis, array($this, 'compareDate'));
+        usort($suivis, [$this, 'compareDate']);
 
-        return $this->render('MgateSuiviBundle:Suivi:voir.html.twig', array(
+        return $this->render('MgateSuiviBundle:Suivi:voir.html.twig', [
             'suivis' => $suivis,
             'selectedSuivi' => $suivi,
             'etude' => $etude,
-            ));
+            ]);
     }
 
     /**
@@ -126,14 +126,14 @@ class SuiviController extends Controller
             if ($form->isValid()) {
                 $em->flush();
 
-                return $this->redirect($this->generateUrl('MgateSuivi_suivi_voir', array('id' => $suivi->getId())));
+                return $this->redirect($this->generateUrl('MgateSuivi_suivi_voir', ['id' => $suivi->getId()]));
             }
         }
 
-        return $this->render('MgateSuiviBundle:Suivi:modifier.html.twig', array(
+        return $this->render('MgateSuiviBundle:Suivi:modifier.html.twig', [
             'form' => $form->createView(),
             'clientcontact' => $suivi,
             'etude' => $suivi->getEtude(),
-        ));
+        ]);
     }
 }

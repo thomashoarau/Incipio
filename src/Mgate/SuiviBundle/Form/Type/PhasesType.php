@@ -20,14 +20,14 @@ class PhasesType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('phases', CollectionType::class, array(
+        $builder->add('phases', CollectionType::class, [
             'entry_type' => PhaseType::class,
-            'entry_options' => array('etude' => $options['etude']),
+            'entry_options' => ['etude' => $options['etude']],
             'allow_add' => true,
             'allow_delete' => true,
             'prototype' => true,
             'by_reference' => false, //indispensable cf doc
-        ));
+        ]);
     }
 
     public function getBlockPrefix()
@@ -37,9 +37,9 @@ class PhasesType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'Mgate\SuiviBundle\Entity\Etude',
             'etude' => null,
-            ));
+            ]);
     }
 }

@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class ImportController extends Controller
 {
-    const AVAILABLE_FORMATS = array('Siaje Etudes');
+    const AVAILABLE_FORMATS = ['Siaje Etudes'];
 
     /**
      * @Security("has_role('ROLE_ADMIN')")
@@ -24,16 +24,16 @@ class ImportController extends Controller
     public function indexAction(Request $request)
     {
         set_time_limit(0);
-        $form = $this->createFormBuilder(array())->add('import_method', ChoiceType::class, array('label' => 'Type du fichier',
+        $form = $this->createFormBuilder([])->add('import_method', ChoiceType::class, ['label' => 'Type du fichier',
                 'required' => true,
                 'choices' => $this::AVAILABLE_FORMATS,
                 'choice_label' => function ($value) {
                     return $value;
                 },
                 'expanded' => true,
-                'multiple' => false, )
+                'multiple' => false, ]
         )
-            ->add('file', FileType::class, array('label' => 'Fichier', 'required' => true, 'attr' => array('cols' => '100%', 'rows' => 5)))->getForm();
+            ->add('file', FileType::class, ['label' => 'Fichier', 'required' => true, 'attr' => ['cols' => '100%', 'rows' => 5]])->getForm();
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -47,13 +47,13 @@ class ImportController extends Controller
 
                 $results = $siajeImporter->run($file);
 
-                $request->getSession()->getFlashBag()->add('success', 'Document importé. '.$results['inserted_projects'].' études créées, '.$results['inserted_prospects'].' prospects créés');
+                $request->getSession()->getFlashBag()->add('success', 'Document importé. ' . $results['inserted_projects'] . ' études créées, ' . $results['inserted_prospects'] . ' prospects créés');
 
                 return $this->redirect($this->generateUrl('Mgate_publi_import'));
             }
         }
 
-        return $this->render('MgatePubliBundle:Import:index.html.twig', array('form' => $form->createView()));
+        return $this->render('MgatePubliBundle:Import:index.html.twig', ['form' => $form->createView()]);
     }
 
     /**

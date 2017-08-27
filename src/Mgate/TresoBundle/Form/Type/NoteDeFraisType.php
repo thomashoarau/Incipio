@@ -25,32 +25,32 @@ class NoteDeFraisType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('mandat', IntegerType::class, array('label' => 'Mandat', 'required' => true))
-                ->add('numero', IntegerType::class, array('label' => 'Numéro de la Note de Frais', 'required' => true))
+        $builder->add('mandat', IntegerType::class, ['label' => 'Mandat', 'required' => true])
+                ->add('numero', IntegerType::class, ['label' => 'Numéro de la Note de Frais', 'required' => true])
                 ->add('objet', TextareaType::class,
-                    array('label' => 'Objet de la Note de Frais',
+                    ['label' => 'Objet de la Note de Frais',
                         'required' => false,
-                        'attr' => array(
+                        'attr' => [
                             'cols' => '100%',
-                            'rows' => 5, ),
-                        )
+                            'rows' => 5, ],
+                        ]
                     )
-                ->add('details', CollectionType::class, array(
+                ->add('details', CollectionType::class, [
                     'entry_type' => NoteDeFraisDetailType::class,
                     'allow_add' => true,
                     'allow_delete' => true,
                     'prototype' => true,
                     'by_reference' => false,
-                ))
-                ->add('demandeur', Select2EntityType::class, array(
+                ])
+                ->add('demandeur', Select2EntityType::class, [
                       'label' => 'Demandeur',
                        'class' => 'Mgate\\PersonneBundle\\Entity\\Personne',
                        'choice_label' => 'prenomNom',
                        'query_builder' => function (PersonneRepository $pr) {
                            return $pr->getMembreOnly();
                        },
-                       'required' => true, ))
-                ->add('date', DateType::class, array('label' => 'Date', 'required' => true, 'widget' => 'single_text'));
+                       'required' => true, ])
+                ->add('date', DateType::class, ['label' => 'Date', 'required' => true, 'widget' => 'single_text']);
     }
 
     public function getBlockPrefix()
@@ -60,8 +60,8 @@ class NoteDeFraisType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'Mgate\TresoBundle\Entity\NoteDeFrais',
-        ));
+        ]);
     }
 }

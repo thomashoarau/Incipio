@@ -24,7 +24,7 @@ class CompteController extends Controller
         $em = $this->getDoctrine()->getManager();
         $comptes = $em->getRepository('MgateTresoBundle:Compte')->findAll();
 
-        return $this->render('MgateTresoBundle:Compte:index.html.twig', array('comptes' => $comptes));
+        return $this->render('MgateTresoBundle:Compte:index.html.twig', ['comptes' => $comptes]);
     }
 
     /**
@@ -46,14 +46,14 @@ class CompteController extends Controller
                 $em->persist($compte);
                 $em->flush();
 
-                return $this->redirect($this->generateUrl('MgateTreso_Compte_index', array()));
+                return $this->redirect($this->generateUrl('MgateTreso_Compte_index', []));
             }
         }
 
-        return $this->render('MgateTresoBundle:Compte:modifier.html.twig', array(
+        return $this->render('MgateTresoBundle:Compte:modifier.html.twig', [
                     'form' => $form->createView(),
                     'compte' => $compte,
-                ));
+                ]);
     }
 
     /**
@@ -70,6 +70,6 @@ class CompteController extends Controller
         $em->remove($compte);
         $em->flush();
 
-        return $this->redirect($this->generateUrl('MgateTreso_Compte_index', array()));
+        return $this->redirect($this->generateUrl('MgateTreso_Compte_index', []));
     }
 }

@@ -25,38 +25,38 @@ class ApType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('suiveur', Select2EntityType::class, array('label' => 'Suiveur de projet',
+        $builder->add('suiveur', Select2EntityType::class, ['label' => 'Suiveur de projet',
             'class' => 'Mgate\\PersonneBundle\\Entity\\Personne',
             'choice_label' => 'prenomNom',
             'query_builder' => function (PersonneRepository $pr) {
                 return $pr->getByMandatNonNulQueryBuilder();
             },
-            'required' => false, ))
-            ->add('ap', SubApType::class, array('label' => ' ', 'prospect' => $options['prospect']))
-            ->add('fraisDossier', IntegerType::class, array('label' => 'Frais de dossier', 'required' => false))
+            'required' => false, ])
+            ->add('ap', SubApType::class, ['label' => ' ', 'prospect' => $options['prospect']])
+            ->add('fraisDossier', IntegerType::class, ['label' => 'Frais de dossier', 'required' => false])
             ->add('presentationProjet', TextareaType::class,
-                array('label' => 'Présentation du projet',
+                ['label' => 'Présentation du projet',
                     'required' => false,
-                    'attr' => array('cols' => '100%', 'rows' => 5), )
+                    'attr' => ['cols' => '100%', 'rows' => 5], ]
             )
             ->add('descriptionPrestation', TextareaType::class,
-                array('label' => 'Description de la prestation proposée',
+                ['label' => 'Description de la prestation proposée',
                     'required' => false,
-                    'attr' => array('title' => "La phrase commence par 'N7 Consulting réalisera, pour le compte du Client, 
+                    'attr' => ['title' => "La phrase commence par 'N7 Consulting réalisera, pour le compte du Client, 
                     une étude consistant en'. Il faut la continuer en décrivant la prestation proposée. 
                     Le début de la phrase est déjà généré.",
                         'cols' => '100%',
-                        'rows' => 5, ), ))
+                        'rows' => 5, ], ])
             ->add('typePrestation', ChoiceType::class,
-                array('choices' => array_flip(Etude::getTypePrestationChoice()),
+                ['choices' => array_flip(Etude::getTypePrestationChoice()),
                     'label' => 'Type de prestation',
                     'required' => false,
-                    ))
-            ->add('competences',Select2EntityType::class, array(
+                    ])
+            ->add('competences', Select2EntityType::class, [
                 'class' => 'N7consulting\RhBundle\Entity\Competence',
                 'by_reference' => false,
                 'multiple' => true,
-            ));
+            ]);
     }
 
     public function getBlockPrefix()
@@ -66,9 +66,9 @@ class ApType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'Mgate\SuiviBundle\Entity\Etude',
             'prospect' => '',
-        ));
+        ]);
     }
 }

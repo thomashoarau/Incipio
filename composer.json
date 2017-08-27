@@ -65,6 +65,11 @@
       "php bin/console doctrine:cache:clear-query",
       "php bin/console doctrine:cache:clear-metadata"
     ],
+    "mysql-reload": [
+      "php bin/console doctrine:schema:drop --force",
+      "php bin/console doctrine:schema:update --force",
+      "php bin/console doctrine:fixtures:load -n"
+    ],
     "symfony-scripts": [
       "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
       "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",

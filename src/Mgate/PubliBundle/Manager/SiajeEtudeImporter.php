@@ -20,10 +20,10 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  */
 class SiajeEtudeImporter extends CsvImporter implements FileImporterInterface
 {
-    const EXPECTED_FORMAT = array('No Etude', 'Exercice comptable', 'Intitule', 'Statut', 'Domaine de compétence', 'Montant HT', 'Frais de dossier HT', 'Frais variables', 'Acompte', 'JEHs', 'Durée en semaine', 'Suiveur principal', 'Suiveur qualité', 'Contact', 'Email', 'Entreprise', 'Adresse', 'Code Postal', 'Ville', 'Provenance', 'Progression', 'Date d\'ajout', 'Date d\'édition', 'Date d\'envoi du devis', 'Date signature CC', 'Date signature PV', 'Date de cloturation', 'Date de mise en standby', 'Date de signature projetée', 'Date d\'avortement');
+    const EXPECTED_FORMAT = ['No Etude', 'Exercice comptable', 'Intitule', 'Statut', 'Domaine de compétence', 'Montant HT', 'Frais de dossier HT', 'Frais variables', 'Acompte', 'JEHs', 'Durée en semaine', 'Suiveur principal', 'Suiveur qualité', 'Contact', 'Email', 'Entreprise', 'Adresse', 'Code Postal', 'Ville', 'Provenance', 'Progression', 'Date d\'ajout', 'Date d\'édition', 'Date d\'envoi du devis', 'Date signature CC', 'Date signature PV', 'Date de cloturation', 'Date de mise en standby', 'Date de signature projetée', 'Date d\'avortement'];
 
     //link between siaje string for state and our stateID integer. Slugified
-    const SIAJE_AVAILABLE_STATE = array('Contact initial' => 1, 'Devis envoye' => 1, 'En realisation' => 2, 'En attente de cloture' => 2, 'Stand-By' => 3, 'Cloturee' => 4, 'Avortee' => 5);
+    const SIAJE_AVAILABLE_STATE = ['Contact initial' => 1, 'Devis envoye' => 1, 'En realisation' => 2, 'En attente de cloture' => 2, 'Stand-By' => 3, 'Cloturee' => 4, 'Avortee' => 5];
 
     private $em;
 
@@ -39,7 +39,7 @@ class SiajeEtudeImporter extends CsvImporter implements FileImporterInterface
      */
     public function expectedFormat()
     {
-        return array('file_format' => 'csv', 'columns_format' => self::EXPECTED_FORMAT);
+        return ['file_format' => 'csv', 'columns_format' => self::EXPECTED_FORMAT];
     }
 
     /**
@@ -57,20 +57,19 @@ class SiajeEtudeImporter extends CsvImporter implements FileImporterInterface
             $inserted_projects = 0;
             $inserted_prospects = 0;
             if (($handle = fopen($file->getPathname(), 'r')) !== false) {
-                $array_manager = array(); //an array containing references to managers.
-                $array_prospect = array(); //an array containing references to projects.
+                $array_manager = []; //an array containing references to managers.
+                $array_prospect = []; //an array containing references to projects.
                 //iterate csv, row by row
                 while (($data = fgetcsv($handle, 0, ',')) !== false) {
                     if ($i > 1 && $this->readArray($data, 'Intitule') != '') { //first row is column headers
                         $etude = $this->em->getRepository('MgateSuiviBundle:Etude')->findOneByNom($this->readArray($data, 'Intitule'));
 
                         if ($etude === null) {
-
                             //create project if it doesn't exists in DB
                             $e = new Etude();
                             ++$inserted_projects;
                             $e->setMandat($this->readArray($data, 'Exercice comptable'));
-                           // $e->setNum($this->readArray($data, 'No Etude')); //untrusted, can be duplicated in siaje.
+                            // $e->setNum($this->readArray($data, 'No Etude')); //untrusted, can be duplicated in siaje.
                             $e->setNom($this->readArray($data, 'Intitule'));
                             $e->setDescription($this->readArray($data, 'Domaine de compétence'));
                             $e->setDateCreation($this->dateManager($this->readArray($data, 'Date d\'ajout')));
@@ -112,7 +111,7 @@ class SiajeEtudeImporter extends CsvImporter implements FileImporterInterface
                                 if ($this->readArray($data, 'Entreprise', true) !== '') {
                                     $p->setNom($this->readArray($data, 'Entreprise', true));
                                 } else {
-                                    $p->setNom('Prospect sans nom '.rand());
+                                    $p->setNom('Prospect sans nom ' . rand());
                                 }
                                 $p->setAdresse($this->readArray($data, 'Adresse'));
                                 $p->setCodePostal($this->readArray($data, 'Code Postal'));
@@ -171,7 +170,7 @@ class SiajeEtudeImporter extends CsvImporter implements FileImporterInterface
                             $firstname = $contact[0];
                             unset($contact[0]);
                             $surname = implode(' ', $contact);
-                            $pm = $this->em->getRepository('MgatePersonneBundle:Personne')->findOneBy(array('nom' => $surname, 'prenom' => $firstname));
+                            $pm = $this->em->getRepository('MgatePersonneBundle:Personne')->findOneBy(['nom' => $surname, 'prenom' => $firstname]);
 
                             if ($pm !== null) {
                                 $e->setSuiveur($pm);
@@ -231,9 +230,9 @@ class SiajeEtudeImporter extends CsvImporter implements FileImporterInterface
                 $this->em->flush();
             }
 
-            return array('inserted_projects' => $inserted_projects, 'inserted_prospects' => $inserted_prospects);
+            return ['inserted_projects' => $inserted_projects, 'inserted_prospects' => $inserted_prospects];
         }
 
-        return array('inserted_projects' => 0, 'inserted_prospects' => 0);
+        return ['inserted_projects' => 0, 'inserted_prospects' => 0];
     }
 }

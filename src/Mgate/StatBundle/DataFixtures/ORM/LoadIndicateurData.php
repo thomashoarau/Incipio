@@ -13,7 +13,6 @@ class LoadIndicateurData implements FixtureInterface
      */
     public function load(ObjectManager $manager)
     {
-
         /************************************************
          * 			Indicateurs Suivi d'études			*
          * ********************************************** */

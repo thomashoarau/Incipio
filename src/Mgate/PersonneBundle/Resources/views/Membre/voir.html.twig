@@ -1,31 +1,25 @@
 {% extends "MgatePersonneBundle::layout.html.twig" %}
 
 {% block title %}
-    Affichage d'un Membre - {{ parent() }}
+    {{ 'membre.affichage_membre'|trans({}, 'personne') }} {{ parent() }}
 {% endblock %}
 
 {% block breadcrumb %}
     <ul class="breadcrumb no-margin pull-right">
-        <li>
-            <a href="{{ path('MgatePersonne_membre_homepage') }}">Liste des membres</a>
-        </li>
-        <li>
-            {{ membre.personne.PrenomNom }}
-        </li>
+        <li><a href="{{ path('MgatePersonne_membre_homepage') }}">{{ 'membre.liste_membre'|trans({}, 'personne') }}</a></li>
+        <li class="active">{{ membre.personne.PrenomNom }}</li>
     </ul>
 {% endblock %}
 
 {% block content_title %}
-    Affichage d'un Membre
+    {{ 'membre.affichage_membre'|trans({}, 'personne') }}
 {% endblock %}
 
-
 {% block content_bundle %}
-
     <div class="nav-tabs-custom">
         <ul class="nav nav-tabs">
             <li class="active"><a href="#tab1" data-toggle="tab">Fiche</a></li>
-            <li><a href="#tab2" data-toggle="tab">Documents</a></li>
+            <li><a href="#tab2" data-toggle="tab">{{ 'membre.documents'|trans({}, 'personne') }}</a></li>
         </ul>
         <div class="tab-content">
             <!-- FICHE -->
@@ -38,30 +32,29 @@
             </div>
         </div>
     </div>
+
     <div class="row">
         {% if is_granted('ROLE_ADMIN') and membre.personne and membre.personne.user is null %}
-            <div class="col-sm-3 col-xs-6">
-
+            <div class="col-md-4 col-sm-5 col-xs-6">
                 {% if membre.personne.email is not null %}
-
                     {{ form_start(create_user_form) }}
                     {{ form_widget(create_user_form) }}
-                    <button type="submit" class="btn btn-primary">Ouvrir
-                        un compte utilisateur
+                    <button type="submit" class="btn btn-primary">
+                        {{ 'membre.creer_compte'|trans({}, 'personne') }}
                     </button>
                     {{ form_end(create_user_form) }}
                 {% elseif  membre.personne.email is null %}
                     <code>
-                        Vous devez définir un email valide pour créer un compte utilisateur à ce membre.
+                        {{ 'membre.mail_invalide_creation_compte'|trans({}, 'personne') }}
                     </code>
                 {% endif %}
             </div>
         {% endif %}
-        <div class="col-sm-3 col-xs-6">
-
+        <div class="col-md-4 col-sm-5 col-xs-6">
             <a class="btn btn-warning" href="{{ path('MgatePersonne_membre_modifier', {'id': membre.id}) }}">
-                Modifier le membre</a>
+                {{ 'membre.modifier_membre'|trans({}, 'personne') }}
+            </a>
         </div>
     </div>
-
 {% endblock %}
+

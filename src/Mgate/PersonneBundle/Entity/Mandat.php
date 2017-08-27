@@ -8,22 +8,20 @@
  * file that was distributed with this source code.
  */
 
-
 namespace Mgate\PersonneBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
-
 /**
  * Mandat.
- * Table intermédiaire ManyToMany avec attribut : Mandat = MembrePoste
+ * Table intermédiaire ManyToMany avec attribut : Mandat = MembrePoste.
+ *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Mgate\PersonneBundle\Entity\MandatRepository")
  */
 class Mandat
 {
-
     /**
      * @var int
      *
@@ -63,7 +61,6 @@ class Mandat
     {
         return 'Mandat ' . $this->getDebutMandat()->format('d/m/Y') . ' - ' . $this->getFinMandat()->format('d/m/Y');
     }
-
 
     /** auto-generated methods */
 

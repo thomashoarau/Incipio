@@ -19,14 +19,14 @@ class MoyenContactType extends AbstractType
 {
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'choices' => array(
+        $resolver->setDefaults([
+            'choices' => [
                 'mail' => 'Mail',
                 'telephone' => 'Téléphone',
                 'physique' => 'Physique',
                 'lettre' => 'Lettre',
-            ),
-        ));
+            ],
+        ]);
     }
 
     public function getParent()

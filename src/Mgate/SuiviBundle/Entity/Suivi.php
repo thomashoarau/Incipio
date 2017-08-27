@@ -165,6 +165,6 @@ class Suivi
 
     public function __toString()
     {
-        return $this->getEtude()->getNom().' '.$this->getTodo();
+        return $this->getEtude()->getNom() . ' ' . $this->getTodo();
     }
 }

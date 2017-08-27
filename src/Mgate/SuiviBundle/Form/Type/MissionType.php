@@ -33,25 +33,25 @@ class MissionType extends DocTypeType
         $this->etude = $options['etude'];
 
         $builder
-            ->add('intervenant', Select2EntityType::class, array(
+            ->add('intervenant', Select2EntityType::class, [
                 'class' => 'Mgate\\PersonneBundle\\Entity\\Membre',
                 'choice_label' => 'personne.prenomNom',
                 'label' => 'Intervenant',
                 //'query_builder' => function(PersonneRepository $pr) { return $pr->getMembreOnly(); },
                 'required' => true,
-            ))
-            ->add('debutOm', Datetype::class, array('label' => 'Début du Récapitulatif de Mission',
-                'required' => true, 'widget' => 'single_text', 'format' => 'dd/mm/yyyy'))
-            ->add('finOm', DateType::class, array('label' => 'Fin du Récapitulatif de Mission',
-                'required' => true, 'widget' => 'single_text', 'format' => 'dd/mm/yyyy'))
-            ->add('pourcentageJunior', PercentType::class, array('label' => 'Pourcentage junior', 'required' => true, 'scale' => 2))
-            ->add('referentTechnique', Select2EntityType::class, array(
+            ])
+            ->add('debutOm', Datetype::class, ['label' => 'Début du Récapitulatif de Mission',
+                'required' => true, 'widget' => 'single_text', 'format' => 'dd/mm/yyyy', ])
+            ->add('finOm', DateType::class, ['label' => 'Fin du Récapitulatif de Mission',
+                'required' => true, 'widget' => 'single_text', 'format' => 'dd/mm/yyyy', ])
+            ->add('pourcentageJunior', PercentType::class, ['label' => 'Pourcentage junior', 'required' => true, 'scale' => 2])
+            ->add('referentTechnique', Select2EntityType::class, [
                 'class' => 'Mgate\\PersonneBundle\\Entity\\Membre',
                 'choice_label' => 'personne.prenomNom',
                 'label' => 'Référent Technique',
                 'required' => false,
-            ))
-            ->add('phases', EntityType::class, array(
+            ])
+            ->add('phases', EntityType::class, [
                 'class' => 'Mgate\SuiviBundle\Entity\Phase',
                 'query_builder' => function (PhaseRepository $pr) {
                     return $pr->getByEtudeQuery($this->etude);
@@ -59,19 +59,18 @@ class MissionType extends DocTypeType
                 'required' => false,
                 'multiple' => true,
                 'by_reference' => false,
-                'attr' => array('class' => 'select2-multiple'),
-
-            ))
-            ->add('repartitionsJEH', CollectionType::class, array(
+                'attr' => ['class' => 'select2-multiple'],
+            ])
+            ->add('repartitionsJEH', CollectionType::class, [
                 'entry_type' => RepartitionJEHType::class,
-                'entry_options' => array(
+                'entry_options' => [
                     'data_class' => 'Mgate\SuiviBundle\Entity\RepartitionJEH',
-                ),
+                ],
                 'allow_add' => true,
                 'allow_delete' => true,
                 'prototype' => true,
                 'by_reference' => false,
-            ));
+            ]);
 
         //->add('avancement','integer',array('label'=>'Avancement en %'))
         //->add('rapportDemande','checkbox', array('label'=>'Rapport pédagogique demandé','required'=>false))
@@ -89,9 +88,9 @@ class MissionType extends DocTypeType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'Mgate\SuiviBundle\Entity\Mission',
-        ));
+        ]);
         $resolver->setRequired(['etude']);
         $resolver->addAllowedTypes('etude', 'Mgate\SuiviBundle\Entity\Etude');
     }

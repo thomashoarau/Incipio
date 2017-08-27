@@ -3,7 +3,7 @@
 {% extends "MgatePersonneBundle::layout.html.twig" %}
 
 {% block title %}
-    Liste des Prospects - {{ parent() }}
+    {{ 'prospect.liste_prospect'|trans({}, 'personne') }} {{ parent() }}
 {% endblock %}
 
 {% block stylesheets %}
@@ -14,31 +14,23 @@
 {% endblock %}
 
 {% block content_title %}
-    Liste des prospects
+    {{ 'prospect.liste_prospect'|trans({}, 'personne') }}
 {% endblock %}
 
 {% block breadcrumb %}
     <ul class="breadcrumb no-margin pull-right">
-        <li>
-            Liste des prospects
-        </li>
+        <li class="active">{{ 'prospect.liste_prospect'|trans({}, 'personne') }}</li>
     </ul>
 {% endblock %}
 
 {% block content_bundle %}
-
-    <div>
-        <a href="{{ path('MgatePersonne_prospect_ajouter') }}" class="btn btn-info btn-sm">
-            <i class="fa fa-plus"></i> Ajouter un prospect
-        </a>
-    </div>
-    <table class="table table-bordered table-striped dataTable dt-responsive" id="listeProspects" role="grid">
+    <table class="table table-bordered table-striped dataTable dt-responsive text-left" id="listeProspects" role="grid" width="100%">
         <thead>
         <tr>
-            <th>Nom</th>
-            <th>Type</th>
-            <th>Adresse</th>
-            <th>Nombre d'employes</th>
+            <th>{{ 'prospect.champs.nom'|trans({}, 'personne') }}</th>
+            <th>{{ 'prospect.champs.type'|trans({}, 'personne') }}</th>
+            <th>{{ 'prospect.champs.adresse'|trans({}, 'personne') }}</th>
+            <th>{{ 'prospect.champs.nombre_employe'|trans({}, 'personne') }}</th>
         </tr>
         </thead>
         <tbody>
@@ -65,11 +57,13 @@
     <script type="text/javascript" charset="utf-8">
         $(document).ready(function () {
             $('#listeProspects').DataTable({
-                "paging": false,
+                "paging": true,
                 "lengthChange": true,
                 "searching": true,
                 "ordering": true,
                 "info": true,
+                "iDisplayLength": 50,
+                "responsive": true,
                 "aaSorting": [[0, 'desc']]
             });
         });

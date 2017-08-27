@@ -20,13 +20,13 @@ class GroupesPhasesType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('groupes', CollectionType::class, array(
+        $builder->add('groupes', CollectionType::class, [
             'entry_type' => GroupePhasesType::class,
             'allow_add' => true,
             'allow_delete' => true,
             'prototype' => true,
             'by_reference' => false, //indispensable cf doc
-        ));
+        ]);
     }
 
     public function getBlockPrefix()
@@ -36,8 +36,8 @@ class GroupesPhasesType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'Mgate\SuiviBundle\Entity\Etude',
-        ));
+        ]);
     }
 }

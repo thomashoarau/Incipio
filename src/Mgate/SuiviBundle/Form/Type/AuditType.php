@@ -19,13 +19,13 @@ class AuditType extends AbstractType
 {
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'choices' => array(
+        $resolver->setDefaults([
+            'choices' => [
                 '0' => 'Non audité',
                 '1' => 'Exhaustive',
                 '2' => 'Déontologique',
-            ),
-        ));
+            ],
+        ]);
     }
 
     public function getParent()

@@ -1,29 +1,40 @@
 {# Page de liste des impayés : les personnes s'étant inscrites à la Junior mais dont le format de paiement n'est pas défini. #}
+
 {% extends "MgatePersonneBundle::layout.html.twig" %}
 
 {% block stylesheets %}
     {{ parent() }}
-    <link rel="stylesheet" href="{{ asset('css/datatables/dataTables.bootstrap.css') }}">     <link rel="stylesheet" href="{{ asset('css/datatables/dataTables.fontAwesome.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/datatables/dataTables.bootstrap.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/datatables/dataTables.fontAwesome.css') }}">
     <link rel="stylesheet" href="{{ asset('css/datatables/responsive.bootstrap.min.css') }}">
 {% endblock %}
 
-{% block title %}Liste des Impayés - {{ parent() }}{% endblock %}
+{% block title %}
+    {{ 'membre.liste_impaye'|trans({}, 'personne') }} {{ parent() }}
+{% endblock %}
 
 {% block content_title %}
-    Liste des Impayés
+    {{ 'membre.liste_impaye'|trans({}, 'personne') }}
+{% endblock %}
+
+{% block breadcrumb %}
+    <ul class="breadcrumb no-margin pull-right">
+        <li class="active">{{ 'membre.liste_impaye'|trans({}, 'personne') }}</li>
+    </ul>
 {% endblock %}
 
 {% block content_bundle %}
-    <p>Membres n'ayant pas payés leur cotisation à l'inscription ou dont le moyen de paiement n'est pas renseigné.</p>
-    <table class="table table-bordered table-striped dataTable dt-responsive" id="listeImpayes" role="grid">
+    <p>{{ 'membre.description_liste_impaye'|trans({}, 'personne') }}</p>
+
+    <table class="table table-bordered table-striped dataTable dt-responsive text-left" id="listeImpayes" role="grid" width="100%">
         <thead>
         <tr>
-            <th>Prénom</th>
-            <th>Nom</th>
-            <th>Email</th>
-            <th>Promotion</th>
-            <th>Mobile</th>
-            <th>Adresse</th>
+            <th>{{ 'champs.prenom'|trans({}, 'personne') }}</th>
+            <th>{{ 'champs.nom'|trans({}, 'personne') }}</th>
+            <th>{{ 'champs.mail'|trans({}, 'personne') }}</th>
+            <th>{{ 'champs.promotion'|trans({}, 'personne') }}</th>
+            <th>{{ 'champs.mobile'|trans({}, 'personne') }}</th>
+            <th>{{ 'champs.adresse'|trans({}, 'personne') }}</th>
         </tr>
         </thead>
         <tbody>
@@ -36,17 +47,18 @@
                     <a href="{{ path('MgatePersonne_membre_voir', {'id': membre.id}) }}">{{ membre.personne ? membre.personne.nom }}</a>
                 </td>
                 <td>{{ membre.personne ? membre.personne.email }}</td>
-                <td style="text-align: center;"><h4><span
-                                class="label label-default">{{ membre.promotion ? "P" ~ membre.promotion }}</span>
+                <td class="text-center">
+                    <span class="label label-default">{{ membre.promotion ? "P" ~ membre.promotion }}</span>
                 </td>
                 <td>{{ membre.personne ? membre.personne.mobile }}</td>
-                <td>{{ membre.personne ? membre.personne.adresse }} {{ membre.personne ? membre.personne.codepostal }} {{ membre.personne ? membre.personne.ville }}</td>
+                <td>
+                    {{ membre.personne ? membre.personne.adresse }}<br/>
+                    {{ membre.personne ? membre.personne.codepostal }} {{ membre.personne ? membre.personne.ville }}
+                </td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
-
-
 {% endblock %}
 
 {% block javascript %}
@@ -70,3 +82,4 @@
         });
     </script>
 {% endblock %}
+

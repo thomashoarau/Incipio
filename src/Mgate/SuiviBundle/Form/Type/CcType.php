@@ -21,9 +21,9 @@ class CcType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('cc', SubCcType::class, array('label' => ' ', 'prospect' => $options['prospect']))
-            ->add('acompte', CheckboxType::class, array('label' => 'Acompte', 'required' => false))
-            ->add('pourcentageAcompte', PercentType::class, array('label' => 'Pourcentage acompte', 'required' => false));
+        $builder->add('cc', SubCcType::class, ['label' => ' ', 'prospect' => $options['prospect']])
+            ->add('acompte', CheckboxType::class, ['label' => 'Acompte', 'required' => false])
+            ->add('pourcentageAcompte', PercentType::class, ['label' => 'Pourcentage acompte', 'required' => false]);
     }
 
     public function getBlockPrefix()
@@ -33,9 +33,9 @@ class CcType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'Mgate\SuiviBundle\Entity\Etude',
             'prospect' => '',
-        ));
+        ]);
     }
 }

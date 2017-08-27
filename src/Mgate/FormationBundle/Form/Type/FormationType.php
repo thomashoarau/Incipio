@@ -28,44 +28,44 @@ class FormationType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('titre', TextType::class, array('label' => 'Titre de la formation', 'required' => true))
-                ->add('description', TextareaType::class, array('label' => 'Description de la Formation', 'required' => true, 'attr' => array('cols' => '100%', 'rows' => 5)))
-                ->add('categorie', Select2ChoiceType::class, array(
+        $builder->add('titre', TextType::class, ['label' => 'Titre de la formation', 'required' => true])
+                ->add('description', TextareaType::class, ['label' => 'Description de la Formation', 'required' => true, 'attr' => ['cols' => '100%', 'rows' => 5]])
+                ->add('categorie', Select2ChoiceType::class, [
                     'multiple' => true,
                     'choices' => array_flip(Formation::getCategoriesChoice()),
                     'label' => 'Catégorie',
-                    'required' => false, )
+                    'required' => false, ]
                 )
-                ->add('dateDebut', DateTimeType::class, array('label' => 'Date de debut', 'format' => 'd/MM/y - HH:mm', 'required' => true, 'widget' => 'choice'))
-                ->add('dateFin', DateTimeType::class, array('label' => 'Date de fin', 'format' => 'd/MM/y - HH:mm', 'required' => true, 'widget' => 'choice'))
+                ->add('dateDebut', DateTimeType::class, ['label' => 'Date de debut', 'format' => 'd/MM/y - HH:mm', 'required' => true, 'widget' => 'choice'])
+                ->add('dateFin', DateTimeType::class, ['label' => 'Date de fin', 'format' => 'd/MM/y - HH:mm', 'required' => true, 'widget' => 'choice'])
                 ->add('mandat', IntegerType::class)
-                ->add('formateurs', CollectionType::class, array(
+                ->add('formateurs', CollectionType::class, [
                     'entry_type' => Select2EntityType::class,
-                    'entry_options' => array('label' => 'Suiveur de projet',
+                    'entry_options' => ['label' => 'Suiveur de projet',
                         'class' => 'Mgate\\PersonneBundle\\Entity\\Personne',
                         'choice_label' => 'prenomNom',
                         'query_builder' => function (PersonneRepository $pr) {
                             return $pr->getMembreOnly();
                         },
-                    'required' => false, ),
+                    'required' => false, ],
                     'allow_add' => true,
                     'allow_delete' => true,
                     'by_reference' => false,
-                ))
-                ->add('membresPresents', CollectionType::class, array(
+                ])
+                ->add('membresPresents', CollectionType::class, [
                     'entry_type' => Select2EntityType::class,
-                    'entry_options' => array('label' => 'Suiveur de projet',
+                    'entry_options' => ['label' => 'Suiveur de projet',
                         'class' => 'Mgate\\PersonneBundle\\Entity\\Personne',
                         'choice_label' => 'prenomNom',
                         'query_builder' => function (PersonneRepository $pr) {
                             return $pr->getMembreOnly();
                         },
-                        'required' => false, ),
+                        'required' => false, ],
                     'allow_add' => true,
                     'allow_delete' => true,
                     'by_reference' => false,
-                ))
-                ->add('docPath', TextType::class, array('label' => 'Lien vers des documents externes', 'required' => false))
+                ])
+                ->add('docPath', TextType::class, ['label' => 'Lien vers des documents externes', 'required' => false])
         ;
     }
 
@@ -76,8 +76,8 @@ class FormationType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'Mgate\FormationBundle\Entity\Formation',
-        ));
+        ]);
     }
 }

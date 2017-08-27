@@ -28,10 +28,11 @@ class DocTypeManager /*extends \Twig_Extension*/
     {
         return 'Mgate_DocTypeManager';
     }
+
     // Pour utiliser les fonctions depuis twig
     public function getFunctions()
     {
-        return array();
+        return [];
     }
 
     public function getRepository()

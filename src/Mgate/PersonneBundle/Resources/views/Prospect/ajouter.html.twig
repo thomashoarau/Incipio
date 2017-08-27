@@ -1,26 +1,37 @@
 {% extends "MgatePersonneBundle::layout.html.twig" %}
 
-
 {% block title %}
-    Ajouter un Prospect
+    {{ 'prospect.ajouter_prospect'|trans({}, 'personne') }}
 {% endblock %}
 
 {% block content_title %}
-    Ajouter un Prospect
+    {{ 'prospect.ajouter_prospect'|trans({}, 'personne') }}
 {% endblock %}
 
 {% block breadcrumb %}
     <ul class="breadcrumb no-margin pull-right">
-        <li>
-            <a href="{{ path('MgatePersonne_prospect_homepage') }}">Liste des prospects</a>
-        </li>
-        <li>
-            Ajouter un prospect
-        </li>
+        <li><a href="{{ path('MgatePersonne_prospect_homepage') }}">{{ 'prospect.liste_prospect'|trans({}, 'personne') }}</a></li>
+        <li class="active">{{ 'prospect.ajouter_prospect'|trans({}, 'personne') }}</li>
     </ul>
 {% endblock %}
 
 {% block content_bundle %}
-    {% include "MgatePersonneBundle:Prospect:formulaire.html.twig" %}
-    {{ format }}
+    <div class="table-responsive content">
+        {{ form_start(form) }}
+        <table class="table table-bordered table-striped">
+            {% include "MgatePersonneBundle:Prospect:formulaire.html.twig" %}
+            <tr>
+                <td colspan="2">
+                    <div class="row">
+                        <div class="col-md-2 col-xs-4">
+                            <button type="submit" class="btn btn-success">{{ 'generique.enregistrer'|trans({}, 'personne') }}</button>
+                            {{ form_rest(form) }}
+                            {{ form_end(form) }}
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
 {% endblock %}
+

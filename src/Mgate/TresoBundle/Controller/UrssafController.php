@@ -21,9 +21,9 @@ class UrssafController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $defaultData = array('message' => 'Type your message here');
+        $defaultData = ['message' => 'Type your message here'];
         $form = $this->createFormBuilder($defaultData)
-            ->add('date', DateType::class, array('label' => 'Missions commencées avant le :', 'required' => true, 'widget' => 'single_text', 'data' => date_create(), 'format' => 'dd/MM/yyyy'))
+            ->add('date', DateType::class, ['label' => 'Missions commencées avant le :', 'required' => true, 'widget' => 'single_text', 'data' => date_create(), 'format' => 'dd/MM/yyyy'])
             ->getForm();
 
         if ($request->isMethod('POST')) {
@@ -31,9 +31,9 @@ class UrssafController extends Controller
             if ($form->isValid()) {
                 $data = $form->getData();
 
-                return $this->redirect($this->generateUrl('Mgate_treso_urssaf', array('year' => $data['date']->format('Y'),
+                return $this->redirect($this->generateUrl('Mgate_treso_urssaf', ['year' => $data['date']->format('Y'),
                     'month' => $data['date']->format('m'),
-                )));
+                ]));
             }
         }
 
@@ -46,6 +46,6 @@ class UrssafController extends Controller
 
         $RMs = $em->getRepository('MgateSuiviBundle:Mission')->getMissionsBeginBeforeDate($date);
 
-        return $this->render('MgateTresoBundle:Urssaf:index.html.twig', array('form' => $form->createView(), 'RMs' => $RMs));
+        return $this->render('MgateTresoBundle:Urssaf:index.html.twig', ['form' => $form->createView(), 'RMs' => $RMs]);
     }
 }

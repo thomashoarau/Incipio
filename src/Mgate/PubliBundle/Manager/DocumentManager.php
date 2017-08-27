@@ -19,6 +19,7 @@
  *
  * Manager pour l'upload de Documents (Aucun document ne doit être persisté sans utiliser ces méthodes)
  */
+
 namespace Mgate\PubliBundle\Manager;
 
 use Doctrine\ORM\EntityManager;
@@ -42,7 +43,7 @@ class DocumentManager extends BaseManager
      * @param $junior_id
      * @param $authorizedStorageSize
      * @param TokenStorage $tokenStorage
-     * @param Kernel $kernel
+     * @param Kernel       $kernel
      */
     public function __construct(EntityManager $em, $junior_id, $authorizedStorageSize, TokenStorage $tokenStorage, Kernel $kernel)
     {
@@ -68,7 +69,7 @@ class DocumentManager extends BaseManager
      */
     public function uploadDocumentFromUrl($url, array $authorizedMIMEType, $name, $relatedDocument = null, $deleteIfExist = false)
     {
-        $tempStorage = 'tmp/'.sha1(uniqid(mt_rand(), true));
+        $tempStorage = 'tmp/' . sha1(uniqid(mt_rand(), true));
 
         if (($handle = @fopen($url, 'r')) === false) { // Erreur
             throw new \Exception('La ressource demandée ne peut être lue.');
@@ -82,7 +83,7 @@ class DocumentManager extends BaseManager
         $extension = substr(strrchr($mime, '\\'), 1);
 
         // le dernier true indique de ne pas vérifier si le fichier à été téléchargé en HTTP
-        $file = new UploadedFile($tempStorage, $name.'.'.$extension, $mime, filesize($tempStorage), null, true);
+        $file = new UploadedFile($tempStorage, $name . '.' . $extension, $mime, filesize($tempStorage), null, true);
 
         return $this->uploadDocumentFromFile($file, $authorizedMIMEType, $name, $relatedDocument, $deleteIfExist);
     }
@@ -124,7 +125,7 @@ class DocumentManager extends BaseManager
     /**
      * uploadDocument has to be the only one fonction used to persist Document.
      *
-     * @param \Mgate\PubliBundle\Entity\Document $document
+     * @param \Mgate\PubliBundle\Entity\Document        $document
      * @param \Mgate\PubliBundle\Entity\RelatedDocument $relatedDocument
      * @param bool                                      $deleteIfExist
      *
@@ -154,7 +155,7 @@ class DocumentManager extends BaseManager
 
         // Delete every document with the same name
         if ($deleteIfExist) {
-            $docs = $this->getRepository()->findBy(array('name' => $document->getName()));
+            $docs = $this->getRepository()->findBy(['name' => $document->getName()]);
             foreach ($docs as $doc) {
                 if ($doc->getRelation()) {
                     $relation = $doc->getRelation();

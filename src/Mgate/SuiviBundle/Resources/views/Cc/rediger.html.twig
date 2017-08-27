@@ -4,9 +4,12 @@
 	{{ 'suivi.cc_modifier'|trans({}, 'suivi') }} - {{ parent() }}
 {% endblock %}
 
-{% block content_bundle %}
+{% block content_title %}
+    {{ 'suivi.cc_rediger'|trans({}, 'suivi') }}
+{% endblock %}
 
-    <h2>{{ 'suivi.cc_rediger'|trans({}, 'suivi') }}</h2>
+
+{% block content_bundle %}
 
     {% include "MgateSuiviBundle:Cc:formulaire.html.twig" %}
 

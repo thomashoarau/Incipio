@@ -41,11 +41,12 @@ class PosteController extends Controller
 
                 return $this->redirect($this->generateUrl('MgatePersonne_poste_homepage'));
             }
+            $this->addFlash('danger', 'Le formulaire contient des erreurs.');
         }
 
-        return $this->render('MgatePersonneBundle:Poste:ajouter.html.twig', array(
+        return $this->render('MgatePersonneBundle:Poste:ajouter.html.twig', [
             'form' => $form->createView(),
-        ));
+        ]);
     }
 
     /**
@@ -58,10 +59,10 @@ class PosteController extends Controller
         $postes = $em->getRepository('MgatePersonneBundle:Poste')->findAll();
         $filieres = $em->getRepository('MgatePersonneBundle:Filiere')->findAll();
 
-        return $this->render('MgatePersonneBundle:Poste:index.html.twig', array(
+        return $this->render('MgatePersonneBundle:Poste:index.html.twig', [
             'postes' => $postes,
             'filieres' => $filieres,
-        ));
+        ]);
     }
 
     /**
@@ -93,12 +94,13 @@ class PosteController extends Controller
 
                 return $this->redirect($this->generateUrl('MgatePersonne_poste_homepage'));
             }
+            $this->addFlash('danger', 'Le formulaire contient des erreurs.');
         }
 
-        return $this->render('MgatePersonneBundle:Poste:modifier.html.twig', array(
+        return $this->render('MgatePersonneBundle:Poste:modifier.html.twig', [
             'form' => $form->createView(),
             'delete_form' => $deleteForm->createView(),
-        ));
+        ]);
     }
 
     /**
@@ -124,14 +126,14 @@ class PosteController extends Controller
             } else {
                 $this->addFlash('danger', 'Impossible de supprimer un poste ayant des membres.');
 
-                return $this->redirect($this->generateUrl('MgatePersonne_poste_modifier', array('id' => $poste->getId())));
+                return $this->redirect($this->generateUrl('MgatePersonne_poste_modifier', ['id' => $poste->getId()]));
             }
         }
     }
 
     private function createDeleteForm($id)
     {
-        return $this->createFormBuilder(array('id' => $id))
+        return $this->createFormBuilder(['id' => $id])
             ->add('id', HiddenType::class)
             ->getForm();
     }

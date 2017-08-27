@@ -24,30 +24,30 @@ class PersonneType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         if ($options['user']) {
-            $helpEmail = array('title' => "Pas d'adresse etu. Cette adresse est reprise dans les AP des études suivies.");
-            $helpMobile = array('title' => 'Sous la forme: 06 78 39 .. Ce téléphone est repris dans les AP des études suivies.');
+            $helpEmail = ['title' => "Pas d'adresse etu. Cette adresse est reprise dans les AP des études suivies."];
+            $helpMobile = ['title' => 'Sous la forme: 06 78 39 .. Ce téléphone est repris dans les AP des études suivies.'];
         } else {
-            $helpEmail = array();
-            $helpMobile = array();
+            $helpEmail = [];
+            $helpMobile = [];
         }
 
         $builder
                 ->add('prenom')
                 ->add('nom')
-                ->add('sexe', SexeType::class, array('required' => true))
-                ->add('mobile', TextType::class, array('required' => false, 'attr' => $helpMobile))
-                ->add('email', EmailType::class, array('required' => false, 'attr' => $helpEmail))
-                ->add('estAbonneNewsletter', CheckboxType::class, array('label' => 'Abonné Newsletter ?', 'required' => false))
-                ->add('emailEstValide', CheckboxType::class, array('label' => 'Email Valide ?', 'required' => false));
+                ->add('sexe', SexeType::class, ['required' => true])
+                ->add('mobile', TextType::class, ['required' => false, 'attr' => $helpMobile])
+                ->add('email', EmailType::class, ['required' => false, 'attr' => $helpEmail])
+                ->add('estAbonneNewsletter', CheckboxType::class, ['label' => 'Abonné Newsletter ?', 'required' => false])
+                ->add('emailEstValide', CheckboxType::class, ['label' => 'Email Valide ?', 'required' => false]);
 
         if (!$options['mini'] && !$options['user']) {
-            $builder->add('fix', TextType::class, array('required' => false));
+            $builder->add('fix', TextType::class, ['required' => false]);
         }
         if (!$options['mini']) {
-            $builder->add('adresse', TextareaType::class, array('label' => 'Adresse', 'required' => false))
-                ->add('codepostal', TextType::class, array('label' => 'Code Postal', 'required' => false))
-                ->add('ville', TextType::class, array('label' => 'Ville', 'required' => false))
-                ->add('pays', TextType::class, array('label' => 'Pays', 'required' => false));
+            $builder->add('adresse', TextareaType::class, ['label' => 'Adresse', 'required' => false])
+                ->add('codepostal', TextType::class, ['label' => 'Code Postal', 'required' => false])
+                ->add('ville', TextType::class, ['label' => 'Ville', 'required' => false])
+                ->add('pays', TextType::class, ['label' => 'Pays', 'required' => false]);
         }
     }
 
@@ -58,11 +58,11 @@ class PersonneType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'Mgate\PersonneBundle\Entity\Personne',
             'mini' => false,
             'user' => false,
             'signataire' => false,
-        ));
+        ]);
     }
 }

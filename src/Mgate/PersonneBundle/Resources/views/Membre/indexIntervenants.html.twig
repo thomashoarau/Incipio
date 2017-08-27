@@ -1,4 +1,5 @@
 {# Page de liste des intervenants : les personnes ayant déjà réalisé une mission.#}
+
 {% extends "MgatePersonneBundle::layout.html.twig" %}
 
 {% block stylesheets %}
@@ -8,68 +9,75 @@
     <link rel="stylesheet" href="{{ asset('css/datatables/responsive.bootstrap.min.css') }}">
 {% endblock %}
 
-{% block title %}Liste des Intervenants - {{ parent() }}{% endblock %}
+{% block title %}
+    {{ 'membre.liste_intervenant'|trans({}, 'personne') }} {{ parent() }}
+{% endblock %}
 
 {% block content_title %}
-    Liste des Intervenants
+    {{ 'membre.liste_intervenant'|trans({}, 'personne') }}
+{% endblock %}
+
+{% block breadcrumb %}
+    <ul class="breadcrumb no-margin pull-right">
+        <li class="active">{{ 'membre.liste_intervenant'|trans({}, 'personne') }}</li>
+    </ul>
 {% endblock %}
 
 {% block content_bundle %}
-    <span>
-    Liste des membres ayant déjà réalisé une mission.
-    </span>
+    <p>{{ 'membre.description_liste_intervenant'|trans({}, 'personne') }}</p>
 
-    <table class="table table-bordered table-striped dataTable dt-responsive" id="listeIntervenants" role="grid">
+    <table class="table table-bordered table-striped dataTable dt-responsive text-left" id="listeIntervenants" role="grid" width="100%">
         <thead>
         <tr>
-            <th>Promotion</th>
-            <th>Prénom</th>
-            <th>Nom</th>
-            <th>Identifiant</th>
-            <th>Nationalité</th>
-            <th>CE</th>
-            <th>Etude</th>
+            <th>{{ 'champs.promotion'|trans({}, 'personne') }}</th>
+            <th>{{ 'champs.prenom'|trans({}, 'personne') }}</th>
+            <th>{{ 'champs.nom'|trans({}, 'personne') }}</th>
+            <th>{{ 'champs.id'|trans({}, 'personne') }}</th>
+            <th>{{ 'champs.nationalite'|trans({}, 'personne') }}</th>
+            <th>{{ 'etude.doc.CE'|trans({}, 'personne') }}</th>
+            <th>{{ 'etude.etude'|trans({}, 'personne') }}</th>
         </tr>
         </thead>
         <tbody>
         {% for membre in intervenants %}
             <tr>
-                <td>{{ membre.promotion ? "P" ~ membre.promotion }}</td>
+                <td class="text-center">
+                    <span class="label label-default">{{ membre.promotion ? "P" ~ membre.promotion }}</span>
+                </td>
                 <td>
                     <a href="{{ path('MgatePersonne_membre_voir', {'id': membre.id}) }}">{{ membre.personne.prenom }}</a>
                 </td>
-                <td><a href="{{ path('MgatePersonne_membre_voir', {'id': membre.id}) }}">{{ membre.personne.nom }}</a>
+                <td>
+                    <a href="{{ path('MgatePersonne_membre_voir', {'id': membre.id}) }}">{{ membre.personne.nom }}</a>
                 </td>
-                <td>{{ membre.identifiant }}</td>
+                <td class="text-center">
+                    <span class="label label-info">{{ membre.identifiant }}</span>
+                </td>
                 <td>
                     <span class="label label-{{ membre.nationalite == 'FR' ?  'success' : (  membre.nationalite == 'DZ'  ? 'danger' : 'warning' ) }}"
-                          title="{{ membre.nationalite == 'FR' ?  'Français' : (  membre.nationalite == 'DZ'  ? 'Ne peut être intervenant' : 'Une Déclaration à la préfecture est nécessaire' ) }}">
+                          title="{{ membre.nationalite == 'FR' ?  'Français' : (  membre.nationalite == 'DZ'  ? 'membre.intervenant_interdit'|trans({}, 'personne') : 'membre.intervenant_declaration'|trans({}, 'personne') ) }}">
                         {{ membre.nationalite }}
                     </span>
                 </td>
-                <td>REF : <span class="label label-{{ membre.dateConventionEleve ? "success" : "warning" }}">
-                        Convention élève {{ membre.dateConventionEleve ? membre.dateConventionEleve | date('d/m/Y') : "Non signée" }}
+                <td>
+                    <span class="label label-{{ membre.dateConventionEleve ? "success" : "warning" }}">
+                        {{ 'etude.doc.CE'|trans({}, 'personne') }}
+                        {{ membre.dateConventionEleve ? membre.dateConventionEleve | date('d/m/Y') : 'etude.non_signe'|trans({}, 'personne') }}
                     </span>
                 </td>
                 <td>
                     {% for mission in membre.missions %}
                         <span class="label label-{{ membre.dateConventionEleve ? ( membre.dateConventionEleve <= mission.debutOm |date_modify("-7 day") ? "success" : "warning" ) : "danger" }}">{{ mission.debutOm ? mission.debutOm  | date("d/m/Y") : "?" }}
-                            -> {{ mission.finOm ? mission.finOm | date("d/m/Y") : "?" }}</span>
-                        | <a
-                            href="{{ path("MgateSuivi_etude_voir", {'nom' : mission.etude.nom}) }}">{{ mission.etude.reference(param('namingConvention')) }}</a>
+                            <span class="fa fa-arrow-right"></span> {{ mission.finOm ? mission.finOm | date("d/m/Y") : "?" }}</span>
+                        | <a href="{{ path("MgateSuivi_etude_voir", {'nom' : mission.etude.nom}) }}">{{ mission.etude.reference(param('namingConvention')) }}</a>
                         <br/>
                     {% endfor %}
                 </td>
             </tr>
-        {% else %}
-            <li>Pas (encore !) de Membre</li>
         {% endfor %}
         </tbody>
     </table>
-
-
 {% endblock %}
-
 
 {% block javascript %}
     {{ parent() }}
@@ -92,3 +100,4 @@
         });
     </script>
 {% endblock %}
+

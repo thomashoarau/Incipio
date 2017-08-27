@@ -32,9 +32,9 @@ class ProcesVerbalController extends Controller
 
         $entities = $em->getRepository('MgateSuiviBundle:Etude')->findAll();
 
-        return $this->render('MgateSuiviBundle:Etude:index.html.twig', array(
+        return $this->render('MgateSuiviBundle:Etude:index.html.twig', [
             'etudes' => $entities,
-        ));
+        ]);
     }
 
     /**
@@ -56,9 +56,9 @@ class ProcesVerbalController extends Controller
             throw new AccessDeniedException('Cette étude est confidentielle');
         }
 
-        return $this->render('MgateSuiviBundle:ProcesVerbal:voir.html.twig', array(
+        return $this->render('MgateSuiviBundle:ProcesVerbal:voir.html.twig', [
             'procesverbal' => $entity,
-        ));
+        ]);
     }
 
     /**
@@ -79,7 +79,7 @@ class ProcesVerbalController extends Controller
         $proces = new ProcesVerbal();
         $etude->addPvi($proces);
 
-        $form = $this->createForm(ProcesVerbalSubType::class, $proces, array('type' => 'pvi', 'prospect' => $etude->getProspect(), 'phases' => count($etude->getPhases()->getValues())));
+        $form = $this->createForm(ProcesVerbalSubType::class, $proces, ['type' => 'pvi', 'prospect' => $etude->getProspect(), 'phases' => count($etude->getPhases()->getValues())]);
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
 
@@ -87,13 +87,13 @@ class ProcesVerbalController extends Controller
                 $em->persist($proces);
                 $em->flush();
 
-                return $this->redirect($this->generateUrl('MgateSuivi_procesverbal_voir', array('id' => $proces->getId())));
+                return $this->redirect($this->generateUrl('MgateSuivi_procesverbal_voir', ['id' => $proces->getId()]));
             }
         }
 
-        return $this->render('MgateSuiviBundle:ProcesVerbal:ajouter.html.twig', array(
+        return $this->render('MgateSuiviBundle:ProcesVerbal:ajouter.html.twig', [
             'form' => $form->createView(),
-        ));
+        ]);
     }
 
     /**
@@ -113,7 +113,7 @@ class ProcesVerbalController extends Controller
             throw new AccessDeniedException('Cette étude est confidentielle');
         }
 
-        $form = $this->createForm(ProcesVerbalSubType::class, $procesverbal, array('type' => $procesverbal->getType(), 'prospect' => $procesverbal->getEtude()->getProspect(), 'phases' => count($procesverbal->getEtude()->getPhases()->getValues())));
+        $form = $this->createForm(ProcesVerbalSubType::class, $procesverbal, ['type' => $procesverbal->getType(), 'prospect' => $procesverbal->getEtude()->getProspect(), 'phases' => count($procesverbal->getEtude()->getPhases()->getValues())]);
         $deleteForm = $this->createDeleteForm($id_pv);
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
@@ -122,24 +122,26 @@ class ProcesVerbalController extends Controller
                 $em->persist($procesverbal);
                 $em->flush();
 
-                return $this->redirect($this->generateUrl('MgateSuivi_procesverbal_voir', array('id' => $procesverbal->getId())));
+                return $this->redirect($this->generateUrl('MgateSuivi_procesverbal_voir', ['id' => $procesverbal->getId()]));
             }
         }
 
-        return $this->render('MgateSuiviBundle:ProcesVerbal:modifier.html.twig', array(
+        return $this->render('MgateSuiviBundle:ProcesVerbal:modifier.html.twig', [
             'form' => $form->createView(),
             'delete_form' => $deleteForm->createView(),
             'etude' => $procesverbal->getEtude(),
             'type' => $procesverbal->getType(),
             'procesverbal' => $procesverbal,
-        ));
+        ]);
     }
 
     /**
      * @Security("has_role('ROLE_SUIVEUR')")
+     *
      * @param Request $request
-     * @param Etude $etude
+     * @param Etude   $etude
      * @param $type string PVR or PVRI
+     *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function redigerAction(Request $request, Etude $etude, $type)
@@ -159,7 +161,7 @@ class ProcesVerbalController extends Controller
             $procesverbal->setType($type);
         }
 
-        $form = $this->createForm(ProcesVerbalType::class, $etude, array('type' => $type, 'prospect' => $etude->getProspect(), 'phases' => count($etude->getPhases()->getValues())));
+        $form = $this->createForm(ProcesVerbalType::class, $etude, ['type' => $type, 'prospect' => $etude->getProspect(), 'phases' => count($etude->getPhases()->getValues())]);
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
 
@@ -167,12 +169,12 @@ class ProcesVerbalController extends Controller
                 $em->persist($etude);
                 $em->flush();
 
-                return $this->redirect($this->generateUrl('MgateSuivi_procesverbal_voir', array('id' => $procesverbal->getId())));
+                return $this->redirect($this->generateUrl('MgateSuivi_procesverbal_voir', ['id' => $procesverbal->getId()]));
             }
         }
 
         return $this->render('MgateSuiviBundle:ProcesVerbal:rediger.html.twig',
-            array('form' => $form->createView(),'etude' => $etude,'type' => $type,)
+            ['form' => $form->createView(), 'etude' => $etude, 'type' => $type]
         );
     }
 
@@ -201,12 +203,12 @@ class ProcesVerbalController extends Controller
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('MgateSuivi_etude_voir', array('nom' => $etude->getNom())));
+        return $this->redirect($this->generateUrl('MgateSuivi_etude_voir', ['nom' => $etude->getNom()]));
     }
 
     private function createDeleteForm($id_pv)
     {
-        return $this->createFormBuilder(array('id' => $id_pv))
+        return $this->createFormBuilder(['id' => $id_pv])
             ->add('id', HiddenType::class)
             ->getForm();
     }

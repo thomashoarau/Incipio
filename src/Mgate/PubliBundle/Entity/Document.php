@@ -86,7 +86,7 @@ class Document
     public function getAbsolutePath()
     {
         if (!empty($this->rootDir)) {
-            return $this->rootDir.''.self::DOCUMENT_STORAGE_ROOT.'/'.$this->path;
+            return $this->rootDir . '' . self::DOCUMENT_STORAGE_ROOT . '/' . $this->path;
         }
     }
 
@@ -99,7 +99,7 @@ class Document
         if (null !== $this->file) {
             // do whatever you want to generate a unique name
             $filename = sha1(uniqid(mt_rand(), true));
-            $this->path = $filename.'.'.$this->file->guessExtension();
+            $this->path = $filename . '.' . $this->file->guessExtension();
             $this->size = filesize($this->file);
         }
     }
@@ -122,7 +122,7 @@ class Document
         // be automatically thrown by move(). This will properly prevent
         // the entity from being persisted to the database on error
         // moving file into /data
-        $this->file->move($this->rootDir.''.self::DOCUMENT_STORAGE_ROOT, $this->path);
+        $this->file->move($this->rootDir . '' . self::DOCUMENT_STORAGE_ROOT, $this->path);
         unset($this->file);
     }
 
@@ -141,8 +141,8 @@ class Document
      * Set path.
      *
      * @param $path
-     * @return Document
      *
+     * @return Document
      */
     public function setSubdirectory($path)
     {

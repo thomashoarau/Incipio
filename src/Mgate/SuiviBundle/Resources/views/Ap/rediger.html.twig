@@ -4,10 +4,12 @@
     {{ 'suivi.ap_rediger'|trans({}, 'suivi') }} - {{ parent() }}
 {% endblock %}
 
+{% block content_title %}
+    {{ 'suivi.ap_rediger'|trans({}, 'suivi') }}
+{% endblock %}
 
 {% block content_bundle %}
 
-    <h2>{{ 'suivi.ap_rediger'|trans({}, 'suivi') }}</h2>
     <!--<a href="{{ path('MgatePersonne_employe_ajouter', {'prospect_id':etude.prospect.id, 'format':'mini'}) }}?KeepThis=true&TB_iframe=true&height=400&width=600" title="Ajouter un signataire" class="thickbox">Ajouter un signataire</a>-->
 
 
@@ -17,6 +19,7 @@
         <tr>
             <th>
                 {{ form_label(form.suiveur) }}
+                {{ form_errors(form.suiveur) }}
                 <div class="badge" title="Liste des personnes ayant exercées au moins 1 mandat" data-toggle="tooltip">
                     ?
                 </div>
@@ -24,19 +27,31 @@
             <td>{{ form_widget(form.suiveur) }}</td>
         </tr>
         <tr>
-            <th>{{ form_label(form.ap.contactMgate) }}</th>
+            <th>
+                {{ form_label(form.ap.contactMgate) }}
+                {{ form_errors(form.ap.contactMgate) }}
+            </th>
             <td>{{ form_widget(form.ap.contactMgate) }}</td>
         </tr>
         <tr>
-            <th>{{ form_label(form.ap.version) }}</th>
+            <th>
+                {{ form_label(form.ap.version) }}
+                {{ form_errors(form.ap.version) }}
+            </th>
             <td>{{ form_widget(form.ap.version) }}</td>
         </tr>
         <tr>
-            <th>{{ form_label(form.ap.signataire1) }}</th>
+            <th>
+                {{ form_label(form.ap.signataire1) }}
+                {{ form_errors(form.ap.signataire1) }}
+            </th>
             <td>{{ form_widget(form.ap.signataire1) }}</td>
         </tr>
         <tr>
-            <th>{{ form_label(form.ap.knownSignataire2) }}</th>
+            <th>
+                {{ form_label(form.ap.knownSignataire2) }}
+                {{ form_errors(form.ap.knownSignataire2) }}
+            </th>
             <td>{{ form_widget(form.ap.knownSignataire2) }}</td>
         </tr>
         <tr>
@@ -80,35 +95,59 @@
                 class="success">{{ 'suivi.avant_projet'|trans({}, 'suivi') }}</th>
         </tr>
         <tr>
-            <th>{{ form_label(form.ap.signataire2) }}</th>
+            <th>
+                {{ form_label(form.ap.signataire2) }}
+                {{ form_errors(form.ap.signataire2) }}
+            </th>
             <td>{{ form_widget(form.ap.signataire2) }}</td>
         </tr>
         <tr>
-            <th>{{ form_label(form.ap.dateSignature) }}</th>
+            <th>
+                {{ form_label(form.ap.dateSignature) }}
+                {{ form_errors(form.ap.dateSignature) }}
+            </th>
             <td>{{ form_widget(form.ap.dateSignature) }}</td>
         </tr>
         <tr>
-            <th>{{ form_label(form.ap.nbrDev) }}</th>
+            <th>
+                {{ form_label(form.ap.nbrDev) }}
+                {{ form_errors(form.ap.nbrDev) }}
+            </th>
             <td>{{ form_widget(form.ap.nbrDev) }}</td>
         </tr>
         <tr>
-            <th>{{ form_label(form.fraisDossier) }}</th>
+            <th>
+                {{ form_label(form.fraisDossier) }}
+                {{ form_errors(form.fraisDossier) }}
+            </th>
             <td>{{ form_widget(form.fraisDossier) }}</td>
         </tr>
         <tr>
-            <th>{{ form_label(form.presentationProjet) }}</th>
+            <th>
+                {{ form_label(form.presentationProjet) }}
+                {{ form_errors(form.presentationProjet) }}
+            </th>
             <td>{{ form_widget(form.presentationProjet) }}</td>
         </tr>
         <tr>
-            <th>{{ form_label(form.descriptionPrestation) }}</th>
+            <th>
+                {{ form_label(form.descriptionPrestation) }}
+                {{ form_errors(form.descriptionPrestation) }}
+            </th>
             <td>{{ form_widget(form.descriptionPrestation) }}</td>
         </tr>
         <tr>
-            <th>{{ form_label(form.typePrestation) }}</th>
+            <th>
+                {{ form_label(form.typePrestation) }}
+                {{ form_errors(form.typePrestation) }}
+            </th>
             <td>{{ form_widget(form.typePrestation) }}</td>
         </tr>
         <tr>
-            <th>{{ form_label(form.competences) }}</th>
+            <th>
+                {{ form_label(form.competences) }}
+                {{ form_errors(form.competences) }}
+            </th>
             <td>{{ form_widget(form.competences, {'attr': {'class':'select2-multiple', 'style': 'width: 100%'}}) }}</td>
         </tr>
     </table>
@@ -125,7 +164,7 @@
      {{ parent() }}
      {{ form_javascript(form) }}
      <script type="text/javascript">
-         $(".select2-multiple").select2({ width: '100%' });
+         $(".select2-multiple").select2({width: '100%'});
      </script>
      {% include "MgateSuiviBundle:DocType:selectOrNew.html.twig" with { known: form.ap.knownSignataire2, knowned: form.ap.signataire2, newed: form.ap.newSignataire2 } %}
  {% endblock %}
