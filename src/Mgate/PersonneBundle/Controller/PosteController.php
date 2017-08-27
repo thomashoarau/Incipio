@@ -41,6 +41,7 @@ class PosteController extends Controller
 
                 return $this->redirect($this->generateUrl('MgatePersonne_poste_homepage'));
             }
+            $this->addFlash('danger', 'Le formulaire contient des erreurs.');
         }
 
         return $this->render('MgatePersonneBundle:Poste:ajouter.html.twig', [
@@ -93,6 +94,7 @@ class PosteController extends Controller
 
                 return $this->redirect($this->generateUrl('MgatePersonne_poste_homepage'));
             }
+            $this->addFlash('danger', 'Le formulaire contient des erreurs.');
         }
 
         return $this->render('MgatePersonneBundle:Poste:modifier.html.twig', [

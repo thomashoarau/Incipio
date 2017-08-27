@@ -22,7 +22,7 @@ class PosteType extends AbstractType
     {
         $builder
                 ->add('intitule', TextType::class, ['required' => true])
-                ->add('description', TextType::class, ['required' => false])
+                ->add('description', TextType::class, ['required' => true])
         ;
     }
 
