@@ -2,6 +2,7 @@ FROM php:7.1-apache
 
 # PHP extensions
 ENV APCU_VERSION 5.1.5
+ENV COMPOSER_ALLOW_SUPERUSER 1
 RUN buildDeps=" \
         libicu-dev \
         zlib1g-dev \
