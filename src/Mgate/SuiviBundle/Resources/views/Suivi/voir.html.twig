@@ -5,19 +5,25 @@
 {% endblock %}
 
 {% block breadcrumb %}
-<ul class="breadcrumb">
-    <li><a href="{{ path('MgateSuivi_etude_homepage') }}">{{ 'suivi.suivi_etude'|trans({}, 'suivi') }}</a></li>
-    {% if etude is defined %}
-    <li><a href="{{ path('MgateSuivi_etude_voir', {'nom': etude.nom}) }}">{{ etude.reference(param('namingConvention')) }}</a></li>
-    <li class="active">-</li>
-    {% endif %}
-</ul>
+    <ul class="breadcrumb no-margin pull-right">
+        <li><a href="{{ path('MgateSuivi_etude_homepage') }}">{{ 'suivi.suivi_etude'|trans({}, 'suivi') }}</a></li>
+        {% if etude is defined %}
+            <li>
+                <a href="{{ path('MgateSuivi_etude_voir', {'nom': etude.nom}) }}">{{ etude.reference(param('namingConvention')) }}</a>
+            </li>
+            <li class="active">-</li>
+        {% endif %}
+    </ul>
 {% endblock %}
 
 {% block content_bundle %}
-    <h2>{{ 'suivi.suivi'|trans({}, 'suivi') }}</h2>
     <table class="table table-bordered">
-        <tr><td colspan="2"><h4><a href="{{ path('MgateSuivi_suivi_modifier', {'id': selectedSuivi.id}) }}"><i class="fa fa-pencil"></i> {{ 'suivi.modifier'|trans({}, 'suivi') }}</a></h4></td></tr>
+        <tr>
+            <td colspan="2">
+                <a href="{{ path('MgateSuivi_suivi_modifier', {'id': selectedSuivi.id}) }}"><i
+                            class="fa fa-pencil"></i> {{ 'suivi.modifier'|trans({}, 'suivi') }}</a>
+            </td>
+        </tr>
         <tr>
             <th>{{ 'suivi.date'|trans({}, 'suivi') }}</th>
             <td>{{ selectedSuivi.date | date("\\L\\e d/m/Y") }}</td>
@@ -34,21 +40,17 @@
 
     <h3>{{ 'suivi.historique'|trans({}, 'suivi') }}</h3>
     <table class="table table-bordered table-striped">
-    {% for suivi in suivis | reverse %}
-    <tr>
-        <td>
-            <a href="{{ path('MgateSuivi_suivi_voir', {'id': suivi.id}) }}">{{ 'suivi.suivi'|trans({}, 'suivi') }} n°{{suivis | length - loop.index0}}</a>
-        </td>
-        <td>{{ suivi.date | date("d/m/Y") }}</td>
-        <td>{{ suivi.etat | nl2br }}</td>
-        <td>{{ suivi.todo | nl2br }}</td>
-    </tr>
-    {% endfor %}
-</table>
-
-
-    <p>
-        <a href="{{ path('MgateSuivi_suivi_modifier', {'id': selectedSuivi.id}) }}">{{ 'suivi.suivi_modifier_le'|trans({}, 'suivi') }}</a>
-    </p>
+        {% for suivi in suivis | reverse %}
+            <tr>
+                <td>
+                    <a href="{{ path('MgateSuivi_suivi_voir', {'id': suivi.id}) }}">{{ 'suivi.suivi'|trans({}, 'suivi') }}
+                        n°{{ suivis | length - loop.index0 }}</a>
+                </td>
+                <td>{{ suivi.date | date("d/m/Y") }}</td>
+                <td>{{ suivi.etat | nl2br }}</td>
+                <td>{{ suivi.todo | nl2br }}</td>
+            </tr>
+        {% endfor %}
+    </table>
 
 {% endblock %}
