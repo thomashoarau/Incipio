@@ -43,19 +43,23 @@
             </thead>
             <tbody id="phases">
             {% for phase in form.phases %}
-                <tr  class="phase" id="phase-{{ loop.index}}">
+                <tr class="phase" id="phase-{{ loop.index }}">
                     <td>
                         <div class="btn-group"></div>
                         <span class="titrePhase"></span> {{ form_widget(phase.position) }}
                     </td>
                     <td>
                         {{ form_widget(phase.groupe, {'attr': {'style': 'width: 100%'}}) }}<br>
-                        <div class="details-{{  loop.index }}" style="display: none">
+                        <div class="details-{{ loop.index }}" style="display: none">
                             {{ form_widget(phase.objectif, {'attr': {'cols': '15', 'rows': '5'}}) }}<br>
                             {{ form_widget(phase.methodo, {'attr': {'cols': '15', 'rows': '5'}}) }}
                         </div>
                     </td>
-                    <td><button class="details-btn btn btn-sm btn-info" onclick="showDetails({{ loop.index }})" type="button">+</button></td>
+                    <td>
+                        <button class="details-btn btn btn-sm btn-info" onclick="showDetails({{ loop.index }})"
+                                type="button">+
+                        </button>
+                    </td>
                     <td>{{ form_widget(phase.titre, {'attr': {'class': 'form-width-150'}}) }}</td>
                     <td>{{ form_widget(phase.nbrJEH, {'attr': {'class': 'form-width-40 nbrJEH'}}) }}</td>
                     <td>{{ form_widget(phase.prixJEH, {'attr': {'class': 'form-width-40 prixJEH'}}) }}</td>
@@ -79,10 +83,6 @@
 
     {{ form_end(form) }}
 
-    <a href="{{ path('MgateSuivi_etude_voir', {'nom': etude.nom}) }}">{{ 'suivi.etude_retour'|trans({}, 'suivi') }}</a>
-
-
-
 {% endblock %}
 
 {% block javascript %}
@@ -95,15 +95,15 @@
          * Gestion de l'affichage des objectifs et de la méthodologie
          */
         var details = []; //est ce que les champs des details sont visibles ?
-        function showDetails(num){
-            if(details[num] == undefined){
+        function showDetails(num) {
+            if (details[num] == undefined) {
                 details[num] = false;
             }
             //on affiche les colonnes .details
-            $(".details-"+num).each(function(){
-                if(!details[num]) {
+            $(".details-" + num).each(function () {
+                if (!details[num]) {
                     $(this).show();
-                }else{
+                } else {
                     $(this).hide();
                 }
             });
@@ -114,22 +114,22 @@
         /**
          * Gestion de la mise a jour des totaux (nombre de JEH, prix)
          */
-        var evaluateTotal = function(){
+        var evaluateTotal = function () {
             var totalJEH = 0;
             var totalPrix = 0;
-            $(".phase").each(function(){
+            $(".phase").each(function () {
                 var tempJEH = parseInt($(this).find(".nbrJEH").val());
-                if(!isNaN(tempJEH)) {
+                if (!isNaN(tempJEH)) {
                     totalJEH += tempJEH;
                 }
-                tempPrix = tempJEH*parseInt($(this).find(".prixJEH").val());
-                if(!isNaN(tempPrix)) {
+                tempPrix = tempJEH * parseInt($(this).find(".prixJEH").val());
+                if (!isNaN(tempPrix)) {
                     totalPrix += tempPrix;
                 }
             });
             //ajout d'une ligne contenant les totaux.
-            $("#totalNbrJEH").text(totalJEH+" JEH");
-            $("#totalPrixJEH").html(totalPrix+" &euro;");
+            $("#totalNbrJEH").text(totalJEH + " JEH");
+            $("#totalPrixJEH").html(totalPrix + " &euro;");
         };
         $("#form").change(evaluateTotal);
 
