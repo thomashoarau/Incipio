@@ -1,5 +1,14 @@
 {% extends "MgateSuiviBundle::layout.html.twig" %}
 
+{% block title %}
+    {{ 'suivi.modifier_les'|trans({}, 'suivi') }} {{ 'suivi.phases'|trans({}, 'suivi') }}
+    - {{ parent() }}
+{% endblock %}
+
+{% block content_title %}
+    {{ 'suivi.modifier_les'|trans({}, 'suivi') }} {{ form.phases | length }} {{ 'suivi.phases'|trans({}, 'suivi') }}
+{% endblock %}
+
 {% block content_bundle %}
 
 
@@ -16,7 +25,6 @@
 
     </style>
 
-    <h2>{{ 'suivi.modifier_les'|trans({}, 'suivi') }} {{ form.phases | length }} {{ 'suivi.phases'|trans({}, 'suivi') }}</h2>
     {{ form_start(form, {'attr': {'id': 'form'}}) }}
     {# affiche l'unique champ de la tache : description #}
     {#{ form_row(form.description) }#}
