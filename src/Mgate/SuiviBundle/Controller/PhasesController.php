@@ -20,19 +20,6 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class PhasesController extends Controller
 {
-    /**
-     * @Security("has_role('ROLE_SUIVEUR')")
-     */
-    public function indexAction($page)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $entities = $em->getRepository('MgateSuiviBundle:Etude')->findAll();
-
-        return $this->render('MgateSuiviBundle:Etude:index.html.twig', [
-            'etudes' => $entities,
-        ]);
-    }
 
     /**
      * @Security("has_role('ROLE_SUIVEUR')")
