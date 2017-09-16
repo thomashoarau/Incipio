@@ -11,6 +11,7 @@
 
 namespace Mgate\SuiviBundle\Controller;
 
+use Mgate\SuiviBundle\Entity\Etude;
 use Mgate\SuiviBundle\Entity\Phase;
 use Mgate\SuiviBundle\Form\Type\PhasesType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -20,17 +21,17 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class PhasesController extends Controller
 {
-
     /**
      * @Security("has_role('ROLE_SUIVEUR')")
+     *
+     * @param Request $request
+     * @param Etude   $etude
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function modifierAction(Request $request, $id)
+    public function modifierAction(Request $request, Etude $etude)
     {
         $em = $this->getDoctrine()->getManager();
-
-        if (!$etude = $em->getRepository('Mgate\SuiviBundle\Entity\Etude')->find($id)) {
-            throw $this->createNotFoundException('L\'étude n\'existe pas !');
-        }
 
         if ($this->get('Mgate.etude_manager')->confidentielRefus($etude, $this->getUser(), $this->get('security.authorization_checker'))) {
             throw new AccessDeniedException('Cette étude est confidentielle');
