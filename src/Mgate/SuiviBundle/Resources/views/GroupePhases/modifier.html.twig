@@ -1,4 +1,14 @@
 {% extends "MgateSuiviBundle::layout.html.twig" %}
+
+{% block title %}
+    {{ 'suivi.modifier_les'|trans({}, 'suivi') }} {{ 'suivi.groupes'|trans({}, 'suivi') }} - {{  parent() }}
+{% endblock %}
+
+{% block content_title %}
+    {{ 'suivi.modifier_les'|trans({}, 'suivi') }} {{ form.groupes | length }}
+    {{ 'suivi.groupes'|trans({}, 'suivi') }}
+{% endblock %}
+
 {% block content_bundle %}
     <style>
         textarea {
@@ -13,7 +23,6 @@
 
     </style>
 
-    <h2>{{ 'suivi.modifier_les'|trans({}, 'suivi') }} {{ form.groupes | length }} {{ 'suivi.groupes'|trans({}, 'suivi') }}</h2>
     {{ form_start(form) }}
     <p><input type="submit" value="{{ 'suivi.groupe_ajouter'|trans({}, 'suivi') }}" name="add" class="btn btn-default"/>
         - <input type="submit" value="{{ 'suivi.groupes_enregistrer'|trans({}, 'suivi') }}" class="btn btn-default"/>
