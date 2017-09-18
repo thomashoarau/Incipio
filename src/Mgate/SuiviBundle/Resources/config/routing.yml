@@ -88,20 +88,6 @@ MgateSuivi_cc_rediger:
         id: \d+
     methods:  [GET, HEAD, POST]
 
-MgateSuivi_cc_voir:
-    path: /cc/voir/{id}
-    defaults: {_controller: MgateSuiviBundle:Cc:voir}
-    requirements:
-        id: \d+
-    methods:  [GET, HEAD]
-
-#MgateSuivi_cc_suivi:
-#    path: /cc/suivi/{id}
-#    defaults: {_controller: MgateSuiviBundle:Cc:suivi}
-#    requirements:
-#        id: \d+
-
-
 MgateSuivi_missions_modifier:
     path: /missions/modifier/{id}
     defaults: {_controller: MgateSuiviBundle:Missions:modifier}

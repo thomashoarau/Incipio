@@ -23,40 +23,6 @@ class CcController extends Controller
 {
     /**
      * @Security("has_role('ROLE_SUIVEUR')")
-     */
-    public function indexAction($page)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $entities = $em->getRepository('MgateSuiviBundle:Etude')->findAll();
-
-        return $this->render('MgateSuiviBundle:Etude:index.html.twig', [
-            'etudes' => $entities,
-        ]);
-    }
-
-    /**
-     * @Security("has_role('ROLE_SUIVEUR')")
-     *
-     * @param Cc $cc
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function voirAction(Cc $cc)
-    {
-        $etude = $cc->getEtude();
-
-        if ($this->get('Mgate.etude_manager')->confidentielRefus($etude, $this->getUser(), $this->get('security.authorization_checker'))) {
-            throw new AccessDeniedException('Cette étude est confidentielle');
-        }
-
-        return $this->render('MgateSuiviBundle:Cc:voir.html.twig', [
-            'cc' => $cc,
-        ]);
-    }
-
-    /**
-     * @Security("has_role('ROLE_SUIVEUR')")
      *
      * @param Request $request
      * @param Etude   $etude   etude which CC should belong to
