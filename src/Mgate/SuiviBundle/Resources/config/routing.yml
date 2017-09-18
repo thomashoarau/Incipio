@@ -227,7 +227,7 @@ MgateSuivi_procesverbal_ajouter:
     methods:  [GET, HEAD, POST]
 
 MgateSuivi_procesverbal_modifier:
-    path: /procesverbal/modifier/{id_pv}
+    path: /procesverbal/modifier/{id}
     defaults: {_controller: MgateSuiviBundle:ProcesVerbal:modifier}
     requirements:
         id: \d+
@@ -240,15 +240,8 @@ MgateSuivi_procesverbal_rediger:
         id: \d+
     methods:  [GET, HEAD, POST]
 
-MgateSuivi_procesverbal_voir:
-    path: /procesverbal/voir/{id}
-    defaults: {_controller: MgateSuiviBundle:ProcesVerbal:voir}
-    requirements:
-        id: \d+
-    methods:  [GET, HEAD]
-
 MgateSuivi_procesverbal_supprimer:
-    path: /procesverbal/supprimer/{id_pv}
+    path: /procesverbal/supprimer/{id}
     defaults: {_controller: MgateSuiviBundle:ProcesVerbal:delete}
     requirements:
         id: \d+
