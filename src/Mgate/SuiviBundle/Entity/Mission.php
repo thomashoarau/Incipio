@@ -26,7 +26,6 @@ class Mission extends DocType
 {
     /**
      * @var int
-     *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -34,6 +33,7 @@ class Mission extends DocType
     private $id;
 
     /**
+     * @var Etude
      * @ORM\ManyToOne(targetEntity="Etude", inversedBy="missions", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
@@ -115,15 +115,15 @@ class Mission extends DocType
      */
     private $remunere;
 
-    // Ajout fonction rapide
     public function getReference()
     {
-        return $this->etude->getReference() . '/' . (!empty($this->getDebutOm()) ? $this->getDebutOm()->format('Y') : 'XX') .
+        return $this->getEtude()->getReference() . '/' . (!empty($this->getDebutOm()) ? $this->getDebutOm()->format('Y') : 'XX') .
             '/RM/' . $this->getVersion();
     }
 
     public function __construct()
     {
+        parent::__construct();
         $this->repartitionsJEH = new ArrayCollection();
         $this->phases = new ArrayCollection();
         $this->pourcentageJunior = 0.4;
@@ -231,7 +231,7 @@ class Mission extends DocType
     /**
      * Get intervenant.
      *
-     * @return Mgate\PersonneBundle\Entity\Membre
+     * @return Membre
      */
     public function getIntervenant()
     {
@@ -385,7 +385,7 @@ class Mission extends DocType
     /**
      * Set etude.
      *
-     * @param Mgate\SuiviBundle\Entity\Etude $etude
+     * @param Etude $etude
      *
      * @return Mission
      */
@@ -399,7 +399,7 @@ class Mission extends DocType
     /**
      * Get etude.
      *
-     * @return Mgate\SuiviBundle\Entity\Etude
+     * @return Etude
      */
     public function getEtude()
     {
@@ -411,7 +411,7 @@ class Mission extends DocType
      *
      * @param int $pourcentageJunior
      *
-     * @return Phase
+     * @return Mission
      */
     public function setPourcentageJunior($pourcentageJunior)
     {
