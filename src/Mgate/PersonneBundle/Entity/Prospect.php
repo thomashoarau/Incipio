@@ -73,6 +73,7 @@ class Prospect extends Adressable
 
     /**
      * @ORM\PostPersist
+     * @param LifecycleEventArgs $args
      */
     public function createThread(LifecycleEventArgs $args)
     {
@@ -109,7 +110,7 @@ class Prospect extends Adressable
     /**
      * Get thread.
      *
-     * @return Mgate\CommentBundle\Entity\Thread
+     * @return Thread
      */
     public function getThread()
     {
@@ -119,13 +120,13 @@ class Prospect extends Adressable
     /**
      * Add employes.
      *
-     * @param Mgate\PersonneBundle\Entity\Employe $employes
+     * @param Employe $employe
      *
      * @return Prospect
      */
-    public function addEmploye(Employe $employes)
+    public function addEmploye(Employe $employe)
     {
-        $this->employes[] = $employes;
+        $this->employes[] = $employe;
 
         return $this;
     }
@@ -133,17 +134,17 @@ class Prospect extends Adressable
     /**
      * Remove employes.
      *
-     * @param Mgate\PersonneBundle\Entity\Employe $employes
+     * @param Employe $employe
      */
-    public function removeEmploye(Employe $employes)
+    public function removeEmploye(Employe $employe)
     {
-        $this->employes->removeElement($employes);
+        $this->employes->removeElement($employe);
     }
 
     /**
      * Get employes.
      *
-     * @return Doctrine\Common\Collections\Collection
+     * @return ArrayCollection
      */
     public function getEmployes()
     {
