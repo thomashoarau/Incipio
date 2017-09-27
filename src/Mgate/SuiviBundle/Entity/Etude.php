@@ -322,6 +322,7 @@ class Etude
 
     /**
      * @ORM\PostPersist
+     * @param LifecycleEventArgs $args
      */
     public function createThread(LifecycleEventArgs $args)
     {
@@ -501,6 +502,10 @@ class Etude
 
     /**
      * @deprecated since 0 0
+     * @param $doc
+     * @param int $key
+     * @return mixed|null
+     * @throws \Exception
      */
     public function getDoc($doc, $key = -1)
     {
@@ -1264,7 +1269,8 @@ class Etude
     /**
      * Get pvis.
      *
-     * @return mixed(array, ProcesVerbal)
+     * @param int $key
+     * @return mixed
      */
     public function getPvis($key = -1)
     {
@@ -1371,8 +1377,6 @@ class Etude
 
         foreach ($this->procesVerbaux as $pv) {
             if ($pv->getType() === 'pvr') {
-                $pv = $pvr;
-
                 return $this;
             }
         }
@@ -1531,7 +1535,7 @@ class Etude
     /**
      * Remove groupes.
      *
-     * @param GroupePhases $groupes
+     * @param GroupePhases $groupe
      */
     public function removeGroupe(GroupePhases $groupe)
     {
@@ -1588,7 +1592,7 @@ class Etude
             6 => 'Réseaux des élèves',
             7 => 'Contact spontané',
             8 => 'Ancien client',
-            9 => 'Dev\'Co N7C',
+            9 => 'Dev\'Co',
             10 => 'Partenariat JE',
             11 => 'Autre',
         ];

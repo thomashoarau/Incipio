@@ -70,7 +70,7 @@ class Av extends DocType
     private $clauses;
 
     /**
-     * @var Collection phase differentiel
+     * @var ArrayCollection phase differentiel
      * @ORM\OneToMany(targetEntity="Mgate\SuiviBundle\Entity\Phase", mappedBy="avenant", cascade={"persist", "remove"})
      */
     private $phases;
@@ -124,6 +124,7 @@ class Av extends DocType
      */
     public function __construct()
     {
+        parent::__construct();
         $this->avenantsMissions = new ArrayCollection();
         $this->phases = new ArrayCollection();
     }
@@ -270,6 +271,6 @@ class Av extends DocType
 
     public function __toString()
     {
-        return $this->etude->getReference() . '/AV/' . $this->getId();
+        return $this->getEtude()->getReference() . '/AV/' . $this->getId();
     }
 }

@@ -31,6 +31,8 @@ class Cc extends DocType
     private $id;
 
     /**
+     * @var Etude
+     *
      * @ORM\OneToOne(targetEntity="Etude", mappedBy="cc")
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
@@ -41,7 +43,7 @@ class Cc extends DocType
      */
     public function getReference()
     {
-        return $this->etude->getReference() . '/' . $this->getDateSignature()->format('Y') . '/CC/' . $this->getVersion();
+        return $this->getEtude()->getReference() . '/' . $this->getDateSignature()->format('Y') . '/CC/' . $this->getVersion();
     }
 
     /**
@@ -57,7 +59,7 @@ class Cc extends DocType
     /**
      * Set etude.
      *
-     * @param Mgate\SuiviBundle\Entity\Etude $etude
+     * @param Etude $etude
      *
      * @return Cc
      */
@@ -71,7 +73,7 @@ class Cc extends DocType
     /**
      * Get etude.
      *
-     * @return Mgate\SuiviBundle\Entity\Etude
+     * @return Etude
      */
     public function getEtude()
     {
@@ -80,6 +82,6 @@ class Cc extends DocType
 
     public function __toString()
     {
-        return $this->etude->getReference() . '/CC/';
+        return $this->getEtude()->getReference() . '/CC/';
     }
 }
