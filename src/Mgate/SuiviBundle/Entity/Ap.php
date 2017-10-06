@@ -15,8 +15,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Mgate\PersonneBundle\Entity\Personne;
 
 /**
- * Mgate\SuiviBundle\Entity\Ap.
- *
  * @ORM\Table()
  * @ORM\Entity
  */
@@ -57,6 +55,22 @@ class Ap extends DocType
      */
     private $deonto;
 
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
+    public function __toString()
+    {
+        return 'PM ' . $this->id;
+    }
+
+    public function getReference()
+    {
+        return $this->getEtude()->getReference() . '/' . $this->getDateSignature()->format('Y') .
+            '/PM/' . $this->getVersion();
+    }
+
     /**
      * Get id.
      *
@@ -65,11 +79,6 @@ class Ap extends DocType
     public function getId()
     {
         return $this->id;
-    }
-
-    public function getReference()
-    {
-        return $this->etude->getReference() . '/' . $this->getDateSignature()->format('Y') . '/PM/' . $this->getVersion();
     }
 
     /**
@@ -89,7 +98,7 @@ class Ap extends DocType
     /**
      * Get etude.
      *
-     * @return Mgate\SuiviBundle\Entity\Etude
+     * @return Etude
      */
     public function getEtude()
     {
@@ -168,8 +177,4 @@ class Ap extends DocType
         return $this->deonto;
     }
 
-    public function __toString()
-    {
-        return 'PM ' . $this->id;
-    }
 }
