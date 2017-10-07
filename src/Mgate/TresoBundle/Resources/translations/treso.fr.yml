@@ -67,6 +67,7 @@ treso:
     montant_ttc: Montant TTC
     tva_deductible: TVA Deductible
     factures_gestion: Gestion des factures
+    factures_liste: Liste des factures
     facture_ajouter: Ajouter une Facture
     facture_achat: Facture d'Achat
     facture_vente: Facture de Vente

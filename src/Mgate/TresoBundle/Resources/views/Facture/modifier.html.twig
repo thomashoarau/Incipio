@@ -8,13 +8,19 @@
     {{ 'treso.facture_modifier_la'|trans({}, 'treso') }} {{ form.vars.data.reference }}
 {% endblock %}
 
+{% block breadcrumb_items %}
+    <li>
+        <a href="{{ path('MgateTreso_Facture_index') }}">{{ 'treso.factures_liste'|trans({}, 'treso') }}</a>
+    </li>
+{% endblock %}
+
 {% block breadcrumb_active %}
     {{ 'treso.facture_modifier'|trans({}, 'treso') }}
 {% endblock %}
 
 {% block content_bundle %}
     {{ form_start(form) }}
-    <input name="save" type="submit" value="{{ 'treso.facture_enregistrer'|trans({}, 'treso') }}" class="btn"/>
+    <input name="save" type="submit" value="{{ 'treso.facture_enregistrer'|trans({}, 'treso') }}" class="btn btn-success"/>
     <br/><br/>
     <table class="table table-bordered table-striped standard">
         <tr>

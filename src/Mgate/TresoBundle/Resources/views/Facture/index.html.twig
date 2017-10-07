@@ -16,20 +16,20 @@
 {% endblock %}
 
 {% block content_bundle %}
-<div class="nav-tabs-custom">
-
-<ul id="myTab" class="nav nav-tabs">
-        <li>
-            <a href="{{ path('MgateTreso_Facture_ajouter') }}"> <span class="fa fa-plus"></span> {{ 'treso.facture_ajouter'|trans({}, 'treso') }}</a>
-        </li>
-        <li class="">
-            <a href="#FA" data-toggle="tab">{{ 'treso.facture_achat'|trans({}, 'treso') }}</a>
-        </li>
-        <li class="active">
-            <a href="#FV" data-toggle="tab">{{ 'treso.facture_vente'|trans({}, 'treso') }}</a>
-        </li>
-    </ul>
-</div>
+    <div class="nav-tabs-custom">
+        <ul id="myTab" class="nav nav-tabs">
+            <li>
+                <a href="{{ path('MgateTreso_Facture_ajouter') }}"> <span
+                            class="fa fa-plus"></span> {{ 'treso.facture_ajouter'|trans({}, 'treso') }}</a>
+            </li>
+            <li>
+                <a href="#FA" data-toggle="tab">{{ 'treso.facture_achat'|trans({}, 'treso') }}</a>
+            </li>
+            <li class="active">
+                <a href="#FV" data-toggle="tab">{{ 'treso.facture_vente'|trans({}, 'treso') }}</a>
+            </li>
+        </ul>
+    </div>
     <div id="myTabContent" class="tab-content">
         <div class="tab-pane fade" id="FA">
             <table class="display dataTable table table-bordered table-striped dt-responsive" id="FAtable">

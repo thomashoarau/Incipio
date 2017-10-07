@@ -8,6 +8,16 @@
     {{ 'treso.facture'|trans({}, 'treso') }} {{ facture.reference }}
 {% endblock %}
 
+{% block breadcrumb_items %}
+    <li>
+        <a href="{{ path('MgateTreso_Facture_index') }}">{{ 'treso.factures_liste'|trans({}, 'treso') }}</a>
+    </li>
+{% endblock %}
+
+{% block breadcrumb_active %}
+    {{ 'treso.facture'|trans({}, 'treso') }} {{ facture.reference }}
+{% endblock %}
+
 {% block content_bundle %}
     <table class="table table-bordered table-striped">
         <tr>

@@ -17,6 +17,7 @@
             {% block breadcrumb %}
                 <ul class="breadcrumb no-margin pull-right">
                     <li>{{ 'treso.tresorerie'|trans({}, 'treso') }}</li>
+                    {% block breadcrumb_items %}{% endblock %}
                     <li class="active">
                         {% block breadcrumb_active %}{% endblock %}
                     </li>
