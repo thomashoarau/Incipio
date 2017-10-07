@@ -13,6 +13,7 @@ namespace Mgate\TresoBundle\Form\Type;
 
 use Genemu\Bundle\FormBundle\Form\JQuery\Type\DateType;
 use Genemu\Bundle\FormBundle\Form\JQuery\Type\Select2EntityType;
+use Mgate\SuiviBundle\Entity\MissionRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
@@ -35,8 +36,12 @@ class BVType extends AbstractType
             ->add('mission', Select2EntityType::class, [
                       'label' => 'Mission',
                        'class' => 'Mgate\\SuiviBundle\\Entity\\Mission',
-                       'choice_label' => 'nom',
-                       'required' => true, ])
+                       'choice_label' => 'reference',
+                       'required' => true,
+                        'query_builder' => function(MissionRepository $mr){
+                            return $mr->getMissionAndEtudeQueryBuilder();
+                        },
+                ])
             ->add('numeroVirement', TextType::class, ['label' => 'Numéro de Virement', 'required' => true]);
     }
 

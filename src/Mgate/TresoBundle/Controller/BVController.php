@@ -16,7 +16,9 @@ use Mgate\TresoBundle\Entity\BV;
 use Mgate\TresoBundle\Form\Type\BVType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class BVController extends Controller
 {
@@ -33,17 +35,19 @@ class BVController extends Controller
 
     /**
      * @Security("has_role('ROLE_TRESO')")
+     * @param BV $bv
+     * @return Response
      */
-    public function voirAction($id)
+    public function voirAction(BV $bv)
     {
-        $em = $this->getDoctrine()->getManager();
-        $bv = $em->getRepository('MgateTresoBundle:BV')->find($id);
-
         return $this->render('MgateTresoBundle:BV:voir.html.twig', ['bv' => $bv]);
     }
 
     /**
      * @Security("has_role('ROLE_TRESO', 'ROLE_SUIVEUR')")
+     * @param Request $request
+     * @param $id
+     * @return RedirectResponse|Response
      */
     public function modifierAction(Request $request, $id)
     {
@@ -91,14 +95,12 @@ class BVController extends Controller
 
     /**
      * @Security("has_role('ROLE_ADMIN')")
+     * @param BV $bv
+     * @return RedirectResponse
      */
-    public function supprimerAction($id)
+    public function supprimerAction(BV $bv)
     {
         $em = $this->getDoctrine()->getManager();
-
-        if (!$bv = $em->getRepository('MgateTresoBundle:BV')->find($id)) {
-            throw $this->createNotFoundException('Le BV n\'existe pas !');
-        }
 
         $em->remove($bv);
         $em->flush();

@@ -117,7 +117,7 @@ class Mission extends DocType
 
     public function getReference()
     {
-        return $this->getEtude()->getReference() . '/' . (!empty($this->getDebutOm()) ? $this->getDebutOm()->format('Y') : 'XX') .
+        return $this->getEtude()->getReference('nom') . '/' . (!empty($this->getDebutOm()) ? $this->getDebutOm()->format('Y') : 'XX') .
             '/RM/' . $this->getVersion();
     }
 
