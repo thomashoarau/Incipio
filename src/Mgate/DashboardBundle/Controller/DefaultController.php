@@ -11,14 +11,28 @@
 
 namespace Mgate\DashboardBundle\Controller;
 
+use Mgate\SuiviBundle\Controller\EtudeController;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Webmozart\KeyValueStore\Api\KeyValueStore;
 
 class DefaultController extends Controller
 {
+    public const EXPIRATION = 3600; // cache on dashboard is updated every hour
+
     public function indexAction()
     {
-        return $this->render('MgateDashboardBundle:Default:index.html.twig');
+        $statsStore = $this->get('app.json_stats');
+        if (!$statsStore->exists('expiration') ||
+            ($statsStore->exists('expiration') &&
+                intval($statsStore->get('expiration')) + self::EXPIRATION < time()
+            )
+        ) {
+            $this->updateDashboardStats($statsStore);
+        }
+        $stats = $statsStore->getMultiple(['ca_negociation', 'ca_encours', 'ca_cloture', 'ca_facture', 'ca_paye', 'expiration']);
+
+        return $this->render('MgateDashboardBundle:Default:index.html.twig', ['stats' => (isset($stats) ? $stats : [])]);
     }
 
     public function searchAction(Request $request)
@@ -38,5 +52,20 @@ class DefaultController extends Controller
             'prospects' => $prospects,
             'people' => $people,
         ]);
+    }
+
+    private function updateDashboardStats(KeyValueStore $statsStore)
+    {
+        $etudeRepository = $this->getDoctrine()
+            ->getRepository('MgateSuiviBundle:Etude');
+        $statsStore->set('ca_negociation', $etudeRepository->getCaByState(EtudeController::STATE_ID_EN_NEGOCIATION));
+        $statsStore->set('ca_encours', $etudeRepository->getCaByState(EtudeController::STATE_ID_EN_COURS));
+        $statsStore->set('ca_cloture', $etudeRepository->getCaByState(EtudeController::STATE_ID_TERMINEE, date('Y')));
+
+        $factureRepository = $this->getDoctrine()->getRepository('MgateTresoBundle:Facture');
+        $statsStore->set('ca_facture', $factureRepository->getCAFacture(date('Y')));
+        $statsStore->set('ca_paye', $factureRepository->getCAFacture(date('Y'), true));
+
+        $statsStore->set('expiration', time());
     }
 }
