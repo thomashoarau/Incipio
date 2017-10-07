@@ -14,6 +14,14 @@
                     {{ 'treso.tresorerie'|trans({}, 'treso') }}
                 {% endblock %}
             </h3>
+            {% block breadcrumb %}
+                <ul class="breadcrumb no-margin pull-right">
+                    <li>{{ 'treso.tresorerie'|trans({}, 'treso') }}</li>
+                    <li class="active">
+                        {% block breadcrumb_active %}{% endblock %}
+                    </li>
+                </ul>
+            {% endblock %}
         </div>
         <div class="box-body">
             {# On définit un nouveau block, que les vues du bundle pourront remplir #}

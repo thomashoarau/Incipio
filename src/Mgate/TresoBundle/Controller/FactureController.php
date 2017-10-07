@@ -16,7 +16,9 @@ use Mgate\TresoBundle\Entity\FactureDetail as FactureDetail;
 use Mgate\TresoBundle\Form\Type\FactureType as FactureType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class FactureController extends Controller
 {
@@ -33,19 +35,20 @@ class FactureController extends Controller
 
     /**
      * @Security("has_role('ROLE_TRESO')")
+     * @param Facture $facture
+     * @return Response
      */
-    public function voirAction($id)
+    public function voirAction(Facture $facture)
     {
-        $em = $this->getDoctrine()->getManager();
-        if (!$facture = $em->getRepository('MgateTresoBundle:Facture')->find($id)) {
-            throw $this->createNotFoundException('La Facture n\'existe pas !');
-        }
-
         return $this->render('MgateTresoBundle:Facture:voir.html.twig', ['facture' => $facture]);
     }
 
     /**
      * @Security("has_role('ROLE_TRESO')")
+     * @param Request $request
+     * @param $id
+     * @param $etude_id
+     * @return RedirectResponse|Response
      */
     public function modifierAction(Request $request, $id, $etude_id)
     {
@@ -139,6 +142,7 @@ class FactureController extends Controller
 
                 return $this->redirect($this->generateUrl('MgateTreso_Facture_voir', ['id' => $facture->getId()]));
             }
+            $this->addFlash('danger', 'Le formulaire contient des erreurs.');
         }
 
         return $this->render('MgateTresoBundle:Facture:modifier.html.twig', [
@@ -148,14 +152,12 @@ class FactureController extends Controller
 
     /**
      * @Security("has_role('ROLE_ADMIN')")
+     * @param Facture $facture
+     * @return RedirectResponse
      */
-    public function supprimerAction($id)
+    public function supprimerAction(Facture $facture)
     {
         $em = $this->getDoctrine()->getManager();
-
-        if (!$facture = $em->getRepository('MgateTresoBundle:Facture')->find($id)) {
-            throw $this->createNotFoundException('La Facture n\'existe pas !');
-        }
 
         foreach ($facture->getDetails() as $detail) {
             $em->remove($detail);
