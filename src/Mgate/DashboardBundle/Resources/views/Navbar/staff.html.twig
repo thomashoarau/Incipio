@@ -85,27 +85,9 @@
         <a href="#"> <span class="nav-label">{{ 'dashboard.tresorerie'|trans({}, 'dashboard') }} </span> <i class="fa fa-angle-left pull-right"></i></a>
         <ul class="treeview-menu">
             <li class="dropdown-header">{{ 'dashboard.saisie_informations'|trans({}, 'dashboard') }}</li>
-            <li>
-                <a href="#" >{{ 'dashboard.factures'|trans({}, 'dashboard') }} <i class="fa fa-angle-left pull-right"></i></a>
-                <ul class="treeview-menu">
-                    <li><a href="{{ path('MgateTreso_Facture_index') }}"><span class="fa fa-list"></span> {{ 'dashboard.lister'|trans({}, 'dashboard') }}</a></li>
-                    <li><a href="{{ path('MgateTreso_Facture_ajouter') }}"><span class="fa fa-plus"></span> {{ 'dashboard.ajouter'|trans({}, 'dashboard') }}</a></li>
-                </ul>
-            </li>
-            <li>
-                <a href="#" >{{ 'dashboard.bvs'|trans({}, 'dashboard') }} <i class="fa fa-angle-left pull-right"></i></a>
-                <ul class="treeview-menu">
-                    <li><a href="{{ path('MgateTreso_BV_index') }}"><span class="fa fa-list"></span> {{ 'dashboard.lister'|trans({}, 'dashboard') }}</a></li>
-                    <li><a href="{{ path('MgateTreso_BV_ajouter') }}"><span class="fa fa-plus"></span> {{ 'dashboard.ajouter'|trans({}, 'dashboard') }}</a></li>
-                </ul>
-            </li>
-            <li>
-                <a href="#" >{{ 'dashboard.nfs'|trans({}, 'dashboard') }} <i class="fa fa-angle-left pull-right"></i></a>
-                <ul class="treeview-menu">
-                    <li><a href="{{ path('MgateTreso_NoteDeFrais_index') }}"><span class="fa fa-list"></span> {{ 'dashboard.lister'|trans({}, 'dashboard') }}</a></li>
-                    <li><a href="{{ path('MgateTreso_NoteDeFrais_ajouter') }}"><span class="fa fa-plus"></span> {{ 'dashboard.ajouter'|trans({}, 'dashboard') }}</a></li>
-                </ul>
-            </li>
+            <li><a href="{{ path('MgateTreso_Facture_index') }}"><span class="fa fa-credit-card"></span> {{ 'dashboard.factures'|trans({}, 'dashboard') }}</a></li>
+            <li><a href="{{ path('MgateTreso_BV_index') }}"><span class="fa fa-id-card-o"></span> {{ 'dashboard.bvs'|trans({}, 'dashboard') }}</a></li>
+            <li><a href="{{ path('MgateTreso_NoteDeFrais_index') }}"><span class="fa fa-sticky-note-o"></span> {{ 'dashboard.nfs'|trans({}, 'dashboard') }}</a></li>
             <li class="divider"></li>
             <li class="dropdown-header">{{ 'dashboard.tableaux_suivi'|trans({}, 'dashboard') }}</li>
             <li><a href="{{ path('MgateTreso_Declaratif_TVA') }}"><span class="fa fa-barcode"></span> {{ 'dashboard.declaratif_tva'|trans({}, 'dashboard') }}</a></li>
@@ -113,28 +95,10 @@
             <li><a href="{{ path('Mgate_treso_urssaf', {'year': "now"|date('Y'), 'month': "now"|date('m')}) }}"><span class="fa fa-group"></span> {{ 'dashboard.intervenants'|trans({}, 'dashboard') }} </a></li>
             <li class="divider"></li>
             <li class="dropdown-header">{{ 'dashboard.administration'|trans({}, 'dashboard') }}</li>
-            <li>
-                <a href="#" >{{ 'dashboard.comptes'|trans({}, 'dashboard') }} <i class="fa fa-angle-left pull-right"></i></a>
-                <ul class="treeview-menu">
-                    <li><a href="{{ path('MgateTreso_Compte_index') }}"><span class="fa fa-list"></span> {{ 'dashboard.lister'|trans({}, 'dashboard') }}</a></li>
-                    <li><a href="{{ path('MgateTreso_Compte_ajouter') }}"><span class="fa fa-plus"></span> {{ 'dashboard.ajouter'|trans({}, 'dashboard') }}</a></li>
-                </ul>
-            </li>
-            <li>
-                <a href="#" >{{ 'dashboard.Base_urssaf'|trans({}, 'dashboard') }} <i class="fa fa-angle-left pull-right"></i></a>
-                <ul class="treeview-menu">
-                    <li><a href="{{ path('MgateTreso_BaseURSSAF_index') }}"><span class="fa fa-list"></span> {{ 'dashboard.lister'|trans({}, 'dashboard') }}</a></li>
-                    <li><a href="{{ path('MgateTreso_BaseURSSAF_ajouter') }}"><span class="fa fa-plus"></span> {{ 'dashboard.ajouter'|trans({}, 'dashboard') }}</a></li>
-                </ul>
-            </li>
-            <li>
-                <a href="#" >{{ 'dashboard.cotisations'|trans({}, 'dashboard') }} <i class="fa fa-angle-left pull-right"></i></a>
-                <ul class="treeview-menu">
-                    <li><a href="{{ path('MgateTreso_CotisationURSSAF_index') }}"><span class="fa fa-list"></span> {{ 'dashboard.lister'|trans({}, 'dashboard') }}</a></li>
-                    <li><a href="{{ path('MgateTreso_CotisationURSSAF_ajouter') }}"><span class="fa fa-plus"></span> {{ 'dashboard.ajouter'|trans({}, 'dashboard') }}</a></li>
-                </ul>
-            </li>
 
+            <li><a href="{{ path('MgateTreso_Compte_index') }}"><span class="fa fa-list"></span> {{ 'dashboard.comptes'|trans({}, 'dashboard') }}</a></li>
+            <li><a href="{{ path('MgateTreso_BaseURSSAF_index') }}"><span class="fa fa-list"></span> {{ 'dashboard.Base_urssaf'|trans({}, 'dashboard') }}</a></li>
+            <li><a href="{{ path('MgateTreso_CotisationURSSAF_index') }}"><span class="fa fa-list"></span> {{ 'dashboard.cotisations'|trans({}, 'dashboard') }}</a></li>
         </ul>
     </li>
     {% endif %}
