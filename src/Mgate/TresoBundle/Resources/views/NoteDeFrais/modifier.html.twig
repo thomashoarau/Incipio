@@ -8,6 +8,14 @@
     {{ 'treso.note_frais_editer'|trans({}, 'treso') }}
 {% endblock %}
 
+{% block breadcrumb_items %}
+    <li><a href="{{ path('MgateTreso_NoteDeFrais_index') }}">{{ 'treso.note_frais_liste'|trans({}, 'treso') }}</a></li>
+{% endblock %}
+
+{% block breadcrumb_active %}
+    {{ 'treso.note_frais_editer'|trans({}, 'treso') }}
+{% endblock %}
+
 {% block content_bundle %}
     {{ form_start(form) }}
     <button type="submit" class="btn btn-success">{{ 'treso.note_frais_enregistrer'|trans({}, 'treso') }}</button>

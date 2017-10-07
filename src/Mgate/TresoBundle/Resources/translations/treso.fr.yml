@@ -118,6 +118,7 @@ treso:
     facture_supprimer: Supprimer la Facture
     tresorerie: Trésorerie
     note_frais_gestion: Gestion des notes de frais
+    note_frais_liste: Liste des notes de frais
     note_frais_ajouter: Ajouter une note de frais
     demandeur: Demandeur
     note_frais_editer: Editer une note de frais
