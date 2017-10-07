@@ -15,7 +15,9 @@ use Mgate\TresoBundle\Entity\NoteDeFrais as NoteDeFrais;
 use Mgate\TresoBundle\Form\Type\NoteDeFraisType as NoteDeFraisType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class NoteDeFraisController extends Controller
 {
@@ -32,19 +34,23 @@ class NoteDeFraisController extends Controller
 
     /**
      * @Security("has_role('ROLE_TRESO')")
+     *
+     * @param NoteDeFrais $nf
+     *
+     * @return Response
      */
-    public function voirAction($id)
+    public function voirAction(NoteDeFrais $nf)
     {
-        $em = $this->getDoctrine()->getManager();
-        if (!$nf = $em->getRepository('MgateTresoBundle:NoteDeFrais')->find($id)) {
-            throw $this->createNotFoundException('La Note de Frais n\'existe pas !');
-        }
-
         return $this->render('MgateTresoBundle:NoteDeFrais:voir.html.twig', ['nf' => $nf]);
     }
 
     /**
      * @Security("has_role('ROLE_TRESO')")
+     *
+     * @param Request $request
+     * @param $id
+     *
+     * @return RedirectResponse|Response
      */
     public function modifierAction(Request $request, $id)
     {
@@ -67,9 +73,12 @@ class NoteDeFraisController extends Controller
                 }
                 $em->persist($nf);
                 $em->flush();
+                $this->addFlash('success','Note de frais enregistrée');
 
                 return $this->redirect($this->generateUrl('MgateTreso_NoteDeFrais_voir', ['id' => $nf->getId()]));
             }
+            $this->addFlash('danger', 'Le formulaire contient des erreurs.');
+
         }
 
         return $this->render('MgateTresoBundle:NoteDeFrais:modifier.html.twig', [
@@ -79,17 +88,18 @@ class NoteDeFraisController extends Controller
 
     /**
      * @Security("has_role('ROLE_ADMIN')")
+     *
+     * @param NoteDeFrais $nf
+     *
+     * @return RedirectResponse
      */
-    public function supprimerAction($id)
+    public function supprimerAction(NoteDeFrais $nf)
     {
         $em = $this->getDoctrine()->getManager();
 
-        if (!$nf = $em->getRepository('MgateTresoBundle:NoteDeFrais')->find($id)) {
-            throw $this->createNotFoundException('La Note de Frais n\'existe pas !');
-        }
-
         $em->remove($nf);
         $em->flush();
+        $this->addFlash('success', 'Note de frais supprimée');
 
         return $this->redirect($this->generateUrl('MgateTreso_NoteDeFrais_index', []));
     }

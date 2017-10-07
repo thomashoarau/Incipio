@@ -14,9 +14,13 @@ namespace Mgate\TresoBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Mgate\PersonneBundle\Entity\Personne;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * NoteDeFrais.
+ * @UniqueEntity(fields={"mandat", "numero"},
+ *     errorPath="numero",
+ *     message="Le couple mandat/numéro doit être unique")
  *
  * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(columns={"mandat", "numero"})})
  * @ORM\Entity(repositoryClass="Mgate\TresoBundle\Entity\NoteDeFraisRepository")
@@ -35,12 +39,16 @@ class NoteDeFrais
     /**
      * @var \DateTime
      *
+     * @Assert\NotBlank()
+     *
      * @ORM\Column(name="date", type="date",nullable=false)
      */
     private $date;
 
     /**
      * @var int
+     *
+     * @Assert\NotBlank()
      *
      * @ORM\Column(name="mandat", type="integer", nullable=false)
      */
@@ -49,23 +57,31 @@ class NoteDeFrais
     /**
      * @var int
      *
+     * @Assert\NotBlank()
+     *
      * @ORM\Column(name="numero", type="integer", nullable=false)
      */
     private $numero;
 
     /**
-     * @ORM\Column(name="objet", type="text", nullable=false)
-     *
      * @var string
+     *
+     * @Assert\NotBlank()
+     *
+     * @ORM\Column(name="objet", type="text", nullable=false)
      */
     private $objet;
 
     /**
+     * @Assert\Valid()
+     *
      * @ORM\OneToMany(targetEntity="NoteDeFraisDetail", mappedBy="noteDeFrais", cascade={"persist", "detach", "remove"}, orphanRemoval=true)
      */
     private $details;
 
     /**
+     * @Assert\NotNull()
+     *
      * @ORM\ManyToOne(targetEntity="Mgate\PersonneBundle\Entity\Personne")
      * @ORM\JoinColumn(nullable=false)
      */

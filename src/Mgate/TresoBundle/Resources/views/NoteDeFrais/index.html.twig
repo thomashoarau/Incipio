@@ -16,7 +16,17 @@
 {% endblock %}
 
 {% block content_bundle %}
-    <a href="{{ path('MgateTreso_NoteDeFrais_ajouter') }}" class="btn btn-success">{{ 'treso.note_frais_ajouter'|trans({}, 'treso') }}</a>
+    <div class="nav-tabs-custom">
+        <ul class="nav nav-tabs">
+            <li>
+                <a href="{{ path('MgateTreso_NoteDeFrais_ajouter') }}"> <span
+                            class="fa fa-plus"></span> {{ 'treso.note_frais_ajouter'|trans({}, 'treso') }}</a>
+            </li>
+            <li class="active">
+                <a href="#">{{ 'treso.note_frais_gestion'|trans({}, 'treso') }}</a>
+            </li>
+        </ul>
+    </div>
     <table class="table table-bordered table-striped dt-responsive" id="listeNotes">
         <thead>
         <tr>
