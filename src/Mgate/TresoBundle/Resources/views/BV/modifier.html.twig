@@ -1,7 +1,11 @@
 {% extends "MgateTresoBundle::layout.html.twig" %}
 
 {% block title %}
-    {{ 'treso.bv_modification'|trans({}, 'treso') }} - {{ parent() }}
+    {% if bv.numero is null %}
+        {{ 'treso.bv_ajout'|trans({}, 'treso') }}
+    {% else %}
+        {{ 'treso.bv_modification'|trans({}, 'treso') }}
+    {% endif %}- {{ parent() }}
 {% endblock %}
 
 {% block content_title %}
@@ -9,6 +13,18 @@
         {{ 'treso.bv_ajout'|trans({}, 'treso') }}
     {% else %}
         {{ 'treso.bv_unique_modification'|trans({}, 'treso') }} {{ bv.mandat }} -BV- {{ bv.numero }}
+    {% endif %}
+{% endblock %}
+
+{% block breadcrumb_items %}
+    <li><a href="{{ path('MgateTreso_BV_index') }}">{{ 'treso.bv_list'|trans({}, 'treso') }}</a></li>
+{% endblock %}
+
+{% block breadcrumb_active %}
+    {% if bv.numero is null %}
+        {{ 'treso.bv_ajout'|trans({}, 'treso') }}
+    {% else %}
+        {{ 'treso.bv_modification'|trans({}, 'treso') }}
     {% endif %}
 {% endblock %}
 
@@ -47,22 +63,15 @@
             <td colspan="3">{{ form_widget(form.dateDemission) }}</td>
         </tr>
     </table>
-    <input type="submit" class="btn btn-success" value="{{ 'treso.enregistrer'|trans({}, 'treso') }}"/>
-    {{ form_rest(form) }}
-    {{ form_end(form) }}
 
 
-    <br>
     <div class="row">
         <div class="col-md-2 col-xs-4">
-            <a href="{{ path('MgateTreso_BV_index') }}"
-               class="btn btn-default">{{ 'treso.bv_list_retour'|trans({}, 'treso') }}</a>
+            <button type="submit" class="btn btn-success" >{{ 'treso.enregistrer'|trans({}, 'treso') }}</button>
+            {{ form_rest(form) }}
+            {{ form_end(form) }}
         </div>
         {% if bv.numero is not null %}
-            <div class="col-md-2 col-xs-4">
-                <a href="{{ path('MgateTreso_BV_voir', {'id': form.vars.data.id}) }}"
-                   class="btn btn-info">{{ 'treso.bv_retour'|trans({}, 'treso') }}</a>
-            </div>
             <div class="col-md-2 col-xs-4">
                 <a href="{{ path('MgateTreso_BV_supprimer', {'id': bv.id}) }}" class="btn btn-danger">
                     {{ 'treso.bv_supprimer'|trans({}, 'treso') }}

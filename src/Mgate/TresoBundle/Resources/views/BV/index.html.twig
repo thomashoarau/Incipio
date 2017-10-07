@@ -16,9 +16,17 @@
 {% endblock %}
 
 {% block content_bundle %}
-    <button type="button" class="btn btn-success" onclick="location.href='{{ path('MgateTreso_BV_ajouter') }}';">{{ 'treso.bv_add'|trans({}, 'treso') }}
-    </button>
-    <br>
+    <div class="nav-tabs-custom">
+        <ul id="myTab" class="nav nav-tabs">
+            <li>
+                <a href="{{ path('MgateTreso_BV_ajouter') }}"> <span
+                            class="fa fa-plus"></span> {{ 'treso.bv_add'|trans({}, 'treso') }}</a>
+            </li>
+            <li class="active">
+                <a href="#">{{ 'treso.bv_list'|trans({}, 'treso') }}</a>
+            </li>
+        </ul>
+    </div>
     <table class="display dataTable table table-bordered table-striped dt-responsive" id="listeBV">
         <thead>
         <tr>
@@ -60,9 +68,8 @@
     <script type="text/javascript" charset="utf-8">
         $(document).ready(function () {
             $('#listeBV').DataTable({
-                "bPaginate": true,
-                "iDisplayLength": 50,
-                "aaSorting": [[0, 'desc']],
+                "paging": false,
+                "aaSorting": [[0, 'desc']]
             });
         });
     </script>
