@@ -1,154 +1,151 @@
-generique:
-    enregistrer: Enregistrer
-    supprimer: Supprimer
-membre:
-    modifier: Modifier
-    modifier_membre: Modifier le membre
-    ajouter_mandat: Ajouter un mandat
-    supprimer_membre: Supprimer le membre
-    creer_compte: Ouvrir un compte utilisateur
-    mail_invalide_creation_compte: Vous devez définir un email valide pour créer un compte utilisateur à ce membre.
-    liste_membre: Liste des membres
-    liste_intervenant: Liste des intervenants
-    description_liste_intervenant: Membres ayant déjà réalisé une mission.
-    liste_impaye: Liste des impayés
-    description_liste_impaye: Membres n'ayant pas payé leur cotisation à l'inscription ou dont le moyen de paiement n'est pas renseigné.
-    affichage_membre: Affichage d'un membre
-    ajout_modification_membre: Ajout-Modification d'un membre
-    confirmation_supprimer_membre: Êtes-vous sûr de vouloir supprimer définitivement ce membre ?
-    membre: Membre
-    intervenant: Intervenant
-    mandat: Mandat
-    mandats: Mandats
-    photo: Photo
-    intervenant_interdit: Ne peut être intervenant
-    intervenant_declaration: Une déclaration à la préfecture est nécessaire
-# Card
-    fiche: Fiche
-    informations: Informations
-    competences: Compétences
-    missions_realisees: Missions réalisées
-    postes_occupes: Postes occupés
-    permissions: Permissions
-    date_debut: Du
-    date_fin: Au
-    naissance_date: Né le
-    naissance_lieu: Né à
-# Documents
-    documents: Documents
-    description_documents: Documents relatifs à
-    ajouter_document: Ajouter un document
-    generer_BA: Générer le Bulletin d'Adhésion
-    generer_CE: Générer une Convention Etudiant
-    generer_AC: Générer un Accord de Confidentialité
-    doc:
-        titre: Titre
-        date_upload: Date d'upload
-        uploader: Mis en ligne par
-personne:
-    newsletter_abonne: Abonné à la newsletter
-    newsletter_non_abonne: N'est pas abonné à la newsletter
-    mail_valide: Email valide
-    mail_invalide: Email non valide
-champs:
-    id: Identifiant
-    prenom: Prénom
-    nom: Nom
-    sexe: Sexe
-    promotion: Promotion
-    poste: Poste
-    mail: Email
-    mail_etudiant: Email étudiant
-    mobile: Mobile
-    adresse: Adresse
-    ville: Ville
-    code_postal: Code postal
-    pays: Pays
-    nationalite: Nationalité
-    date_naissance: Date de naissance (jj/mm/aaaa)
-    lieu_naissance: Lieu de naissance
-    filiere: Filière
-    moyen_paiement: Moyen de paiement
-    date_signature_CE: Date de signature de la CE
-    numero_securite_sociale: Numéro de sécurité sociale
-    commentaire: Commentaire
-    abonnement_newsletter: Abonné à la newsletter ?
-    validite_mail: Email valide ?
-    prenom_nom: Nom
-    bureau: Bureau
-    fixe: Fixe
-    liste: Liste
-    action: Action
-poste:
-    ajouter_poste: Ajouter un poste
-    modifier_poste: Modifier un poste
-    supprimer_poste: Supprimer le poste
-    postes: Postes
-    liste_poste: Liste des postes
-    liste_poste_vide: Pas de postes
-    confirmation_supprimer_poste: Êtes-vous sûr de vouloir supprimer définitivement ce poste ?
-    champs:
-        nom: Intitulé
-        description: Description
-filiere:
-    ajouter_filiere: Ajouter une filière
-    modifier_filiere: Modifier une filière
-    supprimer_filiere: Supprimer la filière
-    filieres: Filières
-    liste_filiere: Liste des filières
-    liste_filiere_vide: Pas de filières
-    confirmation_supprimer_filiere: Êtes-vous sûr de vouloir supprimer définitivement cette filière ?
-    champs:
-        nom: Nom
-        description: Description
-prospect:
-    ajouter_prospect: Ajouter un prospect
-    modifier_prospect: Modifier le prospect
-    supprimer_prospect: Supprimer le prospect
-    affichage_prospect: Affichage d'un prospect
-    liste_prospect: Liste des prospects
-    liste_diffusion: Liste de diffusion
-    description_liste_diffusion: Liste des mails valides, abonnés à la newsletter
-    confirmation_supprimer_prospect: Êtes-vous sûr de vouloir supprimer définitivement ce prospect ?
-    type_prospect: Type de prospect
-    commentaires: Commentaires
-    champs:
-        nom: Nom
-        type: Type de prospect
-        adresse: Adresse
-        nombre_employe: Nombre d'employés
-employe:
-    ajouter_employe: Ajouter un employé
-    ajouter_employe_a: Ajouter un employé à
-    modifier_employe: Modifier l'employé
-    supprimer_employe: Supprimer l'employé
-    employes: Employés
-    liste_employe: Liste des employés
-    confirmation_supprimer_employe: Êtes-vous sûr de vouloir supprimer définitivement cet employé ?
 annuaire:
-    annuaire: Annuaire
-    client: Client
-    autre: Autre
-    confirmation_supprimer_personne: Êtes-vous sûr de vouloir supprimer définitivement cette personne ?
-# Following should be moved in Suivi
+  annuaire: Annuaire
+  autre: Autre
+  client: Client
+  confirmation_supprimer_personne: Etes-vous sûr de vouloir supprimer définitivement cette personne ?
+champs:
+  abonnement_newsletter: Abonné à la newsletter ?
+  action: Action
+  adresse: Adresse
+  bureau: Bureau
+  code_postal: Code postal
+  commentaire: Commentaire
+  date_naissance: Date de naissance (jj/mm/aaaa)
+  date_signature_CE: Date de signature de la CE
+  filiere: Filière
+  fixe: Fixe
+  id: Identifiant
+  lieu_naissance: Lieu de naissance
+  liste: Liste
+  mail: Email
+  mail_etudiant: Email étudiant
+  mobile: Mobile
+  moyen_paiement: Moyen de paiement
+  nationalite: Nationalité
+  nom: Nom
+  numero_securite_sociale: Numéro de sécurité sociale
+  pays: Pays
+  poste: Poste
+  prenom: Prénom
+  prenom_nom: Nom
+  promotion: Promotion
+  sexe: Sexe
+  validite_mail: Email valide ?
+  ville: Ville
+employe:
+  ajouter_employe: Ajouter un employé
+  ajouter_employe_a: Ajouter un employé à
+  confirmation_supprimer_employe: Etes-vous sûr de vouloir supprimer définitivement cet employé ?
+  employes: Employés
+  liste_employe: Liste des employés
+  modifier_employe: Modifier l'employé
+  supprimer_employe: Supprimer l'employé
 etude:
-    etude: Etude
-    etudes: Etudes
-    doc:
-        CE: Convention Etudiant
-        CE_abbr: CE
-        CE_tooltip: Depuis la réforme du cadre légal (AGP CNE 2016) il est recommandé de remplacer la CE par un BA comme fourni.
-    champs:
-        nom: Nom
-        description: Description
-        date_creation: Date d'ajout
-        prix_HT: Montant H.T. (€)
-        JEHs: JEHs
-    statut:
-        statut: Statut
-        en_negociation: En négociation
-        en_cours: En cours
-        en_pause: En pause
-        terminee: Terminée
-        avortee: Avortée
-    non_signe: non signé
+  champs:
+    JEHs: JEHs
+    date_creation: Date d'ajout
+    description: Description
+    nom: Nom
+    prix_HT: Montant H.T. (\u20AC)
+  doc:
+    CE: Convention Etudiant
+    CE_abbr: CE
+    CE_tooltip: Depuis la réforme du cadre légal (AGP CNE 2016) il est recommandé de remplacer la CE par un BA comme fourni.
+  etude: Etude
+  etudes: Etudes
+  non_signe: non signé
+  statut:
+    avortee: Avortée
+    en_cours: En cours
+    en_negociation: En négociation
+    en_pause: En pause
+    statut: Statut
+    terminee: Terminée
+filiere:
+  ajouter_filiere: Ajouter une filière
+  champs:
+    description: Description
+    nom: Nom
+  confirmation_supprimer_filiere: Etes-vous sûr de vouloir supprimer définitivement cette filière ?
+  filieres: Filières
+  liste_filiere: Liste des filières
+  liste_filiere_vide: Pas de filières
+  modifier_filiere: Modifier une filière
+  supprimer_filiere: Supprimer la filière
+generique:
+  enregistrer: Enregistrer
+  supprimer: Supprimer
+membre:
+  affichage_membre: Affichage d'un membre
+  ajout_modification_membre: Ajout-Modification d'un membre
+  ajouter_document: Ajouter un document
+  ajouter_mandat: Ajouter un mandat
+  competences: Compétences
+  confirmation_supprimer_membre: Etes-vous sûr de vouloir supprimer définitivement ce membre ?
+  creer_compte: Ouvrir un compte utilisateur
+  date_debut: Du
+  date_fin: Au
+  description_documents: Documents relatifs à
+  description_liste_impaye: Membres n'ayant pas payé leur cotisation à l'inscription ou dont le moyen de paiement n'est pas renseigné.
+  description_liste_intervenant: Membres ayant déjà réalisé une mission.
+  doc:
+    date_upload: Date d'upload
+    titre: Titre
+    uploader: Mis en ligne par
+  documents: Documents
+  fiche: Fiche
+  generer_AC: Générer un Accord de Confidentialité
+  generer_BA: Générer le Bulletin d'Adhésion
+  generer_CE: Générer une Convention Etudiant
+  informations: Informations
+  intervenant: Intervenant
+  intervenant_declaration: Une déclaration à la préfecture est nécessaire
+  intervenant_interdit: Ne peut être intervenant
+  liste_impaye: Liste des impayés
+  liste_intervenant: Liste des intervenants
+  liste_membre: Liste des membres
+  mail_invalide_creation_compte: Vous devez définir un email valide pour créer un compte utilisateur à ce membre.
+  mandat: Mandat
+  mandats: Mandats
+  membre: Membre
+  missions_realisees: Missions réalisées
+  modifier: Modifier
+  modifier_membre: Modifier le membre
+  naissance_date: Né le
+  naissance_lieu: Né à
+  permissions: Permissions
+  photo: Photo
+  postes_occupes: Postes occupés
+  supprimer_membre: Supprimer le membre
+personne:
+  mail_invalide: Email non valide
+  mail_valide: Email valide
+  newsletter_abonne: Abonné à la newsletter
+  newsletter_non_abonne: N'est pas abonné à la newsletter
+poste:
+  ajouter_poste: Ajouter un poste
+  champs:
+    description: Description
+    nom: Intitulé
+  confirmation_supprimer_poste: Etes-vous sûr de vouloir supprimer définitivement ce poste ?
+  liste_poste: Liste des postes
+  liste_poste_vide: Pas de postes
+  modifier_poste: Modifier un poste
+  postes: Postes
+  supprimer_poste: Supprimer le poste
+prospect:
+  affichage_prospect: Affichage d'un prospect
+  ajouter_prospect: Ajouter un prospect
+  champs:
+    adresse: Adresse
+    nom: Nom
+    nombre_employe: Nombre d'employés
+    type: Type de prospect
+  commentaires: Commentaires
+  confirmation_supprimer_prospect: Etes-vous sûr de vouloir supprimer définitivement ce prospect ?
+  description_liste_diffusion: Liste des mails valides, abonnés à la newsletter
+  liste_diffusion: Liste de diffusion
+  liste_prospect: Liste des prospects
+  modifier_prospect: Modifier le prospect
+  supprimer_prospect: Supprimer le prospect
+  type_prospect: Type de prospect
