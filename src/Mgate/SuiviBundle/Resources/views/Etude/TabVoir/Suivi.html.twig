@@ -266,7 +266,7 @@
     {% for pvi in etude.pvis %}
         <tr>
             <td style="width: 100px;">
-                <a title="{{ 'suivi.modifier'|trans({}, 'suivi') }}" href="{{ path('MgateSuivi_procesverbal_modifier', {'id_pv': pvi.id}) }}"><span class="fa fa-pencil"></span></a>
+                <a title="{{ 'suivi.modifier'|trans({}, 'suivi') }}" href="{{ path('MgateSuivi_procesverbal_modifier', {'id': pvi.id}) }}"><span class="fa fa-pencil"></span></a>
                 &nbsp;&nbsp;&nbsp;
                 <a title="{{ 'suivi.telecharger'|trans({}, 'suivi') }}" href="{{ path('Mgate_publi_publiposter',
                                         { 'templateName' :  constant('\\Mgate\\PubliBundle\\Controller\\TraitementController::DOCTYPE_PROCES_VERBAL_INTERMEDIAIRE'),
@@ -277,7 +277,7 @@
                 &nbsp;&nbsp;&nbsp;
                 <a title="{{ 'suivi.supprimer'|trans({}, 'suivi') }}" href="#"><span class="fa fa-times"></span></a>
             </td>
-            <td style="width: 200px;"><a href="{{ path('MgateSuivi_procesverbal_modifier', {'id_pv': pvi.id}) }}">{{ 'suivi.pvi'|trans({}, 'suivi') }} n°{{loop.index}}</a></td>
+            <td style="width: 200px;"><a href="{{ path('MgateSuivi_procesverbal_modifier', {'id': pvi.id}) }}">{{ 'suivi.pvi'|trans({}, 'suivi') }} n°{{loop.index}}</a></td>
             <td>
                 {% if pvi.phaseID is null %}
                     {{ 'suivi.aucune'|trans({}, 'suivi') }} !
@@ -300,7 +300,7 @@
                     <span class="fa fa-arrow-circle-down"></span>
                 </a>
             </td>
-            <td><a href="{{ path('MgateSuivi_procesverbal_modifier', {'id_pv': etude.pvr.id}) }}">{{ 'suivi.pvr'|trans({}, 'suivi') }}</a></td>
+            <td><a href="{{ path('MgateSuivi_procesverbal_modifier', {'id': etude.pvr.id}) }}">{{ 'suivi.pvr'|trans({}, 'suivi') }}</a></td>
             <td>{{ 'suivi.toutes'|trans({}, 'suivi') }}</td>
             <td>{{ etude.pvr.dateSignature ? etude.pvr.dateSignature | date("d/m/Y") : "Non signé"}}</td>
             <td>{{ etude.pvr.signataire2 ? etude.pvr.signataire2.nomFormel }}</td>
