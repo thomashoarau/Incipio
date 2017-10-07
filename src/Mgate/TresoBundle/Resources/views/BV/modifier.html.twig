@@ -32,34 +32,61 @@
     {{ form_start(form) }}
     <table class="table table-bordered table-striped standard">
         <tr>
-            <th>{{ form_label(form.mandat) }}</th>
+            <th>
+                {{ form_label(form.mandat) }}
+                {{ form_errors(form.mandat) }}
+            </th>
             <td>{{ form_widget(form.mandat) }}</td>
-            <th>{{ form_label(form.numero) }}</th>
+            <th>
+                {{ form_label(form.numero) }}
+                {{ form_errors(form.numero) }}
+            </th>
             <td>{{ form_widget(form.numero) }}</td>
         </tr>
         <tr>
-            <th>{{ form_label(form.nombreJEH) }}</th>
+            <th>
+                {{ form_label(form.nombreJEH) }}
+                {{ form_errors(form.nombreJEH) }}
+            </th>
             <td>{{ form_widget(form.nombreJEH) }}</td>
-            <th>{{ form_label(form.remunerationBruteParJEH) }}</th>
+            <th>
+                {{ form_label(form.remunerationBruteParJEH) }}
+                {{ form_errors(form.remunerationBruteParJEH) }}
+            </th>
             <td>{{ form_widget(form.remunerationBruteParJEH) }}</td>
         </tr>
         <tr>
-            <th>{{ form_label(form.numeroVirement) }}</th>
+            <th>
+                {{ form_label(form.numeroVirement) }}
+                {{ form_errors(form.numeroVirement) }}
+            </th>
             <td>{{ form_widget(form.numeroVirement) }}</td>
-            <th>{{ form_label(form.dateDeVersement) }}</th>
+            <th>
+                {{ form_label(form.dateDeVersement) }}
+                {{ form_errors(form.dateDeVersement) }}
+            </th>
             <td>{{ form_widget(form.dateDeVersement) }}</td>
         </tr>
         <tr>
-            <th>{{ form_label(form.mission) }}</th>
+            <th>
+                {{ form_label(form.mission) }}
+                {{ form_errors(form.mission) }}
+            </th>
             <td>{{ form_widget(form.mission) }}</td>
-            <th>{{ form_label(form.typeDeTravail) }}</th>
+            <th>
+                {{ form_label(form.typeDeTravail) }}
+                {{ form_errors(form.typeDeTravail) }}
+            </th>
             <td>{{ form_widget(form.typeDeTravail) }}</td>
         </tr>
         <tr>
             <th colspan="4">{{ 'treso.taux'|trans({}, 'treso') }}</th>
         </tr>
         <tr>
-            <th>{{ form_label(form.dateDemission) }}</th>
+            <th>
+                {{ form_label(form.dateDemission) }}
+                {{ form_errors(form.dateDemission) }}
+            </th>
             <td colspan="3">{{ form_widget(form.dateDemission) }}</td>
         </tr>
     </table>

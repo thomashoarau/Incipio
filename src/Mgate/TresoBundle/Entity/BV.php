@@ -14,10 +14,14 @@ namespace Mgate\TresoBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Mgate\SuiviBundle\Entity\Mission;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
- * BV.
- *
+ * @UniqueEntity(fields={"mandat", "numero"},
+ *     errorPath="numero",
+ *     message="Le couple mandat/numéro doit être unique")
  * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(columns={"mandat", "numero"})})
  * @ORM\Entity(repositoryClass="Mgate\TresoBundle\Entity\BVRepository")
  */
@@ -36,56 +40,56 @@ class BV
 
     /**
      * @var int
-     *
+     * @Assert\NotBlank()
      * @ORM\Column(name="mandat", type="smallint")
      */
     private $mandat;
 
     /**
      * @var int
-     *
+     * @Assert\NotBlank()
      * @ORM\Column(name="numero", type="smallint")
      */
     private $numero;
 
     /**
      * @var int
-     *
+     * @Assert\NotBlank()
      * @ORM\Column(name="nombreJEH", type="smallint")
      */
     private $nombreJEH;
 
     /**
      * @var float
-     *
+     * @Assert\NotBlank()
      * @ORM\Column(name="remunerationBruteParJEH", type="float")
      */
     private $remunerationBruteParJEH;
 
     /**
      * @var \DateTime
-     *
+     * @Assert\NotBlank()
      * @ORM\Column(name="dateDeVersement", type="date")
      */
     private $dateDeVersement;
 
     /**
      * @var \DateTime
-     *
+     * @Assert\NotBlank()
      * @ORM\Column(name="dateDemission", type="date")
      */
     private $dateDemission;
 
     /**
      * @var string
-     *
+     * @Assert\NotBlank()
      * @ORM\Column(name="typeDeTravail", type="string", length=255)
      */
     private $typeDeTravail;
 
     /**
      * @var string
-     *
+     * @Assert\NotBlank()
      * @ORM\Column(name="numeroVirement", type="string", length=255)
      */
     private $numeroVirement;
@@ -96,6 +100,7 @@ class BV
     private $mission;
 
     /**
+     * @var BaseURSSAF
      * @ORM\ManyToOne(targetEntity="Mgate\TresoBundle\Entity\BaseURSSAF")
      */
     private $baseURSSAF;
@@ -118,11 +123,7 @@ class BV
 
     public function getAssietteDesCotisations()
     {
-        if ($this->baseURSSAF) {
-            return $this->baseURSSAF->getBaseURSSAF() * $this->nombreJEH;
-        } else {
-            return;
-        }
+        return ($this->baseURSSAF ? $this->baseURSSAF->getBaseURSSAF() * $this->nombreJEH : null);
     }
 
     public function getRemunerationNet()
@@ -188,7 +189,7 @@ class BV
     /**
      * @param bool $inArray
      *
-     * @return mixte
+     * @return mixed
      */
     public function getPartJunior($inArray = false)
     {
@@ -203,17 +204,13 @@ class BV
                 $partJunior['baseBrute'] += round($this->nombreJEH * $cotisation->getTauxPartJE() * $this->remunerationBruteParJEH, 2);
             }
         }
-        if ($inArray) {
-            return $partJunior;
-        } else {
-            return $partJunior['baseURSSAF'] + $partJunior['baseBrute'];
-        }
+        return $inArray ? $partJunior : $partJunior['baseURSSAF'] + $partJunior['baseBrute'];
     }
 
     /**
      * @param bool $inArray
-     *
-     * @return mixte
+     * @param bool $nonImposable
+     * @return mixed
      */
     public function getPartEtudiant($inArray = false, $nonImposable = false)
     {
@@ -234,11 +231,7 @@ class BV
             }
         }
 
-        if ($inArray) {
-            return $partEtu;
-        } else {
-            return $partEtu['baseURSSAF'] + $partEtu['baseBrute'];
-        }
+        return $inArray ? $partEtu : $partEtu['baseURSSAF'] + $partEtu['baseBrute'];
     }
 
     ///////
@@ -538,7 +531,7 @@ class BV
     /**
      * Get cotisationURSSAF.
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return BV
      */
     public function setCotisationURSSAF()
     {

@@ -11,7 +11,6 @@
 
 namespace Mgate\TresoBundle\Controller;
 
-use JMS\Serializer\Exception\LogicException;
 use Mgate\TresoBundle\Entity\BV;
 use Mgate\TresoBundle\Form\Type\BVType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -71,20 +70,22 @@ class BVController extends Controller
                     $bv->addCotisationURSSAF($charge);
                 }
                 if ($charges === null) {
-                    throw new LogicException('Il n\'y a aucune cotisation Urssaf définie pour cette période.Pour ajouter des cotisations URSSAF : ' . $this->get('router')->generate('MgateTreso_CotisationURSSAF_index') . '.');
+                    throw new \LogicException('Il n\'y a aucune cotisation Urssaf définie pour cette période.Pour ajouter des cotisations URSSAF : ' . $this->get('router')->generate('MgateTreso_CotisationURSSAF_index') . '.');
                 }
 
                 $baseURSSAF = $em->getRepository('MgateTresoBundle:BaseURSSAF')->findByDate($bv->getDateDemission());
                 if ($baseURSSAF === null) {
-                    throw new LogicException('Il n\'y a aucune base Urssaf définie pour cette période.Pour ajouter une base URSSAF : ' . $this->get('router')->generate('MgateTreso_BaseURSSAF_index') . '.');
+                    throw new \LogicException('Il n\'y a aucune base Urssaf définie pour cette période.Pour ajouter une base URSSAF : ' . $this->get('router')->generate('MgateTreso_BaseURSSAF_index') . '.');
                 }
                 $bv->setBaseURSSAF($baseURSSAF);
 
                 $em->persist($bv);
                 $em->flush();
+                $this->addFlash('success','BV enregistré');
 
                 return $this->redirect($this->generateUrl('MgateTreso_BV_index', []));
             }
+            $this->addFlash('danger', 'Le formulaire contient des erreurs.');
         }
 
         return $this->render('MgateTresoBundle:BV:modifier.html.twig', [
@@ -104,6 +105,7 @@ class BVController extends Controller
 
         $em->remove($bv);
         $em->flush();
+        $this->addFlash('success', 'BV supprimé');
 
         return $this->redirect($this->generateUrl('MgateTreso_BV_index', []));
     }
