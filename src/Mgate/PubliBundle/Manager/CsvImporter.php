@@ -13,27 +13,27 @@ namespace Mgate\PubliBundle\Manager;
  */
 class CsvImporter
 {
+
     /**
-     * @param $row array a csv row
-     * @param $columnName string a value of EXPECTED_FORMAT
-     * Enables to read a siaje export csv row with string index instead of numeric indexes
-     * @param bool $clean should string be cleaned (from upper case to ucwords) ? Can be used when the value is in upper case and should be formatted in a more standard way
+     * Returns the field of an object
+     *
+     * @param $object
+     * @param $field
+     * @param bool $clean
      *
      * @return string
      *
-     * @throws \Exception if a $columnName is not available into EXPECTED_FORMAT
+     * @throws \Exception
      */
-    protected function readArray($row, $columnName, $clean = false)
+    protected function readField($object, $field, $clean = true)
     {
-        if (in_array($columnName, self::EXPECTED_FORMAT)) {
-            $result = $row[array_search($columnName, self::EXPECTED_FORMAT)];
-            if ($clean) {
-                return utf8_encode(ucwords(strtolower($result)));
-            } else {
-                return $result;
-            }
+        if (!property_exists($object, $field)) {
+            throw new \Exception($field . ' do not exists on' . get_class($object));
+        }
+        if ($clean) {
+            return stripslashes(utf8_decode($object->$field));
         } else {
-            throw new \Exception('Unknown column ' . $columnName);
+            return $object->$field;
         }
     }
 
@@ -42,14 +42,12 @@ class CsvImporter
      *
      * @return \DateTime|null
      */
-    protected function dateManager($date)
+    protected function stringToDateTime(string $date): ?\Datetime
     {
-        $date = explode('/', $date); //date under d/m/Y format
-        if (array_key_exists(2, $date)) {
-            return new \DateTime($date['2'] . '-' . $date['1'] . '-' . $date['0']);
-        } else {
+        if ($date === '0000-00-00 00:00:00') {
             return null;
         }
+        return new \DateTime($date);
     }
 
     /**

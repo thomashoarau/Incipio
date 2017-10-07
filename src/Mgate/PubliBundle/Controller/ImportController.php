@@ -11,43 +11,44 @@ use Symfony\Component\HttpFoundation\Request;
 
 class ImportController extends Controller
 {
-    const AVAILABLE_FORMATS = ['Siaje Etudes'];
+    const SIAJE_SQL = 'Siaje SQL';
+    const AVAILABLE_FORMATS = [self::SIAJE_SQL];
 
     /**
      * @Security("has_role('ROLE_ADMIN')")
      *
      * @param Request $request
      *
-     * @return \Symfony\Component\HttpFoundation\Response Display an upload form for a csv resources from other crm.
-     *                                                    Display an upload form for a csv resources from other crm
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function indexAction(Request $request)
     {
         set_time_limit(0);
-        $form = $this->createFormBuilder([])->add('import_method', ChoiceType::class, ['label' => 'Type du fichier',
-                'required' => true,
-                'choices' => $this::AVAILABLE_FORMATS,
-                'choice_label' => function ($value) {
-                    return $value;
-                },
-                'expanded' => true,
-                'multiple' => false, ]
-        )
-            ->add('file', FileType::class, ['label' => 'Fichier', 'required' => true, 'attr' => ['cols' => '100%', 'rows' => 5]])->getForm();
+        $form = $this->createFormBuilder([])
+            ->add('import_method', ChoiceType::class, ['label' => 'Type du fichier',
+                    'required' => true,
+                    'choices' => $this::AVAILABLE_FORMATS,
+                    'choice_label' => function ($value) {
+                        return $value;
+                    },
+                    'expanded' => true,
+                    'multiple' => false,]
+            )
+            ->add('file', FileType::class, ['label' => 'Fichier',
+                    'required' => true,
+                    'attr' => ['cols' => '100%', 'rows' => 5]]
+            )
+            ->getForm();
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if ($form->get('import_method')->getData() == 'Siaje Etudes') {
+            if ($form->get('import_method')->getData() == self::SIAJE_SQL) {
                 $data = $form->getData();
-
-                // Création d'un fichier temporaire
-                $file = $data['file'];
-
                 $siajeImporter = $this->get('Mgate.import.siaje_etude');
+                // Throw an exception if things go wrong.
+                $results = $siajeImporter->run($data['file']);
 
-                $results = $siajeImporter->run($file);
-
-                $request->getSession()->getFlashBag()->add('success', 'Document importé. ' . $results['inserted_projects'] . ' études créées, ' . $results['inserted_prospects'] . ' prospects créés');
+                $this->addFlash('success', 'Document importé. ' . $results['inserted_projects'] . ' études importées');
 
                 return $this->redirect($this->generateUrl('Mgate_publi_import'));
             }
@@ -56,24 +57,5 @@ class ImportController extends Controller
         return $this->render('MgatePubliBundle:Import:index.html.twig', ['form' => $form->createView()]);
     }
 
-    /**
-     * @Security("has_role('ROLE_ADMIN')")
-     *
-     * @param $number integer id of service as stated in $this::AVAILABLE_FORMATS
-     * Return an html snippet of how csv should be formatted to match import
-     *
-     * @return JsonResponse an array containing expected headers
-     */
-    public function ajaxExpectedFormatAction($service_number)
-    {
-        if ($service_number < count($this::AVAILABLE_FORMATS)) {
-            if ($this::AVAILABLE_FORMATS[$service_number] == 'Siaje Etudes') {
-                $siajeImporter = $this->get('Mgate.import.siaje_etude');
 
-                return new JsonResponse($siajeImporter->expectedFormat());
-            }
-        }
-
-        return new JsonResponse(null);
-    }
 }

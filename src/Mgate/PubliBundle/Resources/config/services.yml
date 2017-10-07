@@ -24,6 +24,23 @@ services:
             - "@security.token_storage"
             - "@kernel"
 
+    Mgate.siaje_repository:
+        class: Mgate\PubliBundle\Manager\SiajeRepository
+        arguments: [ "@doctrine.orm.entity_manager", ]
+
+    Mgate.siaje_object_manager:
+        class: Mgate\PubliBundle\Manager\SiajeObjectManager
+        arguments:
+          - "@doctrine.orm.entity_manager"
+          - "@Mgate.siaje_repository"
+          - "@validator"
+          - "@logger"
+
+
     Mgate.import.siaje_etude:
-            class:  Mgate\PubliBundle\Manager\SiajeEtudeImporter
-            arguments: [ "@doctrine.orm.entity_manager" ]
+        class:  Mgate\PubliBundle\Manager\SiajeEtudeImporter
+        arguments:
+          - "@doctrine.orm.entity_manager"
+          - "@Mgate.siaje_repository"
+          - "@Mgate.siaje_object_manager"
+          - "@logger"

@@ -32,19 +32,4 @@
 
 {% block javascript %}
     {{ parent() }}
-    <script type="text/javascript">
-        $('#form_import_method').on('change', function expectedFormat() {
-            var service_number = $('input[type=radio]:checked').val();
-            $.get("{{ path('Mgate_publi_import_format', {'service_number': ''}) }}" + service_number, function (data) {
-                var output = '<h4>Fichier attendu : ' + data['file_format'] + '</h4>' +
-                        '<strong>Formattage attendu des colonnes dans le fichier</strong>' +
-                        '<div class="table-responsive"><table class="table table-bordered"><tr>';
-                data['columns_format'].forEach(function (element) {
-                    output = output + '<td>' + element + '</td>';
-                });
-                output = output + '</tr></table></div>';
-                $("#result").empty().html(output);
-            });
-        });
-    </script>
 {% endblock %}

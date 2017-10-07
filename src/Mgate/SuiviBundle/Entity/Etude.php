@@ -25,8 +25,6 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Mgate\SuiviBundle\Entity\Etude.
- *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Mgate\SuiviBundle\Entity\EtudeRepository")
  * @ORM\HasLifecycleCallbacks()
@@ -35,11 +33,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Etude
 {
-    /************************
-     *    ORM DEFINITIONS
-     ************************
-     * Primitive definitions
-     ************************/
 
     /**
      * @var int
@@ -134,11 +127,7 @@ class Etude
      */
     private $auditType;
 
-    /************************
-     *    ORM DEFINITIONS
-     ************************
-     *    Relationships
-     ************************/
+    /** Relationships */
 
     /**
      * @ORM\OneToMany(targetEntity="Mgate\PubliBundle\Entity\RelatedDocument", mappedBy="etude", cascade={"remove"})
@@ -289,9 +278,7 @@ class Etude
      */
     private $sourceDeProspection;
 
-    /************************
-     *   OTHERS DEFINITIONS
-     ************************/
+    /** OTHERS DEFINITIONS */
 
     /**
      * @var bool
