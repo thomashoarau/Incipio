@@ -17,11 +17,11 @@ use Mgate\SuiviBundle\Entity\Mission;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
-
 /**
  * @UniqueEntity(fields={"mandat", "numero"},
  *     errorPath="numero",
  *     message="Le couple mandat/numéro doit être unique")
+ *
  * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(columns={"mandat", "numero"})})
  * @ORM\Entity(repositoryClass="Mgate\TresoBundle\Entity\BVRepository")
  */
@@ -123,7 +123,7 @@ class BV
 
     public function getAssietteDesCotisations()
     {
-        return ($this->baseURSSAF ? $this->baseURSSAF->getBaseURSSAF() * $this->nombreJEH : null);
+        return $this->baseURSSAF ? $this->baseURSSAF->getBaseURSSAF() * $this->nombreJEH : null;
     }
 
     public function getRemunerationNet()
@@ -204,12 +204,14 @@ class BV
                 $partJunior['baseBrute'] += round($this->nombreJEH * $cotisation->getTauxPartJE() * $this->remunerationBruteParJEH, 2);
             }
         }
+
         return $inArray ? $partJunior : $partJunior['baseURSSAF'] + $partJunior['baseBrute'];
     }
 
     /**
      * @param bool $inArray
      * @param bool $nonImposable
+     *
      * @return mixed
      */
     public function getPartEtudiant($inArray = false, $nonImposable = false)

@@ -73,17 +73,16 @@ class NoteDeFraisController extends Controller
                 }
                 $em->persist($nf);
                 $em->flush();
-                $this->addFlash('success','Note de frais enregistrée');
+                $this->addFlash('success', 'Note de frais enregistrée');
 
                 return $this->redirect($this->generateUrl('MgateTreso_NoteDeFrais_voir', ['id' => $nf->getId()]));
             }
             $this->addFlash('danger', 'Le formulaire contient des erreurs.');
-
         }
 
         return $this->render('MgateTresoBundle:NoteDeFrais:modifier.html.twig', [
-                    'form' => $form->createView(),
-                ]);
+            'form' => $form->createView(),
+        ]);
     }
 
     /**

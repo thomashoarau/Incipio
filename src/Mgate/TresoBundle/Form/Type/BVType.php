@@ -34,14 +34,14 @@ class BVType extends AbstractType
             ->add('dateDemission', DateType::class, ['label' => 'Date d\'émission', 'required' => true, 'widget' => 'single_text'])
             ->add('typeDeTravail', TextType::class)
             ->add('mission', Select2EntityType::class, [
-                      'label' => 'Mission',
-                       'class' => 'Mgate\\SuiviBundle\\Entity\\Mission',
-                       'choice_label' => 'reference',
-                       'required' => true,
-                        'query_builder' => function(MissionRepository $mr){
-                            return $mr->getMissionAndEtudeQueryBuilder();
-                        },
-                ])
+                'label' => 'Mission',
+                'class' => 'Mgate\\SuiviBundle\\Entity\\Mission',
+                'choice_label' => 'reference',
+                'required' => true,
+                'query_builder' => function (MissionRepository $mr) {
+                    return $mr->getMissionAndEtudeQueryBuilder();
+                },
+            ])
             ->add('numeroVirement', TextType::class, ['label' => 'Numéro de Virement', 'required' => true]);
     }
 

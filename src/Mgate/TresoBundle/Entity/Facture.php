@@ -18,10 +18,7 @@ use Mgate\PubliBundle\Controller\TraitementController;
 use Mgate\SuiviBundle\Entity\Etude;
 use Symfony\Component\Validator\Constraints as Assert;
 
-
 /**
- * FV.
- *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Mgate\TresoBundle\Entity\FactureRepository")
  */

@@ -35,7 +35,9 @@ class FactureController extends Controller
 
     /**
      * @Security("has_role('ROLE_TRESO')")
+     *
      * @param Facture $facture
+     *
      * @return Response
      */
     public function voirAction(Facture $facture)
@@ -45,16 +47,18 @@ class FactureController extends Controller
 
     /**
      * @Security("has_role('ROLE_TRESO')")
+     *
      * @param Request $request
      * @param $id
      * @param $etude_id
+     *
      * @return RedirectResponse|Response
      */
     public function modifierAction(Request $request, $id, $etude_id)
     {
         $em = $this->getDoctrine()->getManager();
         $keyValueStore = $this->get('app.json_key_value_store');
-        if(!$keyValueStore->exists('tva')){
+        if (!$keyValueStore->exists('tva')) {
             throw new \RuntimeException('Le paramètres tva n\'est pas disponible.');
         }
         $tauxTVA = 100 * $keyValueStore->get('tva'); // former value: 20, tva is stored as 0.2 in key-value store
@@ -113,9 +117,9 @@ class FactureController extends Controller
                     }
                     $detail = new FactureDetail();
                     $detail->setCompte($em->getRepository('MgateTresoBundle:Compte')->findOneBy(['numero' => $compteFrais]))
-                           ->setFacture($facture)
-                           ->setDescription('Frais de dossier')
-                           ->setMontantHT($etude->getFraisDossier());
+                        ->setFacture($facture)
+                        ->setDescription('Frais de dossier')
+                        ->setMontantHT($etude->getFraisDossier());
                     $facture->addDetail($detail);
                     $detail->setTauxTVA($tauxTVA);
 
@@ -150,13 +154,15 @@ class FactureController extends Controller
         }
 
         return $this->render('MgateTresoBundle:Facture:modifier.html.twig', [
-                    'form' => $form->createView(),
-                ]);
+            'form' => $form->createView(),
+        ]);
     }
 
     /**
      * @Security("has_role('ROLE_ADMIN')")
+     *
      * @param Facture $facture
+     *
      * @return RedirectResponse
      */
     public function supprimerAction(Facture $facture)

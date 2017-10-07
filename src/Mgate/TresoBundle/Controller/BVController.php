@@ -34,7 +34,9 @@ class BVController extends Controller
 
     /**
      * @Security("has_role('ROLE_TRESO')")
+     *
      * @param BV $bv
+     *
      * @return Response
      */
     public function voirAction(BV $bv)
@@ -44,8 +46,10 @@ class BVController extends Controller
 
     /**
      * @Security("has_role('ROLE_TRESO', 'ROLE_SUIVEUR')")
+     *
      * @param Request $request
      * @param $id
+     *
      * @return RedirectResponse|Response
      */
     public function modifierAction(Request $request, $id)
@@ -81,7 +85,7 @@ class BVController extends Controller
 
                 $em->persist($bv);
                 $em->flush();
-                $this->addFlash('success','BV enregistré');
+                $this->addFlash('success', 'BV enregistré');
 
                 return $this->redirect($this->generateUrl('MgateTreso_BV_index', []));
             }
@@ -96,7 +100,9 @@ class BVController extends Controller
 
     /**
      * @Security("has_role('ROLE_ADMIN')")
+     *
      * @param BV $bv
+     *
      * @return RedirectResponse
      */
     public function supprimerAction(BV $bv)
