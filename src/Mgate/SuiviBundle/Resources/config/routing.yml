@@ -20,10 +20,8 @@ MgateSuivi_vu_ca:
     methods:  [GET, HEAD]
 
 MgateSuivi_etude_homepage:
-    path:  /{page}
-    defaults: {_controller: MgateSuiviBundle:Etude:index , page: 1}
-    requirements:
-      page : \d*
+    path:  /
+    defaults: {_controller: MgateSuiviBundle:Etude:index}
     methods:  [GET, HEAD]
 
 MgateSuivi_etude_ajax:

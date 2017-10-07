@@ -34,7 +34,7 @@ class EtudeController extends Controller
     /**
      * @Security("has_role('ROLE_SUIVEUR')")
      */
-    public function indexAction($page)
+    public function indexAction()
     {
         $MANDAT_MAX = $this->get('Mgate.etude_manager')->getMaxMandat();
         $MANDAT_MIN = $this->get('Mgate.etude_manager')->getMinMandat();
@@ -85,22 +85,23 @@ class EtudeController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         if ($request->getMethod() == 'GET') {
-            $mandat = $request->query->get('mandat');
-            $stateID = $request->query->get('stateID');
+            $mandat = intval($request->query->get('mandat'));
+            $stateID = intval($request->query->get('stateID'));
 
-            // CHECK VAR ATTENTION INJECTION SQL ?
-            $etudes = $em->getRepository('MgateSuiviBundle:Etude')->findBy(['stateID' => $stateID, 'mandat' => $mandat], ['num' => 'DESC']);
+            if (!empty($mandat) && !empty($stateID)) { // works because state & mandat > 0
+                $etudes = $em->getRepository('MgateSuiviBundle:Etude')->findBy(['stateID' => $stateID, 'mandat' => $mandat], ['num' => 'DESC']);
 
-            if ($stateID == self::STATE_ID_TERMINEE) {
-                return $this->render('MgateSuiviBundle:Etude:Tab/EtudesTerminees.html.twig', ['etudes' => $etudes]);
-            } elseif ($stateID == self::STATE_ID_AVORTEE) {
-                return $this->render('MgateSuiviBundle:Etude:Tab/EtudesAvortees.html.twig', ['etudes' => $etudes]);
+                if ($stateID == self::STATE_ID_TERMINEE) {
+                    return $this->render('MgateSuiviBundle:Etude:Tab/EtudesTerminees.html.twig', ['etudes' => $etudes]);
+                } elseif ($stateID == self::STATE_ID_AVORTEE) {
+                    return $this->render('MgateSuiviBundle:Etude:Tab/EtudesAvortees.html.twig', ['etudes' => $etudes]);
+                }
             }
-        } else {
-            return $this->render('MgateSuiviBundle:Etude:Tab/EtudesAvortees.html.twig', [
-                'etudes' => null,
-            ]);
         }
+
+        return $this->render('MgateSuiviBundle:Etude:Tab/EtudesAvortees.html.twig', [
+            'etudes' => null,
+        ]);
     }
 
     /**
@@ -178,8 +179,8 @@ class EtudeController extends Controller
         }
 
         return $this->render('MgateSuiviBundle:Etude:ajouter.html.twig', [
-            'form' => $form->createView(),
-                ]
+                'form' => $form->createView(),
+            ]
         );
     }
 
