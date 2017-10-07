@@ -53,12 +53,16 @@ class FactureController extends Controller
     public function modifierAction(Request $request, $id, $etude_id)
     {
         $em = $this->getDoctrine()->getManager();
-        $tauxTVA = 20.0;
+        $keyValueStore = $this->get('app.json_key_value_store');
+        if(!$keyValueStore->exists('tva')){
+            throw new \RuntimeException('Le paramètres tva n\'est pas disponible.');
+        }
+        $tauxTVA = 100 * $keyValueStore->get('tva'); // former value: 20, tva is stored as 0.2 in key-value store
         $compteEtude = 705000;
         $compteFrais = 708500;
         $compteAcompte = 419100;
-        if ($this->get('app.json_key_value_store')->exists('namingConvention')) {
-            $namingConvention = $this->get('app.json_key_value_store')->get('namingConvention');
+        if ($keyValueStore->exists('namingConvention')) {
+            $namingConvention = $keyValueStore->get('namingConvention');
         } else {
             $namingConvention = 'id';
         }
