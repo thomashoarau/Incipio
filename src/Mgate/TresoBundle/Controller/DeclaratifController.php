@@ -12,11 +12,16 @@
 namespace Mgate\TresoBundle\Controller;
 
 use Genemu\Bundle\FormBundle\Form\JQuery\Type\DateType as GenemuDateType;
+use Mgate\TresoBundle\Entity\BV;
 use Mgate\TresoBundle\Entity\Facture;
+use Mgate\TresoBundle\Entity\TresoDetailableInterface;
+use Mgate\TresoBundle\Entity\TresoDetailInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class DeclaratifController extends Controller
 {
@@ -33,54 +38,71 @@ class DeclaratifController extends Controller
 
     /**
      * @Security("has_role('ROLE_TRESO')")
+     *
+     * @param Request $request
+     * @param int     $year
+     * @param int     $month
+     * @param bool    $trimestriel
+     *
+     * @return Response
      */
-    public function tvaAction(Request $request)
+    public function tvaAction(Request $request, $year, $month, bool $trimestriel)
     {
-        $em = $this->getDoctrine()->getManager();
+        setlocale(LC_TIME, 'fra_fra');
+        /** Date Management form */
+        $form = $this->createFormBuilder(['message' => 'Date'])
+            ->add(
+                'date', GenemuDateType::class,
+                [
+                    'label' => 'Mois considéré',
+                    'required' => true,
+                    'widget' => 'single_text',
+                    'data' => $year === null || $month === null ? date_create() : new \DateTime($year . '-' . $month . '-01'),
+                    'format' => 'dd/MM/yyyy', ])
+            ->add('trimestriel', CheckboxType::class, ['label' => 'Trimestriel ?', 'required' => false])
+            ->getForm();
 
-        $data = [];
+        if ($request->isMethod('POST')) {
+            //small hack to keep api working
+            $form->handleRequest($request);
+            $data = $form->getData();
+            /** @var \DateTime $date */
+            $date = $data['date'];
+
+            return $this->redirect($this->generateUrl('MgateTreso_Declaratif_TVA', ['year' => $date->format('Y'),
+                'month' => $date->format('m'),
+                'trimestriel' => $data['trimestriel'],
+            ]));
+        }
+
+        /* Case no date specified: take current month */
+        if ($year === null || $month === null) {
+            $date = new \DateTime('now');
+            $month = $date->format('m');
+            $year = $date->format('Y');
+        } else { // rebuil a valid \Datetime
+            $date = new \DateTime($year . '-' . $month . '-01');
+        }
+
         $tvaCollectee = [];
         $tvaDeductible = [];
         $totalTvaCollectee = ['HT' => 0, 'TTC' => 0, 'TVA' => 0];
         $totalTvaDeductible = ['HT' => 0, 'TTC' => 0, 'TVA' => 0];
         $tvas = [];
-
-        $defaultData = ['message' => 'Date'];
-        $form = $this->createFormBuilder($defaultData)
-            ->add(
-                'date', GenemuDateType::class,
-                [
-                    'label' => 'Mois considéré',
-                    'required' => true, 'widget' => 'single_text',
-                    'data' => date_create(), 'format' => 'dd/MM/yyyy', ])
-            ->add('trimestriel', CheckboxType::class, ['label' => 'Trimestriel ?', 'required' => false])
-            ->getForm();
-
         $nfs = [];
         $fas = [];
         $fvs = [];
+        $em = $this->getDoctrine()->getManager();
 
-        if ($request->isMethod('POST')) {
-            $form->handleRequest($request);
-            $data = $form->getData();
-            $date = $data['date'];
-            $month = $date->format('m');
-            $year = $date->format('Y');
-        } else {
-            $date = new \DateTime('now');
-            $month = $date->format('m');
-            $year = $date->format('Y');
-        }
-        setlocale(LC_TIME, 'fra_fra');
-        if (array_key_exists('trimestriel', $data) && $data['trimestriel']) {
-            $periode = 'Déclaratif pour la période : ' . utf8_encode(strftime('%B', $date->format('U')) . ' - ' . strftime('%B', $date->modify('+2 month')->format('U')));
+        if ($trimestriel) {
+            $periode = 'Déclaratif pour la période : ' . date('F Y', $date->getTimestamp()) . ' - ' . date('F Y', $date->modify('+2 month')->getTimestamp());
             for ($i = 0; $i < 3; ++$i) {
                 $nfs = $em->getRepository('MgateTresoBundle:NoteDeFrais')->findAllByMonth($month, $year, true);
                 $fas = $em->getRepository('MgateTresoBundle:Facture')->findAllTVAByMonth(Facture::TYPE_ACHAT, $month, $year, true);
                 $fvs = $em->getRepository('MgateTresoBundle:Facture')->findAllTVAByMonth(Facture::TYPE_VENTE, $month, $year, true);
             }
         } else {
-            $periode = 'Déclaratif pour la période : ' . utf8_encode(strftime('%B', $date->format('U')));
+            $periode = 'Déclaratif pour la période : ' . date('F Y', $date->getTimestamp());
             $nfs = $em->getRepository('MgateTresoBundle:NoteDeFrais')->findAllByMonth($month, $year);
             $fas = $em->getRepository('MgateTresoBundle:Facture')->findAllTVAByMonth(Facture::TYPE_ACHAT, $month, $year);
             $fvs = $em->getRepository('MgateTresoBundle:Facture')->findAllTVAByMonth(Facture::TYPE_VENTE, $month, $year);
@@ -90,10 +112,12 @@ class DeclaratifController extends Controller
          * TVA DEDUCTIBLE
          */
         foreach ([$fas, $nfs] as $entityDeductibles) {
+            /** @var TresoDetailableInterface $entityDeductible */
             foreach ($entityDeductibles as $entityDeductible) {
                 $montantTvaParType = [];
                 $montantHT = 0;
                 $montantTTC = 0;
+                /** @var TresoDetailInterface $entityDeductibled */
                 foreach ($entityDeductible->getDetails() as $entityDeductibled) {
                     $tauxTVA = $entityDeductibled->getTauxTVA();
                     if (array_key_exists($tauxTVA, $montantTvaParType)) {
@@ -126,6 +150,7 @@ class DeclaratifController extends Controller
         /*
          * TVA COLLECTE
          */
+        /** @var Facture $fv */
         foreach ($fvs as $fv) {
             $montantTvaParType = [];
 
@@ -198,6 +223,8 @@ class DeclaratifController extends Controller
      * @param Request $request
      * @param null    $year
      * @param null    $month
+     *
+     * @return RedirectResponse|Response
      */
     public function brcAction(Request $request, $year, $month)
     {
@@ -215,11 +242,12 @@ class DeclaratifController extends Controller
             //small hack to keep api working
             $form->handleRequest($request);
             $data = $form->getData();
+            /** @var \DateTime $date */
             $date = $data['date'];
 
             return $this->redirect($this->generateUrl('MgateTreso_Declaratif_BRC', ['year' => $date->format('Y'),
-                                                                                        'month' => $date->format('m'),
-                ]));
+                'month' => $date->format('m'),
+            ]));
         }
 
         if ($year === null || $month === null) {
@@ -231,6 +259,7 @@ class DeclaratifController extends Controller
         $bvs = $em->getRepository('MgateTresoBundle:BV')->findAllByMonth($month, $year);
 
         $salarieRemunere = [];
+        /** @var BV $bv */
         foreach ($bvs as $bv) {
             $id = $bv->getMission()->getIntervenant()->getIdentifiant();
             $salarieRemunere[$id] = 1;
