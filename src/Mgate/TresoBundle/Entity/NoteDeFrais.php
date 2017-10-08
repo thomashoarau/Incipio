@@ -25,7 +25,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(columns={"mandat", "numero"})})
  * @ORM\Entity(repositoryClass="Mgate\TresoBundle\Entity\NoteDeFraisRepository")
  */
-class NoteDeFrais
+class NoteDeFrais implements TresoDetailableInterface
 {
     /**
      * @var int

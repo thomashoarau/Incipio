@@ -18,7 +18,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table()
  * @ORM\Entity
  */
-class NoteDeFraisDetail
+class NoteDeFraisDetail implements TresoDetailInterface
 {
     /**
      * @var int

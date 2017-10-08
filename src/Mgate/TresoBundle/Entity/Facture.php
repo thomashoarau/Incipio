@@ -22,7 +22,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Mgate\TresoBundle\Entity\FactureRepository")
  */
-class Facture
+class Facture implements TresoDetailableInterface
 {
     const TYPE_ACHAT = 1;
     const TYPE_VENTE = 2;
@@ -378,7 +378,7 @@ class Facture
      *
      * @param string $objet
      *
-     * @return NoteDeFrais
+     * @return Facture
      */
     public function setObjet($objet)
     {
@@ -402,7 +402,7 @@ class Facture
      *
      * @param Etude $etude
      *
-     * @return BV
+     * @return Facture
      */
     public function setEtude(Etude $etude = null)
     {

@@ -19,7 +19,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table()
  * @ORM\Entity
  */
-class FactureDetail
+class FactureDetail implements TresoDetailInterface
 {
     /**
      * @var int
