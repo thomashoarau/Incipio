@@ -1,7 +1,3 @@
-N7consulting_devco:
-    resource: "@N7consultingDevcoBundle/Resources/config/routing.yml"
-    prefix:   /devco
-
 N7consulting_rh:
     resource: "@N7consultingRhBundle/Resources/config/routing.yml"
     prefix:   /rh

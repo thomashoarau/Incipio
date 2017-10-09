@@ -1,4 +1,0 @@
-services:
-#    N7consulting_devco.example:
-#        class: N7consulting\DevcoBundle\Example
-#        arguments: [@service_id, "plain_value", %parameter%]
