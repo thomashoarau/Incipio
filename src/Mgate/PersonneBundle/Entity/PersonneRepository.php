@@ -36,7 +36,9 @@ class PersonneRepository extends EntityRepository
      * Renvoi tous les membres qui ont été au poste de $poste pendant un mandat.
      * Il est possible d'utiliser les metacaractères spécifiques à mySQL tel que % pour vos recherches.
      *
-     * @return Array(Mgate\PersonneBundle\Entity\Membre)
+     * @param $poste
+     *
+     * @return \Doctrine\ORM\QueryBuilder
      */
     public function getMembresByPoste($poste)
     {
@@ -47,7 +49,8 @@ class PersonneRepository extends EntityRepository
                 ->innerJoin('p.membre', 'me')
                 ->innerJoin('me.mandats', 'ma')
                 ->innerJoin('ma.poste', 'po')
-                ->where("po.intitule LIKE '$poste'")
+                ->where('po.intitule LIKE :poste')
+                ->setParameter('poste', $poste)
                 ->orderBy('ma.finMandat', 'DESC');
 
         return $query;
