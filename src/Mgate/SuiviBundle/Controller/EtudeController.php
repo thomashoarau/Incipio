@@ -18,6 +18,7 @@ use Mgate\UserBundle\Entity\User;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -330,12 +331,13 @@ class EtudeController extends Controller
         }
         $id = 0;
         foreach (array_reverse($etudesParMandat) as $etudesInMandat) {
+            /** @var Etude $etude */
             foreach ($etudesInMandat as $etude) {
                 $form = $form->add((string) (2 * $id), HiddenType::class,
                     ['label' => 'refEtude',
                         'data' => $etude->getReference($namingConvention), ]
                 )
-                    ->add((string) (2 * $id + 1), 'textarea', ['label' => $etude->getReference($namingConvention),
+                    ->add((string) (2 * $id + 1), TextareaType::class, ['label' => $etude->getReference($namingConvention),
                         'required' => false, 'data' => $etude->getStateDescription(), ]);
                 ++$id;
                 if ($etude->getStateID() == self::STATE_ID_EN_COURS) {
