@@ -163,7 +163,7 @@ class DocType
      *
      * @param Thread $thread
      *
-     * @return Prospect
+     * @return DocType
      */
     public function setThread(Thread $thread)
     {
@@ -175,7 +175,7 @@ class DocType
     /**
      * Get thread.
      *
-     * @return Mgate\CommentBundle\Entity\Thread
+     * @return Thread
      */
     public function getThread()
     {

@@ -57,7 +57,7 @@ class Cc extends DocType
     /**
      * Set etude.
      *
-     * @param Mgate\SuiviBundle\Entity\Etude $etude
+     * @param Etude $etude
      *
      * @return Cc
      */
@@ -71,7 +71,7 @@ class Cc extends DocType
     /**
      * Get etude.
      *
-     * @return Mgate\SuiviBundle\Entity\Etude
+     * @return Etude
      */
     public function getEtude()
     {

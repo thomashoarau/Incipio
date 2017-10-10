@@ -70,7 +70,7 @@ class ClientContact
     private $contenu;
 
     /**
-     * @var text
+     * @var string
      * @ORM\Column(name="moyenContact", type="text",nullable=true)
      */
     private $moyenContact;
@@ -117,7 +117,7 @@ class ClientContact
     /**
      * Set faitPar.
      *
-     * @param Mgate\PersonneBundle\Entity\Personne $faitPar
+     * @param Personne $faitPar
      *
      * @return ClientContact
      */
@@ -131,7 +131,7 @@ class ClientContact
     /**
      * Get faitPar.
      *
-     * @return Mgate\PersonneBundle\Entity\Personne
+     * @return Personne
      */
     public function getFaitPar()
     {
@@ -167,7 +167,7 @@ class ClientContact
      *
      * @param Thread $thread
      *
-     * @return Prospect
+     * @return ClientContact
      */
     public function setThread(Thread $thread)
     {
@@ -179,7 +179,7 @@ class ClientContact
     /**
      * Get thread.
      *
-     * @return Mgate\CommentBundle\Entity\Thread
+     * @return Thread
      */
     public function getThread()
     {
@@ -208,54 +208,6 @@ class ClientContact
     public function getContenu()
     {
         return $this->contenu;
-    }
-
-    /**
-     * Set mail.
-     *
-     * @param bool $mail
-     *
-     * @return ClientContact
-     */
-    public function setMail($mail)
-    {
-        $this->mail = $mail;
-
-        return $this;
-    }
-
-    /**
-     * Get mail.
-     *
-     * @return bool
-     */
-    public function getMail()
-    {
-        return $this->mail;
-    }
-
-    /**
-     * Set appel.
-     *
-     * @param bool $appel
-     *
-     * @return ClientContact
-     */
-    public function setAppel($appel)
-    {
-        $this->appel = $appel;
-
-        return $this;
-    }
-
-    /**
-     * Get appel.
-     *
-     * @return bool
-     */
-    public function getAppel()
-    {
-        return $this->appel;
     }
 
     /**

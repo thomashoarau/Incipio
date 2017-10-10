@@ -389,7 +389,7 @@ class Formation
     /**
      * Set mandat.
      *
-     * @param \interger $mandat
+     * @param int $mandat
      *
      * @return Formation
      */
@@ -403,7 +403,7 @@ class Formation
     /**
      * Get mandat.
      *
-     * @return \interger
+     * @return int
      */
     public function getMandat()
     {

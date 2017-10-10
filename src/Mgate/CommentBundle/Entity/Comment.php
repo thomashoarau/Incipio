@@ -14,6 +14,7 @@ namespace Mgate\CommentBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use FOS\CommentBundle\Entity\Comment as BaseComment;
 use FOS\CommentBundle\Model\SignedCommentInterface;
+use Mgate\UserBundle\Entity\User;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**

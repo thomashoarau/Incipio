@@ -120,7 +120,7 @@ class Competence
     /**
      * Get membres.
      *
-     * @return Doctrine\Common\Collections\Collection
+     * @return ArrayCollection
      */
     public function getMembres()
     {
@@ -154,7 +154,7 @@ class Competence
     /**
      * Get etudes.
      *
-     * @return Doctrine\Common\Collections\Collection
+     * @return ArrayCollection
      */
     public function getEtudes()
     {

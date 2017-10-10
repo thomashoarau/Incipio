@@ -87,7 +87,7 @@ class GroupePhases
     /**
      * Set etude.
      *
-     * @param Mgate\SuiviBundle\Entity\Etude $etude
+     * @param Etude $etude
      *
      * @return GroupePhases
      */
@@ -101,7 +101,7 @@ class GroupePhases
     /**
      * Get etude.
      *
-     * @return Mgate\SuiviBundle\Entity\Etude
+     * @return Etude
      */
     public function getEtude()
     {
@@ -125,7 +125,7 @@ class GroupePhases
     /**
      * Get titre.
      *
-     * @return titre
+     * @return string
      */
     public function getTitre()
     {
