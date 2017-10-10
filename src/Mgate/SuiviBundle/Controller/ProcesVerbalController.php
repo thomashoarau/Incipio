@@ -37,7 +37,7 @@ class ProcesVerbalController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        if ($this->get('Mgate.etude_manager')->confidentielRefus($etude, $this->getUser(), $this->get('security.authorization_checker'))) {
+        if ($this->get('Mgate.etude_manager')->confidentielRefus($etude, $this->getUser())) {
             throw new AccessDeniedException('Cette étude est confidentielle');
         }
 
@@ -51,8 +51,9 @@ class ProcesVerbalController extends Controller
             if ($form->isValid()) {
                 $em->persist($proces);
                 $em->flush();
+                $this->addFlash('success', 'PV ajouté');
 
-                return $this->redirect($this->generateUrl('MgateSuivi_procesverbal_voir', ['id' => $proces->getId()]));
+                return $this->redirect($this->generateUrl('MgateSuivi_etude_voir', ['nom' => $etude->getNom()]));
             }
         }
 
@@ -75,20 +76,21 @@ class ProcesVerbalController extends Controller
 
         $etude = $procesverbal->getEtude();
 
-        if ($this->get('Mgate.etude_manager')->confidentielRefus($etude, $this->getUser(), $this->get('security.authorization_checker'))) {
+        if ($this->get('Mgate.etude_manager')->confidentielRefus($etude, $this->getUser())) {
             throw new AccessDeniedException('Cette étude est confidentielle');
         }
 
         $form = $this->createForm(ProcesVerbalSubType::class, $procesverbal, ['type' => $procesverbal->getType(), 'prospect' => $procesverbal->getEtude()->getProspect(), 'phases' => count($procesverbal->getEtude()->getPhases()->getValues())]);
-        $deleteForm = $this->createDeleteForm($id_pv);
+        $deleteForm = $this->createDeleteForm($procesverbal->getId());
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
 
             if ($form->isValid()) {
                 $em->persist($procesverbal);
                 $em->flush();
+                $this->addFlash('success', 'PV modifié');
 
-                return $this->redirect($this->generateUrl('MgateSuivi_procesverbal_voir', ['id' => $procesverbal->getId()]));
+                return $this->redirect($this->generateUrl('MgateSuivi_etude_voir', ['nom' => $etude->getNom()]));
             }
         }
 
@@ -114,7 +116,7 @@ class ProcesVerbalController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        if ($this->get('Mgate.etude_manager')->confidentielRefus($etude, $this->getUser(), $this->get('security.authorization_checker'))) {
+        if ($this->get('Mgate.etude_manager')->confidentielRefus($etude, $this->getUser())) {
             throw new AccessDeniedException('Cette étude est confidentielle');
         }
 
@@ -123,7 +125,6 @@ class ProcesVerbalController extends Controller
             if (strtoupper($type) == 'PVR') {
                 $etude->setPvr($procesverbal);
             }
-
             $procesverbal->setType($type);
         }
 
@@ -134,8 +135,9 @@ class ProcesVerbalController extends Controller
             if ($form->isValid()) {
                 $em->persist($etude);
                 $em->flush();
+                $this->addFlash('success', 'PV rédigé');
 
-                return $this->redirect($this->generateUrl('MgateSuivi_procesverbal_voir', ['id' => $procesverbal->getId()]));
+                return $this->redirect($this->generateUrl('MgateSuivi_etude_voir', ['nom' => $etude->getNom()]));
             }
         }
 
@@ -156,19 +158,20 @@ class ProcesVerbalController extends Controller
     {
         $form = $this->createDeleteForm($procesVerbal->getId());
         $form->handleRequest($request);
+        $etude = $procesVerbal->getEtude();
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
 
-            $etude = $procesVerbal->getEtude();
-
-            if ($this->get('Mgate.etude_manager')->confidentielRefus($etude, $this->getUser(), $this->get('security.authorization_checker'))) {
+            if ($this->get('Mgate.etude_manager')->confidentielRefus($etude, $this->getUser())) {
                 throw new AccessDeniedException('Cette étude est confidentielle');
             }
 
             $em->remove($procesVerbal);
             $em->flush();
+            $this->addFlash('success', 'PV supprimé');
         }
+        $this->addFlash('danger', 'Erreur lors de la suppression');
 
         return $this->redirect($this->generateUrl('MgateSuivi_etude_voir', ['nom' => $etude->getNom()]));
     }

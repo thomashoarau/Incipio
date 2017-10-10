@@ -4,27 +4,22 @@
 	{{ 'suivi.proces_verbal_modifier'|trans({}, 'suivi') }} - {{ parent() }}
 {% endblock %}
 
+{% block content_title %}
+    {{ 'suivi.proces_verbal_modifier'|trans({}, 'suivi') }}
+{% endblock %}
 
 {% block content_bundle %}
-
-    <h2>{{ 'suivi.proces_verbal_modifier'|trans({}, 'suivi') }}</h2>
 
 {{ form_start(form) }}
 
 	{{ form_widget(form) }}
 
-	<input type="submit" value="{{ 'suivi.proces_verbal_enregistrer'|trans({}, 'suivi') }}" class="btn btn-success"/>
+    <button type="submit" class="btn btn-success">{{ 'suivi.proces_verbal_enregistrer'|trans({}, 'suivi') }}</button>
 {{ form_end(form) }}
 
-
-
-    <p>
-        <a href="{{ path('MgateSuivi_procesverbal_voir', {'id': procesverbal.id}) }}" >{{ 'suivi.retour'|trans({}, 'suivi') }}</a>
-    </p>
-
-    <form class="bootbox-confirm" data-content="{{ 'suivi.proces_verbal_supprimer_confirmation'|trans({}, 'suivi') }}" action="{{ path('MgateSuivi_procesverbal_supprimer', { 'id_pv': form.vars.value.id }) }}" method="post">
+    <form class="bootbox-confirm" data-content="{{ 'suivi.proces_verbal_supprimer_confirmation'|trans({}, 'suivi') }}" action="{{ path('MgateSuivi_procesverbal_supprimer', { 'id': form.vars.value.id }) }}" method="post">
     {{ form_widget(delete_form) }}
-        <button>{{ 'suivi.proces_verbal_supprimer'|trans({}, 'suivi') }}</button>
+        <button class="btn btn-danger">{{ 'suivi.proces_verbal_supprimer'|trans({}, 'suivi') }}</button>
     </form>
 
 {% endblock %}
