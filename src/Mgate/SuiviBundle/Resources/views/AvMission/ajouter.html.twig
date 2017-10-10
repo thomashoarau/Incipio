@@ -4,13 +4,12 @@
     {{ form_javascript(form) }}
 {% endblock %}
 
+{% block content_title %}
+    {{ 'suivi.avenant_mission_ajouter' |trans({}, 'suivi') }}
+{% endblock %}
+
 {% block content_bundle %}
 
-
-    <h2>{{ 'suivi.avenant_mission_ajouter'|trans }}</h2>
-
     {% include "MgateSuiviBundle:AvMission:formulaire.html.twig" %}
-
-    <p>---  </p>
 
 {% endblock %}
