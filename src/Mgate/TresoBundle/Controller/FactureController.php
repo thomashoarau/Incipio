@@ -11,11 +11,14 @@
 
 namespace Mgate\TresoBundle\Controller;
 
+use Mgate\SuiviBundle\Entity\Phase;
 use Mgate\TresoBundle\Entity\Facture as Facture;
 use Mgate\TresoBundle\Entity\FactureDetail as FactureDetail;
 use Mgate\TresoBundle\Form\Type\FactureType as FactureType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -42,7 +45,11 @@ class FactureController extends Controller
      */
     public function voirAction(Facture $facture)
     {
-        return $this->render('MgateTresoBundle:Facture:voir.html.twig', ['facture' => $facture]);
+        $deleteForm = $this->createDeleteForm($facture);
+
+        return $this->render('MgateTresoBundle:Facture:voir.html.twig', ['facture' => $facture,
+            'delete_form' => $deleteForm->createView(),
+        ]);
     }
 
     /**
@@ -103,6 +110,7 @@ class FactureController extends Controller
                     }
 
                     $totalTTC = 0;
+                    /** @var Phase $phase */
                     foreach ($etude->getPhases() as $phase) {
                         $detail = new FactureDetail();
                         $detail->setCompte($em->getRepository('MgateTresoBundle:Compte')->findOneBy(['numero' => $compteEtude]));
@@ -162,21 +170,41 @@ class FactureController extends Controller
      * @Security("has_role('ROLE_ADMIN')")
      *
      * @param Facture $facture
+     * @param Request $request
      *
      * @return RedirectResponse
      */
-    public function supprimerAction(Facture $facture)
+    public function supprimerAction(Facture $facture, Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
+        $form = $this->createDeleteForm($facture);
 
-        foreach ($facture->getDetails() as $detail) {
-            $em->remove($detail);
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+
+            $em->remove($facture);
+            $em->flush();
+
+            $this->addFlash('success', 'Facture supprimée');
+        } else {
+            $this->addFlash('danger', 'Erreur dans le formulaire');
         }
-        $em->flush();
 
-        $em->remove($facture);
-        $em->flush();
+        return $this->redirectToRoute('MgateTreso_Facture_index');
+    }
 
-        return $this->redirect($this->generateUrl('MgateTreso_Facture_index', []));
+    /**
+     * @param Facture $facture
+     *
+     * @return FormInterface
+     */
+    private function createDeleteForm(Facture $facture)
+    {
+        return $this->createFormBuilder(['id' => $facture->getId()])
+            ->add('id', HiddenType::class)
+            ->setmethod('DELETE')
+            ->setAction($this->generateUrl('MgateTreso_Facture_supprimer', ['id' => $facture->getId()]))
+            ->getForm();
     }
 }

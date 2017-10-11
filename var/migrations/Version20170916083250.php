@@ -6,7 +6,7 @@ use Doctrine\DBAL\Migrations\AbstractMigration;
 use Doctrine\DBAL\Schema\Schema;
 
 /**
- * Auto-generated Migration: Please modify to your needs!
+ * Remove devco bundle, thus remove Appel table.
  */
 class Version20170916083250 extends AbstractMigration
 {

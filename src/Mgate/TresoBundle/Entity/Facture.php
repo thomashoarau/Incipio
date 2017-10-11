@@ -91,7 +91,7 @@ class Facture implements TresoDetailableInterface
     private $dateVersement;
 
     /**
-     * @ORM\OneToMany(targetEntity="FactureDetail", mappedBy="facture", cascade={"persist", "detach", "remove"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="FactureDetail", mappedBy="facture", cascade="all", orphanRemoval=true)
      */
     private $details;
 
@@ -103,8 +103,8 @@ class Facture implements TresoDetailableInterface
     private $objet;
 
     /**
-     * @ORM\OneToOne(targetEntity="FactureDetail", cascade={"persist", "merge", "refresh", "remove"})
-     * @ORM\JoinColumn(referencedColumnName="id", nullable=true)
+     * @ORM\OneToOne(targetEntity="FactureDetail", cascade="all", orphanRemoval=true)
+     * @ORM\JoinColumn(referencedColumnName="id", nullable=true, onDelete="CASCADE")
      */
     private $montantADeduire;
 
