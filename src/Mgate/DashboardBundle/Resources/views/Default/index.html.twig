@@ -6,7 +6,7 @@
         <div class="row">
             <div class="col-md-4">
                 <table class="table">
-                    {% if stats is not empty %}
+                    {% if stats is not empty and (is_granted('ROLE_SUIVEUR') or is_granted('ROLE_TRESO')) %}
                         <tr>
                             <th>
                             <span class="badge badge-default" data-toggle="tooltip"
