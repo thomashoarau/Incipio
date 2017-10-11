@@ -402,15 +402,15 @@ class EtudeController extends Controller
 
     /**
      * @Security("has_role('ROLE_SUIVEUR')")
+     *
+     * @param Request $request
+     * @param Etude   $etude
+     *
+     * @return JsonResponse
      */
-    public function suiviUpdateAction(Request $request, $id)
+    public function suiviUpdateAction(Request $request, Etude $etude)
     {
         $em = $this->getDoctrine()->getManager();
-        $etude = $em->getRepository('MgateSuiviBundle:Etude')->find($id);
-
-        if (!$etude) {
-            throw $this->createNotFoundException('Unable to find Etude entity.');
-        }
 
         if ($this->get('Mgate.etude_manager')->confidentielRefus($etude, $this->getUser())) {
             throw new AccessDeniedException('Cette étude est confidentielle');
