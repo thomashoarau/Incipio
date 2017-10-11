@@ -57,6 +57,7 @@ treso:
   facture_modifier: Modifier la Facture
   facture_modifier_la: Modifier la facture
   facture_supprimer: Supprimer la Facture
+  facture_supprimer_confirm: Etes-vous sûr de vouloir supprimer définitivement cette facture ?
   facture_vente: Facture de Vente
   facture_émise: Facture émise
   factures_gestion: Gestion des factures

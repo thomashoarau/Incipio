@@ -66,7 +66,7 @@ MgateTreso_Facture_supprimer:
     defaults: { _controller: MgateTresoBundle:Facture:supprimer }
     requirements:
         id: \d+
-    methods:  [GET, HEAD, POST]
+    methods:  [DELETE]
 
 
 ################################################################################

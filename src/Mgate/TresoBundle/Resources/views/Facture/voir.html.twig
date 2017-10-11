@@ -102,26 +102,30 @@
             </div>
         {% endif %}
         <div class="col-md-3 col-xs-6">
-            <a type="button" class="btn btn-success"
-               href="{{ path('Mgate_publi_publiposter', { 'templateName' : facture.typeAbbrToString , 'rootName' : constant('\\Mgate\\PubliBundle\\Controller\\TraitementController::ROOTNAME_FACTURE'), 'rootObject_id' : facture.id}) }}">
+            <a href="{{ path('Mgate_publi_publiposter', {
+                'templateName' : facture.typeAbbrToString ,
+                'rootName' : constant('\\Mgate\\PubliBundle\\Controller\\TraitementController::ROOTNAME_FACTURE'),
+                'rootObject_id' : facture.id}) }}"
+               class="btn btn-success"
+               >
                 {{ 'treso.facture_generer'|trans({}, 'treso') }}
             </a>
         </div>
         {% if is_granted('ROLE_TRESO') %}
             <div class="col-md-3 col-xs-6">
-                <button type="button" class="btn btn-primary"
-                        onclick="location.href='{{ path('MgateTreso_Facture_modifier', {'id': facture.id}) }}';">
+                <a href="{{ path('MgateTreso_Facture_modifier', {'id': facture.id}) }}" class="btn btn-primary">
                     {{ 'treso.facture_modifier'|trans({}, 'treso') }}
-                </button>
+                </a>
             </div>
         {% endif %}
 
         {% if is_granted('ROLE_ADMIN') %}
             <div class="col-md-3 col-xs-6">
-                <button type="button" class="btn btn-danger"
-                        onclick="location.href='{{ path('MgateTreso_Facture_supprimer', {'id': facture.id}) }}';">
-                    {{ 'treso.facture_supprimer'|trans({}, 'treso') }}
-                </button>
+                {{ form_start(delete_form,{'attr': {'class': 'bootbox-confirm',
+                    'data-content':('treso.facture_supprimer_confirm'|trans({}, 'treso')) }}) }}
+                    {{ form_widget(delete_form) }}
+                    <button type="submit" class="btn btn-danger">{{ 'treso.facture_supprimer'|trans({}, 'treso') }}</button>
+                {{ form_end(delete_form) }}
             </div>
         {% endif %}
     </div>
