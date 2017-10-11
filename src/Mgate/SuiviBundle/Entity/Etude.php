@@ -1150,11 +1150,11 @@ class Etude
     /**
      * Add mission.
      *
-     * @param Mission $mission
+     * @param DocType $mission
      *
      * @return Etude
      */
-    public function addMission(Mission $mission)
+    public function addMission(DocType $mission)
     {
         $this->missions[] = $mission;
 
@@ -1164,11 +1164,11 @@ class Etude
     /**
      * Remove missions.
      *
-     * @param Mission $missions
+     * @param DocType $mission
      */
-    public function removeMission(Mission $missions)
+    public function removeMission(DocType $mission)
     {
-        $this->missions->removeElement($missions);
+        $this->missions->removeElement($mission);
     }
 
     /**
