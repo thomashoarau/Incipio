@@ -4,13 +4,15 @@
     {{ 'suivi.proces_verbal_rediger'|trans({}, 'suivi') }} - {{ parent() }}
 {% endblock %}
 
-{% block content_bundle %}
+{% block content_title %}
+    {{ 'suivi.proces_verbal_ajouter'|trans({}, 'suivi') }}
+{% endblock %}
 
-    <h2>{{ 'suivi.proces_verbal_ajouter'|trans({}, 'suivi') }}</h2>
+{% block content_bundle %}
 
     {{ form_start(form) }}
 
-        {{ form_widget(form) }}
+    {% include 'MgateSuiviBundle:ProcesVerbal:formulaire.html.twig' %}
 
         <input type="submit" value="{{ 'suivi.proces_verbal_enregistrer'|trans({}, 'suivi') }}"
                class="btn btn-success"/>

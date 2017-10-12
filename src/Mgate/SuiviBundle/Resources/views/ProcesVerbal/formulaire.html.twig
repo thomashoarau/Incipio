@@ -1,0 +1,52 @@
+<div class="table-responsive">
+    <table class="table table-bordered table-striped standard">
+        <tr>
+            <th>
+                {{ form_label(form.version) }}
+                {{ form_errors(form.version) }}
+            </th>
+            <td>{{ form_widget(form.version, {'attr': {'class': 'form-control'}}) }}</td>
+        </tr>
+        <tr>
+            <th>
+                {{ form_label(form.signataire1) }}
+                {{ form_errors(form.signataire1) }}
+            </th>
+            <td>{{ form_widget(form.signataire1, {'attr': {'class': 'form-control'}}) }}</td>
+        </tr>
+        <tr>
+            <th>
+                {{ form_label(form.knownSignataire2) }}
+                {{ form_errors(form.knownSignataire2) }} {# useless in fact #}
+            </th>
+            <td>{{ form_widget(form.knownSignataire2) }}</td>
+        </tr>
+        <tr>
+            <th>{{ form_label(form.newSignataire2) }}</th>
+            <td>{{ form_widget(form.newSignataire2) }}</td>
+        </tr>
+        <tr>
+            <th>
+                {{ form_label(form.signataire2) }}
+                {{ form_errors(form.signataire2) }}
+            </th>
+            <td>{{ form_widget(form.signataire2, {'attr': {'class': 'form-control'}}) }}</td>
+        </tr>
+        <tr>
+            <th>
+                {{ form_label(form.dateSignature) }}
+                {{ form_errors(form.dateSignature) }}
+            </th>
+            <td>{{ form_widget(form.dateSignature, {'attr': {'class': 'form-control'}}) }}</td>
+        </tr>
+        {% if form.vars.data.phaseID %}
+        <tr>
+            <th>
+                {{ form_label(form.phaseID) }}
+                {{ form_errors(form.phaseID) }}
+            </th>
+            <td>{{ form_widget(form.phaseID, {'attr': {'class': 'form-control'}}) }}</td>
+        </tr>
+        {% endif %}
+    </table>
+</div>

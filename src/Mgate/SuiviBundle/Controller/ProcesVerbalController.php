@@ -49,6 +49,7 @@ class ProcesVerbalController extends Controller
             $form->handleRequest($request);
 
             if ($form->isValid()) {
+                $this->get('Mgate.doctype_manager')->checkSaveNewEmploye($proces);
                 $em->persist($proces);
                 $em->flush();
                 $this->addFlash('success', 'PV ajouté');
@@ -58,6 +59,7 @@ class ProcesVerbalController extends Controller
         }
 
         return $this->render('MgateSuiviBundle:ProcesVerbal:ajouter.html.twig', [
+            'etude' => $etude,
             'form' => $form->createView(),
         ]);
     }
@@ -86,6 +88,7 @@ class ProcesVerbalController extends Controller
             $form->handleRequest($request);
 
             if ($form->isValid()) {
+                $this->get('Mgate.doctype_manager')->checkSaveNewEmploye($procesverbal);
                 $em->persist($procesverbal);
                 $em->flush();
                 $this->addFlash('success', 'PV modifié');
