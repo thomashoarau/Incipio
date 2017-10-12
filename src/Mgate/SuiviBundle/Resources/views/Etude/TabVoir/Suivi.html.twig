@@ -281,7 +281,7 @@
     {% endfor %}
     {% if etude.pvr %}
         <tr>
-            <td><a title="{{ 'suivi.modifier'|trans({}, 'suivi') }}" href="{{ path('MgateSuivi_procesverbal_rediger', {'id': etude.id, 'type': 'pvr'}) }}"><span class="fa fa-pencil"></span></a>
+            <td><a title="{{ 'suivi.modifier'|trans({}, 'suivi') }}" href="{{ path('MgateSuivi_procesverbal_modifier', {'id': etude.pvr.id}) }}"><span class="fa fa-pencil"></span></a>
                 &nbsp;&nbsp;&nbsp;
                 <a title="{{ 'suivi.telecharger'|trans({}, 'suivi') }}" href="{{ path('Mgate_publi_publiposter',
                                         { 'templateName' :  constant('\\Mgate\\PubliBundle\\Controller\\TraitementController::DOCTYPE_PROCES_VERBAL_FINAL'),

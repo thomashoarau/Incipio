@@ -32,7 +32,7 @@ class EtudeType extends AbstractType
 
             ->add('knownProspect', CheckboxType::class, [
                 'required' => false,
-                'label' => 'Le signataire client existe-t-il déjà dans la base de donnée ?',
+                'label' => 'Le client existe-t-il déjà dans la base de donnée ?',
                 ])
              ->add('prospect', Select2EntityType::class, [
                 'class' => 'Mgate\PersonneBundle\Entity\Prospect',
