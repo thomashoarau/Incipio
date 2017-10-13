@@ -20,9 +20,10 @@ monolog:
             type:    group
             members: [nested, buffered]
         nested:
-            type:  stream
+            type:  rotating_file
             path:  "%kernel.logs_dir%/%kernel.environment%.log"
             level: error
+            max_files: 16
         buffered:
             type:    buffer
             handler: swift
