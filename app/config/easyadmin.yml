@@ -9,6 +9,8 @@ easy_admin:
                 - 'id'
                 - 'etude'
                 - 'objet'
+        ContactClient:
+            class: Mgate\SuiviBundle\Entity\ClientContact
         Competence:
             class: N7consulting\RhBundle\Entity\Competence
         Employe:
