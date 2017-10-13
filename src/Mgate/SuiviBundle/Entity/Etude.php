@@ -147,7 +147,6 @@ class Etude
 
     /**
      * @Assert\Valid()
-     * @Assert\NotNull()
      * @ORM\ManyToOne(targetEntity="Mgate\PersonneBundle\Entity\Prospect", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
@@ -299,7 +298,7 @@ class Etude
     private $knownProspect = false;
 
     /**
-     * @var bool
+     * @var Prospect
      */
     private $newProspect;
 
@@ -1150,11 +1149,11 @@ class Etude
     /**
      * Add mission.
      *
-     * @param Mission $mission
+     * @param DocType $mission
      *
      * @return Etude
      */
-    public function addMission(Mission $mission)
+    public function addMission(DocType $mission)
     {
         $this->missions[] = $mission;
 
@@ -1164,11 +1163,11 @@ class Etude
     /**
      * Remove missions.
      *
-     * @param Mission $missions
+     * @param DocType $mission
      */
-    public function removeMission(Mission $missions)
+    public function removeMission(DocType $mission)
     {
-        $this->missions->removeElement($missions);
+        $this->missions->removeElement($mission);
     }
 
     /**

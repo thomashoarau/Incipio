@@ -8,6 +8,14 @@
     {{ 'treso.note_frais'|trans({}, 'treso') }} {{ nf.mandat }}-NF{{ nf.numero }}-{{ nf.demandeur.membre.identifiant }}
 {% endblock %}
 
+{% block breadcrumb_items %}
+    <li><a href="{{ path('MgateTreso_NoteDeFrais_index') }}">{{ 'treso.note_frais_liste'|trans({}, 'treso') }}</a></li>
+{% endblock %}
+
+{% block breadcrumb_active %}
+    {{ 'treso.note_frais'|trans({}, 'treso') }} {{ nf.mandat }}-NF{{ nf.numero }}-{{ nf.demandeur.membre.identifiant }}
+{% endblock %}
+
 {% block content_bundle %}
     <table class="table table-bordered table-striped">
         <tr>

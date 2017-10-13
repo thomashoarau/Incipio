@@ -75,7 +75,7 @@ class RelatedDocument
      *
      * @param Document $document
      *
-     * @return CategorieDocument
+     * @return RelatedDocument
      */
     public function setDocument(Document $document = null)
     {
@@ -99,7 +99,7 @@ class RelatedDocument
      *
      * @param Membre $membre
      *
-     * @return CategorieDocument
+     * @return RelatedDocument
      */
     public function setMembre(Membre $membre = null)
     {
@@ -123,7 +123,7 @@ class RelatedDocument
      *
      * @param Etude $etude
      *
-     * @return CategorieDocument
+     * @return RelatedDocument
      */
     public function setEtude(Etude $etude = null)
     {
@@ -147,7 +147,7 @@ class RelatedDocument
      *
      * @param Formation $formation
      *
-     * @return CategorieDocument
+     * @return RelatedDocument
      */
     public function setFormation(Formation $formation = null)
     {
@@ -171,7 +171,7 @@ class RelatedDocument
      *
      * @param Prospect $prospect
      *
-     * @return CategorieDocument
+     * @return RelatedDocument
      */
     public function setProspect(Prospect $prospect = null)
     {

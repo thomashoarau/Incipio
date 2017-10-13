@@ -109,7 +109,7 @@ class Prospect extends Adressable
     /**
      * Get thread.
      *
-     * @return Mgate\CommentBundle\Entity\Thread
+     * @return Thread
      */
     public function getThread()
     {
@@ -119,7 +119,7 @@ class Prospect extends Adressable
     /**
      * Add employes.
      *
-     * @param Mgate\PersonneBundle\Entity\Employe $employes
+     * @param Employe $employes
      *
      * @return Prospect
      */
@@ -133,7 +133,7 @@ class Prospect extends Adressable
     /**
      * Remove employes.
      *
-     * @param Mgate\PersonneBundle\Entity\Employe $employes
+     * @param Employe $employes
      */
     public function removeEmploye(Employe $employes)
     {
@@ -143,7 +143,7 @@ class Prospect extends Adressable
     /**
      * Get employes.
      *
-     * @return Doctrine\Common\Collections\Collection
+     * @return ArrayCollection
      */
     public function getEmployes()
     {

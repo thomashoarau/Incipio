@@ -1,5 +1,5 @@
 parameters:
-###configuration par defaut, local, wamp
+###configuration par defaut: docker installation
     database_driver:   pdo_mysql
     database_host:     database
     database_port:     ~
@@ -13,7 +13,7 @@ parameters:
     mailer_user:       ~
     mailer_password:   ~
     
-    su_mail:      contact@N7consulting.fr
+    su_mail:      '%env(TECHNICAL_TO)%'
     su_username:  admin
     su_password:  admin
     
@@ -28,7 +28,7 @@ parameters:
     technical_from: '%env(TECHNICAL_FROM)%'
     technical_to:  '%env(TECHNICAL_TO)%'
     technical_host: '%env(TECHNICAL_HOST)%'
-    #defaults value to make jeyser work even though, env vars are unset.
+    #defaults value to make jeyser work even though, env vars are not set.
     env(TECHNICAL_FROM): no-reply@jeyser-crm.local
     env(TECHNICAL_TO): dsi@jeyser-crm.local
     env(TECHNICAL_HOST): jeyser-crm.localdomain.local

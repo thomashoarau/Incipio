@@ -16,14 +16,13 @@ use Doctrine\ORM\Mapping as ORM;
 use Mgate\PersonneBundle\Entity\Prospect;
 use Mgate\PubliBundle\Controller\TraitementController;
 use Mgate\SuiviBundle\Entity\Etude;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * FV.
- *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Mgate\TresoBundle\Entity\FactureRepository")
  */
-class Facture
+class Facture implements TresoDetailableInterface
 {
     const TYPE_ACHAT = 1;
     const TYPE_VENTE = 2;
@@ -47,6 +46,7 @@ class Facture
     protected $etude;
 
     /**
+     * @Assert\NotNull()
      * @ORM\ManyToOne(targetEntity="Mgate\PersonneBundle\Entity\Prospect", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
@@ -54,14 +54,14 @@ class Facture
 
     /**
      * @var int
-     *
+     * @Assert\NotBlank()
      * @ORM\Column(name="exercice", type="smallint")
      */
     private $exercice;
 
     /**
      * @var int
-     *
+     * @Assert\NotBlank()
      * @ORM\Column(name="numero", type="smallint")
      */
     private $numero;
@@ -69,14 +69,16 @@ class Facture
     /**
      * @var int
      * @abstract 1 is Achat, > 2 is vente
-     *
+     * @Assert\NotBlank()
+     * @Assert\GreaterThanOrEqual(1)
+     * @Assert\LessThanOrEqual(5)
      * @ORM\Column(name="type", type="smallint", nullable=false)
      */
     private $type;
 
     /**
      * @var \DateTime
-     *
+     * @Assert\NotBlank()
      * @ORM\Column(name="dateEmission", type="date", nullable=false)
      */
     private $dateEmission;
@@ -89,20 +91,20 @@ class Facture
     private $dateVersement;
 
     /**
-     * @ORM\OneToMany(targetEntity="FactureDetail", mappedBy="facture", cascade={"persist", "detach", "remove"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="FactureDetail", mappedBy="facture", cascade="all", orphanRemoval=true)
      */
     private $details;
 
     /**
-     * @ORM\Column(name="objet", type="text", nullable=false)
-     *
      * @var string
+     * @Assert\NotBlank()
+     * @ORM\Column(name="objet", type="text", nullable=false)
      */
     private $objet;
 
     /**
-     * @ORM\OneToOne(targetEntity="FactureDetail", cascade={"persist", "merge", "refresh", "remove"})
-     * @ORM\JoinColumn(referencedColumnName="id", nullable=true)
+     * @ORM\OneToOne(targetEntity="FactureDetail", cascade="all", orphanRemoval=true)
+     * @ORM\JoinColumn(referencedColumnName="id", nullable=true, onDelete="CASCADE")
      */
     private $montantADeduire;
 
@@ -376,7 +378,7 @@ class Facture
      *
      * @param string $objet
      *
-     * @return NoteDeFrais
+     * @return Facture
      */
     public function setObjet($objet)
     {
@@ -400,7 +402,7 @@ class Facture
      *
      * @param Etude $etude
      *
-     * @return BV
+     * @return Facture
      */
     public function setEtude(Etude $etude = null)
     {

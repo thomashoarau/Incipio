@@ -12,14 +12,13 @@
 namespace Mgate\TresoBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * NoteDeFraisDetail.
- *
  * @ORM\Table()
  * @ORM\Entity
  */
-class NoteDeFraisDetail
+class NoteDeFraisDetail implements TresoDetailInterface
 {
     /**
      * @var int
@@ -38,6 +37,8 @@ class NoteDeFraisDetail
 
     /**
      * @var string
+     *
+     * @Assert\NotBlank()
      *
      * @ORM\Column(name="description", type="text", nullable=false)
      */
@@ -59,6 +60,8 @@ class NoteDeFraisDetail
 
     /**
      * @var int
+     *
+     * @Assert\NotBlank()
      *
      * @ORM\Column(name="type", type="smallint", nullable=false)
      */
@@ -270,30 +273,6 @@ class NoteDeFraisDetail
     public function getTauxKm()
     {
         return $this->tauxKm;
-    }
-
-    /**
-     * Set categorie.
-     *
-     * @param int $categorie
-     *
-     * @return NoteDeFraisDetail
-     */
-    public function setCategorie($categorie)
-    {
-        $this->categorie = $categorie;
-
-        return $this;
-    }
-
-    /**
-     * Get categorie.
-     *
-     * @return int
-     */
-    public function getCategorie()
-    {
-        return $this->categorie;
     }
 
     /**

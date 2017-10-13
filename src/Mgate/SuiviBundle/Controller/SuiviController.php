@@ -11,6 +11,7 @@
 
 namespace Mgate\SuiviBundle\Controller;
 
+use Mgate\SuiviBundle\Entity\Etude;
 use Mgate\SuiviBundle\Entity\Suivi;
 use Mgate\SuiviBundle\Form\Type\SuiviType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -43,14 +44,15 @@ class SuiviController extends Controller
 
     /**
      * @Security("has_role('ROLE_CA')")
+     *
+     * @param Request $request
+     * @param Etude   $etude
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function addAction(Request $request, $id)
+    public function addAction(Request $request, Etude $etude)
     {
         $em = $this->getDoctrine()->getManager();
-
-        if (!$etude = $em->getRepository('Mgate\SuiviBundle\Entity\Etude')->find($id)) {
-            throw $this->createNotFoundException('L\'étude n\'existe pas !');
-        }
 
         $suivi = new Suivi();
         $suivi->setEtude($etude);
@@ -85,17 +87,13 @@ class SuiviController extends Controller
 
     /**
      * @Security("has_role('ROLE_CA')")
+     *
+     * @param Suivi $suivi
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function voirAction($id)
+    public function voirAction(Suivi $suivi)
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $suivi = $em->getRepository('MgateSuiviBundle:Suivi')->find($id);
-
-        if (!$suivi) {
-            throw $this->createNotFoundException('Ce suivi n\'existe pas !');
-        }
-
         $etude = $suivi->getEtude();
         $suivis = $etude->getSuivis()->toArray();
         usort($suivis, [$this, 'compareDate']);
@@ -110,13 +108,9 @@ class SuiviController extends Controller
     /**
      * @Security("has_role('ROLE_CA')")
      */
-    public function modifierAction(Request $request, $id)
+    public function modifierAction(Request $request, Suivi $suivi)
     {
         $em = $this->getDoctrine()->getManager();
-
-        if (!$suivi = $em->getRepository('Mgate\SuiviBundle\Entity\Suivi')->find($id)) {
-            throw $this->createNotFoundException('Ce suivi n\'existe pas !');
-        }
 
         $form = $this->createForm(SuiviType::class, $suivi);
 

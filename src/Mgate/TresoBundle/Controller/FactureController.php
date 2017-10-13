@@ -11,12 +11,17 @@
 
 namespace Mgate\TresoBundle\Controller;
 
+use Mgate\SuiviBundle\Entity\Phase;
 use Mgate\TresoBundle\Entity\Facture as Facture;
 use Mgate\TresoBundle\Entity\FactureDetail as FactureDetail;
 use Mgate\TresoBundle\Form\Type\FactureType as FactureType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class FactureController extends Controller
 {
@@ -33,29 +38,42 @@ class FactureController extends Controller
 
     /**
      * @Security("has_role('ROLE_TRESO')")
+     *
+     * @param Facture $facture
+     *
+     * @return Response
      */
-    public function voirAction($id)
+    public function voirAction(Facture $facture)
     {
-        $em = $this->getDoctrine()->getManager();
-        if (!$facture = $em->getRepository('MgateTresoBundle:Facture')->find($id)) {
-            throw $this->createNotFoundException('La Facture n\'existe pas !');
-        }
+        $deleteForm = $this->createDeleteForm($facture);
 
-        return $this->render('MgateTresoBundle:Facture:voir.html.twig', ['facture' => $facture]);
+        return $this->render('MgateTresoBundle:Facture:voir.html.twig', ['facture' => $facture,
+            'delete_form' => $deleteForm->createView(),
+        ]);
     }
 
     /**
      * @Security("has_role('ROLE_TRESO')")
+     *
+     * @param Request $request
+     * @param $id
+     * @param $etude_id
+     *
+     * @return RedirectResponse|Response
      */
     public function modifierAction(Request $request, $id, $etude_id)
     {
         $em = $this->getDoctrine()->getManager();
-        $tauxTVA = 20.0;
+        $keyValueStore = $this->get('app.json_key_value_store');
+        if (!$keyValueStore->exists('tva')) {
+            throw new \RuntimeException('Le paramètres tva n\'est pas disponible.');
+        }
+        $tauxTVA = 100 * $keyValueStore->get('tva'); // former value: 20, tva is stored as 0.2 in key-value store
         $compteEtude = 705000;
         $compteFrais = 708500;
         $compteAcompte = 419100;
-        if ($this->get('app.json_key_value_store')->exists('namingConvention')) {
-            $namingConvention = $this->get('app.json_key_value_store')->get('namingConvention');
+        if ($keyValueStore->exists('namingConvention')) {
+            $namingConvention = $keyValueStore->get('namingConvention');
         } else {
             $namingConvention = 'id';
         }
@@ -92,6 +110,7 @@ class FactureController extends Controller
                     }
 
                     $totalTTC = 0;
+                    /** @var Phase $phase */
                     foreach ($etude->getPhases() as $phase) {
                         $detail = new FactureDetail();
                         $detail->setCompte($em->getRepository('MgateTresoBundle:Compte')->findOneBy(['numero' => $compteEtude]));
@@ -106,9 +125,9 @@ class FactureController extends Controller
                     }
                     $detail = new FactureDetail();
                     $detail->setCompte($em->getRepository('MgateTresoBundle:Compte')->findOneBy(['numero' => $compteFrais]))
-                           ->setFacture($facture)
-                           ->setDescription('Frais de dossier')
-                           ->setMontantHT($etude->getFraisDossier());
+                        ->setFacture($facture)
+                        ->setDescription('Frais de dossier')
+                        ->setMontantHT($etude->getFraisDossier());
                     $facture->addDetail($detail);
                     $detail->setTauxTVA($tauxTVA);
 
@@ -139,32 +158,53 @@ class FactureController extends Controller
 
                 return $this->redirect($this->generateUrl('MgateTreso_Facture_voir', ['id' => $facture->getId()]));
             }
+            $this->addFlash('danger', 'Le formulaire contient des erreurs.');
         }
 
         return $this->render('MgateTresoBundle:Facture:modifier.html.twig', [
-                    'form' => $form->createView(),
-                ]);
+            'form' => $form->createView(),
+        ]);
     }
 
     /**
      * @Security("has_role('ROLE_ADMIN')")
+     *
+     * @param Facture $facture
+     * @param Request $request
+     *
+     * @return RedirectResponse
      */
-    public function supprimerAction($id)
+    public function supprimerAction(Facture $facture, Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
+        $form = $this->createDeleteForm($facture);
 
-        if (!$facture = $em->getRepository('MgateTresoBundle:Facture')->find($id)) {
-            throw $this->createNotFoundException('La Facture n\'existe pas !');
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+
+            $em->remove($facture);
+            $em->flush();
+
+            $this->addFlash('success', 'Facture supprimée');
+        } else {
+            $this->addFlash('danger', 'Erreur dans le formulaire');
         }
 
-        foreach ($facture->getDetails() as $detail) {
-            $em->remove($detail);
-        }
-        $em->flush();
+        return $this->redirectToRoute('MgateTreso_Facture_index');
+    }
 
-        $em->remove($facture);
-        $em->flush();
-
-        return $this->redirect($this->generateUrl('MgateTreso_Facture_index', []));
+    /**
+     * @param Facture $facture
+     *
+     * @return FormInterface
+     */
+    private function createDeleteForm(Facture $facture)
+    {
+        return $this->createFormBuilder(['id' => $facture->getId()])
+            ->add('id', HiddenType::class)
+            ->setmethod('DELETE')
+            ->setAction($this->generateUrl('MgateTreso_Facture_supprimer', ['id' => $facture->getId()]))
+            ->getForm();
     }
 }

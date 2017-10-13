@@ -46,7 +46,7 @@ class ClientContactController extends Controller
             throw $this->createNotFoundException('L\'étude n\'existe pas !');
         }
 
-        if ($this->get('Mgate.etude_manager')->confidentielRefus($etude, $this->getUser(), $this->get('security.authorization_checker'))) {
+        if ($this->get('Mgate.etude_manager')->confidentielRefus($etude, $this->getUser())) {
             throw new AccessDeniedException('Cette étude est confidentielle');
         }
 
@@ -89,7 +89,7 @@ class ClientContactController extends Controller
 
         $etude = $contactClient->getEtude();
 
-        if ($this->get('Mgate.etude_manager')->confidentielRefus($etude, $this->getUser(), $this->get('security.authorization_checker'))) {
+        if ($this->get('Mgate.etude_manager')->confidentielRefus($etude, $this->getUser())) {
             throw new AccessDeniedException('Cette étude est confidentielle');
         }
 
@@ -117,7 +117,7 @@ class ClientContactController extends Controller
 
         $etude = $clientcontact->getEtude();
 
-        if ($this->get('Mgate.etude_manager')->confidentielRefus($etude, $this->getUser(), $this->get('security.authorization_checker'))) {
+        if ($this->get('Mgate.etude_manager')->confidentielRefus($etude, $this->getUser())) {
             throw new AccessDeniedException('Cette étude est confidentielle');
         }
 

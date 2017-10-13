@@ -31,6 +31,8 @@ class ProcesVerbal extends DocType
     private $id;
 
     /**
+     * @var Etude
+     *
      * @ORM\ManyToOne(targetEntity="Etude", inversedBy="procesVerbaux", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      */
@@ -50,6 +52,13 @@ class ProcesVerbal extends DocType
      * @ORM\Column(name="type", type="text", nullable=true)
      */
     private $type;
+
+    /**
+     * Array used during one of the processing. Declared here to avoid dynamically declared field.
+     *
+     * @var array
+     */
+    private $phaseIDs;
 
     /*
     * ADDITIONAL
@@ -72,7 +81,7 @@ class ProcesVerbal extends DocType
     /**
      * Set etude.
      *
-     * @param Mgate\SuiviBundle\Entity\Etude $etude
+     * @param Etude $etude
      *
      * @return ProcesVerbal
      */
@@ -86,7 +95,7 @@ class ProcesVerbal extends DocType
     /**
      * Get etude.
      *
-     * @return Mgate\SuiviBundle\Entity\Etude
+     * @return Etude
      */
     public function getEtude()
     {

@@ -18,6 +18,7 @@ use Mgate\UserBundle\Entity\User;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -34,7 +35,7 @@ class EtudeController extends Controller
     /**
      * @Security("has_role('ROLE_SUIVEUR')")
      */
-    public function indexAction($page)
+    public function indexAction()
     {
         $MANDAT_MAX = $this->get('Mgate.etude_manager')->getMaxMandat();
         $MANDAT_MIN = $this->get('Mgate.etude_manager')->getMinMandat();
@@ -85,22 +86,23 @@ class EtudeController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         if ($request->getMethod() == 'GET') {
-            $mandat = $request->query->get('mandat');
-            $stateID = $request->query->get('stateID');
+            $mandat = intval($request->query->get('mandat'));
+            $stateID = intval($request->query->get('stateID'));
 
-            // CHECK VAR ATTENTION INJECTION SQL ?
-            $etudes = $em->getRepository('MgateSuiviBundle:Etude')->findBy(['stateID' => $stateID, 'mandat' => $mandat], ['num' => 'DESC']);
+            if (!empty($mandat) && !empty($stateID)) { // works because state & mandat > 0
+                $etudes = $em->getRepository('MgateSuiviBundle:Etude')->findBy(['stateID' => $stateID, 'mandat' => $mandat], ['num' => 'DESC']);
 
-            if ($stateID == self::STATE_ID_TERMINEE) {
-                return $this->render('MgateSuiviBundle:Etude:Tab/EtudesTerminees.html.twig', ['etudes' => $etudes]);
-            } elseif ($stateID == self::STATE_ID_AVORTEE) {
-                return $this->render('MgateSuiviBundle:Etude:Tab/EtudesAvortees.html.twig', ['etudes' => $etudes]);
+                if ($stateID == self::STATE_ID_TERMINEE) {
+                    return $this->render('MgateSuiviBundle:Etude:Tab/EtudesTerminees.html.twig', ['etudes' => $etudes]);
+                } elseif ($stateID == self::STATE_ID_AVORTEE) {
+                    return $this->render('MgateSuiviBundle:Etude:Tab/EtudesAvortees.html.twig', ['etudes' => $etudes]);
+                }
             }
-        } else {
-            return $this->render('MgateSuiviBundle:Etude:Tab/EtudesAvortees.html.twig', [
-                'etudes' => null,
-            ]);
         }
+
+        return $this->render('MgateSuiviBundle:Etude:Tab/EtudesAvortees.html.twig', [
+            'etudes' => null,
+        ]);
     }
 
     /**
@@ -178,8 +180,8 @@ class EtudeController extends Controller
         }
 
         return $this->render('MgateSuiviBundle:Etude:ajouter.html.twig', [
-            'form' => $form->createView(),
-                ]
+                'form' => $form->createView(),
+            ]
         );
     }
 
@@ -190,7 +192,7 @@ class EtudeController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        if ($this->get('Mgate.etude_manager')->confidentielRefus($etude, $this->getUser(), $this->get('security.authorization_checker'))) {
+        if ($this->get('Mgate.etude_manager')->confidentielRefus($etude, $this->getUser())) {
             throw new AccessDeniedException('Cette étude est confidentielle');
         }
 
@@ -217,7 +219,7 @@ class EtudeController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        if ($this->get('Mgate.etude_manager')->confidentielRefus($etude, $this->getUser(), $this->get('security.authorization_checker'))) {
+        if ($this->get('Mgate.etude_manager')->confidentielRefus($etude, $this->getUser())) {
             throw new AccessDeniedException('Cette étude est confidentielle');
         }
 
@@ -268,7 +270,7 @@ class EtudeController extends Controller
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
 
-            if ($this->get('Mgate.etude_manager')->confidentielRefus($etude, $this->getUser(), $this->get('security.authorization_checker'))) {
+            if ($this->get('Mgate.etude_manager')->confidentielRefus($etude, $this->getUser())) {
                 throw new AccessDeniedException('Cette étude est confidentielle');
             }
 
@@ -329,12 +331,13 @@ class EtudeController extends Controller
         }
         $id = 0;
         foreach (array_reverse($etudesParMandat) as $etudesInMandat) {
+            /** @var Etude $etude */
             foreach ($etudesInMandat as $etude) {
                 $form = $form->add((string) (2 * $id), HiddenType::class,
                     ['label' => 'refEtude',
                         'data' => $etude->getReference($namingConvention), ]
                 )
-                    ->add((string) (2 * $id + 1), 'textarea', ['label' => $etude->getReference($namingConvention),
+                    ->add((string) (2 * $id + 1), TextareaType::class, ['label' => $etude->getReference($namingConvention),
                         'required' => false, 'data' => $etude->getStateDescription(), ]);
                 ++$id;
                 if ($etude->getStateID() == self::STATE_ID_EN_COURS) {
@@ -399,17 +402,17 @@ class EtudeController extends Controller
 
     /**
      * @Security("has_role('ROLE_SUIVEUR')")
+     *
+     * @param Request $request
+     * @param Etude   $etude
+     *
+     * @return JsonResponse
      */
-    public function suiviUpdateAction(Request $request, $id)
+    public function suiviUpdateAction(Request $request, Etude $etude)
     {
         $em = $this->getDoctrine()->getManager();
-        $etude = $em->getRepository('MgateSuiviBundle:Etude')->find($id);
 
-        if (!$etude) {
-            throw $this->createNotFoundException('Unable to find Etude entity.');
-        }
-
-        if ($this->get('Mgate.etude_manager')->confidentielRefus($etude, $this->getUser(), $this->get('security.authorization_checker'))) {
+        if ($this->get('Mgate.etude_manager')->confidentielRefus($etude, $this->getUser())) {
             throw new AccessDeniedException('Cette étude est confidentielle');
         }
 

@@ -89,7 +89,7 @@ class TraitementController extends Controller
                 if (!$rootObject = $em->getRepository('Mgate\SuiviBundle\Entity\Etude')->find($rootObject_id)) {
                     throw $errorRootObjectNotFound;
                 }
-                if ($this->get('Mgate.etude_manager')->confidentielRefus($rootObject, $this->getUser(), $this->get('security.authorization_checker'))) {
+                if ($this->get('Mgate.etude_manager')->confidentielRefus($rootObject, $this->getUser())) {
                     throw $errorEtudeConfidentielle;
                 }
                 break;
@@ -107,7 +107,8 @@ class TraitementController extends Controller
                 if (!$rootObject = $em->getRepository('Mgate\TresoBundle\Entity\Facture')->find($rootObject_id)) {
                     throw $errorRootObjectNotFound;
                 }
-                if ($rootObject->getEtude() && $this->get('Mgate.etude_manager')->confidentielRefus($rootObject->getEtude(), $this->getUser(), $this->get('security.authorization_checker'))) {
+                if ($rootObject->getEtude() &&
+                    $this->get('Mgate.etude_manager')->confidentielRefus($rootObject->getEtude(), $this->getUser())) {
                     throw $errorEtudeConfidentielle;
                 }
                 break;
@@ -120,7 +121,8 @@ class TraitementController extends Controller
                 if (!$rootObject = $em->getRepository('Mgate\TresoBundle\Entity\BV')->find($rootObject_id)) {
                     throw $errorRootObjectNotFound;
                 }
-                if ($rootObject->getMission() && $rootObject->getMission()->getEtude() && $this->get('Mgate.etude_manager')->confidentielRefus($rootObject->getMission()->getEtude(), $this->getUser(), $this->get('security.authorization_checker'))) {
+                if ($rootObject->getMission() && $rootObject->getMission()->getEtude() &&
+                    $this->get('Mgate.etude_manager')->confidentielRefus($rootObject->getMission()->getEtude(), $this->getUser())) {
                     throw $errorEtudeConfidentielle;
                 }
                 break;
@@ -128,7 +130,8 @@ class TraitementController extends Controller
                 if (!$rootObject = $em->getRepository('Mgate\SuiviBundle\Entity\ProcesVerbal')->find($rootObject_id)) {
                     throw $errorRootObjectNotFound;
                 }
-                if ($rootObject->getEtude() && $this->get('Mgate.etude_manager')->confidentielRefus($rootObject->getEtude(), $this->getUser(), $this->get('security.authorization_checker'))) {
+                if ($rootObject->getEtude() &&
+                    $this->get('Mgate.etude_manager')->confidentielRefus($rootObject->getEtude(), $this->getUser())) {
                     throw $errorEtudeConfidentielle;
                 }
                 break;

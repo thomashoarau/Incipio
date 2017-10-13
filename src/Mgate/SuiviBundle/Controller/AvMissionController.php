@@ -47,7 +47,7 @@ class AvMissionController extends Controller
             throw $this->createNotFoundException('Article[id=' . $id . '] inexistant');
         }
 
-        if ($this->get('Mgate.etude_manager')->confidentielRefus($etude, $this->getUser(), $this->get('security.authorization_checker'))) {
+        if ($this->get('Mgate.etude_manager')->confidentielRefus($etude, $this->getUser())) {
             throw new AccessDeniedException('Cette étude est confidentielle');
         }
 
@@ -80,7 +80,7 @@ class AvMissionController extends Controller
 
         $etude = $entity->getEtude();
 
-        if ($this->get('Mgate.etude_manager')->confidentielRefus($etude, $this->getUser(), $this->get('security.authorization_checker'))) {
+        if ($this->get('Mgate.etude_manager')->confidentielRefus($etude, $this->getUser())) {
             throw new AccessDeniedException('Cette étude est confidentielle');
         }
 
@@ -102,7 +102,7 @@ class AvMissionController extends Controller
 
         $etude = $avmission->getEtude();
 
-        if ($this->get('Mgate.etude_manager')->confidentielRefus($etude, $this->getUser(), $this->get('security.authorization_checker'))) {
+        if ($this->get('Mgate.etude_manager')->confidentielRefus($etude, $this->getUser())) {
             throw new AccessDeniedException('Cette étude est confidentielle');
         }
 

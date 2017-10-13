@@ -174,7 +174,7 @@ class Phase
     /**
      * Set etude.
      *
-     * @param Mgate\SuiviBundle\Entity\Etude $etude
+     * @param Etude $etude
      *
      * @return Phase
      */
@@ -188,7 +188,7 @@ class Phase
     /**
      * Get etude.
      *
-     * @return Mgate\SuiviBundle\Entity\Etude
+     * @return Etude
      */
     public function getEtude()
     {
@@ -198,7 +198,7 @@ class Phase
     /**
      * Set etude.
      *
-     * @param Mgate\SuiviBundle\Entity\GroupePhases $groupe
+     * @param GroupePhases $groupe
      *
      * @return Phase
      */
@@ -212,7 +212,7 @@ class Phase
     /**
      * Get groupe.
      *
-     * @return Mgate\SuiviBundle\Entity\GroupePhases
+     * @return GroupePhases
      */
     public function getGroupe()
     {
@@ -510,7 +510,7 @@ class Phase
      *
      * @param int $etatSurAvenant
      *
-     * @return Pha
+     * @return Phase
      */
     public function setEtatSurAvenant($etatSurAvenant)
     {

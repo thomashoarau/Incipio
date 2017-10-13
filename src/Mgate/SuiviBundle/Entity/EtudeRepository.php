@@ -75,10 +75,15 @@ class EtudeRepository extends EntityRepository
     }
 
     /**
-     * @param $etat array variable pour récuperer les études selon leurs etats d'avancement
-     * @param $order array tableau des champs sur lesquels ordonnés les études.
      * Requete spéciale pour afficher le pipeline des études.
-     * A permis de réduire le nombre de requetes de 109 à 34. Il est possible de réduire encore plus le nombre de requetes, mais la page se met alors à diverger en temps, car les reuqtes sont de plus en plus longues
+     * A permis de réduire le nombre de requetes de 109 à 34.
+     * Il est possible de réduire encore plus le nombre de requetes, mais la page se met alors
+     * à diverger en temps, car les requetes sont de plus en plus longues.
+     *
+     * @param array      $etat   pour récuperer les études selon leurs etats d'avancement
+     * @param array|null $orders tableau des champs sur lesquels ordonner les études
+     *
+     * @return array
      */
     public function getPipeline(array $etat, array $orders = null)
     {
@@ -152,8 +157,8 @@ class EtudeRepository extends EntityRepository
     }
 
     /**
-     * @param $search string a pattern we'd like to search in etudes' name
-     * @param int $limit the number of etudes that research should return
+     * @param string $search a pattern we'd like to search in etudes' name
+     * @param int    $limit  the number of etudes that research should return
      *
      * @return array
      */
@@ -168,5 +173,29 @@ class EtudeRepository extends EntityRepository
         $query = $qb->getQuery();
 
         return $query->getResult();
+    }
+
+    /**
+     * Calculate the sum of CA for a given state (and mandat).
+     *
+     * @param int  $state  state of the etudes to sum
+     * @param null $mandat
+     *
+     * @return int
+     */
+    public function getCaByState(int $state, $mandat = null)
+    {
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('sum(p.nbrJEH * p.prixJEH) as montant')
+            ->from('MgateSuiviBundle:Phase', 'p')
+            ->leftJoin('p.etude', 'e')
+            ->where('e.stateID = :stateId')
+            ->setParameter('stateId', $state);
+        if ($mandat) {
+            $qb->andWhere('e.mandat = :mandat')
+                ->setParameter('mandat', $mandat);
+        }
+
+        return $qb->getQuery()->getSingleScalarResult();
     }
 }

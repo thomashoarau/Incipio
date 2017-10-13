@@ -13,11 +13,9 @@
 
 <nav class="navbar" role="navigation">
     <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ap">
+        <button type="button" class="navbar-toggle text-black" data-toggle="collapse" data-target=".navbar-ap">
             <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
+            <span class="fa fa-bars" ></span>
         </button>
             <span class="navbar-brand titre" data-toggle="collapse" data-target="#ap"><span class="fa fa-chevron-down"></span> {{ 'suivi.avant_projet'|trans({}, 'suivi') }} - v{{etude.ap.version | default('')}}</span>
      </div>
@@ -65,11 +63,9 @@
 
 <nav class="navbar" role="navigation">
     <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-cc">
+        <button type="button" class="navbar-toggle text-black" data-toggle="collapse" data-target=".navbar-cc">
             <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
+            <span class="fa fa-bars" ></span>
         </button>
         <span class="navbar-brand titre" data-toggle="collapse" data-target="#cc"><span class="fa fa-chevron-down"></span> {{ 'suivi.convention_client'|trans({}, 'suivi') }} - v{{etude.cc.version | default('')}}</span>
      </div>
@@ -107,11 +103,9 @@
 
 <nav class="navbar" role="navigation">
     <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-rm">
+        <button type="button" class="navbar-toggle text-black" data-toggle="collapse" data-target=".navbar-rm">
             <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
+            <span class="fa fa-bars" ></span>
         </button>
         <span class="navbar-brand titre"  data-toggle="collapse" data-target="#rm"><span class="fa fa-chevron-down"></span> {{ 'suivi.recapitulatif_mission'|trans({}, 'suivi') }}</span>
      </div>
@@ -176,11 +170,9 @@
 
 <nav class="navbar" role="navigation">
     <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-fs">
+        <button type="button" class="navbar-toggle text-black" data-toggle="collapse" data-target=".navbar-fs">
             <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
+            <span class="fa fa-bars" ></span>
         </button>
         <span class="navbar-brand titre" data-toggle="collapse" data-target="#fa"><span class="fa fa-chevron-down"></span> {{ 'suivi.factures'|trans({}, 'suivi') }}</span>
      </div>
@@ -240,11 +232,9 @@
 
 <nav class="navbar" role="navigation">
     <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-pvs">
+        <button type="button" class="navbar-toggle text-black" data-toggle="collapse" data-target=".navbar-pvs">
             <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
+            <span class="fa fa-bars" ></span>
         </button>
         <span class="navbar-brand titre" data-toggle="collapse" data-target="#pvs"><span class="fa fa-chevron-down"></span> {{ 'suivi.proces_verbaux'|trans({}, 'suivi') }}</span>
      </div>
@@ -266,7 +256,7 @@
     {% for pvi in etude.pvis %}
         <tr>
             <td style="width: 100px;">
-                <a title="{{ 'suivi.modifier'|trans({}, 'suivi') }}" href="{{ path('MgateSuivi_procesverbal_modifier', {'id_pv': pvi.id}) }}"><span class="fa fa-pencil"></span></a>
+                <a title="{{ 'suivi.modifier'|trans({}, 'suivi') }}" href="{{ path('MgateSuivi_procesverbal_modifier', {'id': pvi.id}) }}"><span class="fa fa-pencil"></span></a>
                 &nbsp;&nbsp;&nbsp;
                 <a title="{{ 'suivi.telecharger'|trans({}, 'suivi') }}" href="{{ path('Mgate_publi_publiposter',
                                         { 'templateName' :  constant('\\Mgate\\PubliBundle\\Controller\\TraitementController::DOCTYPE_PROCES_VERBAL_INTERMEDIAIRE'),
@@ -277,7 +267,7 @@
                 &nbsp;&nbsp;&nbsp;
                 <a title="{{ 'suivi.supprimer'|trans({}, 'suivi') }}" href="#"><span class="fa fa-times"></span></a>
             </td>
-            <td style="width: 200px;"><a href="{{ path('MgateSuivi_procesverbal_modifier', {'id_pv': pvi.id}) }}">{{ 'suivi.pvi'|trans({}, 'suivi') }} n°{{loop.index}}</a></td>
+            <td style="width: 200px;"><a href="{{ path('MgateSuivi_procesverbal_modifier', {'id': pvi.id}) }}">{{ 'suivi.pvi'|trans({}, 'suivi') }} n°{{loop.index}}</a></td>
             <td>
                 {% if pvi.phaseID is null %}
                     {{ 'suivi.aucune'|trans({}, 'suivi') }} !
@@ -291,7 +281,7 @@
     {% endfor %}
     {% if etude.pvr %}
         <tr>
-            <td><a title="{{ 'suivi.modifier'|trans({}, 'suivi') }}" href="{{ path('MgateSuivi_procesverbal_rediger', {'id': etude.id, 'type': 'pvr'}) }}"><span class="fa fa-pencil"></span></a>
+            <td><a title="{{ 'suivi.modifier'|trans({}, 'suivi') }}" href="{{ path('MgateSuivi_procesverbal_modifier', {'id': etude.pvr.id}) }}"><span class="fa fa-pencil"></span></a>
                 &nbsp;&nbsp;&nbsp;
                 <a title="{{ 'suivi.telecharger'|trans({}, 'suivi') }}" href="{{ path('Mgate_publi_publiposter',
                                         { 'templateName' :  constant('\\Mgate\\PubliBundle\\Controller\\TraitementController::DOCTYPE_PROCES_VERBAL_FINAL'),
@@ -300,7 +290,7 @@
                     <span class="fa fa-arrow-circle-down"></span>
                 </a>
             </td>
-            <td><a href="{{ path('MgateSuivi_procesverbal_modifier', {'id_pv': etude.pvr.id}) }}">{{ 'suivi.pvr'|trans({}, 'suivi') }}</a></td>
+            <td><a href="{{ path('MgateSuivi_procesverbal_modifier', {'id': etude.pvr.id}) }}">{{ 'suivi.pvr'|trans({}, 'suivi') }}</a></td>
             <td>{{ 'suivi.toutes'|trans({}, 'suivi') }}</td>
             <td>{{ etude.pvr.dateSignature ? etude.pvr.dateSignature | date("d/m/Y") : "Non signé"}}</td>
             <td>{{ etude.pvr.signataire2 ? etude.pvr.signataire2.nomFormel }}</td>
@@ -312,11 +302,9 @@
 
 <nav class="navbar" role="navigation">
     <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-avs">
+        <button type="button" class="navbar-toggle text-black" data-toggle="collapse" data-target=".navbar-avs">
             <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
+            <span class="fa fa-bars" ></span>
         </button>
         <span class="navbar-brand titre" data-toggle="collapse" data-target="#avs"><span class="fa fa-chevron-down"></span> {{ 'suivi.avenants'|trans({}, 'suivi') }}</span>
      </div>
@@ -346,11 +334,9 @@
 
 <nav class="navbar" role="navigation">
     <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-avs">
+        <button type="button" class="navbar-toggle text-black" data-toggle="collapse" data-target=".navbar-avs">
             <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
+            <span class="fa fa-bars" ></span>
         </button>
         <span class="navbar-brand titre" data-toggle="collapse" data-target="#avMissions"><span class="fa fa-chevron-down"></span> {{ 'suivi.avenants_mission'|trans({}, 'suivi') }}</span>
     </div>

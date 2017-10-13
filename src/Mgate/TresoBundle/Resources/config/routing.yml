@@ -17,9 +17,9 @@ MgateTreso_Declaratif_index:
 
 
 MgateTreso_Declaratif_TVA:
-    path:  /Declaratifs/TVA
-    defaults: { _controller: MgateTresoBundle:Declaratif:tva }
-    methods:  [GET, HEAD]
+    path:  /Declaratifs/TVA/{year}/{month}/{trimestriel}
+    defaults: { _controller: MgateTresoBundle:Declaratif:tva, year: null, month: null, trimestriel: false }
+    methods:  [GET, HEAD, POST]
 
 
 MgateTreso_Declaratif_BRC:
@@ -66,7 +66,7 @@ MgateTreso_Facture_supprimer:
     defaults: { _controller: MgateTresoBundle:Facture:supprimer }
     requirements:
         id: \d+
-    methods:  [GET, HEAD, POST]
+    methods:  [DELETE]
 
 
 ################################################################################

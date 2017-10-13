@@ -69,7 +69,7 @@ class Ap extends DocType
 
     public function getReference()
     {
-        return $this->etude->getReference() . '/' . $this->getDateSignature()->format('Y') . '/PM/' . $this->getVersion();
+        return $this->getEtude()->getReference() . '/' . $this->getDateSignature()->format('Y') . '/PM/' . $this->getVersion();
     }
 
     /**
@@ -89,7 +89,7 @@ class Ap extends DocType
     /**
      * Get etude.
      *
-     * @return Mgate\SuiviBundle\Entity\Etude
+     * @return Etude
      */
     public function getEtude()
     {

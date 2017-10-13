@@ -41,4 +41,15 @@ class MissionRepository extends EntityRepository
 
         return $qb->getQuery()->getResult();
     }
+
+    public function getMissionAndEtudeQueryBuilder()
+    {
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('m')
+            ->from('MgateSuiviBundle:Mission', 'm')
+            ->leftJoin('m.etude', 'etude')
+            ->addSelect('etude');
+
+        return $qb;
+    }
 }

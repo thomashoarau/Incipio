@@ -72,14 +72,16 @@
         }
 
         $(window).load(function () {
-            $("#tab2").addClass("active");
-            $("#methodo").addClass("active");
+            var tab2 = $("#tab2");
+            var methodo = $("#methodo");
+            tab2.addClass("active");
+            methodo.addClass("active");
             var nombreDeLigneParPhase = $(".egalize tr").length / $(".egalize").length;
             for (var i = 1; i <= nombreDeLigneParPhase; i++) {
                 equalHeight($(".egalize tr:nth-child(" + i + ") th"));
             }
-            $("#methodo").removeClass("active");
-            $("#tab2").removeClass("active");
+            methodo.removeClass("active");
+            tab2.removeClass("active");
         });
     </script>
 {% endblock %}

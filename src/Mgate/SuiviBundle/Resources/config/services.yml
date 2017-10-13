@@ -9,6 +9,7 @@ services:
         arguments:
           - "@doctrine.orm.entity_manager"
           - "@app.json_key_value_store"
+          - "@security.authorization_checker"
         tags:
             - { name: twig.extension }
     Mgate.doctype_manager:

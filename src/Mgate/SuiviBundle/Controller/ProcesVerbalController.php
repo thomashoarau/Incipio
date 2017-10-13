@@ -18,61 +18,26 @@ use Mgate\SuiviBundle\Form\Type\ProcesVerbalType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class ProcesVerbalController extends Controller
 {
     /**
      * @Security("has_role('ROLE_SUIVEUR')")
+     *
+     * @param Request $request
+     * @param Etude   $etude
+     *
+     * @return RedirectResponse|Response
      */
-    public function indexAction($page)
+    public function addAction(Request $request, Etude $etude)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('MgateSuiviBundle:Etude')->findAll();
-
-        return $this->render('MgateSuiviBundle:Etude:index.html.twig', [
-            'etudes' => $entities,
-        ]);
-    }
-
-    /**
-     * @Security("has_role('ROLE_SUIVEUR')")
-     */
-    public function voirAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('MgateSuiviBundle:ProcesVerbal')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find ProcesVerbal entity.');
-        }
-
-        $etude = $entity->getEtude();
-
-        if ($this->get('Mgate.etude_manager')->confidentielRefus($etude, $this->getUser(), $this->get('security.authorization_checker'))) {
-            throw new AccessDeniedException('Cette étude est confidentielle');
-        }
-
-        return $this->render('MgateSuiviBundle:ProcesVerbal:voir.html.twig', [
-            'procesverbal' => $entity,
-        ]);
-    }
-
-    /**
-     * @Security("has_role('ROLE_SUIVEUR')")
-     */
-    public function addAction(Request $request, $id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        if (!$etude = $em->getRepository('Mgate\SuiviBundle\Entity\Etude')->find($id)) {
-            throw $this->createNotFoundException('L\'étude n\'existe pas !');
-        }
-
-        if ($this->get('Mgate.etude_manager')->confidentielRefus($etude, $this->getUser(), $this->get('security.authorization_checker'))) {
+        if ($this->get('Mgate.etude_manager')->confidentielRefus($etude, $this->getUser())) {
             throw new AccessDeniedException('Cette étude est confidentielle');
         }
 
@@ -84,45 +49,51 @@ class ProcesVerbalController extends Controller
             $form->handleRequest($request);
 
             if ($form->isValid()) {
+                $this->get('Mgate.doctype_manager')->checkSaveNewEmploye($proces);
                 $em->persist($proces);
                 $em->flush();
+                $this->addFlash('success', 'PV ajouté');
 
-                return $this->redirect($this->generateUrl('MgateSuivi_procesverbal_voir', ['id' => $proces->getId()]));
+                return $this->redirect($this->generateUrl('MgateSuivi_etude_voir', ['nom' => $etude->getNom()]));
             }
         }
 
         return $this->render('MgateSuiviBundle:ProcesVerbal:ajouter.html.twig', [
+            'etude' => $etude,
             'form' => $form->createView(),
         ]);
     }
 
     /**
      * @Security("has_role('ROLE_SUIVEUR')")
+     *
+     * @param Request      $request
+     * @param ProcesVerbal $procesverbal
+     *
+     * @return RedirectResponse|Response
      */
-    public function modifierAction(Request $request, $id_pv)
+    public function modifierAction(Request $request, ProcesVerbal $procesverbal)
     {
         $em = $this->getDoctrine()->getManager();
 
-        if (!$procesverbal = $em->getRepository('Mgate\SuiviBundle\Entity\ProcesVerbal')->find($id_pv)) {
-            throw $this->createNotFoundException('Le Procès Verbal n\'existe pas !');
-        }
-
         $etude = $procesverbal->getEtude();
 
-        if ($this->get('Mgate.etude_manager')->confidentielRefus($etude, $this->getUser(), $this->get('security.authorization_checker'))) {
+        if ($this->get('Mgate.etude_manager')->confidentielRefus($etude, $this->getUser())) {
             throw new AccessDeniedException('Cette étude est confidentielle');
         }
 
         $form = $this->createForm(ProcesVerbalSubType::class, $procesverbal, ['type' => $procesverbal->getType(), 'prospect' => $procesverbal->getEtude()->getProspect(), 'phases' => count($procesverbal->getEtude()->getPhases()->getValues())]);
-        $deleteForm = $this->createDeleteForm($id_pv);
+        $deleteForm = $this->createDeleteForm($procesverbal->getId());
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
 
             if ($form->isValid()) {
+                $this->get('Mgate.doctype_manager')->checkSaveNewEmploye($procesverbal);
                 $em->persist($procesverbal);
                 $em->flush();
+                $this->addFlash('success', 'PV modifié');
 
-                return $this->redirect($this->generateUrl('MgateSuivi_procesverbal_voir', ['id' => $procesverbal->getId()]));
+                return $this->redirect($this->generateUrl('MgateSuivi_etude_voir', ['nom' => $etude->getNom()]));
             }
         }
 
@@ -140,15 +111,15 @@ class ProcesVerbalController extends Controller
      *
      * @param Request $request
      * @param Etude   $etude
-     * @param $type string PVR or PVRI
+     * @param string  $type    PVR or PVRI
      *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @return RedirectResponse|Response
      */
     public function redigerAction(Request $request, Etude $etude, $type)
     {
         $em = $this->getDoctrine()->getManager();
 
-        if ($this->get('Mgate.etude_manager')->confidentielRefus($etude, $this->getUser(), $this->get('security.authorization_checker'))) {
+        if ($this->get('Mgate.etude_manager')->confidentielRefus($etude, $this->getUser())) {
             throw new AccessDeniedException('Cette étude est confidentielle');
         }
 
@@ -157,7 +128,6 @@ class ProcesVerbalController extends Controller
             if (strtoupper($type) == 'PVR') {
                 $etude->setPvr($procesverbal);
             }
-
             $procesverbal->setType($type);
         }
 
@@ -168,8 +138,9 @@ class ProcesVerbalController extends Controller
             if ($form->isValid()) {
                 $em->persist($etude);
                 $em->flush();
+                $this->addFlash('success', 'PV rédigé');
 
-                return $this->redirect($this->generateUrl('MgateSuivi_procesverbal_voir', ['id' => $procesverbal->getId()]));
+                return $this->redirect($this->generateUrl('MgateSuivi_etude_voir', ['nom' => $etude->getNom()]));
             }
         }
 
@@ -180,28 +151,30 @@ class ProcesVerbalController extends Controller
 
     /**
      * @Security("has_role('ROLE_SUIVEUR')")
+     *
+     * @param Request      $request
+     * @param ProcesVerbal $procesVerbal
+     *
+     * @return RedirectResponse
      */
-    public function deleteAction(Request $request, $id_pv)
+    public function deleteAction(Request $request, ProcesVerbal $procesVerbal)
     {
-        $form = $this->createDeleteForm($id_pv);
+        $form = $this->createDeleteForm($procesVerbal->getId());
         $form->handleRequest($request);
+        $etude = $procesVerbal->getEtude();
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
 
-            if (!$entity = $em->getRepository('Mgate\SuiviBundle\Entity\ProcesVerbal')->find($id_pv)) {
-                throw $this->createNotFoundException('Le Procès Verbal n\'existe pas !');
-            }
-
-            $etude = $entity->getEtude();
-
-            if ($this->get('Mgate.etude_manager')->confidentielRefus($etude, $this->getUser(), $this->get('security.authorization_checker'))) {
+            if ($this->get('Mgate.etude_manager')->confidentielRefus($etude, $this->getUser())) {
                 throw new AccessDeniedException('Cette étude est confidentielle');
             }
 
-            $em->remove($entity);
+            $em->remove($procesVerbal);
             $em->flush();
+            $this->addFlash('success', 'PV supprimé');
         }
+        $this->addFlash('danger', 'Erreur lors de la suppression');
 
         return $this->redirect($this->generateUrl('MgateSuivi_etude_voir', ['nom' => $etude->getNom()]));
     }

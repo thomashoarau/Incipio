@@ -19,7 +19,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table()
  * @ORM\Entity
  */
-class FactureDetail
+class FactureDetail implements TresoDetailInterface
 {
     /**
      * @var int
@@ -31,8 +31,8 @@ class FactureDetail
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Facture", inversedBy="details", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\ManyToOne(targetEntity="Facture", inversedBy="details")
+     * @ORM\JoinColumn(nullable=true, onDelete="CASCADE")
      */
     private $facture;
 

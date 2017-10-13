@@ -70,7 +70,7 @@ class Av extends DocType
     private $clauses;
 
     /**
-     * @var Collection phase differentiel
+     * @var ArrayCollection phase differentiel
      * @ORM\OneToMany(targetEntity="Mgate\SuiviBundle\Entity\Phase", mappedBy="avenant", cascade={"persist", "remove"})
      */
     private $phases;

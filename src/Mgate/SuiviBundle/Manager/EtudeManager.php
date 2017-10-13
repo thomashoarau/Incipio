@@ -22,13 +22,15 @@ use Webmozart\KeyValueStore\Api\KeyValueStore;
 class EtudeManager extends \Twig_Extension
 {
     protected $em;
+    protected $authorizationChecker;
     protected $tva;
     protected $namingConvention;
     protected $anneeCreation;
 
-    public function __construct(EntityManager $em, KeyValueStore $keyValueStore)
+    public function __construct(EntityManager $em, KeyValueStore $keyValueStore, AuthorizationChecker $authorizationChecker)
     {
         $this->em = $em;
+        $this->authorizationChecker = $authorizationChecker;
         if ($keyValueStore->exists('tva')) {
             $this->tva = $keyValueStore->get('tva');
         } else {
@@ -90,18 +92,17 @@ class EtudeManager extends \Twig_Extension
     }
 
     /**
-     * @param Etude                $etude
-     * @param User                 $user
-     * @param AuthorizationChecker $userToken
+     * @param Etude $etude
+     * @param User  $user
      *
      * @return bool
      *              Comme l'authorizationChecker n'est pas dispo coté twig, on utilisera cette méthode uniquement dans les controllers.
      *              Pour twig, utiliser confidentielRefusTwig(Etude, User, is_granted('ROLE_SOUHAITE'))
      */
-    public function confidentielRefus(Etude $etude, User $user, AuthorizationChecker $userToken)
+    public function confidentielRefus(Etude $etude, User $user)
     {
         try {
-            if ($etude->getConfidentiel() && !$userToken->isGranted('ROLE_CA')) {
+            if ($etude->getConfidentiel() && !$this->authorizationChecker->isGranted('ROLE_CA')) {
                 if ($etude->getSuiveur() && $user->getPersonne()->getId() != $etude->getSuiveur()->getId()) {
                     return true;
                 }

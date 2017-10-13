@@ -17,6 +17,15 @@
     {{ 'treso.bv'|trans({}, 'treso') }} {{ bv.reference }} &thinsp;&thinsp;&thinsp;&thinsp;&thinsp;&thinsp; {{ bv.dateDemission | date('d/m/Y') }}
 {% endblock %}
 
+{% block breadcrumb_items %}
+    <li><a href="{{ path('MgateTreso_BV_index') }}">{{ 'treso.bv_list'|trans({}, 'treso') }}</a></li>
+{% endblock %}
+
+
+{% block breadcrumb_active %}
+    {{ 'treso.bv'|trans({}, 'treso') }} {{ bv.reference }}
+{% endblock %}
+
 {% block content_bundle %}
 
     <table class="table table-bordered table-condensed">

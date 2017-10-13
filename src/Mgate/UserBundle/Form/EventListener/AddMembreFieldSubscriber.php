@@ -12,7 +12,6 @@
 namespace Mgate\UserBundle\Form\EventListener;
 
 use Genemu\Bundle\FormBundle\Form\JQuery\Type\Select2EntityType;
-use Mgate\PersonneBundle\Entity\Personne;
 use Mgate\PersonneBundle\Entity\PersonneRepository;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\FormEvent;

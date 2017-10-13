@@ -25,7 +25,7 @@ class GanttController extends Controller
      */
     public function getGanttAction(Etude $etude, $width = 960, $debug = false)
     {
-        if ($this->get('Mgate.etude_manager')->confidentielRefus($etude, $this->getUser(), $this->get('security.authorization_checker'))) {
+        if ($this->get('Mgate.etude_manager')->confidentielRefus($etude, $this->getUser())) {
             throw new AccessDeniedException('Cette étude est confidentielle');
         }
 

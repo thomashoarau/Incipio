@@ -142,7 +142,7 @@ class Suivi
     /**
      * Set etude.
      *
-     * @param string $etude
+     * @param Etude $etude
      *
      * @return Suivi
      */
@@ -156,7 +156,7 @@ class Suivi
     /**
      * Get etude.
      *
-     * @return string
+     * @return Etude
      */
     public function getEtude()
     {

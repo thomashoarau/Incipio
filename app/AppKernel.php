@@ -60,7 +60,6 @@ class AppKernel extends Kernel
             new Mgate\SuiviBundle\MgateSuiviBundle(),
             new JavierEguiluz\Bundle\EasyAdminBundle\EasyAdminBundle(),
             new N7consulting\RhBundle\N7consultingRhBundle(),
-            new N7consulting\DevcoBundle\N7consultingDevcoBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'])) {
