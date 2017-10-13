@@ -186,7 +186,7 @@ class EtudeRepository extends EntityRepository
     public function getCaByState(int $state, $mandat = null)
     {
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('sum(p.nbrJEH * p.prixJEH) as montant')
+        $qb->select('sum(p.nbrJEH * p.prixJEH + e.fraisDossier) as montant')
             ->from('MgateSuiviBundle:Phase', 'p')
             ->leftJoin('p.etude', 'e')
             ->where('e.stateID = :stateId')
