@@ -26,6 +26,12 @@
     </table>
     {{ form_widget(form) }}
 
-    <input type="submit" value="{{ 'suivi.contact_client_nouveau_enregistrer'|trans({}, 'suivi') }}" class="btn"/>
+    <button type="submit" class="btn btn-success">
+        {% if form.vars.data.id %}
+            {{ 'suivi.contact_client_enregistrer'|trans({}, 'suivi') }}
+        {% else %}
+            {{ 'suivi.contact_client_nouveau_enregistrer'|trans({}, 'suivi') }}
+        {% endif %}
+    </button>
 
 {{ form_end(form) }}

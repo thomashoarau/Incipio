@@ -12,11 +12,14 @@
 namespace Mgate\SuiviBundle\Controller;
 
 use Mgate\SuiviBundle\Entity\ClientContact;
+use Mgate\SuiviBundle\Entity\Etude;
 use Mgate\SuiviBundle\Form\Type\ClientContactHandler;
 use Mgate\SuiviBundle\Form\Type\ClientContactType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class ClientContactController extends Controller
@@ -37,14 +40,15 @@ class ClientContactController extends Controller
 
     /**
      * @Security("has_role('ROLE_SUIVEUR')")
+     *
+     * @param Request $request
+     * @param Etude   $etude
+     *
+     * @return RedirectResponse|Response
      */
-    public function addAction(Request $request, $id)
+    public function addAction(Request $request, Etude $etude)
     {
         $em = $this->getDoctrine()->getManager();
-
-        if (!$etude = $em->getRepository('Mgate\SuiviBundle\Entity\Etude')->find($id)) {
-            throw $this->createNotFoundException('L\'étude n\'existe pas !');
-        }
 
         if ($this->get('Mgate.etude_manager')->confidentielRefus($etude, $this->getUser())) {
             throw new AccessDeniedException('Cette étude est confidentielle');
@@ -76,66 +80,65 @@ class ClientContactController extends Controller
 
     /**
      * @Security("has_role('ROLE_SUIVEUR')")
+     *
+     * @param ClientContact $clientContact
+     *
+     * @return Response
      */
-    public function voirAction($id)
+    public function voirAction(ClientContact $clientContact)
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $contactClient = $em->getRepository('MgateSuiviBundle:ClientContact')->find($id);
-
-        if (!$contactClient) {
-            throw $this->createNotFoundException('Ce Contact Client n\'existe pas !');
-        }
-
-        $etude = $contactClient->getEtude();
+        $etude = $clientContact->getEtude();
 
         if ($this->get('Mgate.etude_manager')->confidentielRefus($etude, $this->getUser())) {
             throw new AccessDeniedException('Cette étude est confidentielle');
         }
 
-        $etude = $contactClient->getEtude();
+        $etude = $clientContact->getEtude();
         $contactsClient = $etude->getClientContacts()->toArray();
         usort($contactsClient, [$this, 'compareDate']);
 
         return $this->render('MgateSuiviBundle:ClientContact:voir.html.twig', [
             'contactsClient' => $contactsClient,
-            'selectedContactClient' => $contactClient,
+            'selectedContactClient' => $clientContact,
             'etude' => $etude,
             ]);
     }
 
     /**
      * @Security("has_role('ROLE_SUIVEUR')")
+     *
+     * @param Request       $request
+     * @param ClientContact $clientContact
+     *
+     * @return RedirectResponse|Response
      */
-    public function modifierAction(Request $request, $id)
+    public function modifierAction(Request $request, ClientContact $clientContact)
     {
         $em = $this->getDoctrine()->getManager();
 
-        if (!$clientcontact = $em->getRepository('Mgate\SuiviBundle\Entity\ClientContact')->find($id)) {
-            throw $this->createNotFoundException('Ce Contact Client n\'existe pas !');
-        }
-
-        $etude = $clientcontact->getEtude();
+        $etude = $clientContact->getEtude();
 
         if ($this->get('Mgate.etude_manager')->confidentielRefus($etude, $this->getUser())) {
             throw new AccessDeniedException('Cette étude est confidentielle');
         }
 
-        $form = $this->createForm(ClientContactType::class, $clientcontact);
+        $form = $this->createForm(ClientContactType::class, $clientContact);
 
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
 
             if ($form->isValid()) {
                 $em->flush();
+                $this->addFlash('success', 'Contact client modifié');
 
-                return $this->redirect($this->generateUrl('MgateSuivi_clientcontact_voir', ['id' => $clientcontact->getId()]));
+                return $this->redirectToRoute('MgateSuivi_clientcontact_voir', ['id' => $clientContact->getId()]);
             }
+            $this->addFlash('danger', 'Le formulaire contient des erreurs.');
         }
 
         return $this->render('MgateSuiviBundle:ClientContact:modifier.html.twig', [
             'form' => $form->createView(),
-            'clientcontact' => $clientcontact,
+            'clientcontact' => $clientContact,
             'etude' => $etude,
         ]);
     }

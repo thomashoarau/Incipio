@@ -107,7 +107,7 @@ class ClientContact
     /**
      * Get etude.
      *
-     * @return string
+     * @return Etude
      */
     public function getEtude()
     {

@@ -58,8 +58,10 @@ suivi:
   commentaries: Commentaires
   commenter: Commenter
   contact: Contact
+  contact_client: Contact client
   contact_client_affichage: Affichage d'un contact client
   contact_client_ajouter: Ajouter Contact Client
+  contact_client_enregistrer: Enregistrer le contact client
   contact_client_modifier: Modifier un contact client
   contact_client_nouveau_enregistrer: Enregistrer le nouveau contact client
   contacter: Contacter
