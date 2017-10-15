@@ -12,10 +12,9 @@
 namespace Mgate\TresoBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * FactureDetail.
- *
  * @ORM\Table()
  * @ORM\Entity
  */
@@ -35,6 +34,21 @@ class FactureDetail implements TresoDetailInterface
      * @ORM\JoinColumn(nullable=true, onDelete="CASCADE")
      */
     private $facture;
+
+    /**
+     * Previously, a FactureDetail was linked to a facture through the Facture attribute. However, a montantADeduire is
+     * also a FactureDetail and was also linked to a Facture using that field. As a result, when Facture->getDetails
+     * was called, the ORM was executing a SQL query such as `Select * from FactureDetail where facture_id = :id`. This
+     * query was also retrieving the montantADeduire, leading to wrong factures, with for instance montantADeduire
+     * considered as a detail and as montantADeduire.
+     * This field introduces a second way to link a FactureDetail to a Facture and removes the previous bug:
+     * montantADeduire have their attribute facture set to null. In addition, A consistence constraint checks that a
+     * FactureDetail has factureADeduire xor Facture field set.
+     *
+     * @ORM\OneToOne(targetEntity="Facture", inversedBy="montantADeduire")
+     * @ORM\JoinColumn(nullable=true, onDelete="CASCADE")
+     */
+    private $factureADeduire;
 
     /**
      * @var string
@@ -66,6 +80,19 @@ class FactureDetail implements TresoDetailInterface
     /**
      * ADDITIONAL.
      */
+
+    /**
+     * Refer to comment on factureADeduire for more details.
+     *
+     * @Assert\IsTrue(message="Un FactureDetail ne peut avoir en même temps une facture et une facture à déduire")
+     */
+    public function isConsistent()
+    {
+        return $this->facture xor $this->factureADeduire ||
+            // Can be met on new FactureDetails which have none of these set yet.
+            (!$this->facture && !$this->factureADeduire);
+    }
+
     public function getMontantTVA()
     {
         return $this->tauxTVA * $this->montantHT / 100;
@@ -199,10 +226,30 @@ class FactureDetail implements TresoDetailInterface
     /**
      * Get facture.
      *
-     * @return Facture
+     * @return Facture|null
      */
     public function getFacture()
     {
         return $this->facture;
+    }
+
+    /**
+     * @return Facture|null
+     */
+    public function getFactureADeduire()
+    {
+        return $this->factureADeduire;
+    }
+
+    /**
+     * @param Facture $factureADeduire
+     *
+     * @return FactureDetail
+     */
+    public function setFactureADeduire(Facture $factureADeduire)
+    {
+        $this->factureADeduire = $factureADeduire;
+
+        return $this;
     }
 }
