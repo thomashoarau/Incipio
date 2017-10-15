@@ -103,7 +103,7 @@ MgateSuivi_mission_avancement:
 MgateSuivi_state:
     path: /suivi/state/
     defaults: {_controller: MgateSuiviBundle:Etude:state}
-    methods:  [POST]
+    methods:  [PUT]
 
 #MgateSuivi_missions_repartition:
 #    path: /missions/repartition/{id}
