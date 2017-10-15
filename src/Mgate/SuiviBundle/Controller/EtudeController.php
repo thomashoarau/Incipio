@@ -114,26 +114,22 @@ class EtudeController extends Controller
      */
     public function stateAction(Request $request)
     {
-        if ($request->getMethod() == 'POST') {
-            $em = $this->getDoctrine()->getManager();
+        $em = $this->getDoctrine()->getManager();
 
-            $stateDescription = !empty($request->request->get('state')) ? $request->request->get('state') : '';
-            $stateID = !empty($request->request->get('id')) ? intval($request->request->get('id')) : 0;
-            $etudeID = !empty($request->request->get('etude')) ? intval($request->request->get('etude')) : 0;
+        $stateDescription = !empty($request->request->get('state')) ? $request->request->get('state') : '';
+        $stateID = !empty($request->request->get('id')) ? intval($request->request->get('id')) : 0;
+        $etudeID = !empty($request->request->get('etude')) ? intval($request->request->get('etude')) : 0;
 
-            if (!$etude = $em->getRepository('Mgate\SuiviBundle\Entity\Etude')->find($etudeID)) {
-                throw $this->createNotFoundException('L\'étude n\'existe pas !');
-            } else {
-                $etude->setStateDescription($stateDescription);
-                $etude->setStateID($stateID);
-                $em->persist($etude);
-                $em->flush();
-            }
-
-            return $this->redirectToRoute('MgateSuivi_state');
+        if (!$etude = $em->getRepository('Mgate\SuiviBundle\Entity\Etude')->find($etudeID)) {
+            throw $this->createNotFoundException('L\'étude n\'existe pas !');
+        } else {
+            $etude->setStateDescription($stateDescription);
+            $etude->setStateID($stateID);
+            $em->persist($etude);
+            $em->flush();
         }
 
-        return new Response('ok !');
+        return new Response($stateDescription);
     }
 
     /**

@@ -3,11 +3,11 @@ $('body').click(function(e){
     if (Elem.id == 'commentaire'){
         bootbox.prompt("{{ 'suivi.commentaire'|trans({}, 'suivi') }} :", function(result) {
         if (result !== null) {
-            var requete = $.ajax({
+            $.ajax({
                 url: "{{ path('MgateSuivi_state') }}",
-                type: "POST",
+                type: "PUT",
                 data: "state=" + result +"&etude=" + $(Elem).data("title") + "&id=" + $(Elem).data("content"),
-                success: function(){},
+                success: function(){}
                 });
             }
         })
