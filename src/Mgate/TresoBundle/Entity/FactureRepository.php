@@ -16,8 +16,8 @@ use Doctrine\ORM\EntityRepository;
 class FactureRepository extends EntityRepository
 {
     /**
-     * Renvoie les facture d'achat ou de vente sur un mois selon la date d'emission pour les factures d'achat et d'encaissement pour les factures de vente.
-     * YEAR MONTH DAY sont défini dans DashBoardBundle/DQL.
+     * Renvoie les facture d'achat ou de vente sur un mois selon la date d'emission pour les factures d'achat et
+     * d'encaissement pour les factures de vente. YEAR MONTH DAY sont défini dans DashBoardBundle/DQL.
      *
      * @param int  $type
      * @param int  $month
@@ -50,18 +50,21 @@ class FactureRepository extends EntityRepository
 
     /**
      * Retourne la somme des montant HT des factures pour les études d'un mandat.
+     * sum(montantADeduire) is in fact always a sum of only one item. however the query won't work without (fullgroup mode).
+     * Coalesce returns the first not null argument. Allow query to return a result, even though sum(montantADeduire)
+     * returns null.
      *
      * @param int       $mandat mandat des etudes dont les factures seront prises en compte
      * @param bool|null $paid   est-ce que seul les factures payées doivent être prises en compte
      *
-     * @return float | null
+     * @return float|null
      */
     public function getCAFacture(int $mandat, ?bool $paid = null)
     {
         $qb = $this->_em->createQueryBuilder();
         $qb->select('sum(fd.montantHT) as montant')
-            ->from('MgateTresoBundle:FactureDetail', 'fd')
-            ->leftJoin('fd.facture', 'facture')
+            ->from('MgateTresoBundle:Facture', 'facture')
+            ->leftJoin('facture.details', 'fd')
             ->where('facture.type  in (:type)')
             ->setParameter('type', [Facture::TYPE_VENTE_ACCOMPTE, Facture::TYPE_VENTE_INTERMEDIAIRE, Facture::TYPE_VENTE_SOLDE])
             ->leftJoin('facture.etude', 'etude')
@@ -71,7 +74,23 @@ class FactureRepository extends EntityRepository
         if ($paid !== null && $paid) {
             $qb->andWhere('facture.dateVersement IS NOT NULL');
         }
+        $detailsSum =  $qb->getQuery()->getSingleScalarResult();
 
-        return $qb->getQuery()->getSingleScalarResult();
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('sum(montantADeduire.montantHT) as montant')
+            ->from('MgateTresoBundle:Facture', 'facture')
+            ->leftJoin('facture.montantADeduire', 'montantADeduire')
+            ->where('facture.type  in (:type)')
+            ->setParameter('type', [Facture::TYPE_VENTE_ACCOMPTE, Facture::TYPE_VENTE_INTERMEDIAIRE, Facture::TYPE_VENTE_SOLDE])
+            ->leftJoin('facture.etude', 'etude')
+            ->andWhere('etude.mandat = :mandat')
+            ->setParameter('mandat', $mandat);
+
+        if ($paid !== null && $paid) {
+            $qb->andWhere('facture.dateVersement IS NOT NULL');
+        }
+        $deduireSum = $qb->getQuery()->getSingleScalarResult();
+
+        return $detailsSum - $deduireSum;
     }
 }
