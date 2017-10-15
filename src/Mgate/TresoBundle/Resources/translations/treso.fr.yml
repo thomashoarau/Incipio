@@ -71,6 +71,7 @@ treso:
   mission: Mission
   modifier: Modifier
   montant: Montant
+  montant_a_deduire_avertissement: Pour ne pas fausser les indicateurs, utilisez le montant à déduire uniquement pour représenter la somme des acomptes ou factures intermédiaires précédentes. Pour faire une réduction, créez un détail avec un montant négatif.
   montant_ht: Montant HT
   montant_net: Montant net
   montant_net_imposable: Montant net imposable
