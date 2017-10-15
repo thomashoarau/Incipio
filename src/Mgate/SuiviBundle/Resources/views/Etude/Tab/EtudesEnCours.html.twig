@@ -152,7 +152,7 @@
                         {% set sommeAvancement = sommeAvancement + mission.avancement %}
                     {% endfor %}
                     {% set avancementGlobal = sommeAvancement / max(etude.missions|length,1) %}
-                    <div class="progress-bar" style="width: {{ avancementGlobal ~ '%;'|default('0%;') }}">
+                    <div class="progress-bar" style="width: {{ avancementGlobal ~ '%;'|default('0%;') }}" id="avancementBar-{{ etude.id}}">
                         {{ avancementGlobal ~ '%'|default('0%') }}
                     </div>
                 </div>

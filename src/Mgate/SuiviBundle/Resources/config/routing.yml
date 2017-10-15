@@ -98,7 +98,7 @@ MgateSuivi_missions_modifier:
 MgateSuivi_mission_avancement:
     path: /missions/modifier/avancement/
     defaults: {_controller: MgateSuiviBundle:Mission:avancement}
-    methods:  [POST]
+    methods:  [PUT]
 
 MgateSuivi_state:
     path: /suivi/state/

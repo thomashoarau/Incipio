@@ -3,13 +3,16 @@ $('body').click(function(e){
     if (Elem.id == 'avancement'){
         bootbox.prompt("{{ 'suivi.avancement_developpeur'|trans({}, 'suivi') }} (%) ?", function(result) {
         if (result !== null) {
-            var requete = $.ajax({
+            $.ajax({
                 url: "{{ path('MgateSuivi_mission_avancement') }}",
-                type: "POST",
+                type: "PUT",
                 data: "avancement=" + result +"&id=" + $(Elem).data("etude") + "&intervenant=" + $(Elem).data("mission"),
-                success: function(){},
+                success: function(data){
+                    var bar = $("#avancementBar-"+$(Elem).data("etude"));
+                    bar.css("width",  data + "%");
+                    bar.html(data + "%");
+                }
             });
-            $("#avancementBar"+$(Elem).data("title")+$(Elem).data("content")).css("width",  result + "%");
         }
     })
 }});
