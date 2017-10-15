@@ -27,24 +27,20 @@ class MissionController extends Controller
      */
     public function avancementAction(Request $request)
     {
-        if ($request->getMethod() == 'POST') {
-            $em = $this->getDoctrine()->getManager();
-            $avancement = !empty($request->request->get('avancement')) ? intval($request->request->get('avancement')) : 0;
-            $id = !empty($request->request->get('id')) ? $request->request->get('id') : 0;
-            $intervenant = !empty($request->request->get('intervenant')) ? intval($request->request->get('intervenant')) : 0;
+        $em = $this->getDoctrine()->getManager();
+        $avancement = !empty($request->request->get('avancement')) ? intval($request->request->get('avancement')) : 0;
+        $id = !empty($request->request->get('id')) ? $request->request->get('id') : 0;
+        $intervenant = !empty($request->request->get('intervenant')) ? intval($request->request->get('intervenant')) : 0;
 
-            $etude = $em->getRepository('Mgate\SuiviBundle\Entity\Etude')->find($id);
-            if (!$etude) {
-                throw $this->createNotFoundException('L\'étude n\'existe pas !');
-            } else {
-                $etude->getMissions()->get($intervenant)->setAvancement($avancement);
-                $em->persist($etude->getMissions()->get($intervenant));
-                $em->flush();
-            }
-
-            return $this->redirect($this->generateUrl('MgateSuivi_mission_avancement'));
+        $etude = $em->getRepository('Mgate\SuiviBundle\Entity\Etude')->find($id);
+        if (!$etude) {
+            throw $this->createNotFoundException('L\'étude n\'existe pas !');
+        } else {
+            $etude->getMissions()->get($intervenant)->setAvancement($avancement);
+            $em->persist($etude->getMissions()->get($intervenant));
+            $em->flush();
         }
 
-        return new Response('ok !');
+        return new Response($avancement);
     }
 }
