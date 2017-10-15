@@ -12,7 +12,9 @@
 namespace Mgate\SuiviBundle\Manager;
 
 use Doctrine\ORM\EntityManager;
+use Mgate\SuiviBundle\Entity\ClientContact;
 use Mgate\SuiviBundle\Entity\Etude as Etude;
+use Mgate\SuiviBundle\Entity\Phase;
 use Monolog\Logger;
 use Ob\HighchartsBundle\Highcharts\Highchart;
 use Webmozart\KeyValueStore\Api\KeyValueStore;
@@ -24,6 +26,8 @@ class ChartManager /*extends \Twig_Extension*/
     protected $etudeManager;
     protected $logger;
     protected $namingConvention;
+
+    private const SIX_MONTHS = 15724800;
 
     public function __construct(EntityManager $em, EtudeManager $etudeManager, Logger $logger, KeyValueStore $keyValueStore)
     {
@@ -43,11 +47,12 @@ class ChartManager /*extends \Twig_Extension*/
         $series = [];
         $data = [];
         $cats = [];
-        $naissance = new \DateTime();
-        $mort = new \DateTime();
+        $naissance = new \DateTime(); // first date on the chart
+        $mort = $etude->getDateCreation(); // last date on the chart
 
         //Contacts Client
         if ($etude->getClientContacts()->count() != 0 && $type == 'suivi') {
+            /** @var ClientContact $contact */
             foreach ($etude->getClientContacts() as $contact) {
                 $date = $contact->getDate();
                 if ($naissance >= $date) {
@@ -85,7 +90,6 @@ class ChartManager /*extends \Twig_Extension*/
                 $data[] = ['x' => count($cats), 'y' => $date->getTimestamp() * 1000,
                     'titre' => 'Avant-Projet', 'detail' => 'signé le ' . $date->format('d/m/Y'), ];
                 $series[] = ['type' => 'scatter', 'data' => $data, 'marker' => ['symbol' => 'square', 'fillColor' => 'blue']];
-                $naissance = clone $etude->getAp()->getDateSignature();
             }
             $data = $dataSauv;
             if ($etude->getCc() && $etude->getCc()->getDateSignature()) {
@@ -137,13 +141,14 @@ class ChartManager /*extends \Twig_Extension*/
             }
         }
 
+        /** @var Phase $phase */
         foreach ($etude->getPhases() as $phase) {
             if ($phase->getDateDebut() && $phase->getDelai()) {
                 $debut = $phase->getDateDebut();
                 if ($naissance >= $debut) {
                     $naissance = clone $debut;
                 }
-
+                /** @var \DateTime $fin */
                 $fin = clone $debut;
                 $fin->add(new \DateInterval('P' . $phase->getDelai() . 'D'));
                 if ($mort <= $fin) {
@@ -165,12 +170,15 @@ class ChartManager /*extends \Twig_Extension*/
         //Today, à faire à la fin
         $data = [];
         if ($type == 'suivi') {
-            $now = new \DateTime('NOW');
-            $data[] = ['x' => 0, 'y' => $now->getTimestamp() * 1000,
-                'titre' => "aujourd'hui", 'detail' => 'le ' . $now->format('d/m/Y'), ];
-            $data[] = ['x' => count($cats) - 1, 'y' => $now->getTimestamp() * 1000,
-                'titre' => "aujourd'hui", 'detail' => 'le ' . $now->format('d/m/Y'), ];
-            $series[] = ['type' => 'spline', 'data' => $data, 'marker' => ['radius' => 1, 'color' => '#545454'], 'color' => '#545454', 'lineWidth' => 1, 'pointWidth' => 5];
+            if ($mort->getTimestamp() + self::SIX_MONTHS > time()) {
+                $now = new \DateTime('NOW');
+                $mort = clone $now;
+                $data[] = ['x' => 0, 'y' => $now->getTimestamp() * 1000,
+                    'titre' => "aujourd'hui", 'detail' => 'le ' . $now->format('d/m/Y'), ];
+                $data[] = ['x' => count($cats) - 1, 'y' => $now->getTimestamp() * 1000,
+                    'titre' => "aujourd'hui", 'detail' => 'le ' . $now->format('d/m/Y'), ];
+                $series[] = ['type' => 'spline', 'data' => $data, 'marker' => ['radius' => 1, 'color' => '#545454'], 'color' => '#545454', 'lineWidth' => 1, 'pointWidth' => 5];
+            }
         }
 
         $ob = $this->ganttChartFactory($series, $cats);
@@ -245,6 +253,7 @@ class ChartManager /*extends \Twig_Extension*/
         $mort = new \DateTime();
 
         //Etudes
+        /** @var Etude $etude */
         foreach ($etudes as $etude) {
             if ($etude->getDateLancement() && $etude->getDateFin()) {
                 $debut = $etude->getDateLancement();

@@ -8,6 +8,10 @@
     {{ 'suivi.contact_client_affichage'|trans({}, 'suivi') }}
 {% endblock %}
 
+{% block breadcrumb_active %}
+    {{ 'suivi.contact_client'|trans({}, 'suivi') }} {{ selectedContactClient.id }}
+{% endblock %}
+
 
 {% block content_bundle %}
     <div class="row">

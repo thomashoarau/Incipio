@@ -12,6 +12,11 @@
     <li>
         <a href="{{ path('MgateTreso_Facture_index') }}">{{ 'treso.factures_liste'|trans({}, 'treso') }}</a>
     </li>
+    {% if facture.etude is not null %}
+        <li>
+            <a href="{{ path('MgateSuivi_etude_voir', {'nom': facture.etude.nom }) }}">{{ facture.etude.nom }}</a>
+        </li>
+    {% endif %}
 {% endblock %}
 
 {% block breadcrumb_active %}
@@ -94,13 +99,6 @@
         </tr>
     </table>
     <div class="row">
-        {% if facture.etude is not null %}
-            {#Lien de retour vers l'étude liée à cette facture#}
-            <div class="col-md-3 col-xs-6">
-
-                <a href="{{ path('MgateSuivi_etude_voir', {'nom': facture.etude.nom }) }}" class="btn btn-default">{{ 'treso.retour_etude'|trans({}, 'treso') }}</a>
-            </div>
-        {% endif %}
         <div class="col-md-3 col-xs-6">
             <a href="{{ path('Mgate_publi_publiposter', {
                 'templateName' : facture.typeAbbrToString ,

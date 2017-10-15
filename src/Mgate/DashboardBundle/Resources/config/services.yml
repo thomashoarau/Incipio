@@ -23,3 +23,6 @@ services:
             - "@app.json_key_value_store"
           tags:
               - { name: twig.extension }
+
+    Monolog\Processor\WebProcessor:
+        tags: ['monolog.processor']

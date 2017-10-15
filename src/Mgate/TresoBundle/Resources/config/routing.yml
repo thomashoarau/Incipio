@@ -48,14 +48,14 @@ MgateTreso_Facture_voir:
 
 
 MgateTreso_Facture_ajouter:
-    path:  /Facture/Ajouter/{etude_id}
-    defaults: { _controller: MgateTresoBundle:Facture:modifier,  id:-1 , etude_id:-1 }
+    path:  /Facture/Ajouter/{id}
+    defaults: { _controller: MgateTresoBundle:Facture:ajouter, id: null }
     methods:  [GET, HEAD, POST]
 
 
 MgateTreso_Facture_modifier:
-    path:  /Facture/Modifier/{id}/{etude_id}
-    defaults: { _controller: MgateTresoBundle:Facture:modifier, etude_id:-1 }
+    path:  /Facture/Modifier/{id}
+    defaults: { _controller: MgateTresoBundle:Facture:modifier }
     requirements:
         id: \d+
     methods:  [GET, HEAD, POST]
