@@ -12,6 +12,13 @@
     <li>
         <a href="{{ path('MgateTreso_Facture_index') }}">{{ 'treso.factures_liste'|trans({}, 'treso') }}</a>
     </li>
+    {% if facture is defined %}
+        <li>
+            <a href="{{ path('MgateTreso_Facture_voir', {'id': facture.id}) }}">
+                {{ 'treso.facture'|trans({}, 'treso') }} {{ facture.reference }}
+            </a>
+        </li>
+    {% endif %}
 {% endblock %}
 
 {% block breadcrumb_active %}

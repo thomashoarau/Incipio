@@ -57,8 +57,8 @@ class FactureController extends Controller
     /**
      * @Security("has_role('ROLE_TRESO')")
      *
-     * @param Request $request
-     * @param Etude   $etude Etude to which the Facture will be added
+     * @param Request $request Http request
+     * @param Etude   $etude   Etude to which the Facture will be added
      *
      * @return RedirectResponse|Response
      */
@@ -134,6 +134,7 @@ class FactureController extends Controller
         }
 
         return $this->render('MgateTresoBundle:Facture:modifier.html.twig', [
+            'facture' => $facture,
             'form' => $form->createView(),
         ]);
     }
@@ -246,8 +247,8 @@ class FactureController extends Controller
                         $phase->getNbrJEH() . ' JEH * ' . $formater->moneyFormat($phase->getPrixJEH()) . ' €');
                     $detail->setMontantHT($phase->getPrixJEH() * $phase->getNbrJEH());
                     $detail->setTauxTVA($tauxTVA);
-
                 }
+
                 $detail = new FactureDetail();
                 $detail->setCompte($em->getRepository('MgateTresoBundle:Compte')->findOneBy(['numero' => $compteFrais]))
                     ->setFacture($facture)
