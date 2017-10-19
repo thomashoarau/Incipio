@@ -2,7 +2,7 @@
 <browserconfig>
     <msapplication>
         <tile>
-            <square150x150logo src="/mstile-150x150.png"/>
+            <square150x150logo src="/jeyser-icon-192x192.png"/>
             <TileColor>#f39c12</TileColor>
         </tile>
     </msapplication>
