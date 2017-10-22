@@ -25,8 +25,6 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Mgate\SuiviBundle\Entity\Etude.
- *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Mgate\SuiviBundle\Entity\EtudeRepository")
  * @ORM\HasLifecycleCallbacks()
@@ -35,12 +33,17 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Etude
 {
-    /************************
-     *    ORM DEFINITIONS
-     ************************
-     * Primitive definitions
-     ************************/
-
+    public const ETUDE_STATE_NEGOCIATION = 1;
+    public const ETUDE_STATE_COURS = 2;
+    public const ETUDE_STATE_PAUSE = 3;
+    public const ETUDE_STATE_CLOTUREE = 4;
+    public const ETUDE_STATE_AVORTEE = 5;
+    public const ETUDE_STATE_ARRAY = [self::ETUDE_STATE_NEGOCIATION => 'En négociation',
+        self::ETUDE_STATE_COURS => 'En cours',
+        self::ETUDE_STATE_PAUSE => 'En pause',
+        self::ETUDE_STATE_CLOTUREE => 'Cloturée',
+        self::ETUDE_STATE_AVORTEE => 'Avortée',
+    ];
     /**
      * @var int
      *
@@ -115,7 +118,8 @@ class Etude
     private $confidentiel;
 
     /**
-     * @ORM\ManyToMany(targetEntity="N7consulting\RhBundle\Entity\Competence", mappedBy="etudes", cascade={"persist","merge"})
+     * @ORM\ManyToMany(targetEntity="N7consulting\RhBundle\Entity\Competence", mappedBy="etudes",
+     *                                                                         cascade={"persist","merge"})
      * @ORM\JoinColumn(nullable=true)
      */
     private $competences;
@@ -740,7 +744,8 @@ class Etude
     public static function getAuditTypeChoice()
     {
         return ['1' => 'Déontologique',
-            '2' => 'Exhaustif', ];
+            '2' => 'Exhaustif',
+        ];
     }
 
     public static function getAuditTypeChoiceAssert()
@@ -905,7 +910,8 @@ class Etude
             '2' => 'ingénieur EN',
             '3' => 'ingénieur TR',
             '4' => 'ingénieur GEA',
-            '5' => 'ingénieur Hydro', ];
+            '5' => 'ingénieur Hydro',
+        ];
     }
 
     public static function getTypePrestationChoiceAssert()
@@ -1444,25 +1450,22 @@ class Etude
         return $this->stateID;
     }
 
+    /**
+     * @deprecated Since 2.2.0. use Etude_State_Array directly instead
+     */
     public static function getStateIDChoice()
     {
-        return ['1' => 'En négociation',
-            '2' => 'En cours',
-            '3' => 'En pause',
-            '4' => 'Cloturée',
-            '5' => 'Avortée', ];
+        return self::ETUDE_STATE_ARRAY;
     }
 
     public static function getStateIDChoiceAssert()
     {
-        return array_keys(self::getStateIDChoice());
+        return array_keys(self::ETUDE_STATE_ARRAY);
     }
 
     public function getStateIDToString()
     {
-        $tab = $this->getStateIDChoice();
-
-        return $this->stateID ? $tab[$this->stateID] : '';
+        return $this->stateID ? self::ETUDE_STATE_ARRAY[$this->stateID] : '';
     }
 
     /**
