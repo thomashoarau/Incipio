@@ -26,6 +26,15 @@
 {% endblock %}
 
 {% block content_bundle %}
+    {% if is_granted('ROLE_ADMIN') and facture is defined %}
+        <div class="pull-right">
+            {{ form_start(delete_form,{'attr': {'class': 'bootbox-confirm',
+                'data-content':('treso.facture_supprimer_confirm'|trans({}, 'treso')) }}) }}
+            {{ form_widget(delete_form) }}
+            <button type="submit" class="btn btn-danger">{{ 'treso.facture_supprimer'|trans({}, 'treso') }}</button>
+            {{ form_end(delete_form) }}
+        </div>
+    {% endif %}
     {{ form_start(form) }}
     <input name="save" type="submit" value="{{ 'treso.facture_enregistrer'|trans({}, 'treso') }}" class="btn btn-success"/>
     <br/><br/>

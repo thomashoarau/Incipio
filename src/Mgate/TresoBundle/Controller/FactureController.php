@@ -132,10 +132,12 @@ class FactureController extends Controller
             }
             $this->addFlash('danger', 'Le formulaire contient des erreurs.');
         }
+        $deleteForm = $this->createDeleteForm($facture);
 
         return $this->render('MgateTresoBundle:Facture:modifier.html.twig', [
             'facture' => $facture,
             'form' => $form->createView(),
+            'delete_form' => $deleteForm->createView(),
         ]);
     }
 
