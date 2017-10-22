@@ -13,10 +13,9 @@ namespace Mgate\SuiviBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Mgate\SuiviBundle\Entity\Av.
- *
  * @ORM\Table()
  * @ORM\Entity
  */
@@ -44,6 +43,8 @@ class Av extends DocType
     protected $etude;
 
     /**
+     * @Assert\NotBlank()
+     *
      * @ORM\Column(name="differentielDelai", type="integer", nullable=false,  options={"default"=0})
      *
      * @var int
@@ -51,6 +52,8 @@ class Av extends DocType
     private $differentielDelai;
 
     /**
+     * @Assert\NotBlank()
+     *
      * @ORM\Column(name="objet", type="text", nullable=false)
      *
      * @var string
