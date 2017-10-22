@@ -40,56 +40,75 @@ class BV
 
     /**
      * @var int
+     *
      * @Assert\NotBlank()
+     * @Assert\LessThanOrEqual(32767)
+     *
      * @ORM\Column(name="mandat", type="smallint")
      */
     private $mandat;
 
     /**
      * @var int
+     *
      * @Assert\NotBlank()
+     * @Assert\LessThanOrEqual(32767)
+     *
      * @ORM\Column(name="numero", type="smallint")
      */
     private $numero;
 
     /**
      * @var int
+     *
      * @Assert\NotBlank()
+     * @Assert\LessThanOrEqual(32767)
+     *
      * @ORM\Column(name="nombreJEH", type="smallint")
      */
     private $nombreJEH;
 
     /**
      * @var float
+     *
      * @Assert\NotBlank()
+     *
      * @ORM\Column(name="remunerationBruteParJEH", type="float")
      */
     private $remunerationBruteParJEH;
 
     /**
      * @var \DateTime
+     *
      * @Assert\NotBlank()
+     *
      * @ORM\Column(name="dateDeVersement", type="date")
      */
     private $dateDeVersement;
 
     /**
      * @var \DateTime
+     *
      * @Assert\NotBlank()
+     *
      * @ORM\Column(name="dateDemission", type="date")
      */
     private $dateDemission;
 
     /**
      * @var string
+     *
      * @Assert\NotBlank()
+     *
      * @ORM\Column(name="typeDeTravail", type="string", length=255)
      */
     private $typeDeTravail;
 
     /**
      * @var string
+     *
      * @Assert\NotBlank()
+     *
      * @ORM\Column(name="numeroVirement", type="string", length=255)
      */
     private $numeroVirement;
@@ -101,6 +120,7 @@ class BV
 
     /**
      * @var BaseURSSAF
+     *
      * @ORM\ManyToOne(targetEntity="Mgate\TresoBundle\Entity\BaseURSSAF")
      */
     private $baseURSSAF;
