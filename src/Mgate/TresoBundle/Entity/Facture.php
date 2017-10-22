@@ -47,6 +47,7 @@ class Facture implements TresoDetailableInterface
 
     /**
      * @Assert\NotNull()
+     *
      * @ORM\ManyToOne(targetEntity="Mgate\PersonneBundle\Entity\Prospect", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
@@ -54,14 +55,20 @@ class Facture implements TresoDetailableInterface
 
     /**
      * @var int
+     *
      * @Assert\NotBlank()
+     * @Assert\LessThanOrEqual(32767)
+     *
      * @ORM\Column(name="exercice", type="smallint")
      */
     private $exercice;
 
     /**
      * @var int
+     *
      * @Assert\NotBlank()
+     * @Assert\LessThanOrEqual(32767)
+     *
      * @ORM\Column(name="numero", type="smallint")
      */
     private $numero;
@@ -69,16 +76,20 @@ class Facture implements TresoDetailableInterface
     /**
      * @var int
      * @abstract 1 is Achat, > 2 is vente
+     *
      * @Assert\NotBlank()
      * @Assert\GreaterThanOrEqual(1)
      * @Assert\LessThanOrEqual(5)
+     *
      * @ORM\Column(name="type", type="smallint", nullable=false)
      */
     private $type;
 
     /**
      * @var \DateTime
+     *
      * @Assert\NotBlank()
+     *
      * @ORM\Column(name="dateEmission", type="date", nullable=false)
      */
     private $dateEmission;
@@ -98,13 +109,16 @@ class Facture implements TresoDetailableInterface
 
     /**
      * @var string
+     *
      * @Assert\NotBlank()
+     *
      * @ORM\Column(name="objet", type="text", nullable=false)
      */
     private $objet;
 
     /**
      * @Assert\Valid()
+     *
      * @ORM\OneToOne(targetEntity="FactureDetail", mappedBy="factureADeduire", cascade="all", orphanRemoval=true)
      * @ORM\JoinColumn(referencedColumnName="id", nullable=true, onDelete="SET NULL")
      */

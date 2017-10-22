@@ -20,8 +20,6 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Mgate\PersonneBundle\Entity\Membre.
- *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Mgate\PersonneBundle\Entity\MembreRepository")
  * @UniqueEntity("identifiant")
@@ -44,6 +42,7 @@ class Membre
 
     /**
      * @Assert\Valid()
+     *
      * @ORM\OneToOne(targetEntity="Mgate\PersonneBundle\Entity\Personne", inversedBy="membre", fetch="EAGER", cascade={"persist", "merge", "remove"})
      * @ORM\JoinColumn(nullable=true)
      */
@@ -72,30 +71,37 @@ class Membre
 
     /**
      * @var int
+     *
+     * @Assert\LessThanOrEqual(32767)
+     *
      * @ORM\Column(name="promotion", type="smallint", nullable=true)
      */
     private $promotion;
 
     /**
      * @var \DateTime
+     *
      * @ORM\Column(name="birthdate", type="date", nullable=true)
      */
     private $dateDeNaissance;
 
     /**
      * @var string
+     *
      * @ORM\Column(name="placeofbirth", type="string", nullable=true)
      */
     private $lieuDeNaissance;
 
     /**
      * @Assert\Valid()
+     *
      * @ORM\OneToMany(targetEntity="Mgate\PersonneBundle\Entity\Mandat", mappedBy="membre", cascade={"persist","remove"}, orphanRemoval=true)
      */
     private $mandats;
 
     /**
      * @var string
+     *
      * @ORM\Column(name="nationalite", type="string", nullable=true)
      */
     private $nationalite;
@@ -115,12 +121,14 @@ class Membre
 
     /**
      * @var string
+     *
      * @ORM\Column(name="formatPaiement", type="string", length=15, nullable=true)
      */
     private $formatPaiement;
 
     /**
      * @Assert\NotNull()
+     *
      * @ORM\ManyToOne(targetEntity="Mgate\PersonneBundle\Entity\Filiere")
      */
     private $filiere;
@@ -132,6 +140,7 @@ class Membre
 
     /**
      * @var string
+     *
      * @ORM\Column(name="commentaire", type="string", nullable=true, length=500)
      */
     private $commentaire;
