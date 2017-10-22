@@ -32,9 +32,6 @@ class PhaseType extends AbstractType
                 ->add('titre', TextType::class, ['attr' => ['placeholder' => 'Titre phase']])
                 ->add('objectif', TextareaType::class, ['label' => 'Objectif', 'required' => false, 'attr' => ['placeholder' => 'Objectif']])
                 ->add('methodo', TextareaType::class, ['label' => 'Méthodologie', 'required' => false, 'attr' => ['placeholder' => 'Méthodologie']])
-                // Obsolète, la validation porte maintenant sur les groupes de phases
-                // Une validation orale est impossible à prouver
-                //->add('validation', 'choice', array('choices' => Phase::getValidationChoice(), 'required' => true))
                 ->add('nbrJEH', IntegerType::class, ['label' => 'Nombre de JEH', 'required' => false, 'attr' => ['class' => 'nbrJEH']])
                 ->add('prixJEH', IntegerType::class, ['label' => 'Prix du JEH HT', 'required' => false, 'attr' => ['class' => 'prixJEH']])
                 ->add('dateDebut', DateType::class, ['label' => 'Date de début', 'format' => 'd/MM/y', 'required' => false, 'widget' => 'single_text'])

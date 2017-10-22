@@ -12,7 +12,6 @@
 namespace Mgate\SuiviBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Mgate\SuiviBundle\Entity\Phase.
@@ -102,14 +101,6 @@ class Phase
     private $delai;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="validation", type="integer", nullable=true)
-     * @Assert\Choice(callback = "getValidationChoiceAssert")
-     */
-    private $validation;
-
-    /**
      * @ORM\ManyToOne(targetEntity="Av", inversedBy="phases")
      */
     private $avenant;
@@ -152,7 +143,6 @@ class Phase
         $this->voteCount = 0;
         $this->createdAt = new \DateTime('now');
         $this->prixJEH = 320;
-        $this->validation = 0;
         $this->avenantStatut = 0;
     }
 
@@ -392,7 +382,7 @@ class Phase
      *
      * @param string $position
      *
-     * @return int
+     * @return Phase
      */
     public function setPosition($position)
     {
@@ -409,57 +399,6 @@ class Phase
     public function getPosition()
     {
         return $this->position;
-    }
-
-    /**
-     * Set validation.
-     *
-     * @param int $validation
-     *
-     * @return Phase
-     */
-    public function setValidation($validation)
-    {
-        $this->validation = $validation;
-
-        return $this;
-    }
-
-    /**
-     * Get validation.
-     *
-     * @deprecated since version 0.0
-     *
-     * @return int
-     */
-    public function getValidation()
-    {
-        return $this->validation;
-    }
-
-    /**
-     * @deprecated since version 0.0
-     */
-    public static function getValidationChoice()
-    {
-        return [//0 => "Aucune", //Inutile
-                        1 => 'Cette phase sera soumise à une validation orale lors d’un entretien avec le client.',
-                        2 => 'Cette phase sera soumise à une validation écrite qui prend la forme d’un Procès-Verbal Intermédiaire signé par le client.', ];
-    }
-
-    /**
-     * @deprecated since version 0.0
-     */
-    public static function getValidationChoiceAssert()
-    {
-        return array_keys(self::getValidationChoice());
-    }
-
-    public function getValidationToString()
-    {
-        $tab = $this->getValidationChoice();
-
-        return $tab[$this->validation];
     }
 
     /**
@@ -496,13 +435,6 @@ class Phase
     public static function getEtatSurAvenantChoiceAssert()
     {
         return array_keys(self::getEtatSurAvenantChoice());
-    }
-
-    public function getEtatSurAvenantToString()
-    {
-        $tab = $this->getValidationChoice();
-
-        return $tab[$this->validation];
     }
 
     /**
