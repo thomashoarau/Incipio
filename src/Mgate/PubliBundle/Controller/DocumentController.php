@@ -84,7 +84,7 @@ class DocumentController extends Controller
         if (!$response = $this->upload($request, false, ['etude' => $etude])) {
             $this->addFlash('success', 'Document mis en ligne');
 
-            return $this->redirect($this->generateUrl('MgateSuivi_etude_voir', ['nom' => $etude->getNom()]));
+            return $this->redirectToRoute('MgateSuivi_etude_voir', ['nom' => $etude->getNom()]);
         }
 
         return $response;
@@ -107,7 +107,7 @@ class DocumentController extends Controller
         if (!$response = $this->upload($request, false, $options)) {
             $this->addFlash('success', 'Document mis en ligne');
 
-            return $this->redirect($this->generateUrl('MgatePersonne_membre_voir', ['id' => $membre_id]));
+            return $this->redirectToRoute('MgatePersonne_membre_voir', ['id' => $membre_id]);
         } else {
             return $response;
         }
@@ -131,7 +131,7 @@ class DocumentController extends Controller
     {
         if (!$response = $this->upload($request, true)) {
             // Si tout est ok
-            return $this->redirect($this->generateUrl('Mgate_publi_documenttype_index'));
+            return $this->redirectToRoute('Mgate_publi_documenttype_index');
         } else {
             return $response;
         }
@@ -159,7 +159,7 @@ class DocumentController extends Controller
         $em->remove($doc);
         $em->flush();
 
-        return $this->redirect($this->generateUrl('Mgate_publi_documenttype_index'));
+        return $this->redirectToRoute('Mgate_publi_documenttype_index');
     }
 
     private function upload(Request $request, $deleteIfExist = false, $options = [])

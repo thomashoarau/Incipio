@@ -74,7 +74,7 @@ class PhasesController extends Controller
                 $em->flush();
             }
 
-            return $this->redirect($this->generateUrl('MgateSuivi_phases_modifier', ['id' => $etude->getId()]));
+            return $this->redirectToRoute('MgateSuivi_phases_modifier', ['id' => $etude->getId()]);
         }
 
         return $this->render('MgateSuiviBundle:Phase:phases.html.twig', [

@@ -66,7 +66,7 @@ class SuiviController extends Controller
                 $em->persist($suivi);
                 $em->flush();
 
-                return $this->redirect($this->generateUrl('MgateSuivi_suivi_voir', ['id' => $suivi->getId()]));
+                return $this->redirectToRoute('MgateSuivi_suivi_voir', ['id' => $suivi->getId()]);
             }
         }
 
@@ -120,7 +120,7 @@ class SuiviController extends Controller
             if ($form->isValid()) {
                 $em->flush();
 
-                return $this->redirect($this->generateUrl('MgateSuivi_suivi_voir', ['id' => $suivi->getId()]));
+                return $this->redirectToRoute('MgateSuivi_suivi_voir', ['id' => $suivi->getId()]);
             }
         }
 

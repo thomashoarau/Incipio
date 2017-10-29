@@ -39,7 +39,7 @@ class FiliereController extends Controller
                 $em->flush();
                 $this->addFlash('success', 'Filière ajoutée');
 
-                return $this->redirect($this->generateUrl('MgatePersonne_poste_homepage'));
+                return $this->redirectToRoute('MgatePersonne_poste_homepage');
             }
         }
 
@@ -71,7 +71,7 @@ class FiliereController extends Controller
                 $em->flush();
                 $this->addFlash('success', 'Filière modifiée');
 
-                return $this->redirect($this->generateUrl('MgatePersonne_poste_homepage'));
+                return $this->redirectToRoute('MgatePersonne_poste_homepage');
             }
         }
 
@@ -102,16 +102,16 @@ class FiliereController extends Controller
                 $em->flush();
                 $this->addFlash('success', 'Filiere supprimée avec succès');
 
-                return $this->redirect($this->generateUrl('MgatePersonne_poste_homepage'));
+                return $this->redirectToRoute('MgatePersonne_poste_homepage');
             } else {
                 $this->addFlash('danger', 'Impossible de supprimer une filiere ayant des membres.');
 
-                return $this->redirect($this->generateUrl('MgatePersonne_poste_homepage'));
+                return $this->redirectToRoute('MgatePersonne_poste_homepage');
             }
         }
         $this->addFlash('danger', 'formulaire invalide');
 
-        return $this->redirect($this->generateUrl('MgatePersonne_poste_homepage'));
+        return $this->redirectToRoute('MgatePersonne_poste_homepage');
     }
 
     private function createDeleteForm($id)

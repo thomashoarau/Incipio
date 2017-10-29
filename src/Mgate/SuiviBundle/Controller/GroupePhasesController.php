@@ -73,7 +73,7 @@ class GroupePhasesController extends Controller
                 $em->flush();
             }
 
-            return $this->redirect($this->generateUrl('MgateSuivi_groupes_modifier', ['id' => $etude->getId()]));
+            return $this->redirectToRoute('MgateSuivi_groupes_modifier', ['id' => $etude->getId()]);
         }
 
         return $this->render('MgateSuiviBundle:GroupePhases:modifier.html.twig', [

@@ -54,9 +54,9 @@ class ApController extends Controller
 
                 $this->addFlash('success', 'Avant-Projet modifié');
                 if ($request->get('phases')) {
-                    return $this->redirect($this->generateUrl('MgateSuivi_phases_modifier', ['id' => $etude->getId()]));
+                    return $this->redirectToRoute('MgateSuivi_phases_modifier', ['id' => $etude->getId()]);
                 } else {
-                    return $this->redirect($this->generateUrl('MgateSuivi_etude_voir', ['nom' => $etude->getNom()]));
+                    return $this->redirectToRoute('MgateSuivi_etude_voir', ['nom' => $etude->getNom()]);
                 }
             }
             $this->addFlash('danger', 'Le formulaire contient des erreurs.');
@@ -92,7 +92,7 @@ class ApController extends Controller
                 $em = $this->getDoctrine()->getManager();
                 $em->flush();
 
-                return $this->redirect($this->generateUrl('MgateSuivi_etude_voir', ['nom' => $etude->getNom()]));
+                return $this->redirectToRoute('MgateSuivi_etude_voir', ['nom' => $etude->getNom()]);
             }
         }
 

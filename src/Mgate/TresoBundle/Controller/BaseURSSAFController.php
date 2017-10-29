@@ -49,7 +49,7 @@ class BaseURSSAFController extends Controller
                 $em->persist($base);
                 $em->flush();
 
-                return $this->redirect($this->generateUrl('MgateTreso_BaseURSSAF_index', []));
+                return $this->redirectToRoute('MgateTreso_BaseURSSAF_index', []);
             }
         }
 
@@ -73,6 +73,6 @@ class BaseURSSAFController extends Controller
         $em->remove($base);
         $em->flush();
 
-        return $this->redirect($this->generateUrl('MgateTreso_BaseURSSAF_index', []));
+        return $this->redirectToRoute('MgateTreso_BaseURSSAF_index', []);
     }
 }

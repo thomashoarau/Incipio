@@ -57,7 +57,7 @@ class AvMissionController extends Controller
         $formHandler = new AvMissionHandler($form, $request, $em);
 
         if ($formHandler->process()) {
-            return $this->redirect($this->generateUrl('MgateSuivi_avmission_voir', ['id' => $avmission->getId()]));
+            return $this->redirectToRoute('MgateSuivi_avmission_voir', ['id' => $avmission->getId()]);
         }
 
         return $this->render('MgateSuiviBundle:AvMission:ajouter.html.twig', [
@@ -114,7 +114,7 @@ class AvMissionController extends Controller
             if ($form->isValid()) {
                 $em->flush();
 
-                return $this->redirect($this->generateUrl('MgateSuivi_avmission_voir', ['id' => $avmission->getId()]));
+                return $this->redirectToRoute('MgateSuivi_avmission_voir', ['id' => $avmission->getId()]);
             }
         }
 

@@ -39,7 +39,7 @@ class ProspectController extends Controller
                 $em->persist($prospect);
                 $em->flush();
 
-                return $this->redirect($this->generateUrl('MgatePersonne_prospect_voir', ['id' => $prospect->getId()]));
+                return $this->redirectToRoute('MgatePersonne_prospect_voir', ['id' => $prospect->getId()]);
             }
         }
 
@@ -122,7 +122,7 @@ class ProspectController extends Controller
                 $em->persist($prospect);
                 $em->flush();
 
-                return $this->redirect($this->generateUrl('MgatePersonne_prospect_voir', ['id' => $prospect->getId()]));
+                return $this->redirectToRoute('MgatePersonne_prospect_voir', ['id' => $prospect->getId()]);
             }
         }
 
@@ -157,7 +157,7 @@ class ProspectController extends Controller
                 //can't delete a prospect with related projects
                 $session->getFlashBag()->add('warning', 'Impossible de supprimer un prospect ayant une étude liée.');
 
-                return $this->redirect($this->generateUrl('MgatePersonne_prospect_voir', ['id' => $prospect->getId()]));
+                return $this->redirectToRoute('MgatePersonne_prospect_voir', ['id' => $prospect->getId()]);
             } else {
                 //remove employes
                 foreach ($prospect->getEmployes() as $employe) {
@@ -169,7 +169,7 @@ class ProspectController extends Controller
             }
         }
 
-        return $this->redirect($this->generateUrl('MgatePersonne_prospect_homepage'));
+        return $this->redirectToRoute('MgatePersonne_prospect_homepage');
     }
 
     private function createDeleteForm($id)
