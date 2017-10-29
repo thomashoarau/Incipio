@@ -172,7 +172,7 @@ class ChartManager /*extends \Twig_Extension*/
         if ('suivi' == $type) {
             if ($mort->getTimestamp() + self::SIX_MONTHS > time()) {
                 $now = new \DateTime('NOW');
-                $mort = clone $now;
+                $mort = ($now > $mort ? clone $now : $mort);
                 $data[] = ['x' => 0, 'y' => $now->getTimestamp() * 1000,
                     'titre' => "aujourd'hui", 'detail' => 'le ' . $now->format('d/m/Y'), ];
                 $data[] = ['x' => count($cats) - 1, 'y' => $now->getTimestamp() * 1000,
