@@ -49,7 +49,7 @@ class ImportController extends Controller
 
                 $request->getSession()->getFlashBag()->add('success', 'Document importé. ' . $results['inserted_projects'] . ' études créées, ' . $results['inserted_prospects'] . ' prospects créés');
 
-                return $this->redirect($this->generateUrl('Mgate_publi_import'));
+                return $this->redirectToRoute('Mgate_publi_import');
             }
         }
 

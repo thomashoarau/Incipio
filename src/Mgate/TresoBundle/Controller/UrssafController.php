@@ -31,9 +31,9 @@ class UrssafController extends Controller
             if ($form->isValid()) {
                 $data = $form->getData();
 
-                return $this->redirect($this->generateUrl('Mgate_treso_urssaf', ['year' => $data['date']->format('Y'),
+                return $this->redirectToRoute('Mgate_treso_urssaf', ['year' => $data['date']->format('Y'),
                     'month' => $data['date']->format('m'),
-                ]));
+                ]);
             }
         }
 

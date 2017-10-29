@@ -29,7 +29,7 @@ class CompetenceController extends Controller
                 $em->persist($competence);
                 $em->flush();
 
-                return $this->redirect($this->generateUrl('N7consultingRh_competence_voir', ['id' => $competence->getId()]));
+                return $this->redirectToRoute('N7consultingRh_competence_voir', ['id' => $competence->getId()]);
             }
         }
 
@@ -91,7 +91,7 @@ class CompetenceController extends Controller
                 $em->persist($competence);
                 $em->flush();
 
-                return $this->redirect($this->generateUrl('N7consultingRh_competence_voir', ['id' => $competence->getId()]));
+                return $this->redirectToRoute('N7consultingRh_competence_voir', ['id' => $competence->getId()]);
             }
         }
 
@@ -135,7 +135,7 @@ class CompetenceController extends Controller
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('N7consultingRh_competence_homepage'));
+        return $this->redirectToRoute('N7consultingRh_competence_homepage');
     }
 
     private function createDeleteForm($id)

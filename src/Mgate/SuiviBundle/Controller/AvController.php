@@ -223,7 +223,7 @@ class AvController extends Controller
                 }
                 $em->flush();
 
-                return $this->redirect($this->generateUrl('MgateSuivi_av_voir', ['id' => $av->getId()]));
+                return $this->redirectToRoute('MgateSuivi_av_voir', ['id' => $av->getId()]);
             }
         }
 

@@ -75,7 +75,7 @@ class NoteDeFraisController extends Controller
                 $em->flush();
                 $this->addFlash('success', 'Note de frais enregistrée');
 
-                return $this->redirect($this->generateUrl('MgateTreso_NoteDeFrais_voir', ['id' => $nf->getId()]));
+                return $this->redirectToRoute('MgateTreso_NoteDeFrais_voir', ['id' => $nf->getId()]);
             }
             $this->addFlash('danger', 'Le formulaire contient des erreurs.');
         }
@@ -100,6 +100,6 @@ class NoteDeFraisController extends Controller
         $em->flush();
         $this->addFlash('success', 'Note de frais supprimée');
 
-        return $this->redirect($this->generateUrl('MgateTreso_NoteDeFrais_index', []));
+        return $this->redirectToRoute('MgateTreso_NoteDeFrais_index', []);
     }
 }

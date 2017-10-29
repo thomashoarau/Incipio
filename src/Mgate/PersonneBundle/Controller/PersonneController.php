@@ -77,6 +77,6 @@ class PersonneController extends Controller
         $em->remove($entity);
         $em->flush();
 
-        return $this->redirect($this->generateUrl('MgatePersonne_annuaire'));
+        return $this->redirectToRoute('MgatePersonne_annuaire');
     }
 }

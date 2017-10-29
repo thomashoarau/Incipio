@@ -87,7 +87,7 @@ class BVController extends Controller
                 $em->flush();
                 $this->addFlash('success', 'BV enregistré');
 
-                return $this->redirect($this->generateUrl('MgateTreso_BV_index', []));
+                return $this->redirectToRoute('MgateTreso_BV_index', []);
             }
             $this->addFlash('danger', 'Le formulaire contient des erreurs.');
         }
@@ -113,6 +113,6 @@ class BVController extends Controller
         $em->flush();
         $this->addFlash('success', 'BV supprimé');
 
-        return $this->redirect($this->generateUrl('MgateTreso_BV_index', []));
+        return $this->redirectToRoute('MgateTreso_BV_index', []);
     }
 }

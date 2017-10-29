@@ -49,7 +49,7 @@ class CotisationURSSAFController extends Controller
                 $em->persist($cotisation);
                 $em->flush();
 
-                return $this->redirect($this->generateUrl('MgateTreso_CotisationURSSAF_index', []));
+                return $this->redirectToRoute('MgateTreso_CotisationURSSAF_index', []);
             }
         }
 
@@ -73,6 +73,6 @@ class CotisationURSSAFController extends Controller
         $em->remove($cotisation);
         $em->flush();
 
-        return $this->redirect($this->generateUrl('MgateTreso_CotisationURSSAF_index', []));
+        return $this->redirectToRoute('MgateTreso_CotisationURSSAF_index', []);
     }
 }

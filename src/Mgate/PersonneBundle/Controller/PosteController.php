@@ -39,7 +39,7 @@ class PosteController extends Controller
                 $em->flush();
                 $this->addFlash('success', 'Poste ajouté');
 
-                return $this->redirect($this->generateUrl('MgatePersonne_poste_homepage'));
+                return $this->redirectToRoute('MgatePersonne_poste_homepage');
             }
             $this->addFlash('danger', 'Le formulaire contient des erreurs.');
         }
@@ -92,7 +92,7 @@ class PosteController extends Controller
                 $em->flush();
                 $this->addFlash('success', 'Poste modifié');
 
-                return $this->redirect($this->generateUrl('MgatePersonne_poste_homepage'));
+                return $this->redirectToRoute('MgatePersonne_poste_homepage');
             }
             $this->addFlash('danger', 'Le formulaire contient des erreurs.');
         }
@@ -122,11 +122,11 @@ class PosteController extends Controller
                 $em->flush();
                 $this->addFlash('success', 'Poste supprimé');
 
-                return $this->redirect($this->generateUrl('MgatePersonne_poste_homepage'));
+                return $this->redirectToRoute('MgatePersonne_poste_homepage');
             } else {
                 $this->addFlash('danger', 'Impossible de supprimer un poste ayant des membres.');
 
-                return $this->redirect($this->generateUrl('MgatePersonne_poste_modifier', ['id' => $poste->getId()]));
+                return $this->redirectToRoute('MgatePersonne_poste_modifier', ['id' => $poste->getId()]);
             }
         }
     }

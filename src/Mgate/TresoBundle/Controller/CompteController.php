@@ -46,7 +46,7 @@ class CompteController extends Controller
                 $em->persist($compte);
                 $em->flush();
 
-                return $this->redirect($this->generateUrl('MgateTreso_Compte_index', []));
+                return $this->redirectToRoute('MgateTreso_Compte_index', []);
             }
         }
 
@@ -70,6 +70,6 @@ class CompteController extends Controller
         $em->remove($compte);
         $em->flush();
 
-        return $this->redirect($this->generateUrl('MgateTreso_Compte_index', []));
+        return $this->redirectToRoute('MgateTreso_Compte_index', []);
     }
 }

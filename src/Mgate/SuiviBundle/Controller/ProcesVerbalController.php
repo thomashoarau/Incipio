@@ -54,7 +54,7 @@ class ProcesVerbalController extends Controller
                 $em->flush();
                 $this->addFlash('success', 'PV ajouté');
 
-                return $this->redirect($this->generateUrl('MgateSuivi_etude_voir', ['nom' => $etude->getNom()]));
+                return $this->redirectToRoute('MgateSuivi_etude_voir', ['nom' => $etude->getNom()]);
             }
         }
 
@@ -93,7 +93,7 @@ class ProcesVerbalController extends Controller
                 $em->flush();
                 $this->addFlash('success', 'PV modifié');
 
-                return $this->redirect($this->generateUrl('MgateSuivi_etude_voir', ['nom' => $etude->getNom()]));
+                return $this->redirectToRoute('MgateSuivi_etude_voir', ['nom' => $etude->getNom()]);
             }
         }
 
@@ -140,7 +140,7 @@ class ProcesVerbalController extends Controller
                 $em->flush();
                 $this->addFlash('success', 'PV rédigé');
 
-                return $this->redirect($this->generateUrl('MgateSuivi_etude_voir', ['nom' => $etude->getNom()]));
+                return $this->redirectToRoute('MgateSuivi_etude_voir', ['nom' => $etude->getNom()]);
             }
         }
 
@@ -176,7 +176,7 @@ class ProcesVerbalController extends Controller
         }
         $this->addFlash('danger', 'Erreur lors de la suppression');
 
-        return $this->redirect($this->generateUrl('MgateSuivi_etude_voir', ['nom' => $etude->getNom()]));
+        return $this->redirectToRoute('MgateSuivi_etude_voir', ['nom' => $etude->getNom()]);
     }
 
     private function createDeleteForm($id_pv)

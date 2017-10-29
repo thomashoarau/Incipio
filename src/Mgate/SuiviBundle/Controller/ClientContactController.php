@@ -60,7 +60,7 @@ class ClientContactController extends Controller
         $formHandler = new ClientContactHandler($form, $request, $em);
 
         if ($formHandler->process()) {
-            return $this->redirect($this->generateUrl('MgateSuivi_clientcontact_voir', ['id' => $clientcontact->getId()]));
+            return $this->redirectToRoute('MgateSuivi_clientcontact_voir', ['id' => $clientcontact->getId()]);
         }
 
         return $this->render('MgateSuiviBundle:ClientContact:ajouter.html.twig', [

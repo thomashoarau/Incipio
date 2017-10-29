@@ -176,6 +176,6 @@ class FormationController extends Controller
         $em->remove($formation);
         $em->flush();
 
-        return $this->redirect($this->generateUrl('Mgate_formations_lister', []));
+        return $this->redirectToRoute('Mgate_formations_lister', []);
     }
 }

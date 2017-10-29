@@ -47,7 +47,7 @@ class EmployeController extends Controller
                 $em->flush();
                 $this->addFlash('success', 'Employé ajouté');
 
-                return $this->redirect($this->generateUrl('MgatePersonne_prospect_voir', ['id' => $employe->getProspect()->getId()]));
+                return $this->redirectToRoute('MgatePersonne_prospect_voir', ['id' => $employe->getProspect()->getId()]);
             }
         }
 
@@ -76,7 +76,7 @@ class EmployeController extends Controller
                 $em->flush();
                 $this->addFlash('success', 'Employé modifié');
 
-                return $this->redirect($this->generateUrl('MgatePersonne_prospect_voir', ['id' => $employe->getProspect()->getId()]));
+                return $this->redirectToRoute('MgatePersonne_prospect_voir', ['id' => $employe->getProspect()->getId()]);
             }
         }
 
@@ -111,10 +111,10 @@ class EmployeController extends Controller
             $em->flush();
             $this->addFlash('success', 'Employé supprimé');
 
-            return $this->redirect($this->generateUrl('MgatePersonne_prospect_voir', ['id' => $employe->getProspect()->getId()]));
+            return $this->redirectToRoute('MgatePersonne_prospect_voir', ['id' => $employe->getProspect()->getId()]);
         }
 
-        return $this->redirect($this->generateUrl('MgatePersonne_prospect_homepage'));
+        return $this->redirectToRoute('MgatePersonne_prospect_homepage');
     }
 
     private function createDeleteForm($id)

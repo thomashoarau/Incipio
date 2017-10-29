@@ -246,7 +246,7 @@ class TraitementController extends Controller
             return $response;
         }
 
-        return $this->redirect($this->generateUrl('MgateSuivi_etude_homepage', ['page' => 1]));
+        return $this->redirectToRoute('MgateSuivi_etude_homepage', ['page' => 1]);
     }
 
     private function arrayPushAssoc(&$array, $key, $value)
@@ -574,7 +574,7 @@ class TraitementController extends Controller
 
                 $session->getFlashBag()->add('success', 'Le document a été mis à jour');
 
-                return $this->redirect($this->generateUrl('Mgate_publi_documenttype_upload'));
+                return $this->redirectToRoute('Mgate_publi_documenttype_upload');
             }
         }
 

@@ -48,7 +48,7 @@ class AdminController extends Controller
                 $this->addFlash('success', 'Paramètres mis à jour');
             }
 
-            return $this->redirect($this->generateUrl('Mgate_dashboard_parameters_admin'));
+            return $this->redirectToRoute('Mgate_dashboard_parameters_admin');
         }
 
         return $this->render('MgateDashboardBundle:Admin:index.html.twig',

@@ -208,7 +208,7 @@ class MembreController extends Controller
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('MgatePersonne_membre_homepage'));
+        return $this->redirectToRoute('MgatePersonne_membre_homepage');
     }
 
     private function createDeleteForm($id)

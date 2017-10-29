@@ -69,10 +69,10 @@ class DeclaratifController extends Controller
             /** @var \DateTime $date */
             $date = $data['date'];
 
-            return $this->redirect($this->generateUrl('MgateTreso_Declaratif_TVA', ['year' => $date->format('Y'),
+            return $this->redirectToRoute('MgateTreso_Declaratif_TVA', ['year' => $date->format('Y'),
                 'month' => $date->format('m'),
                 'trimestriel' => $data['trimestriel'],
-            ]));
+            ]);
         }
 
         /* Case no date specified: take current month */
@@ -245,9 +245,9 @@ class DeclaratifController extends Controller
             /** @var \DateTime $date */
             $date = $data['date'];
 
-            return $this->redirect($this->generateUrl('MgateTreso_Declaratif_BRC', ['year' => $date->format('Y'),
+            return $this->redirectToRoute('MgateTreso_Declaratif_BRC', ['year' => $date->format('Y'),
                 'month' => $date->format('m'),
-            ]));
+            ]);
         }
 
         if (null === $year || null === $month) {

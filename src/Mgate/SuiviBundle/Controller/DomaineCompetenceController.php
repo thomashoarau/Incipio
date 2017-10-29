@@ -38,7 +38,7 @@ class DomaineCompetenceController extends Controller
                 $em->persist($domaine);
                 $em->flush();
 
-                return $this->redirect($this->generateUrl('MgateSuivi_domaine_index'));
+                return $this->redirectToRoute('MgateSuivi_domaine_index');
             }
         }
 
@@ -62,6 +62,6 @@ class DomaineCompetenceController extends Controller
         $em->remove($domaine);
         $em->flush();
 
-        return $this->redirect($this->generateUrl('MgateSuivi_domaine_index'));
+        return $this->redirectToRoute('MgateSuivi_domaine_index');
     }
 }

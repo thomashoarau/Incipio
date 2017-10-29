@@ -87,7 +87,7 @@ class FactureController extends Controller
                 $em->flush();
                 $this->addFlash('success', 'Facture ajoutée');
 
-                return $this->redirect($this->generateUrl('MgateTreso_Facture_voir', ['id' => $facture->getId()]));
+                return $this->redirectToRoute('MgateTreso_Facture_voir', ['id' => $facture->getId()]);
             }
             $this->addFlash('danger', 'Le formulaire contient des erreurs.');
         }
@@ -128,7 +128,7 @@ class FactureController extends Controller
                 $em->flush();
                 $this->addFlash('success', 'Facture modifiée');
 
-                return $this->redirect($this->generateUrl('MgateTreso_Facture_voir', ['id' => $facture->getId()]));
+                return $this->redirectToRoute('MgateTreso_Facture_voir', ['id' => $facture->getId()]);
             }
             $this->addFlash('danger', 'Le formulaire contient des erreurs.');
         }

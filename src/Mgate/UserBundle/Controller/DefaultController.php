@@ -65,7 +65,7 @@ class DefaultController extends Controller
                 $userManager->reloadUser($user);
                 $this->addFlash('success', 'Utilisateur modifié');
 
-                return $this->redirect($this->generateUrl('Mgate_user_lister'));
+                return $this->redirectToRoute('Mgate_user_lister');
             }
         }
 
@@ -107,7 +107,7 @@ class DefaultController extends Controller
             $this->addFlash('success', 'Utilisateur supprimé');
         }
 
-        return $this->redirect($this->generateUrl('Mgate_user_lister'));
+        return $this->redirectToRoute('Mgate_user_lister');
     }
 
     private function createDeleteForm($id)
@@ -167,7 +167,7 @@ class DefaultController extends Controller
             }
         }
 
-        return $this->redirect($this->generateUrl('Mgate_user_lister'));
+        return $this->redirectToRoute('Mgate_user_lister');
     }
 
     private function enMinusculeSansAccent($texte)
