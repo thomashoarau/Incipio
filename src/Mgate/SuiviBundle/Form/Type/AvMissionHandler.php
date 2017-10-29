@@ -33,7 +33,7 @@ class AvMissionHandler
 
     public function process()
     {
-        if ($this->request->getMethod() == 'POST') {
+        if ('POST' == $this->request->getMethod()) {
             $this->form->bind($this->request);
 
             if ($this->form->isValid()) {

@@ -45,7 +45,7 @@ class ProcesVerbalController extends Controller
         $etude->addPvi($proces);
 
         $form = $this->createForm(ProcesVerbalSubType::class, $proces, ['type' => 'pvi', 'prospect' => $etude->getProspect(), 'phases' => count($etude->getPhases()->getValues())]);
-        if ($request->getMethod() == 'POST') {
+        if ('POST' == $request->getMethod()) {
             $form->handleRequest($request);
 
             if ($form->isValid()) {
@@ -84,7 +84,7 @@ class ProcesVerbalController extends Controller
 
         $form = $this->createForm(ProcesVerbalSubType::class, $procesverbal, ['type' => $procesverbal->getType(), 'prospect' => $procesverbal->getEtude()->getProspect(), 'phases' => count($procesverbal->getEtude()->getPhases()->getValues())]);
         $deleteForm = $this->createDeleteForm($procesverbal->getId());
-        if ($request->getMethod() == 'POST') {
+        if ('POST' == $request->getMethod()) {
             $form->handleRequest($request);
 
             if ($form->isValid()) {
@@ -125,14 +125,14 @@ class ProcesVerbalController extends Controller
 
         if (!$procesverbal = $etude->getDoc($type)) {
             $procesverbal = new ProcesVerbal();
-            if (strtoupper($type) == 'PVR') {
+            if ('PVR' == strtoupper($type)) {
                 $etude->setPvr($procesverbal);
             }
             $procesverbal->setType($type);
         }
 
         $form = $this->createForm(ProcesVerbalType::class, $etude, ['type' => $type, 'prospect' => $etude->getProspect(), 'phases' => count($etude->getPhases()->getValues())]);
-        if ($request->getMethod() == 'POST') {
+        if ('POST' == $request->getMethod()) {
             $form->handleRequest($request);
 
             if ($form->isValid()) {

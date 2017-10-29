@@ -64,7 +64,7 @@ class NoteDeFraisController extends Controller
 
         $form = $this->createForm(NoteDeFraisType::class, $nf);
 
-        if ($request->getMethod() == 'POST') {
+        if ('POST' == $request->getMethod()) {
             $form->handleRequest($request);
 
             if ($form->isValid()) {

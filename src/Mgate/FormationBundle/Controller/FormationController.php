@@ -81,7 +81,7 @@ class FormationController extends Controller
 
         $form = $this->createForm(FormationType::class, $formation);
 
-        if ($request->getMethod() == 'POST') {
+        if ('POST' == $request->getMethod()) {
             $form->handleRequest($request);
 
             if ($form->isValid()) {
@@ -134,7 +134,7 @@ class FormationController extends Controller
                 ]
             )->getForm();
 
-        if ($mandat !== null) {
+        if (null !== $mandat) {
             $formations = array_key_exists($mandat, $formationsParMandat) ? $formationsParMandat[$mandat] : [];
         } else {
             $formations = count($formationsParMandat) ? reset($formationsParMandat) : [];

@@ -124,7 +124,7 @@ class ClientContactController extends Controller
 
         $form = $this->createForm(ClientContactType::class, $clientContact);
 
-        if ($request->getMethod() == 'POST') {
+        if ('POST' == $request->getMethod()) {
             $form->handleRequest($request);
 
             if ($form->isValid()) {

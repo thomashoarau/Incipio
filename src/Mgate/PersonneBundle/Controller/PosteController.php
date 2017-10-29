@@ -31,7 +31,7 @@ class PosteController extends Controller
 
         $form = $this->createForm(PosteType::class, $poste);
 
-        if ($request->getMethod() == 'POST') {
+        if ('POST' == $request->getMethod()) {
             $form->handleRequest($request);
 
             if ($form->isValid()) {
@@ -84,7 +84,7 @@ class PosteController extends Controller
         // On passe l'$article récupéré au formulaire
         $form = $this->createForm(PosteType::class, $poste);
         $deleteForm = $this->createDeleteForm($id);
-        if ($request->getMethod() == 'POST') {
+        if ('POST' == $request->getMethod()) {
             $form->handleRequest($request);
 
             if ($form->isValid()) {
@@ -114,7 +114,7 @@ class PosteController extends Controller
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
 
-            if ($poste->getMandats()->count() == 0) { //collection contains no mandats
+            if (0 == $poste->getMandats()->count()) { //collection contains no mandats
                 foreach ($poste->getMandats() as $membre) {
                     $membre->setPoste(null);
                 }

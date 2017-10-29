@@ -37,7 +37,7 @@ class AdminController extends Controller
             $form->get($key)->setData($json_key_value_store->get($key));
         }
 
-        if ($request->getMethod() == 'POST') {
+        if ('POST' == $request->getMethod()) {
             $form->handleRequest($request);
 
             if ($form->isValid()) {

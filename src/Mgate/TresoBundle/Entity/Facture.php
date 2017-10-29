@@ -135,7 +135,7 @@ class Facture implements TresoDetailableInterface
      */
     public function getDate()
     {
-        return $this->type == self::TYPE_ACHAT ? $this->dateEmission : $this->dateVersement;
+        return self::TYPE_ACHAT == $this->type ? $this->dateEmission : $this->dateVersement;
     }
 
     public function getReference()

@@ -108,7 +108,7 @@ class AvMissionController extends Controller
 
         $form = $this->createForm(AvMissionType::class, $avmission);
 
-        if ($request->getMethod() == 'POST') {
+        if ('POST' == $request->getMethod()) {
             $form->handleRequest($request);
 
             if ($form->isValid()) {

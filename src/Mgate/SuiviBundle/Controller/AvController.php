@@ -86,7 +86,7 @@ class AvController extends Controller
         foreach (self::$phaseMethodes as $methode) {
             $getMethode = 'get' . $methode;
             $setMethode = 'set' . $methode;
-            if ($phaseToMerge->$getMethode() !== null) {
+            if (null !== $phaseToMerge->$getMethode()) {
                 $changes->$setMethode(true);
                 $phaseReceptor->$setMethode($phaseToMerge->$getMethode());
             }
@@ -107,7 +107,7 @@ class AvController extends Controller
         $isNotNull = false;
         foreach (self::$phaseMethodes as $methode) {
             $getMethode = 'get' . $methode;
-            $isNotNull = $isNotNull || ($phase->$getMethode() !== null && $methode != 'Position');
+            $isNotNull = $isNotNull || (null !== $phase->$getMethode() && 'Position' != $methode);
         }
 
         return $isNotNull;
@@ -119,7 +119,7 @@ class AvController extends Controller
         foreach (self::$phaseMethodes as $methode) {
             $getMethode = 'get' . $methode;
             $setMethode = 'set' . $methode;
-            if ($phaseReceptor->$getMethode() == $phaseToCompare->$getMethode() && $methode != 'Position') {
+            if ($phaseReceptor->$getMethode() == $phaseToCompare->$getMethode() && 'Position' != $methode) {
                 $phaseReceptor->$setMethode(null);
             } else {
                 $isNotNull = true;
@@ -183,7 +183,7 @@ class AvController extends Controller
 
         $form = $this->createForm(AvType::class, $av, ['prospect' => $av->getEtude()->getProspect()]);
 
-        if ($request->getMethod() == 'POST') {
+        if ('POST' == $request->getMethod()) {
             $form->handleRequest($request);
 
             if ($form->isValid()) {

@@ -31,7 +31,7 @@ class DomaineCompetenceController extends Controller
 
         $form = $this->createForm(DomaineCompetenceType::class, $domaine);
 
-        if ($request->getMethod() == 'POST') {
+        if ('POST' == $request->getMethod()) {
             $form->handleRequest($request);
 
             if ($form->isValid()) {

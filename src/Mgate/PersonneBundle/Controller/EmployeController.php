@@ -37,7 +37,7 @@ class EmployeController extends Controller
 
         $form = $this->createForm(EmployeType::class, $employe);
 
-        if ($request->getMethod() == 'POST') {
+        if ('POST' == $request->getMethod()) {
             $form->handleRequest($request);
 
             if ($form->isValid()) {
@@ -68,7 +68,7 @@ class EmployeController extends Controller
         // On passe l'$article récupéré au formulaire
         $form = $this->createForm(EmployeType::class, $employe);
         $deleteForm = $this->createDeleteForm($employe->getId());
-        if ($request->getMethod() == 'POST') {
+        if ('POST' == $request->getMethod()) {
             $form->handleRequest($request);
 
             if ($form->isValid()) {

@@ -72,7 +72,7 @@ class PersonneRepository extends EntityRepository
     {
         $qb = $this->_em->createQueryBuilder();
 
-        if ($prospect !== null) {
+        if (null !== $prospect) {
             $query = $qb->select('p')
                         ->from('MgatePersonneBundle:Personne', 'p')
                         ->leftJoin('p.employe', 'e')

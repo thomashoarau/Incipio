@@ -71,7 +71,7 @@ class DocumentManager extends BaseManager
     {
         $tempStorage = 'tmp/' . sha1(uniqid(mt_rand(), true));
 
-        if (($handle = @fopen($url, 'r')) === false) { // Erreur
+        if (false === ($handle = @fopen($url, 'r'))) { // Erreur
             throw new \Exception('La ressource demandée ne peut être lue.');
         }
 

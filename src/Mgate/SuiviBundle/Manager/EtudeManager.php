@@ -143,19 +143,19 @@ class EtudeManager extends \Twig_Extension
     {
         $type = strtoupper($type);
         $name = $etude->getReference($this->namingConvention);
-        if ($type == 'AP') {
+        if ('AP' == $type) {
             if ($etude->getAp()) {
                 return $name . '-' . $type . '-' . $etude->getAp()->getVersion();
             } else {
                 return $name . '-' . $type . '- ERROR GETTING VERSION';
             }
-        } elseif ($type == 'CC') {
+        } elseif ('CC' == $type) {
             if ($etude->getCc()) {
                 return $name . '-' . $type . '-' . $etude->getCc()->getVersion();
             } else {
                 return $name . '-' . $type . '- ERROR GETTING VERSION';
             }
-        } elseif ($type == 'RM' || $type == 'DM') {
+        } elseif ('RM' == $type || 'DM' == $type) {
             if ($key < 0) {
                 return $name . '-' . $type;
             }
@@ -166,25 +166,25 @@ class EtudeManager extends \Twig_Extension
             } else {
                 return $name . '-' . $type . '-' . $etude->getMissions()->get($key)->getIntervenant()->getIdentifiant() . '-' . $etude->getMissions()->get($key)->getVersion();
             }
-        } elseif ($type == 'FA') {
+        } elseif ('FA' == $type) {
             return $name . '-' . $type;
-        } elseif ($type == 'FI') {
+        } elseif ('FI' == $type) {
             return $name . '-' . $type . ($key + 1);
-        } elseif ($type == 'FS') {
+        } elseif ('FS' == $type) {
             return $name . '-' . $type;
-        } elseif ($type == 'PVI') {
+        } elseif ('PVI' == $type) {
             if ($key >= 0 && $etude->getPvis($key)) {
                 return $name . '-' . $type . ($key + 1) . '-' . $etude->getPvis($key)->getVersion();
             } else {
                 return $name . '-' . $type . ($key + 1) . '- ERROR GETTING PVI';
             }
-        } elseif ($type == 'PVR') {
+        } elseif ('PVR' == $type) {
             if ($etude->getPvr()) {
                 return $name . '-' . $type . '-' . $etude->getPvr()->getVersion();
             } else {
                 return $name . '-' . $type . '- ERROR GETTING VERSION';
             }
-        } elseif ($type == 'CE') {
+        } elseif ('CE' == $type) {
             if (!$etude->getMissions()->get($key)
                 || !$etude->getMissions()->get($key)->getIntervenant()
             ) {
@@ -194,7 +194,7 @@ class EtudeManager extends \Twig_Extension
             }
 
             return $etude->getMandat() . '-CE-' . $identifiant;
-        } elseif ($type == 'AVCC') {
+        } elseif ('AVCC' == $type) {
             if ($etude->getCc() && $etude->getAvs()->get($key)) {
                 return $name . '-CC-' . $etude->getCc()->getVersion() . '-AV' . ($key + 1) . '-' . $etude->getAvs()->get($key)->getVersion();
             } else {
@@ -230,9 +230,9 @@ class EtudeManager extends \Twig_Extension
     public function getDernierContact(Etude $etude)
     {
         $dernierContact = [];
-        if ($etude->getClientContacts() !== null) {
+        if (null !== $etude->getClientContacts()) {
             foreach ($etude->getClientContacts() as $contact) {
-                if ($contact->getDate() !== null) {
+                if (null !== $contact->getDate()) {
                     array_push($dernierContact, $contact->getDate());
                 }
             }
@@ -254,7 +254,7 @@ class EtudeManager extends \Twig_Extension
 
         // AP > CC
         if ($etude->getAp() && $etude->getCc()) {
-            if ($etude->getCc()->getDateSignature() !== null && $etude->getAp()->getDateSignature() > $etude->getCc()->getDateSignature()) {
+            if (null !== $etude->getCc()->getDateSignature() && $etude->getAp()->getDateSignature() > $etude->getCc()->getDateSignature()) {
                 $error = ['titre' => 'AP, CC - Date de signature : ', 'message' => 'La date de signature de l\'Avant Projet doit être antérieure ou égale à la date de signature de la Convention Client.'];
                 array_push($errors, $error);
             }
@@ -263,7 +263,7 @@ class EtudeManager extends \Twig_Extension
         // CC > RM
         if ($etude->getCc()) {
             foreach ($etude->getMissions() as $mission) {
-                if ($mission->getDateSignature() !== null && $etude->getCc()->getDateSignature() > $mission->getDateSignature()) {
+                if (null !== $mission->getDateSignature() && $etude->getCc()->getDateSignature() > $mission->getDateSignature()) {
                     $error = ['titre' => 'RM, CC  - Date de signature : ', 'message' => 'La date de signature de la Convention Client doit être antérieure ou égale à la date de signature des récapitulatifs de mission.'];
                     array_push($errors, $error);
                     break;
@@ -274,7 +274,7 @@ class EtudeManager extends \Twig_Extension
         // CC > PVI
         if ($etude->getCc()) {
             foreach ($etude->getPvis() as $pvi) {
-                if ($pvi->getDateSignature() !== null && $etude->getCc()->getDateSignature() >= $pvi->getDateSignature()) {
+                if (null !== $pvi->getDateSignature() && $etude->getCc()->getDateSignature() >= $pvi->getDateSignature()) {
                     $error = ['titre' => 'PVIS, CC  - Date de signature : ', 'message' => 'La date de signature de la Convention Client doit être antérieure à la date de signature des PVIS.'];
                     array_push($errors, $error);
                     break;
@@ -285,7 +285,7 @@ class EtudeManager extends \Twig_Extension
         // CC > FI
         if ($etude->getCc()) {
             foreach ($etude->getFactures() as $FactureVente) {
-                if ($FactureVente->getDateEmission() !== null && $etude->getCc()->getDateSignature() > $FactureVente->getDateEmission()) {
+                if (null !== $FactureVente->getDateEmission() && $etude->getCc()->getDateSignature() > $FactureVente->getDateEmission()) {
                     $error = ['titre' => 'Factures, CC  - Date de signature : ', 'message' => 'La date de signature de la Convention Client doit être antérieure à la date de signature des Factures.'];
                     array_push($errors, $error);
                     break;
@@ -296,7 +296,7 @@ class EtudeManager extends \Twig_Extension
         //ordre PVI
         foreach ($etude->getPvis() as $pvi) {
             if (isset($pviAnterieur)) {
-                if ($pvi->getDateSignature() !== null && $pvi->getDateSignature() < $pviAnterieur->getDateSignature()) {
+                if (null !== $pvi->getDateSignature() && $pvi->getDateSignature() < $pviAnterieur->getDateSignature()) {
                     $error = ['titre' => 'PVIS - Date de signature : ', 'message' => 'La date de signature du PVI1 doit être antérieure à celle du PVI2 et ainsi de suite.
            '];
                     array_push($errors, $error);
@@ -308,7 +308,7 @@ class EtudeManager extends \Twig_Extension
 
         // PVR < fin d'étude
         if ($etude->getPvr()) {
-            if ($etude->getDateFin(true) !== null && $etude->getPvr()->getDateSignature() > $etude->getDateFin(true)) {
+            if (null !== $etude->getDateFin(true) && $etude->getPvr()->getDateSignature() > $etude->getDateFin(true)) {
                 $error = ['titre' => 'PVR  - Date de signature : ', 'message' => 'La date de signature du PVR doit être antérieure à la date de fin de l\'étude. Consulter la Convention Client ou l\'Avenant à la Convention Client pour la fin l\'étude.'];
                 array_push($errors, $error);
             }
@@ -320,20 +320,20 @@ class EtudeManager extends \Twig_Extension
             if ($intervenant = $mission->getIntervenant()) {
                 /** @var Membre $intervenant */
                 $dateSignature = $dateDebutOm = null;
-                if ($mission->getDateSignature() !== null) {
+                if (null !== $mission->getDateSignature()) {
                     $dateSignature = clone $mission->getDateSignature();
                 }
-                if ($mission->getDebutOm() !== null) {
+                if (null !== $mission->getDebutOm()) {
                     $dateDebutOm = clone $mission->getDebutOm();
                 }
-                if ($dateSignature === null || $dateDebutOm === null) {
+                if (null === $dateSignature || null === $dateDebutOm) {
                     continue;
                 }
 
                 $error = ['titre' => 'CE - RM : ' . $intervenant->getPersonne()->getPrenomNom(), 'message' => 'La date de signature de la Convention Eleve de ' . $intervenant->getPersonne()->getPrenomNom() . ' doit être antérieure à la date de signature du récapitulatifs de mission.'];
                 $errorAbs = ['titre' => 'CE - RM : ' . $intervenant->getPersonne()->getPrenomNom(), 'message' => 'La Convention Eleve de ' . $intervenant->getPersonne()->getPrenomNom() . ' n\'est pas signée.'];
 
-                if ($intervenant->getDateConventionEleve() === null) {
+                if (null === $intervenant->getDateConventionEleve()) {
                     array_push($errors, $errorAbs);
                 } elseif ($intervenant->getDateConventionEleve() >= $dateSignature ||
                     $intervenant->getDateConventionEleve() >= $dateDebutOm
@@ -394,7 +394,7 @@ class EtudeManager extends \Twig_Extension
         foreach ($etude->getMissions() as $mission) {
             // Vérification de la présence d'intervenant algériens
             $intervenant = $mission->getIntervenant();
-            if ($intervenant && $intervenant->getNationalite() == 'DZ') {
+            if ($intervenant && 'DZ' == $intervenant->getNationalite()) {
                 $error = ['titre' => 'Nationalité des Intervenants', 'message' => "L'intervenant " . $intervenant->getPersonne()->getPrenomNom() . " est de nationnalité algériennne. Il ne peut intervenir sur l'étude."];
                 array_push($errors, $error);
             }
@@ -405,7 +405,7 @@ class EtudeManager extends \Twig_Extension
          * On créé juste un compteur d'erreur pour ne pas spammer l'utilisateur sous un grand nombre d'erreurs liées juste aux phases.
          */
         $phasesErreurDate = 0; //compteur des phases avec date incorrectes
-        if ($etude->getCc() !== null) {
+        if (null !== $etude->getCc()) {
             foreach ($etude->getPhases() as $phase) {
                 if ($phase->getDateDebut() < $etude->getCc()->getDateSignature()) {
                     ++$phasesErreurDate;
@@ -432,7 +432,7 @@ class EtudeManager extends \Twig_Extension
         }
 
         // Entité sociale absente
-        if ($etude->getProspect()->getEntite() === null) {
+        if (null === $etude->getProspect()->getEntite()) {
             $warning = ['titre' => 'Entité sociale : ', 'message' => 'L\'entité sociale est absente. Vérifiez bien que la société est bien enregistrée et toujours en activité.'];
             array_push($warnings, $warning);
         }
@@ -453,13 +453,13 @@ class EtudeManager extends \Twig_Extension
         foreach ($etude->getMissions() as $mission) {
             if ($intervenant = $mission->getIntervenant()) {
                 $dateSignature = $dateDebutOm = null;
-                if ($mission->getDateSignature() !== null) {
+                if (null !== $mission->getDateSignature()) {
                     $dateSignature = clone $mission->getDateSignature();
                 }
-                if ($mission->getDebutOm() !== null) {
+                if (null !== $mission->getDebutOm()) {
                     $dateDebutOm = clone $mission->getDebutOm();
                 }
-                if ($dateSignature === null || $dateDebutOm === null) {
+                if (null === $dateSignature || null === $dateDebutOm) {
                     $warning = ['titre' => 'Dates sur le RM de ' . $intervenant->getPersonne()->getPrenomNom(), 'message' => 'Le RM de ' . $intervenant->getPersonne()->getPrenomNom() . ' est mal rédigé. Vérifiez les dates de signature et de début de mission.'];
                     array_push($warnings, $warning);
                 }
@@ -472,7 +472,7 @@ class EtudeManager extends \Twig_Extension
         foreach ($etude->getMissions() as $mission) {
             // Vérification de la présence d'intervenant étranger non algérien (relevé dans error)
             $intervenant = $mission->getIntervenant();
-            if ($intervenant && $intervenant->getNationalite() != 'FR' && $intervenant->getNationalite() != 'DZ') {
+            if ($intervenant && 'FR' != $intervenant->getNationalite() && 'DZ' != $intervenant->getNationalite()) {
                 $warning = ['titre' => 'Nationalité des Intervenants', 'message' => "L'intervenant " . $intervenant->getPersonne()->getPrenomNom() . " n'est pas de nationalité Française. Pensez à faire une Déclaration d'Emploi pour un étudiant Etranger auprès de la préfecture."];
                 array_push($warnings, $warning);
             }
@@ -487,12 +487,12 @@ class EtudeManager extends \Twig_Extension
         // Recontacter client
         $DateAvertContactClient = new \DateInterval('P15D');
         $now = new \DateTime('now');
-        if ($this->getDernierContact($etude) !== null && $now->sub($DateAvertContactClient) > $this->getDernierContact($etude)) {
+        if (null !== $this->getDernierContact($etude) && $now->sub($DateAvertContactClient) > $this->getDernierContact($etude)) {
             $warning = ['titre' => 'Contact client :', 'message' => 'Recontacter le client'];
             array_push($warnings, $warning);
         }
 
-        if ($etude->getAp() !== null) {
+        if (null !== $etude->getAp()) {
             if ($etude->getAp()->getRedige()) {
                 if (!$etude->getAp()->getRelu()) {
                     $info = ['titre' => 'Avant-Projet : ', 'message' => 'à faire relire par le Responsable Qualité'];
@@ -509,7 +509,7 @@ class EtudeManager extends \Twig_Extension
 
         //CC
 
-        if ($etude->getCc() !== null) {
+        if (null !== $etude->getCc()) {
             if ($etude->getCc()->getRedige()) {
                 if (!$etude->getCc()->getRelu()) {
                     $info = ['titre' => 'Convention Client : ', 'message' => 'à faire relire par le Responsable Qualité'];
@@ -525,7 +525,7 @@ class EtudeManager extends \Twig_Extension
         }
 
         //Recrutement et RM
-        if ($etude->getCc() !== null & $etude->getAp() !== null) {
+        if (null !== $etude->getCc() & null !== $etude->getAp()) {
             if ($etude->getCc()->getSpt2() & $etude->getAp()->getSpt2() & !$etude->getMailEntretienEnvoye()) {
                 $info = ['titre' => 'Recrutement : ', 'message' => 'lancez le recrutement des intervenants'];
                 array_push($infos, $info);
@@ -562,7 +562,7 @@ class EtudeManager extends \Twig_Extension
 
     public function getEtatDoc($doc)
     {
-        if ($doc !== null) {
+        if (null !== $doc) {
             $ok = $doc->getRedige()
                 && $doc->getRelu()
                 && $doc->getEnvoye()
@@ -586,7 +586,7 @@ class EtudeManager extends \Twig_Extension
      */
     public function getEtatFacture($doc)
     {
-        if ($doc !== null) {
+        if (null !== $doc) {
             $now = new \DateTime('now');
             $dateDebutEtude = $doc->getEtude()->getCc()->getDateSignature();
             $ok = ($doc->getDateVersement() < $now && $doc->getDateVersement() > $dateDebutEtude ? 2 : 1);
@@ -690,7 +690,7 @@ class EtudeManager extends \Twig_Extension
         $etudes = $this->em->getRepository('MgateSuiviBundle:Etude')->findAll();
         foreach ($etudes as $etude) {
             $mandat = $etude->getMandat();
-            if ($etude->getAp() !== null) {
+            if (null !== $etude->getAp()) {
                 if ($etude->getAp()->getSpt2()) {
                     if (isset($tauxConversion[$mandat])) {
                         $ApRedige = $tauxConversion[$mandat]['ap_redige'];

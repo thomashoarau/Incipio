@@ -156,7 +156,7 @@ class BV
         $result = $this->getRemunerationNet();
 
         foreach ($this->cotisationURSSAF as $cotisation) {
-            if ($cotisation->getLibelle() == 'C.R.D.S. + CSG non déductible') {
+            if ('C.R.D.S. + CSG non déductible' == $cotisation->getLibelle()) {
                 $result += $this->getAssietteDesCotisations() * $cotisation->getTauxPartEtu();
             }
         }

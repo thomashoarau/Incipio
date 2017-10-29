@@ -54,13 +54,13 @@ class AdminParamType extends AbstractType
      */
     private function chooseType($formType)
     {
-        if ($formType === 'string') {
+        if ('string' === $formType) {
             return TextType::class;
-        } elseif ($formType === 'integer') {
+        } elseif ('integer' === $formType) {
             return IntegerType::class;
-        } elseif ($formType === 'number') {
+        } elseif ('number' === $formType) {
             return NumberType::class;
-        } elseif ($formType === 'url') {
+        } elseif ('url' === $formType) {
             return UrlType::class;
         } else {
             throw new \LogicException('Type ' . $formType . ' is invalid.');

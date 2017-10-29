@@ -54,7 +54,7 @@ class DefaultController extends Controller
             'user_class' => 'Mgate\UserBundle\Entity\User', 'roles' => $this->getParameter('security.role_hierarchy.roles'),
         ]);
         $deleteForm = $this->createDeleteForm($user->getId());
-        if ($request->getMethod() == 'POST') {
+        if ('POST' == $request->getMethod()) {
             $form->handleRequest($request);
 
             if ($form->isValid()) {
@@ -132,7 +132,7 @@ class DefaultController extends Controller
             ->add('id', HiddenType::class)
             ->getForm();
 
-        if ($request->getMethod() == 'POST') {
+        if ('POST' == $request->getMethod()) {
             $create_user_form->handleRequest($request);
 
             if ($create_user_form->isValid()) {

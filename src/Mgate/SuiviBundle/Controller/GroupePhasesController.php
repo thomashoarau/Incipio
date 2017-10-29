@@ -43,7 +43,7 @@ class GroupePhasesController extends Controller
 
         $form = $this->createForm(GroupesPhasesType::class, $etude);
 
-        if ($request->getMethod() == 'POST') {
+        if ('POST' == $request->getMethod()) {
             $form->handleRequest($request);
 
             if ($form->isValid()) {

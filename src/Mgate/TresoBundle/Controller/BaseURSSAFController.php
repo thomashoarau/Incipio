@@ -43,7 +43,7 @@ class BaseURSSAFController extends Controller
 
         $form = $this->createForm(BaseURSSAFType::class, $base);
 
-        if ($request->getMethod() == 'POST') {
+        if ('POST' == $request->getMethod()) {
             $form->handleRequest($request);
             if ($form->isValid()) {
                 $em->persist($base);

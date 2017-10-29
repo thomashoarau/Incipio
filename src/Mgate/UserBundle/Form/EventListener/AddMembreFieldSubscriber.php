@@ -36,7 +36,7 @@ class AddMembreFieldSubscriber implements EventSubscriberInterface
         // setData is called with an actual Entity object in it (whether new
         // or fetched with Doctrine). This if statement lets you skip right
         // over the null condition.
-        {
+
         $user = $data;
         $form->add('personne', Select2EntityType::class, ['label' => "Associer ce compte d'utilisateur à un Membre existant",
                        'class' => 'Mgate\PersonneBundle\Entity\Personne',
@@ -46,6 +46,5 @@ class AddMembreFieldSubscriber implements EventSubscriberInterface
                            return $pr->getMembreNotUser($user);
                        },
                         ]);
-        }
     }
 }

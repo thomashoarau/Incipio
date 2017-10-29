@@ -43,7 +43,7 @@ class MissionsController extends Controller
 
         /* Form handling */
         $form = $this->createForm(MissionsType::class, $etude, ['etude' => $etude]);
-        if ($request->getMethod() == 'POST') {
+        if ('POST' == $request->getMethod()) {
             $form->handleRequest($request);
 
             if ($form->isValid()) {

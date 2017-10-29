@@ -32,7 +32,7 @@ class ProspectController extends Controller
 
         $form = $this->createForm(ProspectType::class, $prospect);
 
-        if ($request->getMethod() == 'POST') {
+        if ('POST' == $request->getMethod()) {
             $form->handleRequest($request);
 
             if ($form->isValid()) {
@@ -115,7 +115,7 @@ class ProspectController extends Controller
         // On passe l'$article récupéré au formulaire
         $form = $this->createForm(ProspectType::class, $prospect);
         $deleteForm = $this->createDeleteForm($id);
-        if ($request->getMethod() == 'POST') {
+        if ('POST' == $request->getMethod()) {
             $form->handleRequest($request);
 
             if ($form->isValid()) {

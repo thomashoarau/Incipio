@@ -43,7 +43,7 @@ class CotisationURSSAFController extends Controller
 
         $form = $this->createForm(CotisationURSSAFType::class, $cotisation);
 
-        if ($request->getMethod() == 'POST') {
+        if ('POST' == $request->getMethod()) {
             $form->handleRequest($request);
             if ($form->isValid()) {
                 $em->persist($cotisation);

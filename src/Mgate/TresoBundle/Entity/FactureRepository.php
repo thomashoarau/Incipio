@@ -28,11 +28,11 @@ class FactureRepository extends EntityRepository
      */
     public function findAllTVAByMonth($type, $month, $year, $trimestriel = false)
     {
-        $date = ($type == 1 ? 'dateEmission' : 'dateVersement');
+        $date = (1 == $type ? 'dateEmission' : 'dateVersement');
         $qb = $this->_em->createQueryBuilder();
         $query = $qb->select('f')
             ->from('MgateTresoBundle:Facture', 'f')
-            ->where('f.type ' . ($type == Facture::TYPE_ACHAT ? '=' : '>') . ' ' . Facture::TYPE_ACHAT);
+            ->where('f.type ' . (Facture::TYPE_ACHAT == $type ? '=' : '>') . ' ' . Facture::TYPE_ACHAT);
         if ($trimestriel) {
             $query->andWhere('MONTH(f.' . $date . ') >= :month')
                 ->setParameter('month', $month)
@@ -71,10 +71,10 @@ class FactureRepository extends EntityRepository
             ->andWhere('etude.mandat = :mandat')
             ->setParameter('mandat', $mandat);
 
-        if ($paid !== null && $paid) {
+        if (null !== $paid && $paid) {
             $qb->andWhere('facture.dateVersement IS NOT NULL');
         }
-        $detailsSum =  $qb->getQuery()->getSingleScalarResult();
+        $detailsSum = $qb->getQuery()->getSingleScalarResult();
 
         $qb = $this->_em->createQueryBuilder();
         $qb->select('sum(montantADeduire.montantHT) as montant')
@@ -86,7 +86,7 @@ class FactureRepository extends EntityRepository
             ->andWhere('etude.mandat = :mandat')
             ->setParameter('mandat', $mandat);
 
-        if ($paid !== null && $paid) {
+        if (null !== $paid && $paid) {
             $qb->andWhere('facture.dateVersement IS NOT NULL');
         }
         $deduireSum = $qb->getQuery()->getSingleScalarResult();

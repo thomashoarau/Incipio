@@ -31,7 +31,7 @@ class FiliereController extends Controller
 
         $form = $this->createForm(FiliereType::class, $filiere);
 
-        if ($request->getMethod() == 'POST') {
+        if ('POST' == $request->getMethod()) {
             $form->handleRequest($request);
 
             if ($form->isValid()) {
@@ -64,7 +64,7 @@ class FiliereController extends Controller
         $form = $this->createForm(FiliereType::class, $filiere);
         $deleteForm = $this->createDeleteForm($filiere->getId());
 
-        if ($request->getMethod() == 'POST') {
+        if ('POST' == $request->getMethod()) {
             $form->handleRequest($request);
             if ($form->isValid()) {
                 $em->persist($filiere);
@@ -97,7 +97,7 @@ class FiliereController extends Controller
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
 
-            if (count($em->getRepository('MgatePersonneBundle:Membre')->findByFiliere($filiere)) == 0) { //no members uses that filiere
+            if (0 == count($em->getRepository('MgatePersonneBundle:Membre')->findByFiliere($filiere))) { //no members uses that filiere
                 $em->remove($filiere);
                 $em->flush();
                 $this->addFlash('success', 'Filiere supprimée avec succès');
