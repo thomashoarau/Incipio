@@ -33,7 +33,7 @@ class FactureController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $factures = $em->getRepository('MgateTresoBundle:Facture')->findAll();
+        $factures = $em->getRepository('MgateTresoBundle:Facture')->getFactures();
 
         return $this->render('MgateTresoBundle:Facture:index.html.twig', ['factures' => $factures]);
     }

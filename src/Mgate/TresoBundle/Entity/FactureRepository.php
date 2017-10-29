@@ -50,9 +50,9 @@ class FactureRepository extends EntityRepository
 
     /**
      * Retourne la somme des montant HT des factures pour les études d'un mandat.
-     * sum(montantADeduire) is in fact always a sum of only one item. however the query won't work without (fullgroup mode).
-     * Coalesce returns the first not null argument. Allow query to return a result, even though sum(montantADeduire)
-     * returns null.
+     * sum(montantADeduire) is in fact always a sum of only one item. however the query won't work without (fullgroup
+     * mode). Coalesce returns the first not null argument. Allow query to return a result, even though
+     * sum(montantADeduire) returns null.
      *
      * @param int       $mandat mandat des etudes dont les factures seront prises en compte
      * @param bool|null $paid   est-ce que seul les factures payées doivent être prises en compte
@@ -92,5 +92,26 @@ class FactureRepository extends EntityRepository
         $deduireSum = $qb->getQuery()->getSingleScalarResult();
 
         return $detailsSum - $deduireSum;
+    }
+
+    /**
+     * Returns the same result as findAll() but with the join on FactureDetails.
+     *
+     * @return array
+     */
+    public function getFactures()
+    {
+        $qb = $this->_em->createQueryBuilder();
+
+        $query = $qb
+            ->select('f')
+            ->from('MgateTresoBundle:Facture', 'f')
+            ->leftJoin('f.details', 'details')
+            ->addSelect('details')
+            ->leftJoin('f.montantADeduire', 'montantADeduire')
+            ->addSelect('montantADeduire')
+            ->getQuery();
+
+        return $query->getResult();
     }
 }
