@@ -37,7 +37,7 @@ class UrssafController extends Controller
             }
         }
 
-        if ($year === null || $month === null) {
+        if (null === $year || null === $month) {
             $date = new \DateTime('now');
         } else {
             $date = new \DateTime();

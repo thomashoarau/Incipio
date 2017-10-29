@@ -45,7 +45,7 @@ class ApController extends Controller
 
         $form = $this->createForm(ApType::class, $etude, ['prospect' => $etude->getProspect()]);
 
-        if ($request->getMethod() == 'POST') {
+        if ('POST' == $request->getMethod()) {
             $form->handleRequest($request);
 
             if ($form->isValid()) {
@@ -85,7 +85,7 @@ class ApController extends Controller
         $ap = $etude->getAp();
         $form = $this->createForm(DocTypeSuiviType::class, $ap); //transmettre etude pour ajouter champ de etude
 
-        if ($request->getMethod() == 'POST') {
+        if ('POST' == $request->getMethod()) {
             $form->handleRequest($request);
 
             if ($form->isValid()) {

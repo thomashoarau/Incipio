@@ -252,7 +252,7 @@ class CreateDataCommand extends ContainerAwareCommand
         foreach (self::ETUDES as $etude) {
             $e = new Etude();
             // hack with 317IMU, to have some decent stats on welcome page
-            $mandat = ($etude['nom'] === '317IMU' ? date('Y') : rand(intval(date('Y')) - 3, intval(date('Y'))));
+            $mandat = ('317IMU' === $etude['nom'] ? date('Y') : rand(intval(date('Y')) - 3, intval(date('Y'))));
             $month = rand(1, 10);
             $day = rand(1, 30);
             $e->setMandat($mandat);
@@ -269,7 +269,7 @@ class CreateDataCommand extends ContainerAwareCommand
             $this->validateObject('New Etude', $e);
             $this->em->persist($e);
             $c = $this->competences[array_rand($this->competences)];
-            if ($c !== null) {
+            if (null !== $c) {
                 $c->addEtude($e);
             }
 
@@ -327,7 +327,7 @@ class CreateDataCommand extends ContainerAwareCommand
             //manage project manager
             $pm = $this->createMembre(self::PRENOM[array_rand(self::PRENOM)], self::NOM[array_rand(self::NOM)], $mandat + 2);
             $this->em->persist($pm);
-            if ($c !== null && !$c->getMembres()->contains($pm)) {
+            if (null !== $c && !$c->getMembres()->contains($pm)) {
                 $c->addMembre($pm);
             }
             $e->setSuiveur($pm->getPersonne());
@@ -338,7 +338,7 @@ class CreateDataCommand extends ContainerAwareCommand
                 //manage developper
                 $mdev = $this->createMembre(self::PRENOM[array_rand(self::PRENOM)], self::NOM[array_rand(self::NOM)], $mandat + 1);
                 $this->em->persist($mdev);
-                if ($c !== null && !$c->getMembres()->contains($mdev)) {
+                if (null !== $c && !$c->getMembres()->contains($mdev)) {
                     $c->addMembre($mdev);
                 }
 
@@ -375,7 +375,7 @@ class CreateDataCommand extends ContainerAwareCommand
                 $ap->setContactMgate($this->vp->getPersonne());
                 /** @var Employe $emp */
                 $emp = $etude->getProspect()->getEmployes()[0];
-                $ap->setSignataire2($emp !== null ? $emp->getPersonne() : null);
+                $ap->setSignataire2(null !== $emp ? $emp->getPersonne() : null);
                 $ap->setNbrDev(rand(1, 2));
                 $this->validateObject('New AP', $ap);
                 $this->em->persist($ap);
@@ -383,7 +383,7 @@ class CreateDataCommand extends ContainerAwareCommand
                 $cc = new Cc();
                 $cc->setDateSignature($etude->getDateCreation());
                 $cc->setSignataire1($this->president->getPersonne());
-                $cc->setSignataire2($emp !== null ? $emp->getPersonne() : null);
+                $cc->setSignataire2(null !== $emp ? $emp->getPersonne() : null);
                 $etude->setCc($cc);
                 $this->validateObject('New CC', $cc);
                 $this->em->persist($cc);
@@ -394,13 +394,13 @@ class CreateDataCommand extends ContainerAwareCommand
                     $endDate = clone $etude->getDateCreation();
                     $pv->setDateSignature($endDate->modify('+1 month'));
                     $pv->setSignataire1($this->president->getPersonne());
-                    $pv->setSignataire2($emp !== null ? $emp->getPersonne() : null);
+                    $pv->setSignataire2(null !== $emp ? $emp->getPersonne() : null);
                     $pv->setType('pvr');
                     $this->validateObject('New PVR', $pv);
                     $this->em->persist($pv);
                 }
 
-                if ($etude->getStateID() == Etude::ETUDE_STATE_CLOTUREE) {
+                if (Etude::ETUDE_STATE_CLOTUREE == $etude->getStateID()) {
                     $compteAcompte = 419100;
 
                     $fa = new Facture();
@@ -465,7 +465,7 @@ class CreateDataCommand extends ContainerAwareCommand
     private function validateObject(string $point, $object)
     {
         $constraints = $this->validator->validate($object);
-        if (count($constraints) !== 0) {
+        if (0 !== count($constraints)) {
             $message = 'At ' . $point;
             /** @var ConstraintViolationInterface $cs */
             foreach ($constraints as $cs) {

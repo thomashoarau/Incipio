@@ -98,7 +98,7 @@ class UserAdminType extends AbstractType
 
         $rolesParent = array_keys($originRoles);
         foreach ($rolesParent as $roleParent) {
-            if ($roleParent != 'ROLE_SUPER_ADMIN') {
+            if ('ROLE_SUPER_ADMIN' != $roleParent) {
                 $roles[$roleParent] = $roleParent;
             }
         }

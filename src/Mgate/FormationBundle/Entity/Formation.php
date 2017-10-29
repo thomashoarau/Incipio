@@ -118,7 +118,7 @@ class Formation
     {
         $choices = self::getCategoriesChoice();
 
-        if ($choice === null) {
+        if (null === $choice) {
             return $choices;
         } elseif (array_key_exists($choice, $choices)) {
             return $choices[$choice];

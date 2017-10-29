@@ -44,7 +44,7 @@ class CcController extends Controller
 
         $form = $this->createForm(CcType::class, $etude, ['prospect' => $etude->getProspect()]);
 
-        if ($request->getMethod() == 'POST') {
+        if ('POST' == $request->getMethod()) {
             $form->handleRequest($request);
 
             if ($form->isValid()) {

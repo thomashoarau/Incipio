@@ -59,7 +59,7 @@ class SuiviController extends Controller
         $suivi->setDate(new \DateTime('now'));
         $form = $this->createForm(SuiviType::class, $suivi);
 
-        if ($request->getMethod() == 'POST') {
+        if ('POST' == $request->getMethod()) {
             $form->handleRequest($request);
 
             if ($form->isValid()) {
@@ -114,7 +114,7 @@ class SuiviController extends Controller
 
         $form = $this->createForm(SuiviType::class, $suivi);
 
-        if ($request->getMethod() == 'POST') {
+        if ('POST' == $request->getMethod()) {
             $form->handleRequest($request);
 
             if ($form->isValid()) {

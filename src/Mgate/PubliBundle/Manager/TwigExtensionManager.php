@@ -42,7 +42,7 @@ class TwigExtensionManager extends \Twig_Extension
 
     public function money($input, $displayZero = true)
     {
-        if ($input == 0 && !$displayZero) {
+        if (0 == $input && !$displayZero) {
             return '';
         }
 

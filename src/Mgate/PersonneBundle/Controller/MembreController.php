@@ -60,7 +60,7 @@ class MembreController extends Controller
         $membresActifs = [];
         foreach ($entities as $membre) {
             foreach ($membre->getMandats() as $mandat) {
-                if ($mandat->getPoste()->getIntitule() == 'Membre' && $mandat->getDebutMandat() < new \DateTime('now') && $mandat->getFinMandat() > new \DateTime('now')) {
+                if ('Membre' == $mandat->getPoste()->getIntitule() && $mandat->getDebutMandat() < new \DateTime('now') && $mandat->getFinMandat() > new \DateTime('now')) {
                     $membresActifs[] = $membre;
                 }
             }
@@ -126,7 +126,7 @@ class MembreController extends Controller
 
         $form = $this->createForm(MembreType::class, $membre);
 
-        if ($request->getMethod() == 'POST') {
+        if ('POST' == $request->getMethod()) {
             $form->handleRequest($request);
             $photoUpload = $form->get('photo')->getData();
 

@@ -85,16 +85,16 @@ class EtudeController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        if ($request->getMethod() == 'GET') {
+        if ('GET' == $request->getMethod()) {
             $mandat = intval($request->query->get('mandat'));
             $stateID = intval($request->query->get('stateID'));
 
             if (!empty($mandat) && !empty($stateID)) { // works because state & mandat > 0
                 $etudes = $em->getRepository('MgateSuiviBundle:Etude')->findBy(['stateID' => $stateID, 'mandat' => $mandat], ['num' => 'DESC']);
 
-                if ($stateID == self::STATE_ID_TERMINEE) {
+                if (self::STATE_ID_TERMINEE == $stateID) {
                     return $this->render('MgateSuiviBundle:Etude:Tab/EtudesTerminees.html.twig', ['etudes' => $etudes]);
-                } elseif ($stateID == self::STATE_ID_AVORTEE) {
+                } elseif (self::STATE_ID_AVORTEE == $stateID) {
                     return $this->render('MgateSuiviBundle:Etude:Tab/EtudesAvortees.html.twig', ['etudes' => $etudes]);
                 }
             }
@@ -154,7 +154,7 @@ class EtudeController extends Controller
         $form = $this->createForm(EtudeType::class, $etude);
         $em = $this->getDoctrine()->getManager();
 
-        if ($request->getMethod() == 'POST') {
+        if ('POST' == $request->getMethod()) {
             $form->handleRequest($request);
 
             if ($form->isValid()) {
@@ -222,7 +222,7 @@ class EtudeController extends Controller
         $form = $this->createForm(EtudeType::class, $etude);
 
         $deleteForm = $this->createDeleteForm($etude);
-        if ($request->getMethod() == 'POST') {
+        if ('POST' == $request->getMethod()) {
             $form->handleRequest($request);
 
             if ($form->isValid()) {
@@ -336,14 +336,14 @@ class EtudeController extends Controller
                     ->add((string) (2 * $id + 1), TextareaType::class, ['label' => $etude->getReference($namingConvention),
                         'required' => false, 'data' => $etude->getStateDescription(), ]);
                 ++$id;
-                if ($etude->getStateID() == self::STATE_ID_EN_COURS) {
+                if (self::STATE_ID_EN_COURS == $etude->getStateID()) {
                     array_push($etudesEnCours, $etude);
                 }
             }
         }
         $form = $form->getForm();
 
-        if ($request->getMethod() == 'POST') {
+        if ('POST' == $request->getMethod()) {
             $form->handleRequest($request);
 
             $data = $form->getData();
@@ -413,7 +413,7 @@ class EtudeController extends Controller
         }
 
         $formSuivi = $this->createForm(SuiviEtudeType::class, $etude);
-        if ($request->getMethod() == 'POST') {
+        if ('POST' == $request->getMethod()) {
             $formSuivi->handleRequest($request);
 
             if ($formSuivi->isValid()) {
@@ -442,11 +442,11 @@ class EtudeController extends Controller
             $etude = $em->getRepository('MgateSuiviBundle:Etude')->findOneBy(['stateID' => self::STATE_ID_EN_COURS]);
         }
 
-        if ($etude === null) {
+        if (null === $etude) {
             $etude = $em->getRepository('MgateSuiviBundle:Etude')->findOneBy(['stateID' => self::STATE_ID_EN_NEGOCIATION]);
         }
 
-        if ($etude === null) {
+        if (null === $etude) {
             throw $this->createNotFoundException('Vous devez avoir au moins une étude de créée pour accéder à cette page.');
         }
 
@@ -469,8 +469,8 @@ class EtudeController extends Controller
         return $this->render('MgateSuiviBundle:Etude:vuCA.html.twig', [
             'etude' => $etude,
             'chart' => $ob,
-            'nextID' => ($etudesDisplayList[$nextId] !== null ? $etudesDisplayList[$nextId]->getId() : 0),
-            'prevID' => ($etudesDisplayList[$previousId] !== null ? $etudesDisplayList[$previousId]->getId() : 0),
+            'nextID' => (null !== $etudesDisplayList[$nextId] ? $etudesDisplayList[$nextId]->getId() : 0),
+            'prevID' => (null !== $etudesDisplayList[$previousId] ? $etudesDisplayList[$previousId]->getId() : 0),
             'etudesDisplayList' => $etudesDisplayList,
         ]);
     }

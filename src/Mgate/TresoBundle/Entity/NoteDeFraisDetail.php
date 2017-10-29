@@ -98,7 +98,7 @@ class NoteDeFraisDetail implements TresoDetailInterface
 
     public function getMontantHT()
     {
-        if ($this->type == 1) {
+        if (1 == $this->type) {
             return $this->prixHT;
         } else {
             return $this->kilometrage * $this->tauxKm / 100;
@@ -107,7 +107,7 @@ class NoteDeFraisDetail implements TresoDetailInterface
 
     public function getMontantTVA()
     {
-        if ($this->type == 1) {
+        if (1 == $this->type) {
             return $this->tauxTVA * $this->getMontantHT() / 100;
         } else {
             return 0;

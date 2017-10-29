@@ -57,12 +57,12 @@ class IndicateursController extends Controller
      */
     public function ajaxAction(Request $request)
     {
-        if ($request->getMethod() == 'GET') {
+        if ('GET' == $request->getMethod()) {
             $chartMethode = $request->query->get('chartMethode');
             $em = $this->getDoctrine()->getManager();
             $indicateur = $em->getRepository('MgateStatBundle:Indicateur')->findOneByMethode($chartMethode);
 
-            if ($indicateur !== null) {
+            if (null !== $indicateur) {
                 $method = $indicateur->getMethode();
 
                 return $this->$method(); //okay, it's a little bit dirty ...
@@ -100,8 +100,8 @@ class IndicateursController extends Controller
         foreach ($Ccs as $cc) {
             $etude = $cc->getEtude();
             $dateSignature = $cc->getDateSignature();
-            $signee = $etude->getStateID() == self::STATE_ID_EN_COURS_X
-                || $etude->getStateID() == self::STATE_ID_TERMINEE_X;
+            $signee = self::STATE_ID_EN_COURS_X == $etude->getStateID()
+                || self::STATE_ID_TERMINEE_X == $etude->getStateID();
 
             if ($dateSignature && $signee) {
                 $idMandat = $etudeManager->dateToMandat($dateSignature);
@@ -163,8 +163,8 @@ class IndicateursController extends Controller
         foreach ($Ccs as $cc) {
             $etude = $cc->getEtude();
             $dateSignature = $cc->getDateSignature();
-            $signee = $etude->getStateID() == self::STATE_ID_EN_COURS_X
-                || $etude->getStateID() == self::STATE_ID_TERMINEE_X;
+            $signee = self::STATE_ID_EN_COURS_X == $etude->getStateID()
+                || self::STATE_ID_TERMINEE_X == $etude->getStateID();
             if ($dateSignature && $signee) {
                 $idMandat = $etudeManager->dateToMandat($dateSignature);
                 $nombreEtudesParMandat[$idMandat] += 1;
@@ -218,7 +218,7 @@ class IndicateursController extends Controller
         foreach ($nfs as $nf) {
             foreach ($nf->getDetails() as $detail) {
                 $compte = $detail->getCompte();
-                if ($compte !== null) {
+                if (null !== $compte) {
                     $compte = $detail->getCompte()->getLibelle();
                     $montantTotal += $detail->getMontantHT();
                     if (array_key_exists($compte, $comptes)) {
@@ -276,7 +276,7 @@ class IndicateursController extends Controller
             foreach ($nfs as $nf) { // Pour chaque NF d'un mandat
                 foreach ($nf->getDetails() as $detail) { // Pour chaque détail d'une NF
                     $compte = $detail->getCompte();
-                    if ($compte !== null) {
+                    if (null !== $compte) {
                         $compte = $detail->getCompte()->getLibelle();
                         if (array_key_exists($compte, $comptes)) {
                             if (array_key_exists($mandat, $comptes[$compte])) {
@@ -351,7 +351,7 @@ class IndicateursController extends Controller
 
         $clients = [];
         foreach ($etudes as $etude) {
-            if ($etude->getStateID() == self::STATE_ID_EN_COURS_X || $etude->getStateID() == self::STATE_ID_TERMINEE_X) {
+            if (self::STATE_ID_EN_COURS_X == $etude->getStateID() || self::STATE_ID_TERMINEE_X == $etude->getStateID()) {
                 $clientID = $etude->getProspect()->getId();
                 if (array_key_exists($clientID, $clients)) {
                     ++$clients[$clientID];
@@ -375,7 +375,7 @@ class IndicateursController extends Controller
         $data = [];
         ksort($repartitions);
         foreach ($repartitions as $occ => $nbr) {
-            $data[] = [$occ == 1 ? "$nbr Nouveaux clients" : "$nbr Anciens clients ($occ études)", 100 * $nbr / $nombreClient];
+            $data[] = [1 == $occ ? "$nbr Nouveaux clients" : "$nbr Anciens clients ($occ études)", 100 * $nbr / $nombreClient];
         }
 
         $series = [['type' => 'pie', 'name' => 'Taux de fidélisation', 'data' => $data, 'Nombre de client' => $nombreClient]];
@@ -534,8 +534,8 @@ class IndicateursController extends Controller
         foreach ($Ccs as $cc) {
             $etude = $cc->getEtude();
             $dateSignature = $cc->getDateSignature();
-            $signee = $etude->getStateID() == self::STATE_ID_EN_COURS_X
-                || $etude->getStateID() == self::STATE_ID_TERMINEE_X;
+            $signee = self::STATE_ID_EN_COURS_X == $etude->getStateID()
+                || self::STATE_ID_TERMINEE_X == $etude->getStateID();
 
             if ($dateSignature && $signee) {
                 $idMandat = $etudeManager->dateToMandat($dateSignature);
@@ -585,7 +585,7 @@ class IndicateursController extends Controller
         $repartitions = [];
 
         foreach ($etudes as $etude) {
-            if ($etude->getStateID() == self::STATE_ID_EN_COURS_X || $etude->getStateID() == self::STATE_ID_TERMINEE_X) {
+            if (self::STATE_ID_EN_COURS_X == $etude->getStateID() || self::STATE_ID_TERMINEE_X == $etude->getStateID()) {
                 $type = $etude->getProspect()->getEntiteToString();
                 $CA = $etude->getMontantHT();
                 $chiffreDAffairesTotal += $CA;
@@ -595,7 +595,7 @@ class IndicateursController extends Controller
 
         $data = [];
         foreach ($repartitions as $type => $CA) {
-            if ($type === null) {
+            if (null === $type) {
                 $type = 'Autre';
             }
             $data[] = [$type, round($CA / $chiffreDAffairesTotal * 100, 2)];
@@ -625,7 +625,7 @@ class IndicateursController extends Controller
         $repartitions = [];
 
         foreach ($etudes as $etude) {
-            if ($etude->getStateID() == self::STATE_ID_EN_COURS_X || $etude->getStateID() == self::STATE_ID_TERMINEE_X) {
+            if (self::STATE_ID_EN_COURS_X == $etude->getStateID() || self::STATE_ID_TERMINEE_X == $etude->getStateID()) {
                 ++$nombreClient;
                 $type = $etude->getProspect()->getEntiteToString();
                 array_key_exists($type, $repartitions) ? $repartitions[$type]++ : $repartitions[$type] = 1;
@@ -634,7 +634,7 @@ class IndicateursController extends Controller
 
         $data = [];
         foreach ($repartitions as $type => $nombre) {
-            if ($type === null) {
+            if (null === $type) {
                 $type = 'Autre';
             }
             $data[] = [$type, round($nombre / $nombreClient * 100, 2)];
@@ -852,8 +852,8 @@ class IndicateursController extends Controller
         foreach ($Ccs as $cc) {
             $etude = $cc->getEtude();
             $dateSignature = $cc->getDateSignature();
-            $signee = $etude->getStateID() == self::STATE_ID_EN_COURS_X
-                || $etude->getStateID() == self::STATE_ID_TERMINEE_X;
+            $signee = self::STATE_ID_EN_COURS_X == $etude->getStateID()
+                || self::STATE_ID_TERMINEE_X == $etude->getStateID();
 
             if ($dateSignature && $signee) {
                 $idMandat = $etudeManager->dateToMandat($dateSignature);
@@ -935,8 +935,8 @@ class IndicateursController extends Controller
         foreach ($Ccs as $cc) {
             $etude = $cc->getEtude();
             $dateSignature = $cc->getDateSignature();
-            $signee = $etude->getStateID() == self::STATE_ID_EN_COURS_X
-                || $etude->getStateID() == self::STATE_ID_TERMINEE_X;
+            $signee = self::STATE_ID_EN_COURS_X == $etude->getStateID()
+                || self::STATE_ID_TERMINEE_X == $etude->getStateID();
 
             if ($dateSignature && $signee) {
                 $idMandat = $etudeManager->dateToMandat($dateSignature);
@@ -1152,7 +1152,7 @@ class IndicateursController extends Controller
         $repartitions = [];
 
         foreach ($etudes as $etude) {
-            if ($etude->getStateID() == self::STATE_ID_EN_COURS_X || $etude->getStateID() == self::STATE_ID_TERMINEE_X) {
+            if (self::STATE_ID_EN_COURS_X == $etude->getStateID() || self::STATE_ID_TERMINEE_X == $etude->getStateID()) {
                 ++$nombreClient;
                 $type = $etude->getSourceDeProspectionToString();
                 array_key_exists($type, $repartitions) ? $repartitions[$type]++ : $repartitions[$type] = 1;
@@ -1161,7 +1161,7 @@ class IndicateursController extends Controller
 
         $data = [];
         foreach ($repartitions as $type => $nombre) {
-            if ($type === null) {
+            if (null === $type) {
                 $type = 'Autre';
             }
             $data[] = [$type, round($nombre / $nombreClient * 100, 2)];
@@ -1197,7 +1197,7 @@ class IndicateursController extends Controller
         $repartitions = [];
 
         foreach ($etudes as $etude) {
-            if ($etude->getStateID() == self::STATE_ID_EN_COURS_X || $etude->getStateID() == self::STATE_ID_TERMINEE_X) {
+            if (self::STATE_ID_EN_COURS_X == $etude->getStateID() || self::STATE_ID_TERMINEE_X == $etude->getStateID()) {
                 $type = $etude->getSourceDeProspectionToString();
                 $CA = $etude->getMontantHT();
                 $chiffreDAffairesTotal += $CA;
@@ -1207,7 +1207,7 @@ class IndicateursController extends Controller
 
         $data = [];
         foreach ($repartitions as $type => $CA) {
-            if ($type === null) {
+            if (null === $type) {
                 $type = 'Autre';
             }
             $data[] = [$type, round($CA / $chiffreDAffairesTotal * 100, 2)];
@@ -1274,7 +1274,7 @@ class IndicateursController extends Controller
         //once array has been spliced, index will be changed. Therefore, we uses $k has read index
         $k = 0;
         for ($i = 0; $i <= $MANDAT_MAX - $MANDAT_MIN; ++$i) {
-            if ($used_mandats[$i] == 0 && isset($categories[$k])) {
+            if (0 == $used_mandats[$i] && isset($categories[$k])) {
                 array_splice($categories, $k, 1);
                 $count_series = count($series);
                 for ($j = 0; $j < $count_series; ++$j) {

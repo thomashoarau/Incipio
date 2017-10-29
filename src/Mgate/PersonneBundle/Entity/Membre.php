@@ -207,7 +207,7 @@ class Membre
      */
     public function setPersonne(Personne $personne = null)
     {
-        if ($personne !== null) {
+        if (null !== $personne) {
             $personne->setMembre($this);
         }
         $this->personne = $personne;

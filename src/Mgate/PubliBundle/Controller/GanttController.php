@@ -35,7 +35,7 @@ class GanttController extends Controller
             $naming_convention = $this->get('app.json_key_value_store')->get('namingConvention');
 
             /* Ensure $name should not contains any space character, otherwise gantt export error.*/
-            if (strpos($etude->getReference($naming_convention), ' ') !== false) {
+            if (false !== strpos($etude->getReference($naming_convention), ' ')) {
                 $name = $etude->getId();
             }
         }

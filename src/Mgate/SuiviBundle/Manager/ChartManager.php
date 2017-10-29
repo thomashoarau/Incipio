@@ -51,7 +51,7 @@ class ChartManager /*extends \Twig_Extension*/
         $mort = $etude->getDateCreation(); // last date on the chart
 
         //Contacts Client
-        if ($etude->getClientContacts()->count() != 0 && $type == 'suivi') {
+        if (0 != $etude->getClientContacts()->count() && 'suivi' == $type) {
             /** @var ClientContact $contact */
             foreach ($etude->getClientContacts() as $contact) {
                 $date = $contact->getDate();
@@ -70,7 +70,7 @@ class ChartManager /*extends \Twig_Extension*/
         }
 
         //Documents
-        if ($type == 'suivi') {
+        if ('suivi' == $type) {
             $data = [];
             $count_cats = count($cats);
             for ($j = 0; $j < $count_cats; ++$j) {
@@ -123,7 +123,7 @@ class ChartManager /*extends \Twig_Extension*/
         }
 
         //Etude
-        if ($type == 'suivi') {
+        if ('suivi' == $type) {
             $data = [];
             $count_cats = count($cats);
             for ($j = 0; $j < $count_cats; ++$j) {
@@ -169,7 +169,7 @@ class ChartManager /*extends \Twig_Extension*/
 
         //Today, à faire à la fin
         $data = [];
-        if ($type == 'suivi') {
+        if ('suivi' == $type) {
             if ($mort->getTimestamp() + self::SIX_MONTHS > time()) {
                 $now = new \DateTime('NOW');
                 $mort = clone $now;
@@ -209,7 +209,7 @@ class ChartManager /*extends \Twig_Extension*/
 
         $fp = fopen($chemin, 'w');
         if ($fp) {
-            if (fwrite($fp, $render) === false) {
+            if (false === fwrite($fp, $render)) {
                 $logger->err("exportGantt: impossible d'écrire dans le fichier .json (" . $chemin . ')');
 
                 return false;
@@ -228,7 +228,7 @@ class ChartManager /*extends \Twig_Extension*/
         //Highcharts.options.parsed Highcharts.customCode.parsed tmp/gantt411ENS.png
         $temp = preg_split('#\n#', $output);
         $output = $temp[2];
-        if (strncmp($output, $destination, strlen($destination)) == 0) {
+        if (0 == strncmp($output, $destination, strlen($destination))) {
             if (file_exists($destination)) {
                 return true;
             } else {

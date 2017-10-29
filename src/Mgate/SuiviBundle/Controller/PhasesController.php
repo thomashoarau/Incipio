@@ -45,7 +45,7 @@ class PhasesController extends Controller
 
         $form = $this->createForm(PhasesType::class, $etude, ['etude' => $etude]);
 
-        if ($request->getMethod() == 'POST') {
+        if ('POST' == $request->getMethod()) {
             $form->handleRequest($request);
 
             if ($form->isValid()) {

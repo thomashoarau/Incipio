@@ -50,21 +50,21 @@ class SiajeEtudeImporter extends CsvImporter implements FileImporterInterface
      */
     public function run(UploadedFile $file)
     {
-        if ($file->guessExtension() == 'txt') {
+        if ('txt' == $file->guessExtension()) {
             //csv is seen as text/plain
 
             $i = 1;
             $inserted_projects = 0;
             $inserted_prospects = 0;
-            if (($handle = fopen($file->getPathname(), 'r')) !== false) {
+            if (false !== ($handle = fopen($file->getPathname(), 'r'))) {
                 $array_manager = []; //an array containing references to managers.
                 $array_prospect = []; //an array containing references to projects.
                 //iterate csv, row by row
-                while (($data = fgetcsv($handle, 0, ',')) !== false) {
-                    if ($i > 1 && $this->readArray($data, 'Intitule') != '') { //first row is column headers
+                while (false !== ($data = fgetcsv($handle, 0, ','))) {
+                    if ($i > 1 && '' != $this->readArray($data, 'Intitule')) { //first row is column headers
                         $etude = $this->em->getRepository('MgateSuiviBundle:Etude')->findOneByNom($this->readArray($data, 'Intitule'));
 
-                        if ($etude === null) {
+                        if (null === $etude) {
                             //create project if it doesn't exists in DB
                             $e = new Etude();
                             ++$inserted_projects;
@@ -79,7 +79,7 @@ class SiajeEtudeImporter extends CsvImporter implements FileImporterInterface
                                 $e->setStateID(self::SIAJE_AVAILABLE_STATE['Contact initial']);
                             }
                             $e->setAcompte(true);
-                            if ($this->readArray($data, 'Acompte') !== null) {
+                            if (null !== $this->readArray($data, 'Acompte')) {
                                 $rate = explode(',', $this->readArray($data, 'Acompte')); //acompte is a percentage such as "30,00%".
                                 $e->setPourcentageAcompte($rate['0'] / 100);
                             }
@@ -91,9 +91,9 @@ class SiajeEtudeImporter extends CsvImporter implements FileImporterInterface
 
                             /* Prospect management */
                             // Check if a prospect with same already exists in database
-                            if ($this->readArray($data, 'Entreprise', true) !== '') {
+                            if ('' !== $this->readArray($data, 'Entreprise', true)) {
                                 $prospect = $this->em->getRepository('MgatePersonneBundle:Prospect')->findOneByNom($this->readArray($data, 'Entreprise', true));
-                                if ($prospect === null) {
+                                if (null === $prospect) {
                                     //check if prospect already exist in local objects
                                     if (array_key_exists($this->readArray($data, 'Entreprise', true), $array_prospect)) {
                                         $prospect = $array_prospect[$this->readArray($data, 'Entreprise', true)];
@@ -103,12 +103,12 @@ class SiajeEtudeImporter extends CsvImporter implements FileImporterInterface
                                 $prospect = null;
                             }
 
-                            if ($prospect !== null) {
+                            if (null !== $prospect) {
                                 $e->setProspect($prospect);
                             } else {
                                 $p = new Prospect();
                                 ++$inserted_prospects;
-                                if ($this->readArray($data, 'Entreprise', true) !== '') {
+                                if ('' !== $this->readArray($data, 'Entreprise', true)) {
                                     $p->setNom($this->readArray($data, 'Entreprise', true));
                                 } else {
                                     $p->setNom('Prospect sans nom ' . rand());
@@ -121,7 +121,7 @@ class SiajeEtudeImporter extends CsvImporter implements FileImporterInterface
                                 $pe = new Personne();
                                 $pe->setPrenom($contact[0]); //whitespace explode : not perfect but better than nothing
                                 unset($contact[0]);
-                                if (implode(' ', $contact) == '') {
+                                if ('' == implode(' ', $contact)) {
                                     $pe->setNom('inconnu');
                                 } else {
                                     $pe->setNom(implode(' ', $contact));
@@ -172,17 +172,17 @@ class SiajeEtudeImporter extends CsvImporter implements FileImporterInterface
                             $surname = implode(' ', $contact);
                             $pm = $this->em->getRepository('MgatePersonneBundle:Personne')->findOneBy(['nom' => $surname, 'prenom' => $firstname]);
 
-                            if ($pm !== null) {
+                            if (null !== $pm) {
                                 $e->setSuiveur($pm);
                             } else {
                                 //create a new member and a new person
-                                if (array_key_exists($this->readArray($data, 'Suiveur principal', true), $array_manager) && $this->readArray($data, 'Suiveur principal', true) != '') {
+                                if (array_key_exists($this->readArray($data, 'Suiveur principal', true), $array_manager) && '' != $this->readArray($data, 'Suiveur principal', true)) {
                                     //has already been created before
                                     $e->setSuiveur($array_manager[$this->readArray($data, 'Suiveur principal', true)]);
                                 } else {
                                     $pm = new Personne();
                                     $pm->setPrenom($firstname);
-                                    if ($surname == '') {
+                                    if ('' == $surname) {
                                         $pm->setNom('inconnu');
                                     } else {
                                         $pm->setNom($surname);
@@ -199,7 +199,7 @@ class SiajeEtudeImporter extends CsvImporter implements FileImporterInterface
                             }
 
                             //manage AP & CC
-                            if ($this->dateManager($this->readArray($data, 'Date signature CC')) !== null) {
+                            if (null !== $this->dateManager($this->readArray($data, 'Date signature CC'))) {
                                 $ap = new Ap();
                                 $ap->setEtude($e);
                                 $this->em->persist($ap);
@@ -215,7 +215,7 @@ class SiajeEtudeImporter extends CsvImporter implements FileImporterInterface
                             }
 
                             //manage PVR
-                            if ($this->dateManager($this->readArray($data, 'Date signature PV')) !== null) {
+                            if (null !== $this->dateManager($this->readArray($data, 'Date signature PV'))) {
                                 $pv = new ProcesVerbal();
                                 $pv->setEtude($e);
                                 $pv->setDateSignature($this->dateManager($this->readArray($data, 'Date signature PV')));

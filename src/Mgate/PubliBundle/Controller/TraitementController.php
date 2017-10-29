@@ -146,12 +146,12 @@ class TraitementController extends Controller
         $repertoire = 'tmp';
 
         //SI DM on prend la ref de RM et ont remplace RM par DM
-        if ($templateName == self::DOCTYPE_DESCRIPTIF_MISSION) {
+        if (self::DOCTYPE_DESCRIPTIF_MISSION == $templateName) {
             $templateName = 'RM';
             $isDM = true;
         }
 
-        if ($rootName == 'etude' && $rootObject->getReference()) {
+        if ('etude' == $rootName && $rootObject->getReference()) {
             if ($this->get('app.json_key_value_store')->exists('namingConvention')) {
                 $namingConvention = $this->get('app.json_key_value_store')->get('namingConvention');
             } else {
@@ -163,7 +163,7 @@ class TraitementController extends Controller
             } else {
                 $refDocx = '';
             }
-        } elseif ($rootName == 'etudiant') {
+        } elseif ('etudiant' == $rootName) {
             $refDocx = $templateName . '-' . $rootObject->getIdentifiant();
         } else {
             $refDocx = 'UNREF';
@@ -184,7 +184,7 @@ class TraitementController extends Controller
          */
         $images = [];
         //Gantt
-        if ($templateName == 'AP' || (isset($isDM) && $isDM)) {
+        if ('AP' == $templateName || (isset($isDM) && $isDM)) {
             $chartManager = $this->get('Mgate.chart_manager');
             $ob = $chartManager->getGantt($rootObject, $templateName);
             if ($chartManager->exportGantt($ob, $idDocx)) {
@@ -279,7 +279,7 @@ class TraitementController extends Controller
     {
         $zip = new \ZipArchive();
         $templateXML = [];
-        if ($zip->open($docxFullPath) === true) {
+        if (true === $zip->open($docxFullPath)) {
             for ($i = 0; $i < $zip->numFiles; ++$i) {
                 $name = $zip->getNameIndex($i);
                 if ((strstr($name, 'document') || strstr($name, 'header') || strstr($name, 'footer')) && !strstr($name, 'rels')) {
@@ -297,7 +297,7 @@ class TraitementController extends Controller
     {
         $zip = new \ZipArchive();
         $templateXML = [];
-        if ($zip->open($docxFullPath) === true) {
+        if (true === $zip->open($docxFullPath)) {
             for ($i = 0; $i < $zip->numFiles; ++$i) {
                 $name = $zip->getNameIndex($i);
                 if ((strstr($name, 'document.xml.rel'))) {
@@ -358,7 +358,7 @@ class TraitementController extends Controller
         $oldSec = 86400; // = 1 Jours
         clearstatcache();
         $glob = glob('tmp/*');
-        if ($glob !== false) {
+        if (false !== $glob) {
             foreach ($glob as $filename) {
                 if (filemtime($filename) + $oldSec < time()) {
                     unlink($filename);
@@ -487,7 +487,7 @@ class TraitementController extends Controller
         $form = $this->createForm(DocTypeType::class, $data);
         $session = $request->getSession();
 
-        if ($request->getMethod() == 'POST') {
+        if ('POST' == $request->getMethod()) {
             $form->handleRequest($request);
 
             if ($form->isValid()) {
@@ -529,9 +529,9 @@ class TraitementController extends Controller
                     $etude = null;
                 }
                 // Vérification du template (document étude)
-                if ($etude && ($data['name'] == self::DOCTYPE_AVANT_PROJET ||
-                    $data['name'] == self::DOCTYPE_CONVENTION_CLIENT ||
-                    $data['name'] == self::DOCTYPE_SUIVI_ETUDE) &&
+                if ($etude && (self::DOCTYPE_AVANT_PROJET == $data['name'] ||
+                    self::DOCTYPE_CONVENTION_CLIENT == $data['name'] ||
+                    self::DOCTYPE_SUIVI_ETUDE == $data['name']) &&
                     $data['verification'] && $this->publipostage($docxFullPath, self::ROOTNAME_ETUDE, $etude->getId(), true)
                     ) {
                     $session->getFlashBag()->add('success', 'Le template a été vérifié, il ne contient pas d\'erreur');
@@ -545,8 +545,8 @@ class TraitementController extends Controller
 
                 $etudiant = $data['etudiant'];
                 // Vérification du template (document étudiant)
-                if ($etudiant && ($data['name'] == self::DOCTYPE_CONVENTION_ETUDIANT ||
-                    $data['name'] == self::DOCTYPE_DECLARATION_ETUDIANT_ETR) &&
+                if ($etudiant && (self::DOCTYPE_CONVENTION_ETUDIANT == $data['name'] ||
+                    self::DOCTYPE_DECLARATION_ETUDIANT_ETR == $data['name']) &&
                     $data['verification'] && $this->publipostage($docxFullPath, self::ROOTNAME_ETUDIANT, $etudiant->getId(), true)
                     ) {
                     $session->getFlashBag()->add('success', 'Le template a été vérifié, il ne contient pas d\'erreur');

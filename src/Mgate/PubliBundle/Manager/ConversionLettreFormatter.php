@@ -47,7 +47,7 @@ class ConversionLettreFormatter
         }
         $dblEnt = intval($Nombre);
         $byDec = round(($Nombre - $dblEnt) * 100);
-        if ($byDec == 0) {
+        if (0 == $byDec) {
             if ($dblEnt > 999999999999999) {
                 return '#TropGrand';
             }
@@ -75,14 +75,14 @@ class ConversionLettreFormatter
                 }
                 break;
         }
-        if (($dblEnt > 1) && ($Devise != 0)) {
+        if (($dblEnt > 1) && (0 != $Devise)) {
             $strDev .= 's';
         }
-        if (($byDec > 0) && ($Devise != 0)) {
+        if (($byDec > 0) && (0 != $Devise)) {
             $strDev .= ' et';
         }
         $NumberLetter = $this->convNumEnt(floatval($dblEnt), $Langue) . $strDev;
-        if (($byDec > 0) && ($Devise != 0)) {
+        if (($byDec > 0) && (0 != $Devise)) {
             $NumberLetter .= ' ' . $this->convNumDizaine($byDec, $Langue) . $strCentimes;
         }
 
@@ -160,10 +160,10 @@ class ConversionLettreFormatter
             'seize', 'dix-sept', 'dix-huit', 'dix-neuf', ];
         $TabDiz = ['', '', 'vingt', 'trente', 'quarante', 'cinquante',
             'soixante', 'soixante', 'quatre-vingt', 'quatre-vingt', ];
-        if ($Langue == 1) {
+        if (1 == $Langue) {
             $TabDiz[7] = 'septante';
             $TabDiz[9] = 'nonante';
-        } elseif ($Langue == 2) {
+        } elseif (2 == $Langue) {
             $TabDiz[7] = 'septante';
             $TabDiz[8] = 'huitante';
             $TabDiz[9] = 'nonante';
@@ -171,7 +171,7 @@ class ConversionLettreFormatter
         $byDiz = intval($Nombre / 10);
         $byUnit = $Nombre - ($byDiz * 10);
         $strLiaison = '-';
-        if ($byUnit == 1) {
+        if (1 == $byUnit) {
             $strLiaison = ' et ';
         }
         switch ($byDiz) {
@@ -183,27 +183,27 @@ class ConversionLettreFormatter
                 $strLiaison = '';
                 break;
             case 7:
-                if ($Langue == 0) {
+                if (0 == $Langue) {
                     $byUnit = $byUnit + 10;
                 }
                 break;
             case 8:
-                if ($Langue != 2) {
+                if (2 != $Langue) {
                     $strLiaison = '-';
                 }
                 break;
             case 9:
-                if ($Langue == 0) {
+                if (0 == $Langue) {
                     $byUnit = $byUnit + 10;
                     $strLiaison = '-';
                 }
                 break;
         }
         $NumDizaine = $TabDiz[$byDiz];
-        if ($byDiz == 8 && $Langue != 2 && $byUnit == 0) {
+        if (8 == $byDiz && 2 != $Langue && 0 == $byUnit) {
             $NumDizaine = $NumDizaine . 's';
         }
-        if ($TabUnit[$byUnit] != '') {
+        if ('' != $TabUnit[$byUnit]) {
             $NumDizaine = $NumDizaine . $strLiaison . $TabUnit[$byUnit];
         } else {
             $NumDizaine = $NumDizaine;
@@ -224,14 +224,14 @@ class ConversionLettreFormatter
                 $NumCent = $strReste;
                 break;
             case 1:
-                if ($byReste == 0) {
+                if (0 == $byReste) {
                     $NumCent = 'cent';
                 } else {
                     $NumCent = 'cent ' . $strReste;
                 }
                 break;
             default:
-                if ($byReste == 0) {
+                if (0 == $byReste) {
                     $NumCent = $TabUnit[$byCent] . ' cents';
                 } else {
                     $NumCent = $TabUnit[$byCent] . ' cent ' . $strReste;

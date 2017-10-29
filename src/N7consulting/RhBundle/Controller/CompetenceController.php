@@ -22,7 +22,7 @@ class CompetenceController extends Controller
 
         $form = $this->createForm(CompetenceType::class, $competence);
 
-        if ($request->getMethod() == 'POST') {
+        if ('POST' == $request->getMethod()) {
             $form->handleRequest($request);
 
             if ($form->isValid()) {
@@ -84,7 +84,7 @@ class CompetenceController extends Controller
         // On passe l'$article récupéré au formulaire
         $form = $this->createForm(CompetenceType::class, $competence);
         $deleteForm = $this->createDeleteForm($competence->getId());
-        if ($request->getMethod() == 'POST') {
+        if ('POST' == $request->getMethod()) {
             $form->handleRequest($request);
 
             if ($form->isValid()) {

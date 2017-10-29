@@ -328,7 +328,7 @@ class Etude
      */
     public function createThread(LifecycleEventArgs $args)
     {
-        if ($this->getThread() === null) {
+        if (null === $this->getThread()) {
             $em = $args->getEntityManager();
             $t = new Thread();
             $this->setThread($t);
@@ -352,14 +352,14 @@ class Etude
      */
     public function getReference($namingConvention = 'id')
     {
-        return $namingConvention == 'nom' ? $this->getNom() :
-            ($namingConvention === 'numero' ? $this->getNumero() : $this->getId());
+        return 'nom' == $namingConvention ? $this->getNom() :
+            ('numero' === $namingConvention ? $this->getNumero() : $this->getId());
     }
 
     public function getFa()
     {
         foreach ($this->factures as $facture) {
-            if ($facture->getType() == Facture::TYPE_VENTE_ACCOMPTE) {
+            if (Facture::TYPE_VENTE_ACCOMPTE == $facture->getType()) {
                 return $facture;
             }
         }
@@ -370,7 +370,7 @@ class Etude
     public function getFs()
     {
         foreach ($this->factures as $facture) {
-            if ($facture->getType() == Facture::TYPE_VENTE_SOLDE) {
+            if (Facture::TYPE_VENTE_SOLDE == $facture->getType()) {
                 return $facture;
             }
         }
@@ -421,7 +421,7 @@ class Etude
             $dateDebut = [];
             $phases = $this->phases;
             foreach ($phases as $phase) {
-                if ($phase->getDateDebut() !== null) {
+                if (null !== $phase->getDateDebut()) {
                     array_push($dateDebut, $phase->getDateDebut());
                 }
             }
@@ -448,7 +448,7 @@ class Etude
 
         /** @var Phase $p */
         foreach ($phases as $p) {
-            if ($p->getDateDebut() !== null && $p->getDelai() !== null) {
+            if (null !== $p->getDateDebut() && null !== $p->getDelai()) {
                 $dateDebut = clone $p->getDateDebut();
                 array_push($dateFin, $dateDebut->modify('+' . $p->getDelai() . ' day'));
                 unset($dateDebut);
@@ -530,6 +530,7 @@ class Etude
                 } else {
                     return $this->getMissions()->get($key);
                 }
+                // no break
             default:
                 return null;
         }
@@ -1071,7 +1072,7 @@ class Etude
      */
     public function setAp(Ap $ap = null)
     {
-        if ($ap !== null) {
+        if (null !== $ap) {
             $ap->setEtude($this);
         }
 
@@ -1133,7 +1134,7 @@ class Etude
      */
     public function setCc(Cc $cc = null)
     {
-        if ($cc !== null) {
+        if (null !== $cc) {
             $cc->setEtude($this);
         }
 
@@ -1276,7 +1277,7 @@ class Etude
         $pvis = [];
 
         foreach ($this->procesVerbaux as $value) {
-            if ($value->getType() == 'pvi') {
+            if ('pvi' == $value->getType()) {
                 $pvis[] = $value;
             }
         }
@@ -1375,7 +1376,7 @@ class Etude
         $pvr->setType('pvr');
 
         foreach ($this->procesVerbaux as $pv) {
-            if ($pv->getType() === 'pvr') {
+            if ('pvr' === $pv->getType()) {
                 $pv = $pvr;
 
                 return $this;
@@ -1394,7 +1395,7 @@ class Etude
     public function getPvr()
     {
         foreach ($this->procesVerbaux as $pv) {
-            if ($pv->getType() == 'pvr') {
+            if ('pvr' == $pv->getType()) {
                 return $pv;
             }
         }

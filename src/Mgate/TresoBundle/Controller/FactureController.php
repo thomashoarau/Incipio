@@ -69,7 +69,7 @@ class FactureController extends Controller
         $facture = $this->createFacture($em, $etude);
         $form = $this->createForm(FactureType::class, $facture);
 
-        if ($request->getMethod() == 'POST') {
+        if ('POST' == $request->getMethod()) {
             $form->handleRequest($request);
 
             if ($form->isValid()) {
@@ -77,7 +77,7 @@ class FactureController extends Controller
                     $factured->setFacture($facture);
                 }
 
-                if ($facture->getType() <= Facture::TYPE_VENTE_ACCOMPTE || $facture->getMontantADeduire() === null || $facture->getMontantADeduire()->getMontantHT() == 0) {
+                if ($facture->getType() <= Facture::TYPE_VENTE_ACCOMPTE || null === $facture->getMontantADeduire() || 0 == $facture->getMontantADeduire()->getMontantHT()) {
                     $facture->setMontantADeduire(null);
                 } else {
                     $facture->getMontantADeduire()->setFactureADeduire($facture);
@@ -110,7 +110,7 @@ class FactureController extends Controller
         $em = $this->getDoctrine()->getManager();
         $form = $this->createForm(FactureType::class, $facture);
 
-        if ($request->getMethod() == 'POST') {
+        if ('POST' == $request->getMethod()) {
             $form->handleRequest($request);
 
             if ($form->isValid()) {
@@ -118,8 +118,8 @@ class FactureController extends Controller
                     $factured->setFacture($facture);
                 }
 
-                if ($facture->getType() <= Facture::TYPE_VENTE_ACCOMPTE || $facture->getMontantADeduire() === null ||
-                    $facture->getMontantADeduire()->getMontantHT() == 0
+                if ($facture->getType() <= Facture::TYPE_VENTE_ACCOMPTE || null === $facture->getMontantADeduire() ||
+                    0 == $facture->getMontantADeduire()->getMontantHT()
                 ) {
                     $facture->setMontantADeduire(null);
                 }

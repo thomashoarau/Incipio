@@ -76,7 +76,7 @@ class Prospect extends Adressable
      */
     public function createThread(LifecycleEventArgs $args)
     {
-        if ($this->getThread() === null) {
+        if (null === $this->getThread()) {
             $em = $args->getEntityManager();
             $t = new Thread();
             $t->setId('prospect_' . $this->getId());

@@ -57,7 +57,7 @@ class DeclaratifController extends Controller
                     'label' => 'Mois considéré',
                     'required' => true,
                     'widget' => 'single_text',
-                    'data' => $year === null || $month === null ? date_create() : new \DateTime($year . '-' . $month . '-01'),
+                    'data' => null === $year || null === $month ? date_create() : new \DateTime($year . '-' . $month . '-01'),
                     'format' => 'dd/MM/yyyy', ])
             ->add('trimestriel', CheckboxType::class, ['label' => 'Trimestriel ?', 'required' => false])
             ->getForm();
@@ -76,7 +76,7 @@ class DeclaratifController extends Controller
         }
 
         /* Case no date specified: take current month */
-        if ($year === null || $month === null) {
+        if (null === $year || null === $month) {
             $date = new \DateTime('now');
             $month = $date->format('m');
             $year = $date->format('Y');
@@ -134,7 +134,7 @@ class DeclaratifController extends Controller
                     $totalTvaDeductible['TVA'] += $entityDeductibled->getMontantTVA();
 
                     // Mise à jour du montant global pour le taux de TVA ciblé
-                    if (!in_array($tauxTVA, $tvas) && $tauxTVA !== null) {
+                    if (!in_array($tauxTVA, $tvas) && null !== $tauxTVA) {
                         $tvas[] = $tauxTVA;
                     }
                     if (!array_key_exists($tauxTVA, $totalTvaDeductible)) {
@@ -177,7 +177,7 @@ class DeclaratifController extends Controller
                 }
 
                 // Ajout de l'éventuel nouveau taux de TVA à la liste des taux
-                if (!in_array($tauxTVA, $tvas) && $tauxTVA !== null) {
+                if (!in_array($tauxTVA, $tvas) && null !== $tauxTVA) {
                     $tvas[] = $tauxTVA;
                 }
             }
@@ -196,7 +196,7 @@ class DeclaratifController extends Controller
                 }
 
                 // Ajout de l'éventuel nouveau taux de TVA à la liste des taux
-                if (!in_array($tauxTVA, $tvas) && $tauxTVA !== null) {
+                if (!in_array($tauxTVA, $tvas) && null !== $tauxTVA) {
                     $tvas[] = $tauxTVA;
                 }
             }
@@ -250,7 +250,7 @@ class DeclaratifController extends Controller
             ]));
         }
 
-        if ($year === null || $month === null) {
+        if (null === $year || null === $month) {
             $date = new \DateTime('now');
             $month = $date->format('m');
             $year = $date->format('Y');

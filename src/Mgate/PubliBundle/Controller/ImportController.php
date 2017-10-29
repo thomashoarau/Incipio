@@ -37,7 +37,7 @@ class ImportController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if ($form->get('import_method')->getData() == 'Siaje Etudes') {
+            if ('Siaje Etudes' == $form->get('import_method')->getData()) {
                 $data = $form->getData();
 
                 // Création d'un fichier temporaire
@@ -67,7 +67,7 @@ class ImportController extends Controller
     public function ajaxExpectedFormatAction($service_number)
     {
         if ($service_number < count($this::AVAILABLE_FORMATS)) {
-            if ($this::AVAILABLE_FORMATS[$service_number] == 'Siaje Etudes') {
+            if ('Siaje Etudes' == $this::AVAILABLE_FORMATS[$service_number]) {
                 $siajeImporter = $this->get('Mgate.import.siaje_etude');
 
                 return new JsonResponse($siajeImporter->expectedFormat());

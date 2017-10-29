@@ -65,7 +65,7 @@ class BVController extends Controller
 
         $form = $this->createForm(BVType::class, $bv);
 
-        if ($request->getMethod() == 'POST') {
+        if ('POST' == $request->getMethod()) {
             $form->handleRequest($request);
             if ($form->isValid()) {
                 $bv->setCotisationURSSAF();
@@ -73,12 +73,12 @@ class BVController extends Controller
                 foreach ($charges as $charge) {
                     $bv->addCotisationURSSAF($charge);
                 }
-                if ($charges === null) {
+                if (null === $charges) {
                     throw new \LogicException('Il n\'y a aucune cotisation Urssaf définie pour cette période.Pour ajouter des cotisations URSSAF : ' . $this->get('router')->generate('MgateTreso_CotisationURSSAF_index') . '.');
                 }
 
                 $baseURSSAF = $em->getRepository('MgateTresoBundle:BaseURSSAF')->findByDate($bv->getDateDemission());
-                if ($baseURSSAF === null) {
+                if (null === $baseURSSAF) {
                     throw new \LogicException('Il n\'y a aucune base Urssaf définie pour cette période.Pour ajouter une base URSSAF : ' . $this->get('router')->generate('MgateTreso_BaseURSSAF_index') . '.');
                 }
                 $bv->setBaseURSSAF($baseURSSAF);

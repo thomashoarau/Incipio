@@ -38,11 +38,11 @@ class DocTypeType extends AbstractType
                 'required' => true, ]);
 
         // Si le document n'est ni une FactureVente ni un RM
-        if ($options['data_class'] != 'Mgate\SuiviBundle\Entity\Mission') {
+        if ('Mgate\SuiviBundle\Entity\Mission' != $options['data_class']) {
             // le signataire 2 est l'intervenant
 
             $pro = $options['prospect'];
-            if ($options['data_class'] != 'Mgate\SuiviBundle\Entity\Av') {
+            if ('Mgate\SuiviBundle\Entity\Av' != $options['data_class']) {
                 $builder->add('knownSignataire2', CheckboxType::class,
                     [
                         'required' => false,

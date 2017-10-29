@@ -31,7 +31,7 @@ class ClientContactHandler
 
     public function process()
     {
-        if ($this->request->getMethod() == 'POST') {
+        if ('POST' == $this->request->getMethod()) {
             $this->form->handleRequest($this->request);
 
             if ($this->form->isValid()) {
