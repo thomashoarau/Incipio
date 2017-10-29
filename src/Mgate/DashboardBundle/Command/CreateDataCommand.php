@@ -372,6 +372,7 @@ class CreateDataCommand extends ContainerAwareCommand
                 $etude->setAp($ap);
                 $ap->setDateSignature($etude->getDateCreation());
                 $ap->setSignataire1($this->president->getPersonne());
+                $ap->setContactMgate($this->vp->getPersonne());
                 /** @var Employe $emp */
                 $emp = $etude->getProspect()->getEmployes()[0];
                 $ap->setSignataire2($emp !== null ? $emp->getPersonne() : null);

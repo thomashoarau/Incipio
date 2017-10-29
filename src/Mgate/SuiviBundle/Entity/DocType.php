@@ -357,7 +357,7 @@ class DocType
      *
      * @return DocType
      */
-    public function setSignataire1(Personne $signataire1)
+    public function setSignataire1(?Personne $signataire1)
     {
         $this->signataire1 = $signataire1;
 
@@ -381,7 +381,7 @@ class DocType
      *
      * @return DocType
      */
-    public function setSignataire2(Personne $signataire2)
+    public function setSignataire2(?Personne $signataire2)
     {
         $this->signataire2 = $signataire2;
 
