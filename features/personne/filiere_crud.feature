@@ -7,7 +7,7 @@ Feature: Filiere
     Given I am logged in as "admin"
     Given I am on "/personne/poste"
     Then the response status code should be 200
-    Then I should see "Liste des Filières"
+    Then I should see "Liste des filières"
     And I should see "Ajouter une filière"
 
 

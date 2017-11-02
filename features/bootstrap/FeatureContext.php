@@ -71,6 +71,8 @@ class FeatureContext extends MinkContext implements Context
 
     /**
      * @BeforeScenario @createSchema
+     * This handler doesn't seems to be executed before each scenario, but only when a scenario
+     * is annotated with createSchema. Tried without BeforeScenario and it was not working as expected, so keep it.
      */
     public function createDatabase()
     {
@@ -109,7 +111,7 @@ class FeatureContext extends MinkContext implements Context
             echo $this->getSession()->getCurrentUrl() . "\n\n-------";
             echo substr($this->getSession()->getPage()->getContent(), 100, 200); // the title of the page
             echo "\n\n------";
-            echo substr($this->getSession()->getPage()->getContent(), 11000, 2000);
+            echo substr($this->getSession()->getPage()->getContent(), 13500, 2000);
         }
     }
 

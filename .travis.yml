@@ -15,7 +15,7 @@ script:
     - docker-compose run --rm web php bin/console doctrine:schema:validate --ansi
     # Run tests on test env
     - sleep 10 && docker-compose run --rm web php bin/console cache:clear -e=test --no-warmup
-    - docker-compose run --rm web vendor/bin/behat ./features/
+    - docker-compose run --rm web php -d memory_limit=1024M vendor/bin/behat ./features/
     - docker-compose stop
 
 
