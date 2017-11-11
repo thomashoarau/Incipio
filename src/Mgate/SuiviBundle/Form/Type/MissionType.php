@@ -41,9 +41,9 @@ class MissionType extends DocTypeType
                 'required' => true,
             ])
             ->add('debutOm', Datetype::class, ['label' => 'Début du Récapitulatif de Mission',
-                'required' => true, 'widget' => 'single_text', 'format' => 'dd/mm/yyyy', ])
+                'required' => true, 'widget' => 'single_text', 'format' => 'dd/MM/yyyy', ])
             ->add('finOm', DateType::class, ['label' => 'Fin du Récapitulatif de Mission',
-                'required' => true, 'widget' => 'single_text', 'format' => 'dd/mm/yyyy', ])
+                'required' => true, 'widget' => 'single_text', 'format' => 'dd/MM/yyyy', ])
             ->add('pourcentageJunior', PercentType::class, ['label' => 'Pourcentage junior', 'required' => true, 'scale' => 2])
             ->add('referentTechnique', Select2EntityType::class, [
                 'class' => 'Mgate\\PersonneBundle\\Entity\\Membre',
