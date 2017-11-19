@@ -130,7 +130,7 @@ class Phase
     {
         if ($this->dateDebut) {
             $date = clone $this->dateDebut;
-            $date->modify('+ ' . $this->delai . ' day');
+            $date->modify('+ ' . (null !== $this->delai ? $this->delai : 0) . ' day');
 
             return $date;
         } else {
@@ -428,8 +428,9 @@ class Phase
     public static function getEtatSurAvenantChoice()
     {
         return [0 => 'Modifiée', //Inutile
-                        1 => 'Ajoutée',
-                        -1 => 'Supprimée', ];
+            1 => 'Ajoutée',
+            -1 => 'Supprimée',
+        ];
     }
 
     public static function getEtatSurAvenantChoiceAssert()
