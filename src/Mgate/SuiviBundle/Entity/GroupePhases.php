@@ -75,6 +75,36 @@ class GroupePhases
     }
 
     /**
+     * @return int amount of child phases
+     */
+    public function getMontantHT()
+    {
+        $amount = 0;
+        /** @var Phase $p */
+        foreach ($this->phases as $p) {
+            $amount += $p->getMontantHT();
+        }
+
+        return $amount;
+    }
+
+    /**
+     * @return int JEH number of child phases
+     */
+    public function getNbrJEH()
+    {
+        $amount = 0;
+        /** @var Phase $p */
+        foreach ($this->phases as $p) {
+            $amount += $p->getNbrJEH();
+        }
+
+        return $amount;
+    }
+
+    /** auto-generated methods */
+
+    /**
      * Get id.
      *
      * @return int
