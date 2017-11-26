@@ -14,29 +14,26 @@ var networkChart = {
     force: null,
     force2: null
 };
+
 var chordChart = {
     links: [], // Square matrix
     data: []
 };
-var similarityThresholdMin = 100;
-var similarityThresholdMax = 0;
-var similarityThreshold = 50;
 
 function restart() {
 
-    if (d3.select("#graph") != null) {
+    if (d3.select("#graph") !== null) {
         d3.select("#graph").remove();
     }
-    w = $('#graphHolder').width();
-    h = $('#graphHolder').height();
-
-    $('#similarity').html(Math.round(similarityThreshold) + "%");
+    var graphHolder = $('#graphHolder');
+    w = graphHolder.width();
+    h = graphHolder.height();
 
     // clear network, if available
-    if (networkChart.force != null) {
+    if (networkChart.force !== null) {
         networkChart.force.stop();
     }
-    if (networkChart.force2 != null) {
+    if (networkChart.force2 !== null) {
         networkChart.force2.stop();
     }
     networkChart.nodes = [];
@@ -52,16 +49,35 @@ function restart() {
 
 }
 
-function about() {
-    $("#about").dialog("open");
-    return false;
+function skillColor(links, total_links) {
+    if (links / total_links >= 0.20) {
+        return "#ff162d"
+    }
+    if (links / total_links >= 0.10) {
+        return "#ff7d15"
+    }
+    if (links / total_links >= 0.05) {
+        return "#fff026"
+    }
+    return "#ffcda7"
+}
+
+function memberColor(links) {
+    if (links >= 10) {
+        return "#0a0e81"
+    }
+    if (links >= 7) {
+        return "#5a60ec"
+    }
+    if (links >= 4) {
+        return "#b7faff"
+    }
+    return "#65ff61"
 }
 
 function drawNetwork() {
 
     buildNetwork();
-
-    $("#hint").html("Move the mouse over any language to show further information or click to grab the bubble around.");
 
     networkChart.vis = d3.select("#graphHolder").append("svg:svg").attr("id", "graph").attr("width", w).attr("height", h);
 
@@ -82,81 +98,99 @@ function drawNetwork() {
     var link = networkChart.vis.selectAll("line.link")
         .data(networkChart.links).enter()
         .append("svg:line").attr("class", "link")
-        .style("stroke", function (d, i) {
+        .style("stroke", function (d) {
             return d.color
         });
 
     var node = networkChart.vis.selectAll("g.node")
-        .data(networkChart.force.nodes()).enter()
-        .append("svg:g").attr("id", function (d, i) {
+        .data(networkChart.force.nodes())
+        .enter()
+        .append("svg:g").attr("id", function (d) {
             return d.label
-        }).attr("class", "node");
-    node.append("svg:circle").attr("id", function (d, i) {
+        })
+        .attr("class", "node");
+
+    node.append("svg:circle")
+        .attr("id", function (d) {
             return "c_" + d.label
         })
-        .attr("r", function (d, i) {
+        .attr("r", function (d) {
             return d.size
         })
-        .style("fill", function (d, i) {
-            return d.color
+        .style("fill", function (d) {
+            return d.type === "member" ? memberColor(d.links) : skillColor(d.links, total_liens);
         })
-        .style("stroke", "#FFF").style("stroke-width", 2);
+        .style("stroke", "#FFF")
+        .style("stroke-width", 2);
+
     node.call(networkChart.force.drag);
     node.on("mouseover", function (d) {
-        showInformation(d.label);
+        showInformation(d);
     });
 
     var anchorLink = networkChart.vis.selectAll("line.anchorLink")
         .data(networkChart.labelAnchorLinks);
 
     var anchorNode = networkChart.vis.selectAll("g.anchorNode")
-        .data(networkChart.force2.nodes()).enter()
-        .append("svg:g").attr("class", "anchorNode");
+        .data(networkChart.force2.nodes())
+        .enter()
+        .append("svg:g")
+        .attr("class", "anchorNode");
+
     anchorNode.append("svg:circle")
-        .attr("id", function (d, i) {
+        .attr("id", function (d) {
             return "ct_" + d.node.label
         })
-        .attr("r", 0).style("fill", "#FFF");
+        .attr("r", 0)
+        .style("fill", "#FFF");
+
     anchorNode.append("svg:text")
-        .attr("id", function (d, i) {
+        .attr("id", function (d) {
             return "t_" + d.node.label
         })
         .text(function (d, i) {
-            return i % 2 == 0 ? "" : d.node.label
-        }).style("fill", function (d, i) {
-            return d.node.textcolor
+            return i % 2 === 0 ? "" : d.node.label
+        })
+        .style("fill", function (d) {
+            return d.node.type === "skill" ? "#000000" : "#ba9d92"
         })
         .style("font-family", "Arial")
         .style("font-size", 10)
+        .style("font-weight", function (d) {
+            return d.node.type === "skill" ? "bold" : ""
+        })
         .on("mouseover", function (d) {
-            showInformation(d.node.label);
+            showInformation(d);
         });
 
     var updateLink = function () {
         this.attr("x1", function (d) {
             return d.source.x;
-        }).attr("y1", function (d) {
-            return d.source.y;
-        }).attr("x2", function (d) {
-            return d.target.x;
-        }).attr("y2", function (d) {
-            return d.target.y;
-        });
+        })
+            .attr("y1", function (d) {
+                return d.source.y;
+            })
+            .attr("x2", function (d) {
+                return d.target.x;
+            })
+            .attr("y2", function (d) {
+                return d.target.y;
+            });
 
-    }
+    };
 
     var updateNode = function () {
         this.attr("transform", function (d) {
             return "translate(" + d.x + "," + d.y + ")";
         });
 
-    }
+    };
 
     networkChart.force.on("tick", function () {
         networkChart.force2.start();
         node.call(updateNode);
         anchorNode.each(function (d, i) {
-            if (i % 2 == 0) {
+            if (i % 2 === 0) {
                 d.x = d.node.x;
                 d.y = d.node.y;
             } else {
@@ -198,16 +232,12 @@ function buildNetwork() {
     }
     for (var j = 0; j < linksArray.length; j++) {
         var link = linksArray[j];
-        var sim = link.weight;
-        adjustSlider(sim);
-
-        // just draw the links if similarity is higher than the threshold
         // or the nodes exist
-        if (sim >= similarityThreshold / 100.0 && newMapping[link.source] != -1 && newMapping[link.target] != -1) {
+        if (newMapping[link.source] != -1 && newMapping[link.target] != -1) {
             var newLink = {
                 source: nodesArray[newMapping[link.source]],
                 target: nodesArray[newMapping[link.target]],
-                weight: sim,
+                weight: link.weight,
                 color: link.color
             };
             networkChart.links.push(newLink);
@@ -215,31 +245,21 @@ function buildNetwork() {
     }
 
     // link labels to circles
-    for (var i = 0; i < networkChart.nodes.length; i++) {
-        networkChart.labelAnchorLinks.push({source: i * 2, target: i * 2 + 1, weight: 1});
+    for (var l = 0; l < networkChart.nodes.length; l++) {
+        networkChart.labelAnchorLinks.push({source: l * 2, target: l * 2 + 1, weight: 1});
     }
 }
 
-//adjust the scala of the slider
-function adjustSlider(sim) {
-    if (sim * 100 > similarityThresholdMax) {
-        similarityThresholdMax = sim * 100;
-    } else if (sim * 100 < similarityThresholdMin) {
-        similarityThresholdMin = sim * 100;
-    }
+function skillDetails(node) {
+    return 'Compétence ' + node.label + '. Intervenants: ' + node.links
 }
 
-
-function getAmountLinks(n) {
-    var linksAmount = 0;
-    for (var j = 0; j < linksArray.length; j++) {
-        var link = linksArray[j];
-        if ((link.source == n || link.target == n) && link.weight >= similarityThreshold / 100.0) {
-            linksAmount++;
-        }
-    }
-    return linksAmount;
+function memberDetails(node) {
+    return 'Membre ' + node.label + '. Compétences: ' + node.links
 }
 
 function showInformation(node) {
+    if (node.hasOwnProperty('label')) { // some general node also exists in the chart. They should not be took into account
+        $("#nodeInfos").html(node.type === 'member' ? memberDetails(node) : skillDetails(node));
+    }
 }

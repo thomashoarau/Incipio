@@ -7,12 +7,18 @@ use N7consulting\RhBundle\Form\Type\CompetenceType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class CompetenceController extends Controller
 {
     /**
      * @Security("has_role('ROLE_SUIVEUR')")
+     *
+     * @param Request $request
+     *
+     * @return RedirectResponse|Response
      */
     public function ajouterAction(Request $request)
     {
@@ -41,9 +47,9 @@ class CompetenceController extends Controller
     /**
      * @Security("has_role('ROLE_SUIVEUR')")
      */
-    public function indexAction($page)
+    public function indexAction()
     {
-        $entities = $this->getDoctrine()->getManager()->getRepository('N7consultingRhBundle:Competence')->findAll();
+        $entities = $this->getDoctrine()->getManager()->getRepository('N7consultingRhBundle:Competence')->findBy([], ['nom' => 'asc']);
 
         return $this->render('N7consultingRhBundle:Competence:index.html.twig', [
             'competences' => $entities,
@@ -52,23 +58,21 @@ class CompetenceController extends Controller
 
     /**
      * @Security("has_role('ROLE_SUIVEUR')")
+     *
+     * @param Competence $skill
+     *
+     * @return Response
      */
-    public function voirAction($id)
+    public function voirAction(Competence $skill)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('N7consultingRhBundle:Competence')->find($id);
+        $devs = $em->getRepository('MgatePersonneBundle:Membre')->findByCompetence($skill);
 
-        if (!$entity) {
-            throw $this->createNotFoundException('Cette compétence n\'existe pas !');
-        }
-
-        $devs = $em->getRepository('MgatePersonneBundle:Membre')->findByCompetence($entity);
-
-        $etudes = $em->getRepository('MgateSuiviBundle:Etude')->findByCompetence($entity);
+        $etudes = $em->getRepository('MgateSuiviBundle:Etude')->findByCompetence($skill);
 
         return $this->render('N7consultingRhBundle:Competence:voir.html.twig', [
-            'competence' => $entity,
+            'competence' => $skill,
             'devs' => $devs,
             'etudes' => $etudes,
         ]);
@@ -76,6 +80,11 @@ class CompetenceController extends Controller
 
     /**
      * @Security("has_role('ROLE_SUIVEUR')")
+     *
+     * @param Request    $request
+     * @param Competence $competence
+     *
+     * @return RedirectResponse|Response
      */
     public function modifierAction(Request $request, Competence $competence)
     {
@@ -96,6 +105,7 @@ class CompetenceController extends Controller
         }
 
         return $this->render('N7consultingRhBundle:Competence:modifier.html.twig', [
+            'competence' => $competence,
             'form' => $form->createView(),
             'delete_form' => $deleteForm->createView(),
         ]);
@@ -111,6 +121,7 @@ class CompetenceController extends Controller
         $membres = $em->getRepository('MgatePersonneBundle:Membre')->getByCompetencesNonNul();
 
         return $this->render('N7consultingRhBundle:Competence:visualiser.html.twig', [
+            'total_liens' => 0,
             'competences' => $competences,
             'membres' => $membres,
         ]);
@@ -122,7 +133,7 @@ class CompetenceController extends Controller
      * @param Request    $request
      * @param Competence $competence param converter on id
      *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return RedirectResponse
      */
     public function deleteAction(Request $request, Competence $competence)
     {

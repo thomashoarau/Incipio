@@ -14,6 +14,19 @@
                     Gestion RH
                 {% endblock %}
             </h3>
+            {% block breadcrumb %}
+                <ul class="breadcrumb no-margin pull-right">
+                    <li>
+                        <a href="{{ path('N7consultingRh_competence_homepage') }}">
+                            {{ 'dashboard.rh_competences'|trans({}, 'dashboard') }}
+                        </a>
+                    </li>
+                    {% block breadcrumb_items %}{% endblock %}
+                    <li class="active">
+                        {% block breadcrumb_active %}{% endblock %}
+                    </li>
+                </ul>
+            {% endblock %}
         </div>
         <div class="box-body">
             {# On définit un nouveau block, que les vues du bundle pourront remplir #}
