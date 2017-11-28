@@ -145,6 +145,8 @@ class EtudeController extends Controller
 
         $etude->setMandat($this->get('Mgate.etude_manager')->getMaxMandat());
         $etude->setNum($this->get('Mgate.etude_manager')->getNouveauNumero());
+        $etude->setFraisDossier($this->get('Mgate.etude_manager')->getDefaultFraisDossier());
+        $etude->setPourcentageAcompte($this->get('Mgate.etude_manager')->getDefaultPourcentageAcompte());
 
         $user = $this->getUser();
         if (is_object($user) && $user instanceof User) {
