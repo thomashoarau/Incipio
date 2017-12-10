@@ -1,6 +1,5 @@
 {% extends "MgateFormationBundle::layout.html.twig" %}
 
-
 {% block stylesheets %}
     {{ parent() }}
     <link rel="stylesheet" href="{{ asset('css/datatables/dataTables.bootstrap.css') }}">
@@ -16,12 +15,15 @@
     {{ 'formation.formations_presence'|trans({}, 'formation') }} {{ mandat }}
 {% endblock %}
 
-{% block content_bundle %}
+{% block breadcrumb_active %}
+    {{ 'formation.formations_presence'|trans({}, 'formation') }}
+{% endblock %}
 
+{% block content_bundle %}
     <form>
         {{ form_label(form.mandat) }} {{ form_widget(form.mandat) }}
         {{ form_widget(form) }}
-        <button type="button" class="btn"
+        <button type="button" class="btn btn-primary"
                 onclick="window.location.href = '{{ path('Mgate_formation_participation') }}/'+$('#form_mandat').val();">
             {{ 'formation.chercher'|trans({}, 'formation') }}
         </button>

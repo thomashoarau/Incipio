@@ -22,3 +22,8 @@ formation:
   present: Présents
   taux: Taux
   titre: Titre
+  formations_liste: Liste des formations
+  formation_ajouter: Ajouter une formation
+  date_debut: Date de début
+  date_fin: Date de fin
+  lien_documents: Lien vers des documents externes

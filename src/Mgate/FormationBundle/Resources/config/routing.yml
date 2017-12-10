@@ -17,7 +17,7 @@ Mgate_formation_voir:
 
 Mgate_formation_ajouter:
     path:  /formations/admin/ajouter
-    defaults: { _controller: MgateFormationBundle:Formation:modifier, id : -1}
+    defaults: { _controller: MgateFormationBundle:Formation:ajouter }
     methods:  [GET, HEAD, POST]
 
 Mgate_formation_modifier:
