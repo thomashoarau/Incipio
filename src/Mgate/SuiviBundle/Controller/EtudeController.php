@@ -27,9 +27,13 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 class EtudeController extends Controller
 {
     const STATE_ID_EN_NEGOCIATION = 1;
+
     const STATE_ID_EN_COURS = 2;
+
     const STATE_ID_EN_PAUSE = 3;
+
     const STATE_ID_TERMINEE = 4;
+
     const STATE_ID_AVORTEE = 5;
 
     /**
@@ -161,7 +165,8 @@ class EtudeController extends Controller
 
             if ($form->isValid()) {
                 if ((!$etude->isKnownProspect() && !$etude->getNewProspect()) || !$etude->getProspect()) {
-                    $this->addFlash('danger', "Définir un prospect");
+                    $this->addFlash('danger', 'Définir un prospect');
+
                     return $this->render('MgateSuiviBundle:Etude:ajouter.html.twig', ['form' => $form->createView()]);
                 } elseif (!$etude->isKnownProspect()) {
                     $etude->setProspect($etude->getNewProspect());
@@ -236,7 +241,8 @@ class EtudeController extends Controller
 
             if ($form->isValid()) {
                 if ((!$etude->isKnownProspect() && !$etude->getNewProspect()) || !$etude->getProspect()) {
-                    $this->addFlash('danger', "Définir un prospect");
+                    $this->addFlash('danger', 'Définir un prospect');
+
                     return $this->render('MgateSuiviBundle:Etude:ajouter.html.twig', ['form' => $form->createView()]);
                 } elseif (!$etude->isKnownProspect()) {
                     $etude->setProspect($etude->getNewProspect());
