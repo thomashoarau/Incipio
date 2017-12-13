@@ -117,6 +117,21 @@ suivi:
   etude_enregistrer: Enregistrer l'étude
   etude_enregistrer_passer_ap: Enregistrer l'étude et passer à l'AP
   etude_etat: Etat de l'étude
+  etude_form:
+    client_bdd: Le client existe-t-il déjà dans la base de donnée ?
+    confidentialite: Confidentialité ?
+    confidentialite_tooltip: Si l'étude est confidentielle, elle ne sera visible que par vous et les membres du CA.
+    domaine_competence: Domaine de compétence
+    mandat: Mandat
+    mandat_tooltip: Videz ce champ si vous n'utilisez pas les numéros comme référence principale
+    numero: Numéro de l'étude
+    nom_interne: Nom interne de l'étude
+    presentation_interne: Présentation interne de l'étude
+    prospect_existant: Prospect existant
+    prospect_nouveau: Nouveau prospect
+    source_prospection: Source de prospection
+    suiveur_projet: Suiveur de projet
+    suiveur_qualite: Suiveur qualité
   etude_l: L'étude
   etude_modifier: Modifier une étude
   etude_nom: Nom de l'étude
@@ -204,7 +219,6 @@ suivi:
   proces_verbaux: Procès-verbaux
   propales_non_abouties_texte: Propales n'ayant pas abouti à la signature d'une CC
   prospect_ajouter: Ajouter un Prospect
-  prospect_nouveau: Nouveau prospect
   précédent: Précédent
   pvi: PVI
   pvi_ajouter_un: Ajouter un PVI

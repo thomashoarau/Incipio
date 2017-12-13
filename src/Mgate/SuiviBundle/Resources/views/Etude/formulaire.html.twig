@@ -7,7 +7,7 @@
     </tr>
     <tr>
         <th id="{{ form.newProspect.vars.id }}_block" colspan="2" class="success">
-            {{ 'suivi.prospect_nouveau'|trans({}, 'suivi') }}
+            {{ 'suivi.etude_form.prospect_nouveau'|trans({}, 'suivi') }}
         </th>
     </tr>
     <tr>
@@ -58,7 +58,7 @@
     <tr>
         <th>{{ form_label(form.num) }} {{ form_errors(form.num) }}
             <span class="badge badge-default" data-toggle="tooltip"
-                  title="Videz ce champ si vous n'utilisez pas les numéros comme référence principale">?</span>
+                  title="{{ 'suivi.etude_form.mandat_tooltip'|trans({}, 'suivi') }}">?</span>
         </th>
         <td>{{ form_widget(form.num) }}</td>
     </tr>
