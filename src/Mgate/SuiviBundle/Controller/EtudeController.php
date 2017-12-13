@@ -160,14 +160,21 @@ class EtudeController extends Controller
             $form->handleRequest($request);
 
             if ($form->isValid()) {
-                if (!$etude->isKnownProspect()) {
+                if ((!$etude->isKnownProspect() && !$etude->getNewProspect()) || !$etude->getProspect()) {
+                    $this->addFlash('danger', "Définir un prospect");
+                    return $this->render('MgateSuiviBundle:Etude:ajouter.html.twig', ['form' => $form->createView()]);
+                } elseif (!$etude->isKnownProspect()) {
                     $etude->setProspect($etude->getNewProspect());
                 }
 
                 $em->persist($etude);
                 $em->flush();
 
-                return $this->redirectToRoute('MgateSuivi_etude_voir', ['nom' => $etude->getNom()]);
+                if ($request->get('ap')) {
+                    return $this->redirectToRoute('MgateSuivi_ap_rediger', ['id' => $etude->getId()]);
+                } else {
+                    return $this->redirectToRoute('MgateSuivi_etude_voir', ['nom' => $etude->getNom()]);
+                }
             } else {
                 //constitution du tableau d'erreurs
                 $errors = $this->get('validator')->validate($etude);
@@ -228,6 +235,13 @@ class EtudeController extends Controller
             $form->handleRequest($request);
 
             if ($form->isValid()) {
+                if ((!$etude->isKnownProspect() && !$etude->getNewProspect()) || !$etude->getProspect()) {
+                    $this->addFlash('danger', "Définir un prospect");
+                    return $this->render('MgateSuiviBundle:Etude:ajouter.html.twig', ['form' => $form->createView()]);
+                } elseif (!$etude->isKnownProspect()) {
+                    $etude->setProspect($etude->getNewProspect());
+                }
+
                 $em->persist($etude);
                 $em->flush();
 
