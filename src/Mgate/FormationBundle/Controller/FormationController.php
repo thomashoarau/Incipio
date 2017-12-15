@@ -84,9 +84,11 @@ class FormationController extends Controller
             if ($form->isValid()) {
                 $em->persist($formation);
                 $em->flush();
+                $this->addFlash('success', 'Formation enregistrée');
 
                 return $this->redirectToRoute('Mgate_formation_voir', ['id' => $formation->getId()]);
             }
+            $this->addFlash('danger', 'Le formulaire contient des erreurs.');
         }
 
         return $this->render('MgateFormationBundle:Gestion:ajouter.html.twig', ['form' => $form->createView(),
@@ -113,9 +115,11 @@ class FormationController extends Controller
             if ($form->isValid()) {
                 $em->persist($formation);
                 $em->flush();
+                $this->addFlash('success', 'Formation enregistrée');
 
                 return $this->redirectToRoute('Mgate_formation_voir', ['id' => $formation->getId()]);
             }
+            $this->addFlash('danger', 'Le formulaire contient des erreurs.');
         }
 
         return $this->render('MgateFormationBundle:Gestion:modifier.html.twig', ['form' => $form->createView(),
@@ -126,7 +130,7 @@ class FormationController extends Controller
     /**
      * @Security("has_role('ROLE_CA')")
      *
-     * @param $mandat The mandat during which trainings were given
+     * @param $mandat string The mandat during which trainings were given
      *
      * @return Response
      *                  Manage participant present to a training

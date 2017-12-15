@@ -72,7 +72,9 @@ class PhasesController extends Controller
 
                 $em->persist($etude); // persist $etude / $form->getData()
                 $em->flush();
+                $this->addFlash('success', 'Phases enregistrées');
             }
+            $this->addFlash('danger', 'Le formulaire contient des erreurs.');
 
             return $this->redirectToRoute('MgateSuivi_phases_modifier', ['id' => $etude->getId()]);
         }
