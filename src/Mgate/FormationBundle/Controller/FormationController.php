@@ -84,8 +84,8 @@ class FormationController extends Controller
             if ($form->isValid()) {
                 $em->persist($formation);
                 $em->flush();
-                $form = $this->createForm(FormationType::class, $formation);
-                $this->addFlash('success', 'Formation créée');
+
+                return $this->redirectToRoute('Mgate_formation_voir', ['id' => $formation->getId()]);
             }
         }
 
@@ -114,8 +114,7 @@ class FormationController extends Controller
                 $em->persist($formation);
                 $em->flush();
 
-                $form = $this->createForm(FormationType::class, $formation);
-                $this->addFlash('success', 'Formation modifiée');
+                return $this->redirectToRoute('Mgate_formation_voir', ['id' => $formation->getId()]);
             }
         }
 
