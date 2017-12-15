@@ -21,10 +21,8 @@ MgatePersonne_homepage:
     methods:  [GET, HEAD]
 
 MgatePersonne_prospect_homepage:
-    path:  /prospect/{page}
-    defaults: { _controller: MgatePersonneBundle:Prospect:index , page: 1 }
-    requirements:
-      page : \d*
+    path:  /prospect/
+    defaults: { _controller: MgatePersonneBundle:Prospect:index }
     methods:  [GET, HEAD]
 
 MgatePersonne_prospect_ajouter:

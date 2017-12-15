@@ -17,6 +17,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -24,6 +25,11 @@ class ProspectController extends Controller
 {
     /**
      * @Security("has_role('ROLE_SUIVEUR')")
+     *
+     * @param Request $request
+     * @param         $format
+     *
+     * @return RedirectResponse|Response
      */
     public function ajouterAction(Request $request, $format)
     {
@@ -38,9 +44,11 @@ class ProspectController extends Controller
             if ($form->isValid()) {
                 $em->persist($prospect);
                 $em->flush();
+                $this->addFlash('success', 'Prospect enregistré');
 
                 return $this->redirectToRoute('MgatePersonne_prospect_voir', ['id' => $prospect->getId()]);
             }
+            $this->addFlash('danger', 'Le formulaire contient des erreurs.');
         }
 
         return $this->render('MgatePersonneBundle:Prospect:ajouter.html.twig', [
@@ -52,7 +60,7 @@ class ProspectController extends Controller
     /**
      * @Security("has_role('ROLE_SUIVEUR')")
      */
-    public function indexAction($page)
+    public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -65,21 +73,19 @@ class ProspectController extends Controller
 
     /**
      * @Security("has_role('ROLE_SUIVEUR')")
+     *
+     * @param Prospect $prospect
+     *
+     * @return Response
      */
-    public function voirAction($id)
+    public function voirAction(Prospect $prospect)
     {
         $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('MgatePersonneBundle:Prospect')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Le prospect demandé n\'existe pas !');
-        }
 
         //récupération des employés
         $mailing = '';
         $employes = [];
-        foreach ($entity->getEmployes() as $employe) {
+        foreach ($prospect->getEmployes() as $employe) {
             if ($employe->getPersonne()->getEmailEstValide() && $employe->getPersonne()->getEstAbonneNewsletter()) {
                 $nom = $employe->getPersonne()->getNom();
                 $mail = $employe->getPersonne()->getEmail();
@@ -92,10 +98,10 @@ class ProspectController extends Controller
         }
 
         //récupération des études faites avec ce prospect
-        $etudes = $em->getRepository('MgateSuiviBundle:Etude')->findByProspect($entity);
+        $etudes = $em->getRepository('MgateSuiviBundle:Etude')->findByProspect($prospect);
 
         return $this->render('MgatePersonneBundle:Prospect:voir.html.twig', [
-            'prospect' => $entity,
+            'prospect' => $prospect,
             'mailing' => $mailing,
             'etudes' => $etudes,
             ]);
@@ -103,27 +109,30 @@ class ProspectController extends Controller
 
     /**
      * @Security("has_role('ROLE_SUIVEUR')")
+     *
+     * @param Request  $request
+     * @param Prospect $prospect
+     *
+     * @return RedirectResponse|Response
      */
-    public function modifierAction(Request $request, $id)
+    public function modifierAction(Request $request, Prospect $prospect)
     {
         $em = $this->getDoctrine()->getManager();
 
-        if (!$prospect = $em->getRepository('Mgate\PersonneBundle\Entity\Prospect')->find($id)) {
-            throw $this->createNotFoundException('Le prospect demandé n\'existe pas!');
-        }
-
         // On passe l'$article récupéré au formulaire
         $form = $this->createForm(ProspectType::class, $prospect);
-        $deleteForm = $this->createDeleteForm($id);
+        $deleteForm = $this->createDeleteForm($prospect->getId());
         if ('POST' == $request->getMethod()) {
             $form->handleRequest($request);
 
             if ($form->isValid()) {
                 $em->persist($prospect);
                 $em->flush();
+                $this->addFlash('success', 'Prospect enregistré');
 
                 return $this->redirectToRoute('MgatePersonne_prospect_voir', ['id' => $prospect->getId()]);
             }
+            $this->addFlash('danger', 'Le formulaire contient des erreurs.');
         }
 
         return $this->render('MgatePersonneBundle:Prospect:modifier.html.twig', [
@@ -143,7 +152,6 @@ class ProspectController extends Controller
      */
     public function deleteAction(Prospect $prospect, Request $request)
     {
-        $session = $request->getSession();
 
         $form = $this->createDeleteForm($prospect->getId());
         $form->handleRequest($request);
@@ -155,7 +163,7 @@ class ProspectController extends Controller
 
             if (count($related_projects) > 0) {
                 //can't delete a prospect with related projects
-                $session->getFlashBag()->add('warning', 'Impossible de supprimer un prospect ayant une étude liée.');
+                $this->addFlash('warning', 'Impossible de supprimer un prospect ayant une étude liée.');
 
                 return $this->redirectToRoute('MgatePersonne_prospect_voir', ['id' => $prospect->getId()]);
             } else {
@@ -165,7 +173,7 @@ class ProspectController extends Controller
                 }
                 $em->remove($prospect);
                 $em->flush();
-                $session->getFlashBag()->add('success', 'Prospect supprimé');
+                $this->addFlash('success', 'Prospect supprimé');
             }
         }
 
@@ -184,6 +192,10 @@ class ProspectController extends Controller
      * Point d'entré ajax retournant un json des prospect dont le nom contient une partie de $_GET['term'].
      *
      * @Security("has_role('ROLE_SUIVEUR')")
+     *
+     * @param Request $request
+     *
+     * @return Response
      */
     public function ajaxProspectAction(Request $request)
     {
@@ -210,8 +222,12 @@ class ProspectController extends Controller
      * Point d'entrée ajax retournant un Json avec la liste des employés d'un prospect donné.
      *
      * @Security("has_role('ROLE_SUIVEUR')")
+     *
+     * @param Prospect $prospect
+     *
+     * @return JsonResponse
      */
-    public function ajaxEmployesAction(Prospect $prospect, $id)
+    public function ajaxEmployesAction(Prospect $prospect)
     {
         $em = $this->getDoctrine()->getManager();
         $employes = $em->getRepository('MgatePersonneBundle:Employe')->findByProspect($prospect);
