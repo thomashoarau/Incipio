@@ -18,6 +18,7 @@ use Mgate\SuiviBundle\Entity\Etude;
 class ThreadManager
 {
     protected $tm;
+
     protected $em;
 
     public function __construct(FOSthread $threadManager, EntityManager $entitymanager)

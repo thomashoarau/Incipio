@@ -8,6 +8,7 @@ use Webmozart\KeyValueStore\Api\KeyValueStore;
 class EmailEtuManager
 {
     private $emailEtu;
+
     private $emailAncien;
 
     public function __construct(KeyValueStore $keyValueStore)

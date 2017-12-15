@@ -23,48 +23,81 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 class TraitementController extends Controller
 {
     const DOCTYPE_SUIVI_ETUDE = 'FSE';
+
     const DOCTYPE_DEVIS = 'DEVIS';
+
     const DOCTYPE_AVANT_PROJET = 'AP';
+
     const DOCTYPE_CONVENTION_CLIENT = 'CC';
+
     const DOCTYPE_FACTURE_ACOMTE = 'FA';
+
     const DOCTYPE_FACTURE_INTERMEDIAIRE = 'FI';
+
     const DOCTYPE_FACTURE_SOLDE = 'FS';
+
     const DOCTYPE_PROCES_VERBAL_INTERMEDIAIRE = 'PVI';
+
     const DOCTYPE_PROCES_VERBAL_FINAL = 'PVR';
+
     const DOCTYPE_RECAPITULATIF_MISSION = 'RM';
+
     const DOCTYPE_DESCRIPTIF_MISSION = 'DM';
+
     const DOCTYPE_CONVENTION_ETUDIANT = 'CE';
+
     const DOCTYPE_BULLETIN_ADHESION = 'BA';
+
     const DOCTYPE_ACCORD_CONFIDENTIALITE = 'AC';
+
     const DOCTYPE_DECLARATION_ETUDIANT_ETR = 'DEE';
+
     const DOCTYPE_NOTE_DE_FRAIS = 'NF';
+
     const DOCTYPE_BULLETIN_DE_VERSEMENT = 'BV';
 
     const ROOTNAME_ETUDE = 'etude';
+
     const ROOTNAME_PROCES_VERBAL = 'pvr';
+
     const ROOTNAME_ETUDIANT = 'etudiant';
+
     const ROOTNAME_MISSION = 'mission';
+
     const ROOTNAME_NOTE_DE_FRAIS = 'nf';
+
     const ROOTNAME_FACTURE = 'facture';
+
     const ROOTNAME_BULLETIN_DE_VERSEMENT = 'bv';
 
     // On considère que les TAG ont déjà été nettoyé du XML
     const REG_REPEAT_LINE = "#(<w:tr(?:(?!w:tr\s).)*?)(\{\%\s*TRfor[^\%]*\%\})(.*?)(\{\%\s*endforTR\s*\%\})(.*?</w:tr>)#";
+
     const REG_REPEAT_PARAGRAPH = "#(<w:p(?:(?!<w:p\s).)*?)(\{\%\s*Pfor[^\%]*\%\})(.*?)(\{\%\s*endforP\s*\%\})(.*?</w:p>)#";
+
     // Champs
     const REG_CHECK_FIELDS = "#\{[^\}%]*?[\{%][^\}%]+?[\}%][^\}%]*?\}#";
+
     const REG_XML_NODE_IDENTIFICATOR = '#<.*?>#';
+
     // Images
     const REG_IMAGE_DOC = '#<w:drawing.*?/w:drawing>#';
+
     const REG_IMAGE_DOC_FIELD = '#wp:extent cx="(\\d+)" cy="(\\d+)".*wp:docPr.*descr="(.*?)".*a:blip r:embed="(rId\\d+)#';
+
     const REG_IMAGE_REL = '#Id="(rId\\d+)" Type="\\S*" Target="media\\/(image\\d+.(jpeg|jpg|png))"#';
+
     const IMAGE_FIX = '#imageFIX#';
+
     const IMAGE_VAR = '#imageVAR#';
+
     // Autres
     const REG_SPECIAL_CHAR = '{}()[]|><?=;!+*-/';
+
     const REG_FILE_EXT = "#\.(jpg|png|jpeg)#i";
 
     private $idDocx;
+
     private $refDocx;
 
     /**

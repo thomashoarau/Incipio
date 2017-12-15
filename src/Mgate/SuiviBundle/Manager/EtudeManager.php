@@ -22,11 +22,17 @@ use Webmozart\KeyValueStore\Api\KeyValueStore;
 class EtudeManager extends \Twig_Extension
 {
     protected $em;
+
     protected $authorizationChecker;
+
     protected $tva;
+
     protected $namingConvention;
+
     protected $anneeCreation;
+
     protected $defaultFraisDossier;
+
     protected $defaultPourcentageAcompte;
 
     public function __construct(EntityManager $em, KeyValueStore $keyValueStore, AuthorizationChecker $authorizationChecker)

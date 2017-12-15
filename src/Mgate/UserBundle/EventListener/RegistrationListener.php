@@ -21,8 +21,11 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 class RegistrationListener implements EventSubscriberInterface
 {
     private $mailer;
+
     private $templating;
+
     private $mail_from;
+
     private $mail_to;
 
     public function __construct(\Swift_Mailer $mailer, $templating, $mail_from, $mail_to)

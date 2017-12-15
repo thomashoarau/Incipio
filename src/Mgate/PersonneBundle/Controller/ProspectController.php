@@ -152,7 +152,6 @@ class ProspectController extends Controller
      */
     public function deleteAction(Prospect $prospect, Request $request)
     {
-
         $form = $this->createDeleteForm($prospect->getId());
         $form->handleRequest($request);
 

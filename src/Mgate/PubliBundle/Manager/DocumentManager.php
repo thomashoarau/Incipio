@@ -33,9 +33,13 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 class DocumentManager extends BaseManager
 {
     protected $em;
+
     protected $tokenStorage;
+
     protected $kernel;
+
     protected $junior_authorizedStorageSize;
+
     protected $junior_id;
 
     /**

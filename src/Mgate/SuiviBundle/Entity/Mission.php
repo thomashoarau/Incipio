@@ -180,6 +180,7 @@ class Mission extends DocType
     }
 
     private $knownIntervenant = false;
+
     private $newIntervenant;
 
     public function isKnownIntervenant()

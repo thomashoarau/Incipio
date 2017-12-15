@@ -34,16 +34,22 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Etude
 {
     public const ETUDE_STATE_NEGOCIATION = 1;
+
     public const ETUDE_STATE_COURS = 2;
+
     public const ETUDE_STATE_PAUSE = 3;
+
     public const ETUDE_STATE_CLOTUREE = 4;
+
     public const ETUDE_STATE_AVORTEE = 5;
+
     public const ETUDE_STATE_ARRAY = [self::ETUDE_STATE_NEGOCIATION => 'En négociation',
         self::ETUDE_STATE_COURS => 'En cours',
         self::ETUDE_STATE_PAUSE => 'En pause',
         self::ETUDE_STATE_CLOTUREE => 'Cloturée',
         self::ETUDE_STATE_AVORTEE => 'Avortée',
     ];
+
     /**
      * @var int
      *
