@@ -20,6 +20,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
@@ -174,19 +175,15 @@ class EtudeController extends Controller
 
                 $em->persist($etude);
                 $em->flush();
+                $this->addFlash('success', 'Etude enregistrée');
 
                 if ($request->get('ap')) {
                     return $this->redirectToRoute('MgateSuivi_ap_rediger', ['id' => $etude->getId()]);
                 } else {
                     return $this->redirectToRoute('MgateSuivi_etude_voir', ['nom' => $etude->getNom()]);
                 }
-            } else {
-                //constitution du tableau d'erreurs
-                $errors = $this->get('validator')->validate($etude);
-                foreach ($errors as $error) {
-                    $this->addFlash('danger', $error->getPropertyPath() . ' : ' . $error->getMessage());
-                }
             }
+            $this->addFlash('danger', 'Le formulaire contient des erreurs.');
         }
 
         return $this->render('MgateSuiviBundle:Etude:ajouter.html.twig', [
@@ -197,6 +194,10 @@ class EtudeController extends Controller
 
     /**
      * @Security("has_role('ROLE_SUIVEUR')")
+     *
+     * @param Etude $etude
+     *
+     * @return Response
      */
     public function voirAction(Etude $etude)
     {
@@ -224,6 +225,11 @@ class EtudeController extends Controller
 
     /**
      * @Security("has_role('ROLE_SUIVEUR')")
+     *
+     * @param Request $request
+     * @param Etude   $etude
+     *
+     * @return RedirectResponse|Response
      */
     public function modifierAction(Request $request, Etude $etude)
     {
@@ -277,7 +283,7 @@ class EtudeController extends Controller
      * @param Etude   $etude
      * @param Request $request
      *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return RedirectResponse
      */
     public function deleteAction(Etude $etude, Request $request)
     {
@@ -309,6 +315,10 @@ class EtudeController extends Controller
 
     /**
      * @Security("has_role('ROLE_SUIVEUR')")
+     *
+     * @param Request $request
+     *
+     * @return Response
      */
     public function suiviAction(Request $request)
     {
@@ -453,6 +463,10 @@ class EtudeController extends Controller
 
     /**
      * @Security("has_role('ROLE_SUIVEUR')")
+     *
+     * @param $id
+     *
+     * @return Response
      */
     public function vuCAAction($id)
     {
