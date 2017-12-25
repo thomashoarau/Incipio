@@ -18,23 +18,22 @@ This is [the official Jeyser CRM repository](https://github.com/n7consulting/Inc
 Jeyser helps you in your daily Junior-Entreprise work. Thanks to Jeyser, you can store and easily access your members 
 or customers key informations, manage your projects and their related documents online. Edit your documents online and export 
 them as docx. Jeyser has many other features and a nice user interface to make your work as enjoyable as possible.
-The best way to discover Jeyser is to [try the demo](https://jeyser-demo.herokuapp.com/).
+The best way to discover Jeyser is to [try the demo](https://jeyser-demo.herokuapp.com/). You can also visit our [website](http://jeyser-crm.n7consulting.fr)
 
 
 Jeyser can be installed and secured with only 5 bash commands. Read the 
-[install documentation](http://jeyser-crm.n7consulting.fr/install/) to get your own Jeyser and its free SSL certificate 
+[install documentation](http://jeyser-crm.n7consulting.fr/docs/install) to get your own Jeyser and its free SSL certificate 
 up and running.
 
 It is shipped with some demonstration doctypes to help you to write your own.
 
 # RoadMap
 
-- Features :  
+- Features : 
+    * Add GDPR management before 18/02/2018
+    * Data importer from Siaje
     * Invoices and contract amendment improvement 
     * Add phase lock when an invoice has been issued 
-    * Add some data visualization
-    * Homogenize UI
-    * Import data from other data sources
 - Translation : Move every hard coded text in views to translation files to enable i18n of Jeyser.
 - Code Quality : Keep Platinum medal on Sensiolabs Insights. 
 - Code coverage : introduce behavioural tests with Behat.
@@ -52,7 +51,7 @@ This project is mainly powered by [N7 Consulting](https://n7consulting.fr/), [EN
 and [M-Gate](https://www.mgate.fr/), [Ecole des Mines de Saint-Étienne Campus Georges Charpak](http://www.mines-stetienne.fr/) 's Junior-Entreprise. 
 
 We are opened to any contribution. Just check out our 
-[contribution guide](http://jeyser-crm.n7consulting.fr/dev/contributing/) before.
+[contribution guide](http://jeyser-crm.n7consulting.fr/docs/dev/contributing/) before.
 
 # Bugs and Security
 
