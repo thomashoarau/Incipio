@@ -12,8 +12,7 @@
 namespace Mgate\SuiviBundle\Controller;
 
 use Mgate\SuiviBundle\Entity\Av;
-use Mgate\SuiviBundle\Entity\Phase;
-use Mgate\SuiviBundle\Entity\PhaseChange;
+use Mgate\SuiviBundle\Entity\Etude;
 use Mgate\SuiviBundle\Form\Type\AvType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -24,38 +23,43 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class AvController extends Controller
 {
-    public static $phaseMethodes = ['NbrJEH', 'PrixJEH', 'Titre', 'Objectif', 'Methodo', 'DateDebut', 'Delai', 'Position'];
-
     /**
      * @Security("has_role('ROLE_SUIVEUR')")
      *
      * @param Request $request
-     * @param         $id
+     * @param Etude   $etude
      *
      * @return RedirectResponse|Response
      */
-    public function addAction(Request $request, $id)
+    public function addAction(Request $request, Etude $etude)
     {
-        return $this->modifierAction($request, null, $id);
-    }
-
-    /**
-     * @Security("has_role('ROLE_SUIVEUR')")
-     *
-     * @param Av $av
-     *
-     * @return Response
-     */
-    public function voirAction(Av $av)
-    {
-
-        $etude = $av->getEtude();
-
         if ($this->get('Mgate.etude_manager')->confidentielRefus($etude, $this->getUser())) {
             throw new AccessDeniedException('Cette étude est confidentielle');
         }
+        $em = $this->getDoctrine()->getManager();
 
-        return $this->render('MgateSuiviBundle:Av:voir.html.twig', [
+        $av = new Av();
+        $av->setEtude($etude);
+        $etude->addAv($av);
+
+        $form = $this->createForm(AvType::class, $av, ['prospect' => $etude->getProspect()]);
+
+        if ('POST' == $request->getMethod()) {
+            $form->handleRequest($request);
+
+            if ($form->isValid()) {
+                $em->persist($av);
+                $em->flush();
+                $this->addFlash('success', 'Avenant enregistré');
+
+                return $this->redirectToRoute('MgateSuivi_etude_voir', ['nom' => $etude->getNom()]);
+            }
+            $this->addFlash('danger', 'Le formulaire contient des erreurs.');
+        }
+
+        return $this->render('MgateSuiviBundle:Av:ajouter.html.twig', [
+            'form' => $form->createView(),
+            'etude' => $etude,
             'av' => $av,
         ]);
     }
@@ -64,58 +68,19 @@ class AvController extends Controller
      * @Security("has_role('ROLE_SUIVEUR')")
      *
      * @param Request $request
-     * @param         $id
-     * @param null    $idEtude
+     * @param Av      $av
      *
      * @return RedirectResponse|Response
+     *
      */
-    public function modifierAction(Request $request, $id, $idEtude = null)
+    public function modifierAction(Request $request, Av $av)
     {
         $em = $this->getDoctrine()->getManager();
-
-        if ($idEtude) {
-            if (!$etude = $em->getRepository('Mgate\SuiviBundle\Entity\Etude')->find($idEtude)) {
-                throw $this->createNotFoundException('L\'étude n\'existe pas !');
-            }
-            $av = new Av();
-            $av->setEtude($etude);
-            $etude->addAv($av);
-        } elseif (!$av = $em->getRepository('Mgate\SuiviBundle\Entity\Av')->find($id)) {
-            throw $this->createNotFoundException('L\'avenant n\'existe pas !');
-        }
 
         $etude = $av->getEtude();
 
         if ($this->get('Mgate.etude_manager')->confidentielRefus($etude, $this->getUser())) {
             throw new AccessDeniedException('Cette étude est confidentielle');
-        }
-
-        $phasesAv = [];
-        if ($av->getPhases()) {
-            $phasesAv = $av->getPhases()->toArray();
-
-            foreach ($av->getPhases() as $phase) {
-                $av->removePhase($phase);
-                $em->remove($phase);
-            }
-        }
-
-        $phasesChanges = [];
-
-        $phasesEtude = $av->getEtude()->getPhases()->toArray();
-        foreach ($phasesEtude as $phase) {
-            $changes = new PhaseChange();
-            $phaseAV = new Phase();
-
-            $this->copyPhase($phase, $phaseAV);
-
-            if ($phaseOriginAV = $this->getPhaseByPosition($phaseAV->getPosition(), $phasesAv)) {
-                $this->mergePhaseIfNotNull($phaseAV, $phaseOriginAV, $changes);
-            }
-
-            $phaseAV->setEtude()->setAvenant($av);
-            $av->addPhase($phaseAV);
-            $phasesChanges[] = $changes;
         }
 
         $form = $this->createForm(AvType::class, $av, ['prospect' => $av->getEtude()->getProspect()]);
@@ -124,110 +89,19 @@ class AvController extends Controller
             $form->handleRequest($request);
 
             if ($form->isValid()) {
-                $phasesEtude = $av->getEtude()->getPhases()->getValues();
-                foreach ($av->getPhases() as $phase) {
-                    $toKeep = false;
-                    $av->removePhase($phase);
-
-                    if (!$phaseEtude = $this->getPhaseByPosition($phase->getPosition(), $phasesEtude)) {
-                        $toKeep = true;
-                    }
-
-                    if (isset($phaseEtude)) {
-                        $toKeep = $this->nullFielIfEqual($phase, $phaseEtude);
-                    }
-
-                    if ($toKeep) {
-                        $av->addPhase($phase);
-                    }
-
-                    unset($phaseEtude);
-                }
-
-                foreach ($av->getPhases() as $phase) {
-                    $phase->setEtatSurAvenant(0);
-                    if ($this->phaseChange($phase)) { // S'il n'y a plus de modification sur la phase
-                        $em->persist($phase);
-                    } else {
-                        $av->removePhase($phase);
-                    }
-                }
-
-                if ($idEtude) { // Si on ajoute un avenant
-                    $em->persist($etude);
-                } else { // Si on modifie un avenant
-                    $em->persist($av);
-                }
+                $em->persist($av);
                 $em->flush();
+                $this->addFlash('success', 'Avenant enregistré');
 
-                return $this->redirectToRoute('MgateSuivi_av_voir', ['id' => $av->getId()]);
+                return $this->redirectToRoute('MgateSuivi_etude_voir', ['nom' => $etude->getNom()]);
             }
+            $this->addFlash('danger', 'Le formulaire contient des erreurs.');
         }
 
         return $this->render('MgateSuiviBundle:Av:modifier.html.twig', [
             'form' => $form->createView(),
+            'etude' => $etude,
             'av' => $av,
-            'changes' => $phasesChanges,
         ]);
-    }
-
-
-    private function getPhaseByPosition($position, $array)
-    {
-        foreach ($array as $phase) {
-            if ($phase->getPosition() == $position) {
-                return $phase;
-            }
-        }
-
-        return;
-    }
-
-    private function mergePhaseIfNotNull($phaseReceptor, $phaseToMerge, $changes)
-    {
-        foreach (self::$phaseMethodes as $methode) {
-            $getMethode = 'get' . $methode;
-            $setMethode = 'set' . $methode;
-            if (null !== $phaseToMerge->$getMethode()) {
-                $changes->$setMethode(true);
-                $phaseReceptor->$setMethode($phaseToMerge->$getMethode());
-            }
-        }
-    }
-
-    private function copyPhase($source, $destination)
-    {
-        foreach (self::$phaseMethodes as $methode) {
-            $getMethode = 'get' . $methode;
-            $setMethode = 'set' . $methode;
-            $destination->$setMethode($source->$getMethode());
-        }
-    }
-
-    private function phaseChange($phase)
-    {
-        $isNotNull = false;
-        foreach (self::$phaseMethodes as $methode) {
-            $getMethode = 'get' . $methode;
-            $isNotNull = $isNotNull || (null !== $phase->$getMethode() && 'Position' != $methode);
-        }
-
-        return $isNotNull;
-    }
-
-    private function nullFielIfEqual($phaseReceptor, $phaseToCompare)
-    {
-        $isNotNull = false;
-        foreach (self::$phaseMethodes as $methode) {
-            $getMethode = 'get' . $methode;
-            $setMethode = 'set' . $methode;
-            if ($phaseReceptor->$getMethode() == $phaseToCompare->$getMethode() && 'Position' != $methode) {
-                $phaseReceptor->$setMethode(null);
-            } else {
-                $isNotNull = true;
-            }
-        }
-
-        return $isNotNull;
     }
 }

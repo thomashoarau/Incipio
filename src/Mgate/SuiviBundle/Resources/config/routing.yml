@@ -180,13 +180,6 @@ MgateSuivi_av_modifier:
         id: \d+
     methods:  [GET, HEAD, POST]
 
-MgateSuivi_av_voir:
-    path: /av/voir/{id}
-    defaults: {_controller: MgateSuiviBundle:Av:voir}
-    requirements:
-        id: \d+
-    methods:  [GET, HEAD]
-
 MgateSuivi_avmission_ajouter:
     path: /avmission/ajouter/{id}
     defaults: {_controller: MgateSuiviBundle:AvMission:add}
