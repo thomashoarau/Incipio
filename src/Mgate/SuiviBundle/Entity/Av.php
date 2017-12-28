@@ -85,11 +85,6 @@ class Av extends DocType
         $this->phases = new ArrayCollection();
     }
 
-    public static function getClausesChoices()
-    {
-        return self::CLAUSES_CHOICES;
-    }
-
     public static function getClausesKeys()
     {
         return array_flip(self::CLAUSES_CHOICES);

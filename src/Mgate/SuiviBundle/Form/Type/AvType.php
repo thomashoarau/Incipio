@@ -36,7 +36,7 @@ class AvType extends DocTypeType
             ->add('clauses', ChoiceType::class, [
                 'label' => 'Type d\'avenant',
                 'multiple' => true,
-                'choices' => Av::getClausesChoices(),
+                'choices' => Av::CLAUSES_CHOICES,
             ])
             ->add('phases', CollectionType::class, [
                 'entry_type' => PhaseType::class,
