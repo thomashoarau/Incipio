@@ -17,27 +17,22 @@ use Mgate\SuiviBundle\Entity\PhaseChange;
 use Mgate\SuiviBundle\Form\Type\AvType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class AvController extends Controller
 {
-    /**
-     * @Security("has_role('ROLE_SUIVEUR')")
-     */
-    public function indexAction($page)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $entities = $em->getRepository('MgateSuiviBundle:Etude')->findAll();
-
-        return $this->render('MgateSuiviBundle:Av:index.html.twig', [
-            'etudes' => $entities,
-        ]);
-    }
+    public static $phaseMethodes = ['NbrJEH', 'PrixJEH', 'Titre', 'Objectif', 'Methodo', 'DateDebut', 'Delai', 'Position'];
 
     /**
      * @Security("has_role('ROLE_SUIVEUR')")
+     *
+     * @param Request $request
+     * @param         $id
+     *
+     * @return RedirectResponse|Response
      */
     public function addAction(Request $request, $id)
     {
@@ -46,91 +41,33 @@ class AvController extends Controller
 
     /**
      * @Security("has_role('ROLE_SUIVEUR')")
+     *
+     * @param Av $av
+     *
+     * @return Response
      */
-    public function voirAction($id)
+    public function voirAction(Av $av)
     {
-        $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('MgateSuiviBundle:Av')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('La Convention Cliente n\'existe pas !');
-        }
-
-        $etude = $entity->getEtude();
+        $etude = $av->getEtude();
 
         if ($this->get('Mgate.etude_manager')->confidentielRefus($etude, $this->getUser())) {
             throw new AccessDeniedException('Cette étude est confidentielle');
         }
 
         return $this->render('MgateSuiviBundle:Av:voir.html.twig', [
-            'av' => $entity,
+            'av' => $av,
         ]);
-    }
-
-    private function getPhaseByPosition($position, $array)
-    {
-        foreach ($array as $phase) {
-            if ($phase->getPosition() == $position) {
-                return $phase;
-            }
-        }
-
-        return;
-    }
-
-    public static $phaseMethodes = ['NbrJEH', 'PrixJEH', 'Titre', 'Objectif', 'Methodo', 'DateDebut', 'Validation', 'Delai', 'Position'];
-
-    private function mergePhaseIfNotNull($phaseReceptor, $phaseToMerge, $changes)
-    {
-        foreach (self::$phaseMethodes as $methode) {
-            $getMethode = 'get' . $methode;
-            $setMethode = 'set' . $methode;
-            if (null !== $phaseToMerge->$getMethode()) {
-                $changes->$setMethode(true);
-                $phaseReceptor->$setMethode($phaseToMerge->$getMethode());
-            }
-        }
-    }
-
-    private function copyPhase($source, $destination)
-    {
-        foreach (self::$phaseMethodes as $methode) {
-            $getMethode = 'get' . $methode;
-            $setMethode = 'set' . $methode;
-            $destination->$setMethode($source->$getMethode());
-        }
-    }
-
-    private function phaseChange($phase)
-    {
-        $isNotNull = false;
-        foreach (self::$phaseMethodes as $methode) {
-            $getMethode = 'get' . $methode;
-            $isNotNull = $isNotNull || (null !== $phase->$getMethode() && 'Position' != $methode);
-        }
-
-        return $isNotNull;
-    }
-
-    private function nullFielIfEqual($phaseReceptor, $phaseToCompare)
-    {
-        $isNotNull = false;
-        foreach (self::$phaseMethodes as $methode) {
-            $getMethode = 'get' . $methode;
-            $setMethode = 'set' . $methode;
-            if ($phaseReceptor->$getMethode() == $phaseToCompare->$getMethode() && 'Position' != $methode) {
-                $phaseReceptor->$setMethode(null);
-            } else {
-                $isNotNull = true;
-            }
-        }
-
-        return $isNotNull;
     }
 
     /**
      * @Security("has_role('ROLE_SUIVEUR')")
+     *
+     * @param Request $request
+     * @param         $id
+     * @param null    $idEtude
+     *
+     * @return RedirectResponse|Response
      */
     public function modifierAction(Request $request, $id, $idEtude = null)
     {
@@ -232,5 +169,65 @@ class AvController extends Controller
             'av' => $av,
             'changes' => $phasesChanges,
         ]);
+    }
+
+
+    private function getPhaseByPosition($position, $array)
+    {
+        foreach ($array as $phase) {
+            if ($phase->getPosition() == $position) {
+                return $phase;
+            }
+        }
+
+        return;
+    }
+
+    private function mergePhaseIfNotNull($phaseReceptor, $phaseToMerge, $changes)
+    {
+        foreach (self::$phaseMethodes as $methode) {
+            $getMethode = 'get' . $methode;
+            $setMethode = 'set' . $methode;
+            if (null !== $phaseToMerge->$getMethode()) {
+                $changes->$setMethode(true);
+                $phaseReceptor->$setMethode($phaseToMerge->$getMethode());
+            }
+        }
+    }
+
+    private function copyPhase($source, $destination)
+    {
+        foreach (self::$phaseMethodes as $methode) {
+            $getMethode = 'get' . $methode;
+            $setMethode = 'set' . $methode;
+            $destination->$setMethode($source->$getMethode());
+        }
+    }
+
+    private function phaseChange($phase)
+    {
+        $isNotNull = false;
+        foreach (self::$phaseMethodes as $methode) {
+            $getMethode = 'get' . $methode;
+            $isNotNull = $isNotNull || (null !== $phase->$getMethode() && 'Position' != $methode);
+        }
+
+        return $isNotNull;
+    }
+
+    private function nullFielIfEqual($phaseReceptor, $phaseToCompare)
+    {
+        $isNotNull = false;
+        foreach (self::$phaseMethodes as $methode) {
+            $getMethode = 'get' . $methode;
+            $setMethode = 'set' . $methode;
+            if ($phaseReceptor->$getMethode() == $phaseToCompare->$getMethode() && 'Position' != $methode) {
+                $phaseReceptor->$setMethode(null);
+            } else {
+                $isNotNull = true;
+            }
+        }
+
+        return $isNotNull;
     }
 }
