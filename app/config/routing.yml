@@ -36,10 +36,6 @@ MgateSuiviBundle:
     resource: "@MgateSuiviBundle/Resources/config/routing.yml"
     prefix:   /suivi
 
-MgateCommentBundle:
-    resource: "@MgateCommentBundle/Resources/config/routing.yml"
-    prefix:   /
-
 MgatePersonneBundle:
     resource: "@MgatePersonneBundle/Resources/config/routing.yml"
     prefix:   /personne
