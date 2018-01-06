@@ -173,8 +173,9 @@ class ProcesVerbalController extends Controller
             $em->remove($procesVerbal);
             $em->flush();
             $this->addFlash('success', 'PV supprimé');
+        } else {
+            $this->addFlash('danger', 'Le formulaire contient des erreurs.');
         }
-        $this->addFlash('danger', 'Erreur lors de la suppression');
 
         return $this->redirectToRoute('MgateSuivi_etude_voir', ['nom' => $etude->getNom()]);
     }
