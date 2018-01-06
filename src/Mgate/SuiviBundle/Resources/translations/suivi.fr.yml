@@ -21,6 +21,7 @@ suivi:
   auditee: Auditée
   audité_le: Audité le
   autre: autre
+  av_ajouter_un: Ajouter un Avenant
   av_modifier_un: Modifier un Avenant
   avancement: Avancement
   avancement_developpeur: Avancement du développeur

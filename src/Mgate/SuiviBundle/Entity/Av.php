@@ -78,15 +78,19 @@ class Av extends DocType
      */
     private $phases;
 
-    public static function getClausesChoices()
+    public function __construct()
     {
-        return self::CLAUSES_CHOICES;
+        parent::__construct();
+        $this->avenantsMissions = new ArrayCollection();
+        $this->phases = new ArrayCollection();
     }
 
     public static function getClausesKeys()
     {
         return array_flip(self::CLAUSES_CHOICES);
     }
+
+    /** auto-generated methods */
 
     /**
      * Get id.
@@ -120,15 +124,6 @@ class Av extends DocType
     public function getEtude()
     {
         return $this->etude;
-    }
-
-    /**
-     * Constructor.
-     */
-    public function __construct()
-    {
-        $this->avenantsMissions = new ArrayCollection();
-        $this->phases = new ArrayCollection();
     }
 
     /**

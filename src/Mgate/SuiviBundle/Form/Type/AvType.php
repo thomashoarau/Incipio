@@ -23,20 +23,29 @@ class AvType extends DocTypeType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('differentielDelai', IntegerType::class, ['label' => 'Modification du Délai (+/- x jours)', 'required' => true])
-        ->add('objet', TextareaType::class, ['label' => 'Exposer les causes de l’Avenant. Ne pas hésiter à 
-        détailler l\'historique des relations avec le client et du travail sur l\'étude qui ont conduit à l\'Avenant.',
-        'required' => true, ])
-        ->add('clauses', ChoiceType::class, ['label' => 'Type d\'avenant', 'multiple' => true, 'choices' => Av::getClausesChoices(),
+        $builder->add('differentielDelai', IntegerType::class, [
+            'label' => 'Modification du Délai (+/- x jours)',
+            'required' => true,
+        ])
+            ->add('objet', TextareaType::class, [
+                'label' => 'Exposer les causes de l’Avenant',
+                'required' => true,
+                'attr' => ['data-help' => 'Ne pas hésiter à détailler l\'historique des relations avec le client 
+            et du travail sur l\'étude qui ont conduit à l\'Avenant'],
             ])
-        ->add('phases', CollectionType::class, [
+            ->add('clauses', ChoiceType::class, [
+                'label' => 'Type d\'avenant',
+                'multiple' => true,
+                'choices' => Av::CLAUSES_CHOICES,
+            ])
+            ->add('phases', CollectionType::class, [
                 'entry_type' => PhaseType::class,
                 'entry_options' => ['isAvenant' => true],
                 'allow_add' => true,
                 'allow_delete' => true,
                 'prototype' => true,
                 'by_reference' => false,
-                ]);
+            ]);
         /*->add('avenantsMissions', 'collection', array(
             'type' => new AvMissionType,
             'allow_add' => true,
