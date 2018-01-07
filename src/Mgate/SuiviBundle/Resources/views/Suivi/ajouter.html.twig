@@ -1,15 +1,24 @@
 {% extends "MgateSuiviBundle::layout.html.twig" %}
 
-{% block javascript %}
-    {{ form_javascript(form) }}
+{% block title %}
+    {{ 'suivi.suivi_nouveau_ajouter'|trans({}, 'suivi') }} - {{ parent() }}
+{% endblock %}
+
+{% block content_title %}
+    {{ 'suivi.suivi_nouveau_ajouter'|trans({}, 'suivi') }}
+{% endblock %}
+
+{% block breadcrumb_active %}
+    {{ 'suivi.suivi_nouveau_ajouter'|trans({}, 'suivi') }}
 {% endblock %}
 
 {% block content_bundle %}
 
-
-    <h2>{{ 'suivi.suivi_nouveau_ajouter'|trans({}, 'suivi') }}</h2>
-
     {% include "MgateSuiviBundle:Suivi:formulaire.html.twig" %}
 
+{% endblock %}
 
+{% block javascript %}
+    {{ parent() }}
+    {{ form_javascript(form) }}
 {% endblock %}

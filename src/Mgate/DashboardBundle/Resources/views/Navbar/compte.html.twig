@@ -4,7 +4,7 @@
     <ul class="dropdown-menu" id="dropdown-notification-container">
         <li class="header">{{ 'dashboard.manuel'|trans({}, 'dashboard') }}</li>
         <li class="divider"></li>
-        <li><a href="{{ asset('documents/guide.pdf') }}"><span class="fa fa-tags"></span> {{ 'dashboard.guide_utilisateur'|trans({}, 'dashboard') }}</a></li>
+        <li><a href="http://jeyser-crm.n7consulting.fr/docs"><span class="fa fa-tags"></span> {{ 'dashboard.guide_utilisateur'|trans({}, 'dashboard') }}</a></li>
         <li class="header">{{ app.user.username }}</li>
         <li><a href="{{ path('fos_user_profile_edit') }}"><span class="fa fa-pencil"></span> {{ 'dashboard.pseudo_modifier'|trans({}, 'dashboard') }}</a></li>
         <li><a href="{{ path('fos_user_change_password') }}"><span class="fa fa-pencil"></span> {{ 'dashboard.motdepasse_modifier'|trans({}, 'dashboard') }}se</a></li>
