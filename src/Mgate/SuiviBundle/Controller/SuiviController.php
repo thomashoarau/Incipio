@@ -65,9 +65,11 @@ class SuiviController extends Controller
             if ($form->isValid()) {
                 $em->persist($suivi);
                 $em->flush();
+                $this->addFlash('success', 'Note de suivi ajoutée');
 
                 return $this->redirectToRoute('MgateSuivi_suivi_voir', ['id' => $suivi->getId()]);
             }
+            $this->addFlash('danger', 'Le formulaire contient des erreurs.');
         }
 
         return $this->render('MgateSuiviBundle:Suivi:ajouter.html.twig', [
@@ -102,7 +104,7 @@ class SuiviController extends Controller
             'suivis' => $suivis,
             'selectedSuivi' => $suivi,
             'etude' => $etude,
-            ]);
+        ]);
     }
 
     /**
@@ -119,9 +121,11 @@ class SuiviController extends Controller
 
             if ($form->isValid()) {
                 $em->flush();
+                $this->addFlash('success', 'Note de suivi modifiée');
 
                 return $this->redirectToRoute('MgateSuivi_suivi_voir', ['id' => $suivi->getId()]);
             }
+            $this->addFlash('danger', 'Le formulaire contient des erreurs.');
         }
 
         return $this->render('MgateSuiviBundle:Suivi:modifier.html.twig', [
