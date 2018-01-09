@@ -11,6 +11,7 @@
 
 namespace Mgate\SuiviBundle\Controller;
 
+use Mgate\SuiviBundle\Entity\Etude;
 use Mgate\SuiviBundle\Entity\GroupePhases;
 use Mgate\SuiviBundle\Form\Type\GroupesPhasesType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -23,13 +24,9 @@ class GroupePhasesController extends Controller
     /**
      * @Security("has_role('ROLE_SUIVEUR')")
      */
-    public function modifierAction(Request $request, $id)
+    public function modifierAction(Request $request, Etude $etude)
     {
         $em = $this->getDoctrine()->getManager();
-
-        if (!$etude = $em->getRepository('Mgate\SuiviBundle\Entity\Etude')->find($id)) {
-            throw $this->createNotFoundException('L\'étude n\'existe pas !');
-        }
 
         if ($this->get('Mgate.etude_manager')->confidentielRefus($etude, $this->getUser())) {
             throw new AccessDeniedException('Cette étude est confidentielle');
@@ -53,6 +50,7 @@ class GroupePhasesController extends Controller
                     $groupeNew->setTitre('Titre')->setDescription('Description');
                     $groupeNew->setEtude($etude);
                     $etude->addGroupe($groupeNew);
+                    $message = 'Groupe ajouté';
                 }
 
                 // filter $originalGroupes to contain Groupes no longer present
@@ -68,12 +66,14 @@ class GroupePhasesController extends Controller
                 foreach ($originalGroupes as $groupe) {
                     $em->remove($groupe); // on peut faire un persist sinon, cf doc collection form
                 }
-
                 $em->persist($etude); // persist $etude / $form->getData()
                 $em->flush();
+                $this->addFlash('success',isset($message) ? $message: 'Groupes modifiés');
+                return $this->redirectToRoute('MgateSuivi_groupes_modifier', ['id' => $etude->getId()]);
             }
 
-            return $this->redirectToRoute('MgateSuivi_groupes_modifier', ['id' => $etude->getId()]);
+            $this->addFlash('danger', 'Le formulaire contient des erreurs.');
+
         }
 
         return $this->render('MgateSuiviBundle:GroupePhases:modifier.html.twig', [

@@ -215,6 +215,7 @@ class Etude
     private $avs;
 
     /**
+     * @Assert\Valid()
      * @ORM\OneToMany(targetEntity="GroupePhases", mappedBy="etude", cascade={"persist", "remove"})
      * @ORM\OrderBy({"numero" = "ASC"})
      */
