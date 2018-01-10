@@ -60,7 +60,7 @@ class GroupePhases
     private $description;
 
     /**
-     * @ORM\OneToMany(targetEntity="Phase", mappedBy="groupe")
+     * @ORM\OneToMany(targetEntity="Phase", mappedBy="groupe", cascade={"persist","remove"})
      * @ORM\OrderBy({"position" = "ASC"})
      */
     private $phases;

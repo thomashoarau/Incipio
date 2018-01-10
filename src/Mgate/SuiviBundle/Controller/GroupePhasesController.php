@@ -16,13 +16,19 @@ use Mgate\SuiviBundle\Entity\GroupePhases;
 use Mgate\SuiviBundle\Form\Type\GroupesPhasesType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class GroupePhasesController extends Controller
 {
     /**
      * @Security("has_role('ROLE_SUIVEUR')")
+     * @param Request $request
+     * @param Etude   $etude
+     *
+     * @return RedirectResponse|Response
      */
     public function modifierAction(Request $request, Etude $etude)
     {
@@ -30,12 +36,6 @@ class GroupePhasesController extends Controller
 
         if ($this->get('Mgate.etude_manager')->confidentielRefus($etude, $this->getUser())) {
             throw new AccessDeniedException('Cette étude est confidentielle');
-        }
-
-        $originalGroupes = [];
-        // Create an array of the current groupe objects in the database
-        foreach ($etude->getGroupes() as $groupe) {
-            $originalGroupes[] = $groupe;
         }
 
         $form = $this->createForm(GroupesPhasesType::class, $etude);
@@ -53,19 +53,6 @@ class GroupePhasesController extends Controller
                     $message = 'Groupe ajouté';
                 }
 
-                // filter $originalGroupes to contain Groupes no longer present
-                foreach ($etude->getGroupes() as $groupe) {
-                    foreach ($originalGroupes as $key => $toDel) {
-                        if ($toDel->getId() === $groupe->getId()) {
-                            unset($originalGroupes[$key]);
-                        }
-                    }
-                }
-
-                // remove the relationship between the groupe and the etude
-                foreach ($originalGroupes as $groupe) {
-                    $em->remove($groupe); // on peut faire un persist sinon, cf doc collection form
-                }
                 $em->persist($etude); // persist $etude / $form->getData()
                 $em->flush();
                 $this->addFlash('success',isset($message) ? $message: 'Groupes modifiés');
