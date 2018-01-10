@@ -16,10 +16,6 @@
 {% block content_bundle %}
 
     {{ form_start(form) }}
-    <p><input type="submit" value="{{ 'suivi.groupe_ajouter'|trans({}, 'suivi') }}" name="add" class="btn btn-default"/>
-        - <input type="submit" value="{{ 'suivi.groupes_enregistrer'|trans({}, 'suivi') }}" class="btn btn-default"/>
-    </p>
-
     {# itere sur chaque tag existant et affiche son unique champ : name #}
     <div class="row groupes" id="groupes" data-prototype="{{ form_widget(form.groupes.vars.prototype) | e }}">
         {# itere sur chaque tag existant et affiche son unique champ : name #}
@@ -53,9 +49,15 @@
 
     {{ form_rest(form) }}
 
-    <p><input type="submit" value="{{ 'suivi.groupe_ajouter'|trans({}, 'suivi') }}" name="add" class="btn btn-default"/>
-        - <input type="submit" value="{{ 'suivi.groupes_enregistrer'|trans({}, 'suivi') }}" class="btn btn-default"/>
-    </p>
+    <div class="row">
+        <div class="col-md-3 col-sm-5 col-xs-6">
+            <input type="submit" value="{{ 'suivi.groupe_ajouter'|trans({}, 'suivi') }}" name="add"
+                   class="btn btn-primary"/>
+        </div>
+        <div class="col-md-3 col-sm-5 col-xs-6">
+            <input type="submit" value="{{ 'suivi.groupes_enregistrer'|trans({}, 'suivi') }}" class="btn btn-success"/>
+        </div>
+    </div>
 
     {{ form_end(form) }}
 
