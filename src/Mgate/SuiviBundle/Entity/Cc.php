@@ -14,8 +14,6 @@ namespace Mgate\SuiviBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Mgate\SuiviBundle\Entity\Cc.
- *
  * @ORM\Table()
  * @ORM\Entity
  */
@@ -32,17 +30,16 @@ class Cc extends DocType
 
     /**
      * @ORM\OneToOne(targetEntity="Etude", mappedBy="cc")
-     * @ORM\JoinColumn(nullable=false, onDelete="cascade")
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     protected $etude;
 
-    /*
-     * ADDITIONAL
-     */
     public function getReference()
     {
         return $this->etude->getReference() . '/' . $this->getDateSignature()->format('Y') . '/CC/' . $this->getVersion();
     }
+
+    /** auto-generated methods */
 
     /**
      * Get id.
