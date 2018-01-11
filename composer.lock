@@ -6263,7 +6263,6 @@
         },
         {
             "name": "symfony/phpunit-bridge",
-<<<<<<< bc7f8e0ff382d70c49dbcae04a9ca2d7620cebf9
             "version": "v3.4.3",
             "source": {
                 "type": "git",
@@ -6274,18 +6273,6 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/symfony/phpunit-bridge/zipball/24ffb71a115c25f5ee56cbfd38e56ed2cdbeb0a9",
                 "reference": "24ffb71a115c25f5ee56cbfd38e56ed2cdbeb0a9",
-=======
-            "version": "v3.4.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/phpunit-bridge.git",
-                "reference": "074c2e205c849a5fb37b1c24ade03cc975ac8079"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/phpunit-bridge/zipball/074c2e205c849a5fb37b1c24ade03cc975ac8079",
-                "reference": "074c2e205c849a5fb37b1c24ade03cc975ac8079",
->>>>>>> Update dependencies
                 "shasum": ""
             },
             "require": {
@@ -6305,13 +6292,10 @@
             "extra": {
                 "branch-alias": {
                     "dev-master": "3.4-dev"
-<<<<<<< bc7f8e0ff382d70c49dbcae04a9ca2d7620cebf9
                 },
                 "thanks": {
                     "name": "phpunit/phpunit",
                     "url": "https://github.com/sebastianbergmann/phpunit"
-=======
->>>>>>> Update dependencies
                 }
             },
             "autoload": {
