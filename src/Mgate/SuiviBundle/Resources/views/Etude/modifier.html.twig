@@ -8,6 +8,10 @@
     {{ 'suivi.etude_modifier'|trans({}, 'suivi') }}
 {% endblock %}
 
+{% block breadcrumb_active %}
+    {{ 'suivi.etude_modifier'|trans({}, 'suivi') }}
+{% endblock %}
+
 
 {% block content_bundle %}
     {{ form_start(form) }}
@@ -97,18 +101,25 @@
     </table>
     {{ form_widget(form) }}
 
-    <br>
-    <input type="submit" value="{{ 'suivi.etude_enregistrer'|trans({}, 'suivi') }}" class="btn btn-default"/>
-    <input type="submit" value="{{ 'suivi.etude_enregistrer_passer_ap'|trans({}, 'suivi') }}" name="ap" id="ap"
-           class="btn btn-default"/>
-    {{ form_end(form) }}
-    <br>
+    <div class="row">
+        <div class="col-md-3 col-sm-5 col-xs-6">
+            <input type="submit" value="{{ 'suivi.etude_enregistrer'|trans({}, 'suivi') }}" class="btn btn-success"/>
+        </div>
+        <div class="col-md-3 col-sm-5 col-xs-6">
+            <input type="submit" value="{{ 'suivi.etude_enregistrer_passer_ap'|trans({}, 'suivi') }}" name="ap" id="ap"
+                   class="btn btn-default"/>
+        </div>
+        {{ form_end(form) }} {# Who cares of well formed html ? ;) #}
 
-    <form class="bootbox-confirm" data-content="{{ 'suivi.etude_supprimer_confirm'|trans({}, 'suivi') }} ?"
-          action="{{ path('MgateSuivi_etude_supprimer', { 'nom': etude.nom }) }}" method="post">
-        {{ form_widget(delete_form) }}
-        <button class="btn btn-danger">{{ 'suivi.etude_supprimer'|trans({}, 'suivi') }}</button>
-    </form>
+        <div class="col-md-3 col-sm-5 col-xs-6">
+            <form class="bootbox-confirm" data-content="{{ 'suivi.etude_supprimer_confirm'|trans({}, 'suivi') }} ?"
+                  action="{{ path('MgateSuivi_etude_supprimer', { 'nom': etude.nom }) }}" method="post">
+                {{ form_widget(delete_form) }}
+                <button class="btn btn-danger {{ is_granted('ROLE_ADMIN') ? '':'disabled' }}">
+                    {{ (is_granted('ROLE_ADMIN') ? 'suivi.etude_supprimer': 'suivi.suppression_info') |trans({}, 'suivi') }}</button>
+            </form>
+        </div>
+    </div>
 
 {% endblock %}
 

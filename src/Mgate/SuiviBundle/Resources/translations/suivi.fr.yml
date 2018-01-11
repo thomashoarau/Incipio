@@ -253,6 +253,7 @@ suivi:
   suivi_nouveau_enregistrer: Enregistrer le nouveau suivi
   suivi_qualite_etudes: Suivi Qualité des études
   suivis_liste: Liste des Suivis
+  suppression_info: Une étude ne peut être supprimée que par un administrateur
   sujet: Sujet
   supprimer: Supprimer
   telecharger: Télécharger
