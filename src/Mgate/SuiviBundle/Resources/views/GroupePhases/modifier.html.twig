@@ -1,7 +1,7 @@
 {% extends "MgateSuiviBundle::layout.html.twig" %}
 
 {% block title %}
-    {{ 'suivi.modifier_les'|trans({}, 'suivi') }} {{ 'suivi.groupes'|trans({}, 'suivi') }} - {{  parent() }}
+    {{ 'suivi.modifier_les'|trans({}, 'suivi') }} {{ 'suivi.groupes'|trans({}, 'suivi') }} - {{ parent() }}
 {% endblock %}
 
 {% block content_title %}
@@ -9,25 +9,13 @@
     {{ 'suivi.groupes'|trans({}, 'suivi') }}
 {% endblock %}
 
+{% block breadcrumb_active %}
+    {{ 'suivi.modifier_les'|trans({}, 'suivi') }} {{ 'suivi.groupes'|trans({}, 'suivi') }}
+{% endblock %}
+
 {% block content_bundle %}
-    <style>
-        textarea {
-            width: 95%;
-            height: 100%;
-            resize: vertical;
-        }
-
-        select {
-            width: 98%;
-        }
-
-    </style>
 
     {{ form_start(form) }}
-    <p><input type="submit" value="{{ 'suivi.groupe_ajouter'|trans({}, 'suivi') }}" name="add" class="btn btn-default"/>
-        - <input type="submit" value="{{ 'suivi.groupes_enregistrer'|trans({}, 'suivi') }}" class="btn btn-default"/>
-    </p>
-
     {# itere sur chaque tag existant et affiche son unique champ : name #}
     <div class="row groupes" id="groupes" data-prototype="{{ form_widget(form.groupes.vars.prototype) | e }}">
         {# itere sur chaque tag existant et affiche son unique champ : name #}
@@ -41,24 +29,35 @@
                             <span class="titregroupe"></span> {{ form_widget(groupe.numero) }}</th>
                     </tr>
                     <tr>
-                        <th>{{ 'suivi.titre'|trans({}, 'suivi') }}</th>
-                        <td>{{ form_widget(groupe.titre) }}</td>
+                        <th>
+                            {{ 'suivi.titre'|trans({}, 'suivi') }}
+                            {{ form_errors(groupe.titre) }}
+                        </th>
+                        <td>{{ form_widget(groupe.titre, {'attr':{'class': 'form-control'}}) }}</td>
                     </tr>
                     <tr>
-                        <th>{{ 'suivi.description'|trans({}, 'suivi') }}</th>
-                        <td>{{ form_widget(groupe.description) }}</td>
+                        <th>
+                            {{ 'suivi.description'|trans({}, 'suivi') }}
+                            {{ form_errors(groupe.description) }}
+                        </th>
+                        <td>{{ form_widget(groupe.description, {'attr':{'class': 'form-control'}}) }}</td>
                     </tr>
                 </table>
             </div>
         {% endfor %}
     </div>
 
-    <br/>
     {{ form_rest(form) }}
 
-    <p><input type="submit" value="{{ 'suivi.groupe_ajouter'|trans({}, 'suivi') }}" name="add" class="btn btn-default"/>
-        - <input type="submit" value="{{ 'suivi.groupes_enregistrer'|trans({}, 'suivi') }}" class="btn btn-default"/>
-    </p>
+    <div class="row">
+        <div class="col-md-3 col-sm-5 col-xs-6">
+            <input type="submit" value="{{ 'suivi.groupe_ajouter'|trans({}, 'suivi') }}" name="add"
+                   class="btn btn-primary"/>
+        </div>
+        <div class="col-md-3 col-sm-5 col-xs-6">
+            <input type="submit" value="{{ 'suivi.groupes_enregistrer'|trans({}, 'suivi') }}" class="btn btn-success"/>
+        </div>
+    </div>
 
     {{ form_end(form) }}
 

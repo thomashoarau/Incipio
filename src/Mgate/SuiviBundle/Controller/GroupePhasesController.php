@@ -11,34 +11,31 @@
 
 namespace Mgate\SuiviBundle\Controller;
 
+use Mgate\SuiviBundle\Entity\Etude;
 use Mgate\SuiviBundle\Entity\GroupePhases;
 use Mgate\SuiviBundle\Form\Type\GroupesPhasesType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class GroupePhasesController extends Controller
 {
     /**
      * @Security("has_role('ROLE_SUIVEUR')")
+     * @param Request $request
+     * @param Etude   $etude
+     *
+     * @return RedirectResponse|Response
      */
-    public function modifierAction(Request $request, $id)
+    public function modifierAction(Request $request, Etude $etude)
     {
         $em = $this->getDoctrine()->getManager();
 
-        if (!$etude = $em->getRepository('Mgate\SuiviBundle\Entity\Etude')->find($id)) {
-            throw $this->createNotFoundException('L\'étude n\'existe pas !');
-        }
-
         if ($this->get('Mgate.etude_manager')->confidentielRefus($etude, $this->getUser())) {
             throw new AccessDeniedException('Cette étude est confidentielle');
-        }
-
-        $originalGroupes = [];
-        // Create an array of the current groupe objects in the database
-        foreach ($etude->getGroupes() as $groupe) {
-            $originalGroupes[] = $groupe;
         }
 
         $form = $this->createForm(GroupesPhasesType::class, $etude);
@@ -53,27 +50,17 @@ class GroupePhasesController extends Controller
                     $groupeNew->setTitre('Titre')->setDescription('Description');
                     $groupeNew->setEtude($etude);
                     $etude->addGroupe($groupeNew);
-                }
-
-                // filter $originalGroupes to contain Groupes no longer present
-                foreach ($etude->getGroupes() as $groupe) {
-                    foreach ($originalGroupes as $key => $toDel) {
-                        if ($toDel->getId() === $groupe->getId()) {
-                            unset($originalGroupes[$key]);
-                        }
-                    }
-                }
-
-                // remove the relationship between the groupe and the etude
-                foreach ($originalGroupes as $groupe) {
-                    $em->remove($groupe); // on peut faire un persist sinon, cf doc collection form
+                    $message = 'Groupe ajouté';
                 }
 
                 $em->persist($etude); // persist $etude / $form->getData()
                 $em->flush();
+                $this->addFlash('success',isset($message) ? $message: 'Groupes modifiés');
+                return $this->redirectToRoute('MgateSuivi_groupes_modifier', ['id' => $etude->getId()]);
             }
 
-            return $this->redirectToRoute('MgateSuivi_groupes_modifier', ['id' => $etude->getId()]);
+            $this->addFlash('danger', 'Le formulaire contient des erreurs.');
+
         }
 
         return $this->render('MgateSuiviBundle:GroupePhases:modifier.html.twig', [

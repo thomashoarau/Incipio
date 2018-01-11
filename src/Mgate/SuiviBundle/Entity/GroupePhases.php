@@ -13,10 +13,9 @@ namespace Mgate\SuiviBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Mgate\SuiviBundle\Entity\GroupePhases.
- *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Mgate\SuiviBundle\Entity\GroupePhasesRepository")
  */
@@ -41,7 +40,7 @@ class GroupePhases
 
     /**
      * @var string
-     *
+     * @Assert\NotBlank()
      * @ORM\Column(name="titre", type="string", length=255)
      */
     private $titre;
@@ -55,13 +54,13 @@ class GroupePhases
 
     /**
      * @var string
-     *
+     * @Assert\NotBlank()
      * @ORM\Column(name="description", type="text")
      */
     private $description;
 
     /**
-     * @ORM\OneToMany(targetEntity="Phase", mappedBy="groupe")
+     * @ORM\OneToMany(targetEntity="Phase", mappedBy="groupe", cascade={"persist","remove"})
      * @ORM\OrderBy({"position" = "ASC"})
      */
     private $phases;

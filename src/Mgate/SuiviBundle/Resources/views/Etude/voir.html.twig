@@ -56,86 +56,105 @@
 
 {% endblock %}
 
-{% block javascript_quick %}
-    {{ parent() }}
-    <script>
-        //Egalisation de la hauteur des lignes des phases
-        function equalHeight(group) {
-            var tallest = 0;
-            group.each(function () {
-                thisHeight = $(this).height();
-                if (thisHeight > tallest) {
-                    tallest = thisHeight;
-                }
-            });
-            group.css("height", tallest);
-        }
-
-        $(window).load(function () {
-            var tab2 = $("#tab2");
-            var methodo = $("#methodo");
-            tab2.addClass("active");
-            methodo.addClass("active");
-            var nombreDeLigneParPhase = $(".egalize tr").length / $(".egalize").length;
-            for (var i = 1; i <= nombreDeLigneParPhase; i++) {
-                equalHeight($(".egalize tr:nth-child(" + i + ") th"));
-            }
-            methodo.removeClass("active");
-            tab2.removeClass("active");
-        });
-    </script>
-{% endblock %}
-
 {% block javascript %}
     {{ parent() }}
     {{ form_javascript(formSuivi) }}
-    <script src="{{ asset('js/highcharts.js') }}"></script>
-    <script src="{{ asset('js/highcharts-fr.js') }}"></script>
-    <script src="{{ asset('js/exporting.js') }}"></script>
+<script src="{{ asset('js/highcharts.js') }}"></script>
+<script src="{{ asset('js/highcharts-fr.js') }}"></script>
+<script src="{{ asset('js/exporting.js') }}"></script>
 
-    <script type="text/javascript">
-        {{ chart(chart) }}
-    </script>
+<script type="text/javascript">
+    {{ chart(chart) }}
+</script>
 
-    <script>
-        function docStateChange() {
-            $('.docTabRow').each(
-                function (i, e) {
-                    var ok = true;
-                    $(e).children().children('input[type=checkbox]').each(
-                        function (index, elem) {
-                            ok = ok && elem.checked;
-                        }
-                    );
-                    if (!ok)
-                        $(e).children(':nth-child(2)').html('<span class="label label-important">Incomplet</span>');
-                    else
-                        $(e).children(':nth-child(2)').html('<span class="label label-success">Complet</span>');
-                    ok = true;
-                }
-            );
-        }
-        $(document).ready(function () {
-            docStateChange();
-            //listen for the form beeing submitted
-            $("#myForm :input").change(function () {
-                $(".loading").show();
-                var $form = $(this).closest("form");
-                $.post($form.attr("action"), $form.serialize(),
-                    function (data) {
-                        $(".loading").hide();
+<script>
+    // Display label according to checked checkbox (document validation tab)
+    function docStateChange() {
+        $('.docTabRow').each(
+            function (i, e) {
+                var ok = true;
+                $(e).children().children('input[type=checkbox]').each(
+                    function (index, elem) {
+                        ok = ok && elem.checked;
+                    }
+                );
+                if (!ok)
+                    $(e).children(':nth-child(2)').html('<span class="label label-important">Incomplet</span>');
+                else
+                    $(e).children(':nth-child(2)').html('<span class="label label-success">Complet</span>');
+                ok = true;
+            }
+        );
+    }
 
-                        if (data.responseCode != 200) {
-                            bootbox.alert(data.msg);
-                        }
-                    });
+    // etude progress change handler
+    $(document).ready(function () {
+        docStateChange();
+        //listen for the form beeing submitted
+        $("#myForm :input").change(function () {
+            $(".loading").show();
+            var $form = $(this).closest("form");
+            $.post($form.attr("action"), $form.serialize(),
+                function (data) {
+                    $(".loading").hide();
 
-                //we dont what the browser to submit the form
-                return false;
-            });
+                    if (data.responseCode !== 200) {
+                        bootbox.alert(data.msg);
+                    }
+                });
 
-
+            //we dont what the browser to submit the form
+            return false;
         });
+    });
 
-    </script>
+    //Egalisation de la hauteur des lignes des phases
+    function equalHeight(group) {
+        var tallest = 0;
+        group.each(function () {
+            thisHeight = $(this).height();
+            if (thisHeight > tallest) {
+                tallest = thisHeight;
+            }
+        });
+        group.css("height", tallest);
+    }
+
+    $(window).load(function () {
+        var nombreDeLigneParPhase = $(".egalize tr").length / $(".egalize").length;
+        for (var i = 1; i <= nombreDeLigneParPhase; i++) {
+            equalHeight($(".egalize tr:nth-child(" + i + ") th"));
+        }
+    });
+
+    // keep tab opened through refresh
+    $(document).ready(function () {
+        // show active tab on reload
+        if (location.hash !== '') {
+            var tabSelect = $('a[href="' + location.hash + '"]');
+            var url = tabSelect.attr('data-url');
+            var div = $(location.hash);
+            if (div !== undefined) {
+                div.load(url, function (result) {
+                    return result
+                });
+            }
+            tabSelect.tab('show');
+        }
+
+        // remember the hash in the URL without jumping
+        $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+            var url = $(this).attr("data-url");
+            var href = this.hash;
+
+            if (history.pushState) {
+                history.pushState(null, null, '#' + $(e.target).attr('href').substr(1));
+            } else {
+                location.hash = '#' + $(e.target).attr('href').substr(1);
+            }
+        });
+    });
+</script>
+
+</script>
 {% endblock %}
