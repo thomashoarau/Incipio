@@ -286,13 +286,6 @@ class Etude
     private $descriptionPrestation;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="prestation", type="integer", nullable=true)
-     */
-    private $typePrestation;
-
-    /**
      * @var int
      *
      * @ORM\Column(name="sourceDeProspection", type="integer", nullable=true)
@@ -886,56 +879,6 @@ class Etude
     public function getDescriptionPrestation()
     {
         return $this->descriptionPrestation;
-    }
-
-    /**
-     * Set typePrestation.
-     *
-     * @param string $typePrestation
-     *
-     * @return Etude
-     */
-    public function setTypePrestation($typePrestation)
-    {
-        $this->typePrestation = $typePrestation;
-
-        return $this;
-    }
-
-    /**
-     * Get typePrestation.
-     *
-     * @return string
-     */
-    public function getTypePrestation()
-    {
-        return $this->typePrestation;
-    }
-
-    public static function getTypePrestationChoice()
-    {
-        return ['1' => 'ingénieur Info',
-            '2' => 'ingénieur EN',
-            '3' => 'ingénieur TR',
-            '4' => 'ingénieur GEA',
-            '5' => 'ingénieur Hydro',
-        ];
-    }
-
-    public static function getTypePrestationChoiceAssert()
-    {
-        return array_keys(self::getTypePrestationChoice());
-    }
-
-    public function getTypePrestationToString()
-    {
-        if ($this->typePrestation) {
-            $tab = $this->getTypePrestationChoice();
-
-            return $tab[$this->typePrestation];
-        } else {
-            return null;
-        }
     }
 
     /**
