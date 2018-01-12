@@ -13,9 +13,7 @@ namespace Mgate\SuiviBundle\Form\Type;
 
 use Genemu\Bundle\FormBundle\Form\JQuery\Type\Select2EntityType;
 use Mgate\PersonneBundle\Entity\PersonneRepository;
-use Mgate\SuiviBundle\Entity\Etude;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -47,11 +45,6 @@ class ApType extends AbstractType
                     Le début de la phrase est déjà généré.",
                         'cols' => '100%',
                         'rows' => 5, ], ])
-            ->add('typePrestation', ChoiceType::class,
-                ['choices' => array_flip(Etude::getTypePrestationChoice()),
-                    'label' => 'Type de prestation',
-                    'required' => false,
-                    ])
             ->add('competences', Select2EntityType::class, [
                 'class' => 'N7consulting\RhBundle\Entity\Competence',
                 'by_reference' => false,

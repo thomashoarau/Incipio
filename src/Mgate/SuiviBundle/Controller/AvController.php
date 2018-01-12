@@ -71,7 +71,6 @@ class AvController extends Controller
      * @param Av      $av
      *
      * @return RedirectResponse|Response
-     *
      */
     public function modifierAction(Request $request, Av $av)
     {
