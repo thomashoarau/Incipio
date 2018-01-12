@@ -98,8 +98,7 @@
             </td>
             <td>
                 {% if getEtatDoc(etude.ap) == 1 %}
-                    <img src="{{ enCours }}"
-                         title="{{ etude.ap is not null ? etude.ap.dateSignature | date("d/m/y") }}"/>
+                    <img src="{{ enCours }}" title="{{ etude.ap is not null ? etude.ap.dateSignature | date("d/m/y") }}"/>
                 {% elseif getEtatDoc(etude.ap) == 2 %}
                     <img src="{{ valide }}"
                          title="{{ etude.ap is not null ? etude.ap.dateSignature | date("d/m/y") }}"/>
