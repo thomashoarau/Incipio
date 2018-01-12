@@ -202,6 +202,7 @@ class Etude
      * @var Cc
      *
      * @ORM\OneToOne(targetEntity="Cc", inversedBy="etude", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(onDelete="SET NULL")
      */
     private $cc;
 
