@@ -56,7 +56,7 @@
     <tr>
         <td colspan="6" style=" text-align: center !important; ">
                     {% for mission in etude.missions %}
-                    {% include "MgateSuiviBundle:Etude:Buttons/Intervenant.html.twig" with  {'idEtude':  etude.id, 'intervenant' : mission.intervenant, 'keyMission' : loop.index0 } %}
+                    {% include "MgateSuiviBundle:Etude:Buttons/Intervenant.html.twig" with  {'mission' : mission, 'etude' : etude } %}
                     {% endfor %}
             </td>
         </tr>

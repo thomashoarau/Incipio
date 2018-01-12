@@ -132,7 +132,7 @@
                 <table class="table table-bordered table-striped">
                     <tr>
                         <td colspan="2">
-                            {% include "MgateSuiviBundle:Etude:Buttons/Intervenant.html.twig" with  {'idEtude':  etude.id, 'intervenant' : mission.intervenant, 'keyMission' : mission.id} %}
+                            {% include "MgateSuiviBundle:Etude:Buttons/Intervenant.html.twig" with  {'mission' : mission, 'etude' : etude} %}
                         </td>
                     </tr>
                     <tr>

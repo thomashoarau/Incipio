@@ -96,7 +96,7 @@ MgateSuivi_missions_modifier:
 #AJOUT AJAX
 
 MgateSuivi_mission_avancement:
-    path: /missions/modifier/avancement/
+    path: /missions/avancement/{id}
     defaults: {_controller: MgateSuiviBundle:Mission:avancement}
     methods:  [PUT]
 

@@ -87,7 +87,7 @@
 
             <td>
                 {% for mission in etude.missions %}
-                    {% include "MgateSuiviBundle:Etude:Buttons/Intervenant.html.twig" with  {'idEtude':  etude.id, 'intervenant' : mission.intervenant, 'keyMission' : loop.index0 } %}
+                    {% include "MgateSuiviBundle:Etude:Buttons/Intervenant.html.twig" with  {'mission' : mission, 'etude': etude } %}
                     {% if loop.index != loop.last %}
                         <br/><br/>
                     {% endif %}
