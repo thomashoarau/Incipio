@@ -87,7 +87,7 @@
 
             <td>
                 {% for mission in etude.missions %}
-                    {% include "MgateSuiviBundle:Etude:Buttons/Intervenant.html.twig" with  {'idEtude':  etude.id, 'intervenant' : mission.intervenant, 'keyMission' : loop.index0 } %}
+                    {% include "MgateSuiviBundle:Etude:Buttons/Intervenant.html.twig" with  {'mission' : mission, 'etude': etude } %}
                     {% if loop.index != loop.last %}
                         <br/><br/>
                     {% endif %}
@@ -98,8 +98,7 @@
             </td>
             <td>
                 {% if getEtatDoc(etude.ap) == 1 %}
-                    <img src="{{ enCours }}"
-                         title="{{ etude.ap is not null ? etude.ap.dateSignature | date("d/m/y") }}"/>
+                    <img src="{{ enCours }}" title="{{ etude.ap is not null ? etude.ap.dateSignature | date("d/m/y") }}"/>
                 {% elseif getEtatDoc(etude.ap) == 2 %}
                     <img src="{{ valide }}"
                          title="{{ etude.ap is not null ? etude.ap.dateSignature | date("d/m/y") }}"/>

@@ -32,12 +32,12 @@
             </div>
             <!-- SUIVI -->
             <div class="tab-pane" id="tab3">
-                {% include "MgateSuiviBundle:Etude:TabVoir/Suivi.html.twig" with  {'etude':  etude} %}
+                {% include "MgateSuiviBundle:Etude:TabVoir/Redaction.html.twig" with  {'etude':  etude} %}
             </div>
             <!-- SUIVI DOCUMENTS TYPES AUDIT -->
             {% if is_granted('ROLE_CA') %}
                 <div class="tab-pane" id="tab4">
-                    {% include "MgateSuiviBundle:Etude:TabVoir/Redaction.html.twig" with  {'etude':  etude} %}
+                    {% include "MgateSuiviBundle:Etude:TabVoir/Suivi.html.twig" with  {'etude':  etude} %}
                 </div>
             {% endif %}
             <!-- SUIVI DOCUMENTS TYPES AUDIT -->
@@ -154,7 +154,7 @@
             }
         });
     });
-</script>
 
+    {% include 'MgateSuiviBundle:Etude/Tools:Avancement.js.twig' %}
 </script>
 {% endblock %}
