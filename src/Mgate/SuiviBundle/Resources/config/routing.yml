@@ -193,15 +193,6 @@ MgateSuivi_avmission_ajouter:
         id: \d+
     methods:  [GET, HEAD, POST]
 
-
-MgateSuivi_avmission_voir:
-    path: /avmission/voir/{id}
-    defaults: {_controller: MgateSuiviBundle:AvMission:voir}
-    requirements:
-        id: \d+
-    methods:  [GET, HEAD]
-
-
 MgateSuivi_avmission_modifier:
     path: /avmission/modifier/{id}
     defaults: {_controller: MgateSuiviBundle:AvMission:modifier}

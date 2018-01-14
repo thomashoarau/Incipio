@@ -38,7 +38,8 @@ class DocTypeType extends AbstractType
                 'required' => true, ]);
 
         // Si le document n'est ni une FactureVente ni un RM
-        if ('Mgate\SuiviBundle\Entity\Mission' != $options['data_class']) {
+        if ('Mgate\SuiviBundle\Entity\Mission' != $options['data_class'] &&
+            'Mgate\SuiviBundle\Entity\AvMission' != $options['data_class']) {
             // le signataire 2 est l'intervenant
 
             $pro = $options['prospect'];

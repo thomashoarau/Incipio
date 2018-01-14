@@ -12,40 +12,28 @@
 namespace Mgate\SuiviBundle\Controller;
 
 use Mgate\SuiviBundle\Entity\AvMission;
+use Mgate\SuiviBundle\Entity\Etude;
 use Mgate\SuiviBundle\Form\Type\AvMissionHandler;
 use Mgate\SuiviBundle\Form\Type\AvMissionType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class AvMissionController extends Controller
 {
     /**
      * @Security("has_role('ROLE_SUIVEUR')")
+     * @param Request $request
+     * @param Etude   $etude
+     *
+     * @return RedirectResponse|Response
      */
-    public function indexAction($page)
+    public function addAction(Request $request, Etude $etude)
     {
         $em = $this->getDoctrine()->getManager();
-
-        $entities = $em->getRepository('MgateSuiviBundle:Etude')->findAll();
-
-        return $this->render('MgateSuiviBundle:Etude:index.html.twig', [
-            'etudes' => $entities,
-        ]);
-    }
-
-    /**
-     * @Security("has_role('ROLE_SUIVEUR')")
-     */
-    public function addAction(Request $request, $id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        // On vérifie que l'article d'id $id existe bien, sinon, erreur 404.
-        if (!$etude = $em->getRepository('Mgate\SuiviBundle\Entity\Etude')->find($id)) {
-            throw $this->createNotFoundException('Article[id=' . $id . '] inexistant');
-        }
 
         if ($this->get('Mgate.etude_manager')->confidentielRefus($etude, $this->getUser())) {
             throw new AccessDeniedException('Cette étude est confidentielle');
@@ -54,51 +42,36 @@ class AvMissionController extends Controller
         $avmission = new AvMission();
         $avmission->setEtude($etude);
         $form = $this->createForm(AvMissionType::class, $avmission);
-        $formHandler = new AvMissionHandler($form, $request, $em);
+        if ('POST' == $request->getMethod()) {
+            $form->handleRequest($request);
 
-        if ($formHandler->process()) {
-            return $this->redirectToRoute('MgateSuivi_avmission_voir', ['id' => $avmission->getId()]);
+            if ($form->isValid()) {
+                $em->persist($avmission);
+                $em->flush();
+                $this->addFlash('success', 'Avenant de mission ajouté');
+
+                return $this->redirectToRoute('MgateSuivi_etude_voir', ['nom' => $etude->getNom()]);
+            }
+            $this->addFlash('danger', 'Le formulaire contient des erreurs.');
         }
 
         return $this->render('MgateSuiviBundle:AvMission:ajouter.html.twig', [
+            'etude' => $etude,
             'form' => $form->createView(),
         ]);
     }
 
     /**
      * @Security("has_role('ROLE_SUIVEUR')")
+     *
+     * @param Request   $request
+     * @param AvMission $avmission
+     *
+     * @return RedirectResponse|Response
      */
-    public function voirAction($id)
+    public function modifierAction(Request $request, AvMission $avmission)
     {
         $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('MgateSuiviBundle:AvMission')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find AvMission entity.');
-        }
-
-        $etude = $entity->getEtude();
-
-        if ($this->get('Mgate.etude_manager')->confidentielRefus($etude, $this->getUser())) {
-            throw new AccessDeniedException('Cette étude est confidentielle');
-        }
-
-        return $this->render('MgateSuiviBundle:AvMission:voir.html.twig', [
-            'avmission' => $entity,
-        ]);
-    }
-
-    /**
-     * @Security("has_role('ROLE_SUIVEUR')")
-     */
-    public function modifierAction(Request $request, $id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        if (!$avmission = $em->getRepository('Mgate\SuiviBundle\Entity\AvMission')->find($id)) {
-            throw $this->createNotFoundException('AvMission[id=' . $id . '] inexistant');
-        }
 
         $etude = $avmission->getEtude();
 
@@ -114,11 +87,12 @@ class AvMissionController extends Controller
             if ($form->isValid()) {
                 $em->flush();
 
-                return $this->redirectToRoute('MgateSuivi_avmission_voir', ['id' => $avmission->getId()]);
+                return $this->redirectToRoute('MgateSuivi_etude_voir', ['nom' => $etude->getNom()]);
             }
         }
 
         return $this->render('MgateSuiviBundle:AvMission:modifier.html.twig', [
+            'etude' => $etude,
             'form' => $form->createView(),
             'avmission' => $avmission,
         ]);

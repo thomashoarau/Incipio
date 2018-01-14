@@ -18,12 +18,15 @@ class AvMissionType extends DocTypeType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        // utiliser DocTypeType::buildForm($builder,$options) ?
+        $builder->add('nouveauPourcentage', null, ['label' => 'Nouveau pourcentage'])
+        ->add('differentielDelai', null, ['label' => 'Différentiel délai']);
+
+        DocTypeType::buildForm($builder, $options);
     }
 
     public function getName()
     {
-        return 'Mgate_suivibundle_avmssiontype';
+        return 'Mgate_suivibundle_avmissiontype';
     }
 
     public function configureOptions(OptionsResolver $resolver)
