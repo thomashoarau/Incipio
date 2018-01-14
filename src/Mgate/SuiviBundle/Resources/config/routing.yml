@@ -200,6 +200,13 @@ MgateSuivi_avmission_modifier:
         id: \d+
     methods:  [GET, HEAD, POST]
 
+MgateSuivi_avmission_delete:
+    path: /avmission/supprimer/{id}
+    defaults: {_controller: MgateSuiviBundle:AvMission:delete}
+    requirements:
+        id: \d+
+    methods:  [GET, HEAD, POST]
+
 MgateSuivi_phases_modifier:
     path: /phases/modifier/{id}
     defaults: {_controller: MgateSuiviBundle:Phases:modifier}

@@ -17,6 +17,7 @@ use Mgate\SuiviBundle\Form\Type\AvMissionHandler;
 use Mgate\SuiviBundle\Form\Type\AvMissionType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -90,11 +91,49 @@ class AvMissionController extends Controller
                 return $this->redirectToRoute('MgateSuivi_etude_voir', ['nom' => $etude->getNom()]);
             }
         }
+        $deleteForm = $this->createDeleteForm($avmission);
 
         return $this->render('MgateSuiviBundle:AvMission:modifier.html.twig', [
             'etude' => $etude,
+            'delete_form' => $deleteForm->createView(),
             'form' => $form->createView(),
             'avmission' => $avmission,
         ]);
+    }
+
+    /**
+     * @Security("has_role('ROLE_SUIVEUR')")
+     *
+     * @param AvMission $av
+     * @param Request       $request
+     *
+     * @return RedirectResponse
+     */
+    public function deleteAction(AvMission $av, Request $request)
+    {
+        $form = $this->createDeleteForm($av);
+
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+
+            if ($this->get('Mgate.etude_manager')->confidentielRefus($av->getEtude(), $this->getUser())) {
+                throw new AccessDeniedException('Cette étude est confidentielle');
+            }
+
+            $em->remove($av);
+            $em->flush();
+            $this->addFlash('success', 'Avenant au RM supprimé');
+        }
+
+        return $this->redirectToRoute('MgateSuivi_etude_voir',['nom' => $av->getEtude()->getNom()]);
+    }
+
+    private function createDeleteForm(AvMission $contact)
+    {
+        return $this->createFormBuilder(['id' => $contact->getId()])
+            ->add('id', HiddenType::class)
+            ->getForm();
     }
 }

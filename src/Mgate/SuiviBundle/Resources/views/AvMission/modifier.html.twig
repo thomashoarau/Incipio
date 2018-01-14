@@ -4,12 +4,11 @@
     {{ 'suivi.avenant_mission_modifier'|trans({}, 'suivi') }} - {{ parent() }}
 {% endblock %}
 
-{% block javascript %}
-    {{ parent() }}
-    {{ form_javascript(form) }}
+{% block content_title %}
+    {{ 'suivi.avenant_mission_modifier'|trans({}, 'suivi') }}
 {% endblock %}
 
-{% block content_title %}
+{% block breadcrumb_active %}
     {{ 'suivi.avenant_mission_modifier'|trans({}, 'suivi') }}
 {% endblock %}
 
@@ -17,5 +16,10 @@
 
     {% include "MgateSuiviBundle:AvMission:formulaire.html.twig" %}
 
+{% endblock %}
+
+{% block javascript %}
+    {{ parent() }}
+    {{ form_javascript(form) }}
 {% endblock %}
 

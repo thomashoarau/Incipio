@@ -28,15 +28,17 @@ suivi:
   avancement_modifier: Modifier l'avancement
   avant_projet: Avant-Projet
   avenant: Avenant
-  avenant_affichage: Affichage d'un Avenant
-  avenant_ajouter: Ajouter un Avenant
-  avenant_enregistrer: Enregistrer l'Avenant
-  avenant_liste: Liste des Avenants
-  avenant_mission_ajouter: Ajouter un Avenant au Récapitulatif de Mission
-  avenant_mission_ajouter_un: Ajouter un Avenant de mission
-  avenant_mission_enregistrer: Enregistrer l'Avenant au Récapitulatif de Mission
-  avenant_mission_liste: Liste des Avenants au Récapitulatif de Mission
-  avenant_mission_modifier: Modifier un Avenant au Récapitulatif de Mission
+  avenant_affichage: Affichage d'un avenant
+  avenant_ajouter: Ajouter un avenant
+  avenant_enregistrer: Enregistrer l'avenant
+  avenant_liste: Liste des avenants
+  avenant_mission_ajouter: Ajouter un avenant au Récapitulatif de Mission
+  avenant_mission_ajouter_un: Ajouter un avenant de mission
+  avenant_mission_enregistrer: Enregistrer l'avenant au Récapitulatif de Mission
+  avenant_mission_liste: Liste des avenants au Récapitulatif de Mission
+  avenant_mission_modifier: Modifier un avenant au Récapitulatif de Mission
+  avenant_mission_supprimer: Supprimer l'avenant au Récapitulatif de Mission
+  avenant_mission_supprimer_confirm: Etes-vous sûr de vouloir supprimer définitivement cet avenant au RM ?
   avenant_modifier: Modifier l'Avenant
   avenants: Avenants
   avenants_clients: Avenants clients
