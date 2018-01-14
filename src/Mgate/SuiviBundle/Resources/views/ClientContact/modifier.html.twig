@@ -27,6 +27,7 @@
 {% endblock %}
 
 {% block javascript %}
+    {{ parent() }}
     {{ form_javascript(form) }}
 {% endblock %}
 
