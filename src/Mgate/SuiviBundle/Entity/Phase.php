@@ -12,6 +12,7 @@
 namespace Mgate\SuiviBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Mgate\SuiviBundle\Entity\Phase.
@@ -67,7 +68,7 @@ class Phase
 
     /**
      * @var string
-     *
+     * @Assert\NotBlank()
      * @ORM\Column(name="titre", type="text", nullable=true)
      */
     private $titre;
@@ -95,7 +96,7 @@ class Phase
 
     /**
      * @var int
-     *
+     * @Assert\NotBlank()
      * @ORM\Column(name="delai", type="integer", nullable=true)
      */
     private $delai;

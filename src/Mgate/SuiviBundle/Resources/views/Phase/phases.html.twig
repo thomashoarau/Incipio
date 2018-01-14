@@ -10,21 +10,6 @@
 {% endblock %}
 
 {% block content_bundle %}
-
-
-    <style>
-        textarea {
-            width: 95%;
-            height: 100%;
-            resize: vertical;
-        }
-
-        select {
-            width: 98%;
-        }
-
-    </style>
-
     {{ form_start(form, {'attr': {'id': 'form'}}) }}
     {# affiche l'unique champ de la tache : description #}
     {#{ form_row(form.description) }#}
@@ -52,15 +37,15 @@
             <tbody id="phases">
             {% for phase in form.phases %}
                 <tr class="phase" id="phase-{{ loop.index }}">
-                    <td>
+                    <td style="width: 120px">
                         <div class="btn-group"></div>
                         <span class="titrePhase"></span> {{ form_widget(phase.position) }}
                     </td>
                     <td>
                         {{ form_widget(phase.groupe, {'attr': {'style': 'width: 100%'}}) }}<br>
                         <div class="details-{{ loop.index }}" style="display: none">
-                            {{ form_widget(phase.objectif, {'attr': {'cols': '15', 'rows': '5'}}) }}<br>
-                            {{ form_widget(phase.methodo, {'attr': {'cols': '15', 'rows': '5'}}) }}
+                            {{ form_widget(phase.objectif, {'attr': {'cols': '15', 'rows': '5', 'class': 'form-control'}}) }}<br>
+                            {{ form_widget(phase.methodo, {'attr': {'cols': '15', 'rows': '5', 'class': 'form-control'}}) }}
                         </div>
                     </td>
                     <td>
@@ -68,11 +53,26 @@
                                 type="button">+
                         </button>
                     </td>
-                    <td>{{ form_widget(phase.titre, {'attr': {'class': 'form-width-150'}}) }}</td>
-                    <td>{{ form_widget(phase.nbrJEH, {'attr': {'class': 'form-width-40 nbrJEH'}}) }}</td>
-                    <td>{{ form_widget(phase.prixJEH, {'attr': {'class': 'form-width-40 prixJEH'}}) }}</td>
-                    <td>{{ form_widget(phase.dateDebut) }}</td>
-                    <td>{{ form_widget(phase.delai, {'attr': {'class': 'form-width-40'}}) }}</td>
+                    <td style="width: 300px">
+                        {{ form_widget(phase.titre, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(phase.titre) }}
+                    </td>
+                    <td>
+                        {{ form_widget(phase.nbrJEH, {'attr': {'class': 'form-control nbrJEH'}}) }}
+                        {{ form_errors(phase.nbrJEH) }}
+                    </td>
+                    <td>
+                        {{ form_widget(phase.prixJEH, {'attr': {'class': 'form-control prixJEH'}}) }}
+                        {{ form_errors(phase.prixJEH) }}
+                    </td>
+                    <td>
+                        {{ form_widget(phase.dateDebut, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(phase.dateDebut) }}
+                    </td>
+                    <td>
+                        {{ form_widget(phase.delai, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(phase.delai) }}
+                    </td>
                 </tr>
             {% endfor %}
             <tr>

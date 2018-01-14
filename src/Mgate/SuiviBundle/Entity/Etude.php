@@ -222,7 +222,8 @@ class Etude
     private $groupes;
 
     /**
-     * @ORM\OneToMany(targetEntity="Phase", mappedBy="etude", cascade={"persist", "remove"})
+     * @Assert\Valid()
+     * @ORM\OneToMany(targetEntity="Phase", mappedBy="etude", cascade={"persist", "remove"}, orphanRemoval=true)
      * @ORM\OrderBy({"position" = "ASC"})
      */
     private $phases;
