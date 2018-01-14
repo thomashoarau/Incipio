@@ -138,6 +138,12 @@ MgateSuivi_clientcontact_index:
     defaults: {_controller: MgateSuiviBundle:ClientContact:index}
     methods:  [GET, HEAD]
 
+MgateSuivi_clientcontact_delete:
+    path: /clientcontact/supprimer/{id}
+    defaults: {_controller: MgateSuiviBundle:ClientContact:delete}
+    requirements:
+        id: \d+
+    methods:  [GET, HEAD, POST]
 
 MgateSuivi_suivi_ajouter:
     path: /suivi/ajouter/{id}

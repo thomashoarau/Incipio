@@ -65,6 +65,8 @@ suivi:
   contact_client_enregistrer: Enregistrer le contact client
   contact_client_modifier: Modifier un contact client
   contact_client_nouveau_enregistrer: Enregistrer le nouveau contact client
+  contact_client_supprimer: Supprimer le contact client
+  contact_client_supprimer_confirm: Etes-vous sûr de vouloir supprimer définitivement ce contact client ?
   contacter: Contacter
   contacts: Contacts
   contacts_client: Contacts client

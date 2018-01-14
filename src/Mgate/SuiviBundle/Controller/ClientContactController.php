@@ -17,6 +17,7 @@ use Mgate\SuiviBundle\Form\Type\ClientContactHandler;
 use Mgate\SuiviBundle\Form\Type\ClientContactType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -135,11 +136,49 @@ class ClientContactController extends Controller
             }
             $this->addFlash('danger', 'Le formulaire contient des erreurs.');
         }
+        $deleteForm = $this->createDeleteForm($clientContact);
 
         return $this->render('MgateSuiviBundle:ClientContact:modifier.html.twig', [
             'form' => $form->createView(),
+            'delete_form' => $deleteForm->createView(),
             'clientcontact' => $clientContact,
             'etude' => $etude,
         ]);
+    }
+
+    /**
+     * @Security("has_role('ROLE_SUIVEUR')")
+     *
+     * @param ClientContact $contact
+     * @param Request       $request
+     *
+     * @return RedirectResponse
+     */
+    public function deleteAction(ClientContact $contact, Request $request)
+    {
+        $form = $this->createDeleteForm($contact);
+
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+
+            if ($this->get('Mgate.etude_manager')->confidentielRefus($contact->getEtude(), $this->getUser())) {
+                throw new AccessDeniedException('Cette étude est confidentielle');
+            }
+
+            $em->remove($contact);
+            $em->flush();
+            $this->addFlash('success', 'Contact client supprimé');
+        }
+
+        return $this->redirectToRoute('MgateSuivi_etude_voir',['nom' => $contact->getEtude()->getNom()]);
+    }
+
+    private function createDeleteForm(ClientContact $contact)
+    {
+        return $this->createFormBuilder(['id' => $contact->getId()])
+            ->add('id', HiddenType::class)
+            ->getForm();
     }
 }
