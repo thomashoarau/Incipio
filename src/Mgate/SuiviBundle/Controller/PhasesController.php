@@ -37,12 +37,6 @@ class PhasesController extends Controller
             throw new AccessDeniedException('Cette étude est confidentielle');
         }
 
-        $originalPhases = [];
-        // Create an array of the current Phase objects in the database
-        foreach ($etude->getPhases() as $phase) {
-            $originalPhases[] = $phase;
-        }
-
         $form = $this->createForm(PhasesType::class, $etude, ['etude' => $etude]);
 
         if ('POST' == $request->getMethod()) {
@@ -56,25 +50,13 @@ class PhasesController extends Controller
                     $etude->addPhase($phaseNew);
                 }
 
-                // filter $originalPhases to contain phases no longer present
-                foreach ($etude->getPhases() as $phase) {
-                    foreach ($originalPhases as $key => $toDel) {
-                        if ($toDel->getId() === $phase->getId()) {
-                            unset($originalPhases[$key]);
-                        }
-                    }
-                }
-
-                // remove the relationship between the phase and the etude
-                foreach ($originalPhases as $phase) {
-                    $em->remove($phase); // on peut faire un persist sinon, cf doc collection form
-                }
-
                 $em->persist($etude); // persist $etude / $form->getData()
                 $em->flush();
-            }
+                $this->addFlash('success', 'Phases enregistrées');
 
-            return $this->redirectToRoute('MgateSuivi_phases_modifier', ['id' => $etude->getId()]);
+                return $this->redirectToRoute('MgateSuivi_phases_modifier', ['id' => $etude->getId()]);
+            }
+            $this->addFlash('danger', 'Le formulaire contient des erreurs.');
         }
 
         return $this->render('MgateSuiviBundle:Phase:phases.html.twig', [
