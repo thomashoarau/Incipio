@@ -51,6 +51,20 @@ class LoadDocTypeData implements FixtureInterface
         $rm->setSize(26000);
         $manager->persist($rm);
 
+        //facture d'acompte
+        $fa = new Document();
+        $fa->setName('FA');
+        $fa->setPath('FA.docx');
+        $fa->setSize(50400);
+        $manager->persist($fa);
+
+        //facture de solde
+        $fs = new Document();
+        $fs->setName('FS');
+        $fs->setPath('FS.docx');
+        $fs->setSize(50200);
+        $manager->persist($fs);
+
         $manager->flush();
     }
 }
