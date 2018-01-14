@@ -28,19 +28,14 @@
     </div>
     <table class="table table-bordered">
         <tr>
-            <td colspan="2"><h4></h4></td>
-        </tr>
-        <tr>
             <th>{{ 'suivi.fait_par'|trans({}, 'suivi') }}</th>
             <td>{{ selectedContactClient.faitPar.prenomNom }}</td>
-        </tr>
-        <tr>
             <th>{{ 'suivi.date'|trans({}, 'suivi') }}</th>
             <td>{{ selectedContactClient.date | date("\\L\\e d/m/Y \\à G:i") }}</td>
         </tr>
         <tr>
             <th>{{ 'suivi.objet'|trans({}, 'suivi') }}</th>
-            <td>
+            <td colspan="3">
                 {% if selectedContactClient.moyenContact == 'telephone' %}
                     <i title="Par téléphone" class="fa fa-headphones"></i>
                 {% elseif selectedContactClient.moyenContact == 'mail' %}
@@ -53,7 +48,7 @@
         </tr>
         <tr>
             <th>{{ 'suivi.resume'|trans({}, 'suivi') }}</th>
-            <td>{{ selectedContactClient.contenu | nl2br }}</td>
+            <td colspan="3">{{ selectedContactClient.contenu | nl2br }}</td>
         </tr>
     </table>
     <br/>

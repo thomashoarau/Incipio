@@ -1,6 +1,7 @@
 {% extends "MgateSuiviBundle::layout.html.twig" %}
 
 {% block javascript %}
+    {{ parent() }}
     {{ form_javascript(form) }}
 {% endblock %}
 
