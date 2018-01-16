@@ -1,23 +1,17 @@
-parameters:
-    Mgate.etude_manager.class: Mgate\SuiviBundle\Manager\EtudeManager
-    Mgate.doctype_manager.class: Mgate\SuiviBundle\Manager\DocTypeManager
-    Mgate.chart_manager.class: Mgate\SuiviBundle\Manager\ChartManager
-
 services:
     Mgate.etude_manager:
-        class: "%Mgate.etude_manager.class%"
+        class: Mgate\SuiviBundle\Manager\EtudeManager
         arguments:
           - "@doctrine.orm.entity_manager"
           - "@app.json_key_value_store"
           - "@security.authorization_checker"
-        tags:
-            - { name: twig.extension }
+
     Mgate.doctype_manager:
-        class: "%Mgate.doctype_manager.class%"
+        class: Mgate\SuiviBundle\Manager\DocTypeManager
         arguments:
           - "@doctrine.orm.entity_manager"
     Mgate.chart_manager:
-        class: "%Mgate.chart_manager.class%"
+        class: Mgate\SuiviBundle\Manager\ChartManager
         arguments:
           - "@doctrine.orm.entity_manager"
           - "@Mgate.etude_manager"
@@ -33,3 +27,8 @@ services:
             class: Mgate\SuiviBundle\Manager\EmailEtuManager
             arguments:
               - "@app.json_key_value_store"
+
+    Mgate.etude_extension:
+      class: Mgate\SuiviBundle\Manager\EtudeExtension
+      tags:
+          - { name: twig.extension }
