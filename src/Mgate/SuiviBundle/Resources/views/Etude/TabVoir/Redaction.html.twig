@@ -383,7 +383,7 @@
         </ul>
     </div>
 </nav>
-<div id="aMissions" class="collapse">
+<div id="avMissions" class="collapse">
     <table class="table table-bordered table-striped">
         <tr>
             <th>{{ 'suivi.avenant'|trans({}, 'suivi') }}</th>
@@ -397,7 +397,7 @@
                     <a href="{{ path('MgateSuivi_avmission_modifier', {'id': av.id}) }}">{{ 'suivi.avenant'|trans({}, 'suivi') }}
                         n°{{ av.id }}</a></td>
                 <td>{{ av.dateSignature ? av.dateSignature | date('d/m/Y') }}</td>
-                <td>{{ remuneration.jehRemuneration }}</td>
+                <td>-</td>
                 <td>{{ av.differentielDelai }}</td>
             </tr>
         {% endfor %}

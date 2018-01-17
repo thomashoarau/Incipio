@@ -13,6 +13,7 @@ namespace Mgate\SuiviBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Mgate\SuiviBundle\Entity\AvMission.
@@ -51,12 +52,14 @@ class AvMission extends DocType
 
     /**
      * @var int
+     * @Assert\NotBlank()
      * @ORM\Column(name="nouveauPourcentage", type="integer")
      */
     private $nouveauPourcentage;
 
     /**
      * @var int
+     * @Assert\NotBlank()
      * @ORM\Column(name="differentielDelai", type="integer")
      */
     private $differentielDelai;
@@ -86,6 +89,7 @@ class AvMission extends DocType
      */
     public function __construct()
     {
+        parent::__construct();
         $this->nouvelleRepartition = new ArrayCollection();
     }
 
