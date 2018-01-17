@@ -256,6 +256,7 @@ class EtudeController extends Controller
 
                 $em->persist($etude);
                 $em->flush();
+                $this->addFlash('success', 'Etude enregistrée');
 
                 if ($request->get('ap')) {
                     return $this->redirectToRoute('MgateSuivi_ap_rediger', ['id' => $etude->getId()]);
