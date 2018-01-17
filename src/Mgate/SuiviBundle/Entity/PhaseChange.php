@@ -5,13 +5,21 @@ namespace Mgate\SuiviBundle\Entity;
 class PhaseChange
 {
     private $position = false;
+
     private $nbrJEH = false;
+
     private $prixJEH = false;
+
     private $titre = false;
+
     private $objectif = false;
+
     private $methodo = false;
+
     private $dateDebut = false;
+
     private $validation = false;
+
     private $delai = false;
 
     public function getPosition()

@@ -12,19 +12,18 @@
 {% endblock %}
 
 {% block content_title %}
-    Affichage d'une compétence - {{ parent() }}
+    {{ competence.nom }}
+{% endblock %}
+
+{% block breadcrumb_active %}
+    {{ competence.nom }}
 {% endblock %}
 
 {% block content_bundle %}
 
-    <h2 class="inline">{{ competence.nom }}</h2>
-    {{ competence.description }}
-    <br><br>
-    <a href="{{ path('N7consultingRh_competence_modifier', {'id': competence.id}) }}" class="btn btn-default">Modifier
+    <a href="{{ path('N7consultingRh_competence_modifier', {'id': competence.id}) }}" class="btn btn-default pull-right">Modifier
         la compétence</a>
-    <a href="{{ path('N7consultingRh_competence_homepage') }}" class="btn btn-default">Retour à la liste des
-        compétences</a>
-
+    <h4><em>{{ competence.description }}</em></h4>
 
 
     <div class="row">

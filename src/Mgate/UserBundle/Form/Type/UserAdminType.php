@@ -29,6 +29,7 @@ use Symfony\Component\Security\Core\Validator\Constraints\UserPassword;
 class UserAdminType extends AbstractType
 {
     protected $class = 'Mgate\UserBundle\Entity\User';
+
     protected $roles;
 
     public function buildForm(FormBuilderInterface $builder, array $options)

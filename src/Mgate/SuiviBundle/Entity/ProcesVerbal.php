@@ -39,6 +39,7 @@ class ProcesVerbal extends DocType
     protected $etude;
 
     // Justification du choix: choix des phases dans un select multiple destiner qu'à un affichage, aucun traitement sur les phases
+
     /**
      * @var string
      *

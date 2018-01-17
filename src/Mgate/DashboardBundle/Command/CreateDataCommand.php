@@ -28,8 +28,11 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class CreateDataCommand extends ContainerAwareCommand
 {
     const NOM = ['Henry', 'Martinez', 'Durand', 'Duval', 'Leroux', 'Robert', 'Morel', 'Bourgeois', 'Dupont', 'Dumont', 'Bernard', 'Francois', 'Dupond', 'Dubois', 'Blanc', 'Paul', 'Petit'];
+
     const PRENOM = ['Alexandre', 'Paul', 'Thomas', 'Raphaël', 'Camille', 'Inès', 'Emma', 'Gabriel', 'Antoine', 'Louis', 'Victor', 'Maxime', 'Hugo', 'Louise', 'Marie', 'Sarah', 'Arthur', 'Clara', 'Lea', 'Alice', 'Lucas', 'Jules', 'Chloe', 'Elsa', 'Manon'];
+
     const FILIERES = ['Hydro', 'Electronique', 'Telecoms', 'Automatique', 'Info'];
+
     const ETUDES = [
         [
             'nom' => '315GLA',
@@ -152,19 +155,27 @@ class CreateDataCommand extends ContainerAwareCommand
             ],
         ],
     ];
+
     /** @var ObjectManager */
     private $em;
+
     /** @var ValidatorInterface */
     private $validator;
+
     /** @var Membre[] */
     private $membres = [];
+
     private $etudes = [];
+
     /** @var Membre */
     private $president;
+
     /** @var Membre */
     private $vp;
+
     /** @var Filiere[] */
     private $filieres = [];
+
     /** @var Competence[] */
     private $competences = [];
 

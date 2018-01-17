@@ -20,10 +20,18 @@ use Webmozart\KeyValueStore\Api\KeyValueStore;
 class EtudeManager
 {
     protected $em;
+
     protected $authorizationChecker;
+
     protected $tva;
+
     protected $namingConvention;
+
     protected $anneeCreation;
+
+    protected $defaultFraisDossier;
+
+    protected $defaultPourcentageAcompte;
 
     public function __construct(EntityManager $em, KeyValueStore $keyValueStore, AuthorizationChecker $authorizationChecker)
     {
@@ -45,6 +53,18 @@ class EtudeManager
             $this->anneeCreation = intval($keyValueStore->get('anneeCreation'));
         } else {
             throw new \LogicException('Parameter Année Creation is undefined.');
+        }
+
+        if ($keyValueStore->exists('fraisDossierDefaut')) {
+            $this->defaultFraisDossier = $keyValueStore->get('fraisDossierDefaut');
+        } else {
+            throw new \LogicException('Parameter Frais Dossier Defaut is undefined.');
+        }
+
+        if ($keyValueStore->exists('pourcentageAcompteDefaut')) {
+            $this->defaultPourcentageAcompte = $keyValueStore->get('pourcentageAcompteDefaut');
+        } else {
+            throw new \LogicException('Parameter Pourcentage Acompte Defaut is undefined.');
         }
     }
 

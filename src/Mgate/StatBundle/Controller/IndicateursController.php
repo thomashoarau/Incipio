@@ -21,6 +21,7 @@ use Symfony\Component\HttpFoundation\Response;
 class IndicateursController extends Controller
 {
     const STATE_ID_EN_COURS_X = 2;
+
     const STATE_ID_TERMINEE_X = 4;
 
     const DEFAULT_STYLE = ['color' => '#000000', 'fontWeight' => 'bold', 'fontSize' => '16px'];

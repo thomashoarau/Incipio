@@ -206,6 +206,7 @@ class MembreController extends Controller
 
             $em->remove($entity);
             $em->flush();
+            $this->addFlash('success', 'Membre supprimé');
         }
 
         return $this->redirectToRoute('MgatePersonne_membre_homepage');

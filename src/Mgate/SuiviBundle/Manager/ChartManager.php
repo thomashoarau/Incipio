@@ -23,8 +23,11 @@ use Zend\Json\Expr;
 class ChartManager /*extends \Twig_Extension*/
 {
     protected $em;
+
     protected $etudeManager;
+
     protected $logger;
+
     protected $namingConvention;
 
     private const SIX_MONTHS = 15724800;

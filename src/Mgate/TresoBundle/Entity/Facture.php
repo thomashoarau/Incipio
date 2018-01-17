@@ -25,9 +25,13 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Facture implements TresoDetailableInterface
 {
     const TYPE_ACHAT = 1;
+
     const TYPE_VENTE = 2;
+
     const TYPE_VENTE_ACCOMPTE = 3;
+
     const TYPE_VENTE_INTERMEDIAIRE = 4;
+
     const TYPE_VENTE_SOLDE = 5;
 
     /**

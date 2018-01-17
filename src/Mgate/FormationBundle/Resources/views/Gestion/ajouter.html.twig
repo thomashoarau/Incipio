@@ -1,0 +1,13 @@
+{% extends "MgateFormationBundle::layout.html.twig" %}
+
+{% block content_title %}
+    {{ 'formation.formation_ajouter'|trans({}, 'formation') }}
+{% endblock %}
+
+{% block breadcrumb_active %}
+    {{ 'formation.formation_ajouter'|trans({}, 'formation') }}
+{% endblock %}
+
+{% block content_bundle %}
+    {% include "MgateFormationBundle:Gestion:formulaire.html.twig" %}
+{% endblock %}
