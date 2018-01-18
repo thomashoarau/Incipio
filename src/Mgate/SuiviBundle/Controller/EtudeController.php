@@ -166,7 +166,7 @@ class EtudeController extends Controller
 
             if ($form->isValid()) {
                 if ((!$etude->isKnownProspect() && !$etude->getNewProspect()) || !$etude->getProspect()) {
-                    $this->addFlash('danger', 'Définir un prospect');
+                    $this->addFlash('danger', 'Vous devez définir un prospect');
 
                     return $this->render('MgateSuiviBundle:Etude:ajouter.html.twig', ['form' => $form->createView()]);
                 } elseif (!$etude->isKnownProspect()) {
@@ -175,7 +175,7 @@ class EtudeController extends Controller
 
                 $em->persist($etude);
                 $em->flush();
-                $this->addFlash('success', 'Etude enregistrée');
+                $this->addFlash('success', 'Etude ajoutée');
 
                 if ($request->get('ap')) {
                     return $this->redirectToRoute('MgateSuivi_ap_rediger', ['id' => $etude->getId()]);
@@ -247,16 +247,20 @@ class EtudeController extends Controller
 
             if ($form->isValid()) {
                 if ((!$etude->isKnownProspect() && !$etude->getNewProspect()) || !$etude->getProspect()) {
-                    $this->addFlash('danger', 'Définir un prospect');
+                    $this->addFlash('danger', 'Vous devez définir un prospect');
 
-                    return $this->render('MgateSuiviBundle:Etude:ajouter.html.twig', ['form' => $form->createView()]);
+                    return $this->render('MgateSuiviBundle:Etude:modifier.html.twig', [
+                        'form' => $form->createView(),
+                        'etude' => $etude,
+                        'delete_form' => $deleteForm->createView(),
+                    ]);
                 } elseif (!$etude->isKnownProspect()) {
                     $etude->setProspect($etude->getNewProspect());
                 }
 
                 $em->persist($etude);
                 $em->flush();
-                $this->addFlash('success', 'Etude enregistrée');
+                $this->addFlash('success', 'Etude modifiée');
 
                 if ($request->get('ap')) {
                     return $this->redirectToRoute('MgateSuivi_ap_rediger', ['id' => $etude->getId()]);
