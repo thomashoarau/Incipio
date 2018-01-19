@@ -143,7 +143,7 @@ class Phase
     {
         $this->voteCount = 0;
         $this->createdAt = new \DateTime('now');
-        $this->prixJEH = 320;
+        $this->prixJEH = 340;
         $this->avenantStatut = 0;
     }
 

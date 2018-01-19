@@ -13,7 +13,6 @@ namespace Mgate\SuiviBundle\Controller;
 
 use Mgate\SuiviBundle\Entity\AvMission;
 use Mgate\SuiviBundle\Entity\Etude;
-use Mgate\SuiviBundle\Form\Type\AvMissionHandler;
 use Mgate\SuiviBundle\Form\Type\AvMissionType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -27,6 +26,7 @@ class AvMissionController extends Controller
 {
     /**
      * @Security("has_role('ROLE_SUIVEUR')")
+     *
      * @param Request $request
      * @param Etude   $etude
      *
@@ -105,7 +105,7 @@ class AvMissionController extends Controller
      * @Security("has_role('ROLE_SUIVEUR')")
      *
      * @param AvMission $av
-     * @param Request       $request
+     * @param Request   $request
      *
      * @return RedirectResponse
      */
@@ -127,7 +127,7 @@ class AvMissionController extends Controller
             $this->addFlash('success', 'Avenant au RM supprimé');
         }
 
-        return $this->redirectToRoute('MgateSuivi_etude_voir',['nom' => $av->getEtude()->getNom()]);
+        return $this->redirectToRoute('MgateSuivi_etude_voir', ['nom' => $av->getEtude()->getNom()]);
     }
 
     private function createDeleteForm(AvMission $contact)

@@ -172,7 +172,7 @@ class ClientContactController extends Controller
             $this->addFlash('success', 'Contact client supprimé');
         }
 
-        return $this->redirectToRoute('MgateSuivi_etude_voir',['nom' => $contact->getEtude()->getNom()]);
+        return $this->redirectToRoute('MgateSuivi_etude_voir', ['nom' => $contact->getEtude()->getNom()]);
     }
 
     private function createDeleteForm(ClientContact $contact)
