@@ -2,7 +2,6 @@
 
 namespace Mgate\SuiviBundle\Manager;
 
-
 use Mgate\PersonneBundle\Entity\Membre;
 use Mgate\SuiviBundle\Entity\DocType;
 use Mgate\SuiviBundle\Entity\Etude;
@@ -43,6 +42,7 @@ class EtudeExtension extends \Twig_Extension
             'string' => new \Twig_Filter_Method($this, 'toString'),
         ];
     }
+
     public function toString($int)
     {
         return (string) $int;
@@ -67,7 +67,6 @@ class EtudeExtension extends \Twig_Extension
 
         return false;
     }
-
 
     public function getErrors(Etude $etude)
     {
@@ -120,7 +119,8 @@ class EtudeExtension extends \Twig_Extension
         }
 
         //ordre PVI
-        /** @var ProcesVerbal $pvi
+        /**
+         * @var ProcesVerbal
          * @var ProcesVerbal $pviAnterieur
          */
         foreach ($etude->getPvis() as $pvi) {

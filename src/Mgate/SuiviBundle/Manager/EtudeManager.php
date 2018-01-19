@@ -91,7 +91,6 @@ class EtudeManager
         return false;
     }
 
-
     /**
      * Get référence du document
      * Params : Etude $etude, mixed $doc, string $type (the type of doc).

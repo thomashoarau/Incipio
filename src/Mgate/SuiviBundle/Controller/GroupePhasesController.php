@@ -25,6 +25,7 @@ class GroupePhasesController extends Controller
 {
     /**
      * @Security("has_role('ROLE_SUIVEUR')")
+     *
      * @param Request $request
      * @param Etude   $etude
      *
@@ -55,12 +56,12 @@ class GroupePhasesController extends Controller
 
                 $em->persist($etude); // persist $etude / $form->getData()
                 $em->flush();
-                $this->addFlash('success',isset($message) ? $message: 'Groupes modifiés');
+                $this->addFlash('success', isset($message) ? $message : 'Groupes modifiés');
+
                 return $this->redirectToRoute('MgateSuivi_groupes_modifier', ['id' => $etude->getId()]);
             }
 
             $this->addFlash('danger', 'Le formulaire contient des erreurs.');
-
         }
 
         return $this->render('MgateSuiviBundle:GroupePhases:modifier.html.twig', [
