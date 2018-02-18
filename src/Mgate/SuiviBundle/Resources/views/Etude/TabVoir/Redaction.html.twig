@@ -55,8 +55,11 @@
                 {% if etude.competences|default(0) %}<i>{{ 'suivi.realisateurs_capable_de'|trans({}, 'suivi') }} : </i>
                     <br/>{% endif %}
                 {% for competence in etude.competences %}
-                    <label class="label label-default"><a
-                                href="{{ path('N7consultingRh_competence_voir', {'id' : competence.id}) }}">{{ competence.nom }}</a></label>
+                    <label class="label label-default">
+                        <a href="{{ path('N7consultingRh_competence_voir', {'id' : competence.id}) }}">
+                            {{ competence.nom }}
+                        </a>
+                    </label>
                 {% endfor %}
             </td>
         </tr>

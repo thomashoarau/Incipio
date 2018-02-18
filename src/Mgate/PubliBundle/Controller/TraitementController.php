@@ -205,7 +205,7 @@ class TraitementController extends Controller
         if (isset($isDM) && $isDM) {
             $refDocx = preg_replace('#RM#', 'DM', $refDocx);
         }
-        $repertoire = $this->get('kernel')->getRootDir() . '' . Document::DOCUMENT_TMP_FOLDER ; // tmp folder in web directory
+        $repertoire = $this->get('kernel')->getRootDir() . '' . Document::DOCUMENT_TMP_FOLDER; // tmp folder in web directory
         $idDocx = $refDocx . '-' . ((int) strtotime('now') + rand());
         copy($chemin, $repertoire . '/' . $idDocx);
         $zip = new \ZipArchive();
