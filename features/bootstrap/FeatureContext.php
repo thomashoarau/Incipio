@@ -19,7 +19,7 @@ class FeatureContext extends MinkContext implements Context
     use KernelDictionary;
 
     const DEFAULT_USERS = [
-        'admin' => ['username' => 'Load', 'password' => 'admin', 'roles' => ['ROLE_ADMIN']],
+        'admin' => ['username' => 'admin', 'password' => 'admin', 'roles' => ['ROLE_SUPER_ADMIN']],
     ];
 
     /**
@@ -46,8 +46,6 @@ class FeatureContext extends MinkContext implements Context
      * @var KernelInterface
      */
     private $kernel;
-
-    public $username_password = ['admin' => 'admin', 'moderateur' => 'moderateur', 'user' => 'user'];
 
     /**
      * Initializes context.
@@ -111,7 +109,7 @@ class FeatureContext extends MinkContext implements Context
             echo $this->getSession()->getCurrentUrl() . "\n\n-------";
             echo substr($this->getSession()->getPage()->getContent(), 100, 200); // the title of the page
             echo "\n\n------";
-            echo substr($this->getSession()->getPage()->getContent(), 13500, 2000);
+            echo substr($this->getSession()->getPage()->getContent(), 13500, 15000);
         }
     }
 

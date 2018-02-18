@@ -74,7 +74,7 @@ class BVController extends Controller
                     $bv->addCotisationURSSAF($charge);
                 }
                 if (null === $charges) {
-                    $this->addFlash('danger','Il n\'y a aucune cotisation Urssaf définie pour cette période. 
+                    $this->addFlash('danger', 'Il n\'y a aucune cotisation Urssaf définie pour cette période. 
                     Pour ajouter des cotisations URSSAF : ' . $this->get('router')->generate('MgateTreso_CotisationURSSAF_index') . '.');
 
                     return $this->redirectToRoute('MgateTreso_BV_index');
@@ -82,7 +82,7 @@ class BVController extends Controller
 
                 $baseURSSAF = $em->getRepository('MgateTresoBundle:BaseURSSAF')->findByDate($bv->getDateDemission());
                 if (null === $baseURSSAF) {
-                    $this->addFlash('danger','Il n\'y a aucune base Urssaf définie pour cette période. 
+                    $this->addFlash('danger', 'Il n\'y a aucune base Urssaf définie pour cette période. 
                     Pour ajouter une base URSSAF : ' . $this->get('router')->generate('MgateTreso_BaseURSSAF_index') . '.');
 
                     return $this->redirectToRoute('MgateTreso_BV_index');
