@@ -71,6 +71,8 @@ class FeatureContext extends MinkContext implements Context
 
     /**
      * @BeforeScenario @createSchema
+     * This handler doesn't seems to be executed before each scenario, but only when a scenario
+     * is annotated with createSchema. Tried without BeforeScenario and it was not working as expected, so keep it.
      */
     public function createDatabase()
     {
@@ -82,6 +84,12 @@ class FeatureContext extends MinkContext implements Context
             'command' => 'doctrine:fixtures:load',
             '-n' => true,
             '-e' => 'test',
+        ]);
+        $output = new BufferedOutput();
+        $application->run($input, $output);
+
+        $input = new ArrayInput([
+            'command' => 'demo:create_data',
         ]);
         $output = new BufferedOutput();
         $application->run($input, $output);
@@ -100,7 +108,10 @@ class FeatureContext extends MinkContext implements Context
     public function afterStep(AfterStepScope $event)
     {
         if (!$event->getTestResult()->isPassed()) {
-            //$this->printLastResponse();
+            echo $this->getSession()->getCurrentUrl() . "\n\n-------";
+            echo substr($this->getSession()->getPage()->getContent(), 100, 200); // the title of the page
+            echo "\n\n------";
+            echo substr($this->getSession()->getPage()->getContent(), 13500, 2000);
         }
     }
 

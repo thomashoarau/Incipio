@@ -7,7 +7,7 @@ Feature: Filiere
     Given I am logged in as "admin"
     Given I am on "/personne/poste"
     Then the response status code should be 200
-    Then I should see "Liste des Filières"
+    Then I should see "Liste des filières"
     And I should see "Ajouter une filière"
 
 
@@ -17,7 +17,8 @@ Feature: Filiere
     Then the response status code should be 200
     When I fill in "Nom" with "Mecanique"
     When I fill in "Description" with "Mecanique"
-    And I press "Valider"
+    # it will create the filiere id 6
+    And I press "Enregistrer"
     Then the url should match "/personne/poste"
     And I should see "Filière ajoutée"
     And I should see "Mecanique"
@@ -32,13 +33,21 @@ Feature: Filiere
     And I should see "Filière modifiée"
     And I should see "Testing science"
 
-  # The "@dropSchema" annotation must be added on the last scenario of the feature file to drop the temporary SQLite database
-  @dropSchema
-  Scenario: I can delete a Filiere
+  Scenario: I can not delete a Filiere with members
     Given I am logged in as "admin"
     Given I am on "/personne/filiere/modifier/1"
     Then the response status code should be 200
     And I press "Supprimer la filière"
     Then the url should match "/personne/poste"
+    And I should see "Impossible de supprimer une filiere ayant des membres."
+
+  # The "@dropSchema" annotation must be added on the last scenario of the feature file to drop the temporary SQLite database
+  @dropSchema
+  Scenario: I can delete a Filiere
+    Given I am logged in as "admin"
+    Given I am on "/personne/filiere/modifier/6"
+    Then the response status code should be 200
+    And I press "Supprimer la filière"
+    Then the url should match "/personne/poste"
     And I should see "Filière supprimée"
-    And I should not see "Testing science"
+    And I should not see "Mecanique"
