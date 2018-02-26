@@ -17,6 +17,35 @@ Feature: RH
     When I fill in "Desccription" with "Django"
     And I press "Enregistrer la compétence"
     Then the url should match "/rh/competence/1"
+    And I should see "Modifier la compétence"
     And I should see "Django"
     And I should see "Intervenants Potentiels"
     And I should see "Etudes liées"
+    
+  Scenario: I can see a Competence
+    Given I am logged in as "admin"
+    Given I am on "/rh/competence/1"
+    Then the responde status code should be 200
+    Then I should see "Modifier la compétence"
+    And I should see "Intervenants Potentiels"
+    And I should see "Etudes liées"
+  
+  Scenario: I can edit a Competence
+    Given I am logged in as "admin"
+    Given I am on "/rh/competence/modifier/1"
+    Then the responde status code should be 200
+    When I fill in "Nom" with "Test"
+    And I press "Enregistrer la compétence"
+    Then the url should match "/rh/competence/1"
+    And I should see "Test"
+    And I should see "Modifier la compétence"
+    And I should see "Intervenants Potentiels"
+    And I should see "Etudes liées"
+    
+  Scenario: I can delete a Competence
+    Given I am logged in as "admin"
+    Given I am on "/rh/competence/modifier/1"
+    Then the responde status code should be 200
+    And I press "Supprimer la compétence"
+    Then the url should match "/rh"
+    And I should not see "Django"
