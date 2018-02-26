@@ -1,4 +1,4 @@
-Features: RH
+Feature: RH
   As an admin I am be able to CRUD a Competence
   
   @createSchema
