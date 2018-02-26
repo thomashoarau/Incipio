@@ -16,7 +16,8 @@ Feature: RH
     When I fill in "Nom" with "Django"
     When I fill in "Description" with "Django"
     And I press "Enregistrer la compétence"
-    Then the url should match "/rh/competence/1"
+    #The id is 14
+    Then the url should match "/rh/competence/14"
     And I should see "Modifier la compétence"
     And I should see "Django"
     And I should see "Intervenants Potentiels"
@@ -44,8 +45,13 @@ Feature: RH
     
   Scenario: I can delete a Competence
     Given I am logged in as "admin"
-    Given I am on "/rh/competence/modifier/1"
+    Given I am on "/rh/competence/modifier/14"
     Then the response status code should be 200
     And I press "Supprimer la compétence"
     Then the url should match "/rh"
     And I should not see "Django"
+    
+  Scenario: I can see parameters
+    Given I am logged in as "admin"
+    Given I am on "/rh/visualiser/competences"
+    Then the response status code should be 200
