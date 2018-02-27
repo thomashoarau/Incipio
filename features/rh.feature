@@ -50,7 +50,8 @@ Feature: RH
     And I press "Supprimer la compétence"
     Then the url should match "/rh"
     And I should not see "Django"
-    
+  
+  @dropSchema
   Scenario: I can see parameters
     Given I am logged in as "admin"
     Given I am on "/rh/visualiser/competences"
