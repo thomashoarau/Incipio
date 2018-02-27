@@ -39,6 +39,7 @@ Feature: RH
     And I press "Enregistrer la compétence"
     Then the url should match "/rh/competence/1"
     And I should see "Test"
+    And I should not see "PHP"
     And I should see "Modifier la compétence"
     And I should see "Intervenants Potentiels"
     And I should see "Etudes liées"
