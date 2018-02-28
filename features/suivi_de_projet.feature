@@ -12,7 +12,7 @@ Feature: Suivi de projet
   Scenario: I can see ajax
     Given I am in as "suiveur"
     Given I am on "/suivi/get"
-    The the response status code should be 200
+    Then the response status code should be 200
     
   Scenario: I can see a Projet
     Given I am in as "suiveur"
