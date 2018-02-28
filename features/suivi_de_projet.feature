@@ -44,7 +44,7 @@ Feature: Suivi de projet
     And I should see "Etat : En négociation"
     And I should see "Gladiator Consulting"
     And I should see "Alice Dubois"
-    And I should see Camille Petit"
+    And I should see "Camille Petit"
     
   Scenario: I can see a Projet
     Given I am in as "suiveur"
