@@ -32,12 +32,12 @@ Feature: Suivi de projet
     Given I am in as "suiveur"
     Given I am on "/suivi/etude/ajouter"
     Then the response status code should be 200
-    When I select "Gladiator Consulting" from "Prospect existant"
+    When I select "1" from "Prospect existant"
     When I fill in "Nom interne de l'étude" with "974TAM"
     When I fill in "Présentation interne de l'étude" with "Etude test"
-    When I select "Alice Dubois" from "Suiveur de projet"
-    When I select "Camille Petit" from "Suiveur qualité"
-    When I select "Kiwi" from "Source de prospection"
+    When I select "7" from "Suiveur de projet"
+    When I select "11" from "Suiveur qualité"
+    When I select "1" from "Source de prospection"
     And I press "Enregistrer l'étude"
     Then the url should match "/suivi/etude/974TAM"
     And I should see "Etude ajoutée"
@@ -66,3 +66,13 @@ Feature: Suivi de projet
     And I should not see "Etude 974TAM"
     
   #Scenario: I can delete a projet # a faire
+  
+  Scenario: I can write an AP
+    Given I am in as "suiveur"
+    Given I am on "/suivi/ap/rediger/2"
+    Then the response status code should be 200
+    When I select "1" from "Suiveur de projet"
+    When I fill in "Date de Signature du document" with "2015-07-06"
+    And I press "Enregistrer l'AP"
+    The the url should match "/suivi/etude/316BLA"
+    And I should see "Avant-Projet modifié"
