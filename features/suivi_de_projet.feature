@@ -74,5 +74,5 @@ Feature: Suivi de projet
     When I select "1" from "Suiveur de projet"
     When I fill in "Date de Signature du document" with "2015-07-06"
     And I press "Enregistrer l'AP"
-    The the url should match "/suivi/etude/316BLA"
+    Then the url should match "/suivi/etude/316BLA"
     And I should see "Avant-Projet modifié"
