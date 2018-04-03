@@ -19,13 +19,12 @@ Feature: Suivi de projet
     Given I am on "/suivi/etudes/suivi"
     Then the response status code should be 200
     Then I should see "Suivi d'Etude"
-    And I should see "Enregistrer les commentaires"
     
   Scenario: I can see a Projet with quality comment
     Given I am logged in as "suiveur"
     Given I am on "/suivi/etudes/suiviQualite"
     Then the response status code should be 200
-    Then I should see "312DUV"
+    Then I should see "321DUV"
     And I should see "PVR - Date de signature :"
     
   Scenario: I can create a new Projet
@@ -36,7 +35,6 @@ Feature: Suivi de projet
     When I fill in "Nom interne de l'étude" with "974TAM"
     When I fill in "Présentation interne de l'étude" with "Etude test"
     When I select "7" from "Suiveur de projet"
-    When I select "11" from "Suiveur qualité"
     When I select "1" from "Source de prospection"
     And I press "Enregistrer l'étude"
     Then the url should match "/suivi/etude/974TAM"
@@ -44,15 +42,14 @@ Feature: Suivi de projet
     And I should see "Etat : En négociation"
     And I should see "Gladiator Consulting"
     And I should see "Alice Dubois"
-    And I should see "Camille Petit"
     
   Scenario: I can see a Projet
     Given I am logged in as "suiveur"
-    Given I am on "/suivi/etude/974TAM"
+    Given I am on "/suivi/etude/316BLA"
     Then the response code should be 200
     Then I should see "Description de l'étude:"
-    And I should see "Etude 974TAM"
-    And I should see "Etat : En négociation"
+    And I should see "Etude 316BLA"
+    And I should see "Etat : En cours"
     
   Scenario: I can edit a Projet
     Given I am logged in as "suiveur"
@@ -107,28 +104,25 @@ Feature: Suivi de projet
     
   Scenario: I can edit a contact
     Given I am logged in as "suiveur"
-    Given I am on "/suivi/clientcontact/modifier/3"
+    Given I am on "/suivi/clientcontact/modifier/2"
     Then the response status code should be 200
     When I fill in "Objet" with "test"
     When I fill in "Résumé du contact" with "contact test replace"
     And I press "Enregistrer le contact client"
-    Then the url should match "/suivi/clientcontact/voir/3"
+    Then the url should match "/suivi/clientcontact/voir/2"
     And I should see "Contact client modifié"
     And I should see "test"
     And I should see "contact test replace"
     
   Scenario: I can see a contact
     Given I am logged in as "suiveur"
-    Given I am on "/suivi/clientcontact/voir/3"
+    Given I am on "/suivi/clientcontact/voir/2"
     Then the response status code should be 200
-    And I should see "test"
-    And I should see "contact test replace"
+    And I should see "Alice"
     
   Scenario: I can see a contact
     Given I am logged in as "suiveur"
     Given I am on "/suivi/clientcontact/"
     Then the response status code should be 200
-    And I should see "Inès Robert"
-    And I should see "test"
-    And I should see "contact test replace"
+    And I should see "316BLA"
   
