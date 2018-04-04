@@ -56,7 +56,7 @@ Feature: Suivi de projet
     Given I am logged in as "suiveur"
     Given I am on "/suivi/etude/modifier/316BLA"
     Then the response status code should be 200
-    When I fill "Nom interne de l'étude" with "975TET"
+    When I fill in "Nom interne de l'étude" with "975TET"
     And I press "Enregistrer l'éude"
     Then the url should match "/suivi/etude/975TET"
     And I should see "Etude modifiée"
@@ -87,7 +87,7 @@ Feature: Suivi de projet
     Given I am on "/suivi/cc/rediger/2"
     Then the response status code should be 200
     When I fill in "Version du document" with "1"
-    When I select "2" from "Signataire Blackwater"
+    When I select "1" from "Signataire Blackwater"
     When I fill in "Date de Signature du document" with "2015-07-06"
     When I fill in "Pourcentage acompte" with "40"
     And I press "Enregistrer la CC"
@@ -137,5 +137,5 @@ Feature: Suivi de projet
     Given I am logged in as "suiveur"
     Given I am on "/suivi/clientcontact/"
     Then the response status code should be 200
-    And I should see "316BLA"
+    And I should see "Affichage des contacts client"
   
