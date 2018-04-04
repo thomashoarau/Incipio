@@ -131,7 +131,7 @@ Feature: Suivi de projet
     Given I am logged in as "suiveur"
     Given I am on "/suivi/clientcontact/voir/1"
     Then the response status code should be 200
-    And I should see "Alice"
+    And I should see "Affichage d'un contact client"
   
   @dropSchema
   Scenario: I can see a contact
