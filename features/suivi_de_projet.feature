@@ -57,7 +57,7 @@ Feature: Suivi de projet
     Given I am on "/suivi/etude/modifier/316BLA"
     Then the response status code should be 200
     When I fill in "Nom interne de l'étude" with "975TET"
-    And I press "Enregistrer l'éude"
+    And I press "Enregistrer l'étude"
     Then the url should match "/suivi/etude/975TET"
     And I should see "Etude modifiée"
     And I should see "Etude 975TET"
@@ -71,7 +71,7 @@ Feature: Suivi de projet
     Then the response status code should be 200
     When I select "1" from "Suiveur de projet"
     When I fill in "Version du document" with "1"
-    When I select "2" from "Signataire Blackwater"
+    When I select "5" from "Signataire Blackwater"
     When I fill in "Date de Signature du document" with "2015-07-06"
     When I fill in "Nombre d'intervenants estimé" with "1"
     When I fill in "Frais de dossier" with "90"
@@ -87,7 +87,7 @@ Feature: Suivi de projet
     Given I am on "/suivi/cc/rediger/2"
     Then the response status code should be 200
     When I fill in "Version du document" with "1"
-    When I select "1" from "Signataire Blackwater"
+    When I select "5" from "Signataire Blackwater"
     When I fill in "Date de Signature du document" with "2015-07-06"
     When I fill in "Pourcentage acompte" with "40"
     And I press "Enregistrer la CC"
@@ -102,37 +102,38 @@ Feature: Suivi de projet
     Then the url should match "/suivi/missions/modifier/2"
     And I should see "Mission enregistrée"
     
-  Scenario: I can add a contact
+  Scenario: I can add a customer contact
     Given I am logged in as "suiveur"
-    Given I am on "/suivi/clientcontact/ajouter/15"
+    Given I am on "/suivi/clientcontact/ajouter/1"
     Then the response status code should be 200
-    When I select "2" from "Fait par"
+    When I select "1" from "Fait par"
     When I fill in "Objet" with "Test"
     When I fill in "Résumé du contact" with "Contact test"
     When I fill in "Date du contact" with "2018-04-04"
     And I press "Enregistrer le nouveau contact client"
-    Then the url should match "/suivi/clientcontact/voir/5"
+    Then the url should match "/suivi/clientcontact/voir/1"
     And I should see "Test"
     And I should see "Contact test"
     
   Scenario: I can edit a contact
     Given I am logged in as "suiveur"
-    Given I am on "/suivi/clientcontact/modifier/2"
+    Given I am on "/suivi/clientcontact/modifier/1"
     Then the response status code should be 200
     When I fill in "Objet" with "test"
     When I fill in "Résumé du contact" with "contact test replace"
     And I press "Enregistrer le contact client"
-    Then the url should match "/suivi/clientcontact/voir/2"
+    Then the url should match "/suivi/clientcontact/voir/1"
     And I should see "Contact client modifié"
     And I should see "test"
     And I should see "contact test replace"
     
   Scenario: I can see a contact
     Given I am logged in as "suiveur"
-    Given I am on "/suivi/clientcontact/voir/2"
+    Given I am on "/suivi/clientcontact/voir/1"
     Then the response status code should be 200
     And I should see "Alice"
-    
+  
+  @dropSchema
   Scenario: I can see a contact
     Given I am logged in as "suiveur"
     Given I am on "/suivi/clientcontact/"
