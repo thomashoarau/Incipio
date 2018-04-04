@@ -72,7 +72,7 @@ Feature: Suivi de projet
     When I select "1" from "Suiveur de projet"
     When I fill in "Version du document" with "1"
     When I select "5" from "Signataire Blackwater"
-    When I fill in "Date de Signature du document" with "2015-07-06"
+    When I fill in "Date de Signature du document" with "06/07/2015"
     When I fill in "Nombre d'intervenants estimé" with "1"
     When I fill in "Frais de dossier" with "90"
     When I fill in "Présentation du projet" with "Etude test"
