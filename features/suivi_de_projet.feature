@@ -33,6 +33,7 @@ Feature: Suivi de projet
     Then the response status code should be 200
     When I select "1" from "Prospect existant"
     When I fill in "Nom interne de l'étude" with "974TAM"
+    When I fill in "Numéro de l'étude" with "974"
     When I fill in "Présentation interne de l'étude" with "Etude test"
     When I select "7" from "Suiveur de projet"
     When I select "1" from "Source de prospection"
@@ -46,21 +47,21 @@ Feature: Suivi de projet
   Scenario: I can see a Projet
     Given I am logged in as "suiveur"
     Given I am on "/suivi/etude/316BLA"
-    Then the response code should be 200
+    Then the response status code should be 200
     Then I should see "Description de l'étude:"
     And I should see "Etude 316BLA"
     And I should see "Etat : En cours"
     
   Scenario: I can edit a Projet
     Given I am logged in as "suiveur"
-    Given I am on "/suivi/etude/modifier/974ATM"
+    Given I am on "/suivi/etude/modifier/316BLA"
     Then the response status code should be 200
-    When I fill "Nom interne de l'étude" with "314TOU"
+    When I fill "Nom interne de l'étude" with "975TET"
     And I press "Enregistrer l'éude"
-    Then the url should match "/suivi/etude/314TOU"
+    Then the url should match "/suivi/etude/975TET"
     And I should see "Etude modifiée"
-    And I should see "Etude 314TOU"
-    And I should not see "Etude 974TAM"
+    And I should see "Etude 975TET"
+    And I should not see "Etude 316BLA"
     
   #Scenario: I can delete a projet # a faire
   
@@ -69,15 +70,25 @@ Feature: Suivi de projet
     Given I am on "/suivi/ap/rediger/2"
     Then the response status code should be 200
     When I select "1" from "Suiveur de projet"
+    When I fill in "Version du document" with "1"
+    When I select "2" from "Signataire Blackwater"
     When I fill in "Date de Signature du document" with "2015-07-06"
+    When I fill in "Nombre d'intervenants estimé" with "1"
+    When I fill in "Frais de dossier" with "90"
+    When I fill in "Présentation du projet" with "Etude test"
+    When I fill in "Description de la prestation proposée" with "Etude test"
     And I press "Enregistrer l'AP"
     Then the url should match "/suivi/etude/316BLA"
     And I should see "Avant-Projet modifié"
+    And I should see "Etude test"
     
   Scenario: I can write a CC
     Given I am logged in as "suiveur"
     Given I am on "/suivi/cc/rediger/2"
     Then the response status code should be 200
+    When I fill in "Version du document" with "1"
+    When I select "2" from "Signataire Blackwater"
+    When I fill in "Date de Signature du document" with "2015-07-06"
     When I fill in "Pourcentage acompte" with "40"
     And I press "Enregistrer la CC"
     Then the url should match "/suivi/etude/316BLA"
@@ -93,12 +104,14 @@ Feature: Suivi de projet
     
   Scenario: I can add a contact
     Given I am logged in as "suiveur"
-    Given I am on "/suivi/clientcontact/ajouter/2"
+    Given I am on "/suivi/clientcontact/ajouter/15"
     Then the response status code should be 200
+    When I select "2" from "Fait par"
     When I fill in "Objet" with "Test"
     When I fill in "Résumé du contact" with "Contact test"
+    When I fill in "Date du contact" with "2018-04-04"
     And I press "Enregistrer le nouveau contact client"
-    Then the url should match "/suivi/clientcontact/voir/3"
+    Then the url should match "/suivi/clientcontact/voir/5"
     And I should see "Test"
     And I should see "Contact test"
     
